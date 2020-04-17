@@ -1,9 +1,9 @@
 import React from 'react';
-import { res } from './res.js'
-import Header from './Header.js'
-import NavBar from './NavBar.js'
-import Body from './Body.js'
-import Footer from './Footer.js'
+import { res } from './res/res.js'
+import Header from './Components/Header.js'
+import NavBar from './Components/NavBar.js'
+import Body from './Components/Body.js'
+import Footer from './Components/Footer.js'
 
 class App extends React.Component {
 
