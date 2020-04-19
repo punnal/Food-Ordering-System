@@ -1,17 +1,84 @@
+import Login from '../Components/Login'
+import Deliveries from '../Components/Deliveries'
+import Orders from '../Components/Orders'
+import Menu from '../Components/Menu'
+import Deals from '../Components/Deals'
+import Gallery from '../Components/Gallery'
+import AboutUs from '../Components/AboutUs'
+import ContactUs from '../Components/ContactUs'
+import History from '../Components/History'
+import Settings from '../Components/Settings'
+
 export const res = {
     'admin': {
+        'pages': [
+            {
+                'id': 0,
+                'title':'Login',
+                'component':Login,
+                'path':'/login'
+            },
+            {
+                'id': 1,
+                'title':'Deliveries',
+                'component':Deliveries,
+                'path':'/deliveries'
+            },
+            {
+                'id': 2,
+                'title':'Orders',
+                'component':Orders,
+                'path':'/orders'
+            },
+            {
+                'id': 3,
+                'title':'Menu',
+                'component':Menu,
+                'path':'/menu'
+            },
+            {
+                'id': 4,
+                'title':'Deals',
+                'component':Deals,
+                'path':'/deals'
+            },
+            {
+                'id': 5,
+                'title':'Gallery',
+                'component':Gallery,
+                'path':'/gallery'
+            },
+            {
+                'id': 6,
+                'title':'About Us',
+                'component':AboutUs,
+                'path':'/aboutus'
+            },
+            {
+                'id': 7,
+                'title':'Contact Us',
+                'component':ContactUs,
+                'path':'/contactus'
+            },
+            {
+                'id':8,
+                'title':'History',
+                'component':History,
+                'path':'/history'
+            },
+            {
+                'id': 9,
+                'title':'Settings',
+                'component':Settings,
+                'path':'/settings'
+            }
+        ],
+
         'navbar': {
-            'deliveries':'Deliveries',
-            'order':'Order',
-            'menu':'Menu',
-            'deals':'Deals',
-            'gallery':'Gallery',
-            'aboutus':'About Us',
-            'contactus':'Contact Us',
-            'divider':'', //this marks the position of the divider... do not change spellings
-            'accountdropdown':{
-                'title':'Hi, Admin',
-                'options': ['History', 'Settings', 'Sign Out']
+            'left': [1,2,3,4,5,6,7],
+            'dropdown': {
+                'title': 'Hi, Admin',
+                'options': [8,]
             }
         },
 
