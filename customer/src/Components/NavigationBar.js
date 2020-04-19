@@ -1,6 +1,7 @@
 import React from 'react'
-
 import NavBarItem from './NavBarItem'
+import NavBarItemLoggedIn from './NavBarItemLoggedIn'
+import NavBarItemLoggedOut from './NavBarItemLoggedOut'
 
 class NavigationBar extends React.Component{
     
@@ -11,32 +12,22 @@ class NavigationBar extends React.Component{
         }
     }
     
-    dataTranslatorNormal = (item) => {
+    dataTranslator = (item) => {
         if(item.name == "Customer"){
             if(this.props.loggedIn){
-                const navBarItems = item.options.loggedIn.options.map(this.dataTranslatorNormal) 
-                return(
-                    <div>
-                        <div>
-                            {item.options.loggedIn.name}
-                        </div>
-                        <div>
-                            {navBarItems}
-                        </div>
-                    </div>
+                return (
+                    <NavBarItemLoggedIn item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
-                const navBarItems = item.options.loggedOut.options.map(this.dataTranslatorNormal) 
-                return(
-                    <div>
-                        <div>
-                            {navBarItems}
-                        </div>
-                    </div>
+                return (
+                    <NavBarItemLoggedOut item={item} dataTranslator={this.dataTranslator} />
                 )
             }
                 
+        }
+        else if(item.name == "Divider"){
+            return (<div>|</div>)
         }
         else{
             return (<NavBarItem link={item.link} name={item.name}/>)
@@ -46,7 +37,7 @@ class NavigationBar extends React.Component{
 
 
     render() {
-        const navBarItems = this.props.navBarData.map(this.dataTranslatorNormal) 
+        const navBarItems = this.props.navBarData.map(this.dataTranslator) 
         
         return(
             <div>
