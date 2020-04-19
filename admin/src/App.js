@@ -4,6 +4,7 @@ import Header from './Components/Header.js'
 import NavBar from './Components/NavBar.js'
 import Body from './Components/Body.js'
 import Footer from './Components/Footer.js'
+import styles from './css/cssFile.css'
 
 class App extends React.Component {
 
