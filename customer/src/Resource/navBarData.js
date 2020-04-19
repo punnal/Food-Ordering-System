@@ -1,80 +1,91 @@
 const navBarData = [
     {
         id: 0,
-        name: "Menu"
+        name: "Menu",
+        link: "/"
     },
     {
         id: 1,
-        name: "Deals"
+        name: "Deals",
+        link: "/deals"
     },
     {
         id: 2,
-        name: "Gallery"
+        name: "Gallery",
+        link: "/gallery"
     },
     {
         id: 3,
-        name: "About Us"
+        name: "About Us",
+        link: "/about"
     },
     {
         id: 4,
-        name: "Contact Us"
+        name: "Contact Us",
+        link: "/contact"
     },
     {
         id: 5,
-        name: "Divider"
+        name: "|",
     },
     {
         id: 6,
         name: "Customer",
-        options:[
-            [
-                {
-                    id:8,
-                    name: "Account",
-                    when: "Logged Out",
-                    options: [
-                        {
-                            id: 10,
-                            name: "Login"
-                        },
-                        {
-                            id: 11,
-                            name: "Sign Up"
-                        },
+        options:{
+            loggedOut: {
+                id:8,
+                name: "Account",
+                when: "Logged Out",
+                options: [
+                    {
+                        id: 10,
+                        name: "Login",
+                        link: "/login"
+                    },
+                    {
+                        id: 11,
+                        name: "Sign Up",
+                        link: "/signup"
+                    },
 
-                    ]
+                ]
 
-                },
-                {
-                    id:9,
-                    name: "Hi, Customer",
-                    when: "Logged In",
-                    options: [
-                        {
-                            id: 12,
-                            name: "Orders"
-                        },
-                        {
-                            id: 13,
-                            name: "Edit Password"
-                        },
-                        {
-                            id: 14,
-                            name: "Edit Account Information"
-                        },
-                        {
-                            id: 15,
-                            name: "Sign Out"
-                        },
+            },
+            loggedIn: {
+                id:9,
+                name: "Hi, Customer",
+                options: [
+                    {
+                        id: 12,
+                        name: "Orders",
+                        link: "/orders"
+                    },
+                    {
+                        id: 13,
+                        name: "Edit Password",
+                        link: "/editpassword"
+                    },
+                    {
+                        id: 14,
+                        name: "Edit Account Information",
+                        link: "/editaccount"
+                    },
+                    {
+                        id: 15,
+                        name: "Sign Out",
+                        link: "/signout"
+                    },
 
-                    ]
+                ]
 
-                }
-            ]
-        ]
+            }
+        }
     },
     {
         id: 7,
-        name: "Cart"
+        name: "Cart",
+        link: "/cart"
     },
 ]
+
+export default navBarData
