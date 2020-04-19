@@ -1,9 +1,9 @@
 import React from 'react';
-import { res } from './res/res.js'
-import Header from './Components/Header.js'
-import NavBar from './Components/NavBar.js'
-import Body from './Components/Body.js'
-import Footer from './Components/Footer.js'
+import { res } from './res/res'
+import Header from './Components/Header'
+import NavBar from './Components/NavBar'
+import Body from './Components/Body'
+import Footer from './Components/Footer'
 
 class App extends React.Component {
 
@@ -17,7 +17,7 @@ class App extends React.Component {
             <div>
                 <Header />
                 <NavBar />
-                <Body />
+                <Body tab={this.state.tab}/>
                 <Footer />
             </div>
         );

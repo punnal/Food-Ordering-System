@@ -1,5 +1,5 @@
 import React from 'react'
-import { res } from '../res/res.js'
+import { res } from '../res/res'
 
 class NavBarElement extends React.Component{
     constructor() {
