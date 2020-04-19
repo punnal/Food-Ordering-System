@@ -29,7 +29,7 @@ body {
 }
 
 .NavBar {
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.2);
 	height: 50px;
 	color: white;
 	font-size: 20px;
@@ -42,6 +42,7 @@ body {
 	width: 100%;
 	z-index: 1;
 	text-shadow: 1px 1px black;
+	overflow: auto;
 }
 
 .NavBar > a {
@@ -51,6 +52,7 @@ body {
 
 .NavBarElement {
 	margin-left: 15px;
+	z-index: 1;
 }
 
 .NavBarElement:hover {
@@ -61,11 +63,13 @@ body {
 	margin-left: 15px;
 	border-left: 2px solid white;
 	height: 42px;
+	z-index: 1;
 }
 
 .NavBarDropdown {
 	margin-left: 15px;
 	margin-right: 15px;
+	z-index: 1;
 }
 
 .NavBarDropdown > img {
@@ -76,4 +80,94 @@ body {
 	position: absolute;
 	display: flex;
 	width: 100%;
+	z-index: 1;
+}
+
+@media only screen and (max-width: 750px) {
+	
+	body {
+		width: 100%;
+		height: 100%;
+		background-image: url(../img/back6.jpg);
+		background-size: 100%;
+		background-repeat: no-repeat;
+		background-color: black;
+		display: flex;
+	}
+
+	#root {
+		width: 100%;
+		height: 100%;
+	}
+
+	.MainDiv {
+		width: 100%;
+		height: 100%;
+	}
+
+	.Header {
+		width: 100%;
+		height: 48px;
+		background-color: rgba(0, 0, 0, 0.2);
+		color: white;
+		font-size: 17px;
+		text-decoration: underline;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.NavBar {
+		background-color: rgba(255, 255, 255, 0);
+		position: relative;
+		margin: auto;	
+		color: white;
+		font-size: 10px;
+		justify-content: flex-start;
+		width: 20%;
+		z-index: 1;
+		text-shadow: 1px 1px black;
+		overflow: auto;
+		height: 110px;
+	}
+
+	.NavBar > a {
+		text-decoration: none;
+		color: white;
+	}
+
+	.NavBarElement {
+		z-index: 1;
+	}
+
+	.NavBarElement:hover {
+		text-decoration: underline;
+	}
+
+	.NavBarDivider {
+		margin-left: 15px;
+		border-left: 2px solid white;
+		height: 42px;
+		display: none;
+		z-index: 1;
+	}
+
+	.NavBarDropdown {
+		margin-left: 15px;
+		margin-right: 15px;
+		display: none;
+		z-index: 1;
+	}
+
+	.NavBarDropdown > img {
+		margin-left: 10px;
+	}
+
+	.Logo {
+		position: absolute;
+		display: none;
+		width: 100%;
+		z-index: 1;
+	}
+
 }
