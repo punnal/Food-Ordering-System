@@ -20,7 +20,7 @@ export const res = {
             'NavBarElement': '',  // <div>
             'NavBarDropdown': '',  // <div>
             'Footer': '', //div
-            'Header': '', //div
+            'Header': 'Header', //div
             'Body': '', //div
             'NavBarDivider': '' //div
         }
