@@ -15,7 +15,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className = 'MainDiv'>
                 <Header />
                 <NavBar />
                 <Body />

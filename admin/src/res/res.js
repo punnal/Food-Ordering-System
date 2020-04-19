@@ -1,6 +1,7 @@
 export const res = {
     'admin': {
         'navbar': {
+            'logo':'',
             'deliveries':'Deliveries',
             'order':'Order',
             'menu':'Menu',
@@ -16,13 +17,14 @@ export const res = {
         },
 
         'css_classes': {
-            'NavBar': '',  //the <div> that wraps NavBarElements
-            'NavBarElement': '',  // <div>
-            'NavBarDropdown': '',  // <div>
+            'Logo':'Logo',
+            'NavBar': 'NavBar',  //the <div> that wraps NavBarElements
+            'NavBarElement': 'NavBarElement',  // <div>
+            'NavBarDropdown': 'NavBarDropdown',  // <div>
             'Footer': '', //div
             'Header': 'Header', //div
             'Body': '', //div
-            'NavBarDivider': '' //div
+            'NavBarDivider': 'NavBarDivider' //div
         }
 
     }
