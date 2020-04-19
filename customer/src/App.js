@@ -4,14 +4,19 @@ import NavigationBar  from './Components/NavigationBar'
 import MainContents from './Components/MainContents'
 import Footer from './Components/Footer'
 
-function App() {
-  return (
-    <div className="App">
-        <NavigationBar />
-        <MainContents />
-        <Footer />
-    </div>
-  );
+class App extends React.Component {
+  
+
+    render(){
+
+    return (
+        <div className="App">
+            <NavigationBar />
+            <MainContents />
+            <Footer />
+        </div>
+        );
+    }
 }
 
 export default App;
