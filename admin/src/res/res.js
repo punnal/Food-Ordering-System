@@ -1,3 +1,4 @@
+import styles from '../css/cssFile.css'
 export const res = {
     'admin': {
         'navbar': {
