@@ -1,25 +1,31 @@
 import React from 'react';
 import { res } from './res/res.js'
-import Header from './Components/Header.js'
-import NavBar from './Components/NavBar.js'
-import Body from './Components/Body.js'
+import Header from './Components/Header'
+import NavBar from './Components/NavBar'
 import Footer from './Components/Footer.js'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 class App extends React.Component {
 
-    constructor() {
-        super()
-        this.state = {'tab': res.admin.navbar.deliveries}
-    }
-
     render() {
         return (
-            <div className = 'MainDiv'>
+            <Router>
+            <div>
                 <Header />
                 <NavBar />
-                <Body />
+                {
+                    res.admin.pages.map(e => {
+                        return <Switch key={e.id}>
+                            <Route path={e.path} component={e.component} />
+                        </Switch>
+                })}
                 <Footer />
             </div>
+            </Router>
         );
     }
 }
