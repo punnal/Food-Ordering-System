@@ -8,6 +8,7 @@ import AboutUs from '../Components/AboutUs'
 import ContactUs from '../Components/ContactUs'
 import History from '../Components/History'
 import Settings from '../Components/Settings'
+import '../css/cssFile.css'
 
 export const res = {
     'admin': {
@@ -88,7 +89,8 @@ export const res = {
             'NavBarDropdown': '',  // <div>
             'Footer': '', //div
             'Header': 'Header', //div
-            'Body': '', //div
+            'Deliveries':'',
+            'DeliveriesSubTabs': '',
             'NavBarDivider': '' //div
         }
 
