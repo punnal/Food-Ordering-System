@@ -33,7 +33,7 @@ const NavBarDropdown = (props) => {
     return(
      <div className = {res.admin.css_classes.NavBarDropdown} > 
         {props.title}
-        <img src ={require('../img/polygon.png')} height = '20' width = '20' alt = 'polygon' /> 
+        <a href= "#"> <img src ={require('../img/polygon.png')} height = '20' width = '20' alt = 'polygon' /> </a>
     </div>
     )
 }
@@ -42,6 +42,7 @@ class NavBar extends React.Component {
     render() {
         return (
             <div className = {res.admin.css_classes.NavBar} >
+                <LogoImg className = {res.admin.css_classes.Logo} />
                 {
                     res.admin.navbar.left.map( e => {
                         return <NavBarElement key={e} id={e} name={res.admin.pages[e].title} />
