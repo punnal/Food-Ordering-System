@@ -1,14 +1,19 @@
 import React from "react"
 
-class InputArray extends React.Component {
 
-    render() {
-        return (
-            <div>
-                {this.props.inputs.map( (e, i) => <input key={i} value={e} type={this.props.type}/>)}
+const InputArray = (props) =>{ 
+    return (
+        <div>
+            {props.inputs.map( (e, i) => {
+                return (
+                    <input 
+                        key={i} 
+                        value={e} 
+                        onClick={() => props.onClick(e)} 
+                        type={props.type}/>
+                )})}
             </div>
-        )
-    }
+    )
 }
 
 export default InputArray

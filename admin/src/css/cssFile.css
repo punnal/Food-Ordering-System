@@ -38,7 +38,7 @@ body {
 	flex-wrap: wrap;
 	justify-content: flex-end;
 	align-items: center;
-	position: fixed;
+	position: relative;
 	width: 100%;
 	z-index: 1;
 	text-shadow: 1px 1px black;

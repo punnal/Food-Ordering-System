@@ -13,9 +13,20 @@ class Pending extends React.Component {
                 this.setState({'fetched_deliveries': json.data})
             })
     }
+    clickHandler(button) {
+        console.log(button)
+    }
     render() {
         return (
-            this.state.fetched_deliveries.map((e, i) => <Card key={i} data={e} />)
+            this.state.fetched_deliveries.map((e, i) =>{
+                return (
+                 <Card 
+                     key={i} 
+                     inputType='button'
+                     inputs={['Accept', 'Reject']}
+                     data={e} 
+                     onClick={this.clickHandler}/>
+            )})
         )
     }
 }
