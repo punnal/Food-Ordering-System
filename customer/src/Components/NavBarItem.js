@@ -1,6 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
+import Classes from '../Resource/className'
+
+
 class NavBarItem extends React.Component{
     
     constructor(){
@@ -20,7 +23,7 @@ class NavBarItem extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className={Classes.NavBarItem}>
                 <Link to={this.state.link} >
                 {this.state.name}
                 </Link>

@@ -10,9 +10,11 @@ import SignUp from './Pages/SignUp'
 import Cart from './Pages/Cart'
 import Orders from './Pages/Orders'
 
+import Classes from '../Resource/className'
+
 const MainContents = () => {
     return (
-        <div>
+        <div className={Classes.MainContents}>
             <Switch>
                 <Route exact path="/">
                     <Menu />

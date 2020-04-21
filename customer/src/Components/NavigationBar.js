@@ -2,6 +2,7 @@ import React from 'react'
 import NavBarItem from './NavBarItem'
 import NavBarItemLoggedIn from './NavBarItemLoggedIn'
 import NavBarItemLoggedOut from './NavBarItemLoggedOut'
+import Classes from '../Resource/className'
 
 class NavigationBar extends React.Component{
     
@@ -40,7 +41,7 @@ class NavigationBar extends React.Component{
         const navBarItems = this.props.navBarData.map(this.dataTranslator) 
         
         return(
-            <div>
+            <div className={Classes.NavigationBar}>
                 {navBarItems}
             </div>
         )
