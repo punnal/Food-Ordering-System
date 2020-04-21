@@ -3,13 +3,6 @@ import { res } from '../res/res'
 import { Link } from 'react-router-dom'
 
 
-const NavBarDivider = () => {
-    return <div className = {res.admin.css_classes.NavBarDivider}> | </div>
-}
-const NavBarDropdown = (props) => {
-    return <div className = {res.admin.css_classes.NavBarDropdown} > {props.title} </div>
-}
-
 class NavBarElement extends React.Component{
     constructor(props) {
         super(props)
@@ -33,6 +26,18 @@ class NavBarElement extends React.Component{
     }
 }
 
+const NavBarDivider = () => {
+    return <div className = {res.admin.css_classes.NavBarDivider}></div>
+}
+const NavBarDropdown = (props) => {
+    return(
+     <div className = {res.admin.css_classes.NavBarDropdown} > 
+        {props.title}
+        <img src ={require('../img/polygon.png')} height = '20' width = '20' alt = 'polygon' /> 
+    </div>
+    )
+}
+const LogoImg = () =>  <div className = {res.admin.css_classes.Logo}><img src = {require('../img/logo.png')} height = '50' width = '50' /></div>
 class NavBar extends React.Component {
     render() {
         return (

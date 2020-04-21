@@ -1,3 +1,4 @@
+import styles from '../css/cssFile.css'
 import Login from '../Components/Login'
 import Deliveries from '../Components/Deliveries'
 import Orders from '../Components/Orders'
@@ -76,6 +77,7 @@ export const res = {
         ],
 
         'navbar': {
+            'logo':'',
             'left': [1,2,3,4,5,6,7],
             'dropdown': {
                 'title': 'Hi, Admin',
@@ -84,14 +86,15 @@ export const res = {
         },
 
         'css_classes': {
-            'NavBar': '',  //the <div> that wraps NavBarElements
-            'NavBarElement': '',  // <div>
-            'NavBarDropdown': '',  // <div>
+            'Logo':'Logo',
+            'NavBar': 'NavBar',  //the <div> that wraps NavBarElements
+            'NavBarElement': 'NavBarElement',  // <div>
+            'NavBarDropdown': 'NavBarDropdown',  // <div>
             'Footer': '', //div
             'Header': 'Header', //div
             'Deliveries':'',
             'DeliveriesSubTabs': '',
-            'NavBarDivider': '' //div
+            'NavBarDivider': 'NavBarDivider' //div
         }
 
     }
