@@ -97,6 +97,8 @@ export const res = {
             'Header': 'Header', //div
             'Deliveries':'',
             'DeliveriesSubTabs': '',
+            'DPendingContainer':'',
+            'DPendingButtons':'',
             'NavBarDivider': 'NavBarDivider' //div
         }
 
