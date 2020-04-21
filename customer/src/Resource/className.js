@@ -1,8 +1,8 @@
 const Classes = {
     Footer: '',
     MainContents: '',
-    NavigationBar: '',
-    NavBarItem: '',
+    NavigationBar: 'NavigationBar',
+    NavBarItem: 'NavBarItem',
     DropDown: '',
 }
 
