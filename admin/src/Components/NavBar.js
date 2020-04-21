@@ -50,6 +50,7 @@ class NavBar extends React.Component {
                 <NavBarDivider />
                 <NavBarDropdown title = {res.admin.navbar.dropdown.title}/>
             </div>
+            <div></div>
         );
     }
 }
