@@ -1,6 +1,7 @@
 import styles from '../css/cssFile.css'
 import Login from '../Components/Login'
 import Deliveries from '../Components/Deliveries'
+import { Pending, InProgress, Delivered} from '../Components/DeliveriesSubComponents'
 import Orders from '../Components/Orders'
 import Menu from '../Components/Menu'
 import Deals from '../Components/Deals'
@@ -25,8 +26,19 @@ export const res = {
                 'title':'Deliveries',
                 'component':Deliveries,
                 'path':'/deliveries',
-                'inputs': {
-                    'tabs':['Pending', 'In Progress', 'Delivered', 'Delivery History']
+                'tabs': {
+                    'Pending': {
+                        'path':'/pending',
+                        'component': Pending
+                    },
+                    'In Progress': {
+                        'path':'/inprogress',
+                        'component': InProgress
+                    }, 
+                    'Delivered':{
+                        'path':'/delivered',
+                        'component': Delivered
+                    } 
                 }
             },
             {
