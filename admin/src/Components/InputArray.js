@@ -5,7 +5,7 @@ class InputArray extends React.Component {
     render() {
         return (
             <div>
-                {this.props.inputs.map( e => <input type={this.props.type}/>)}
+                {this.props.inputs.map( e => <input value={e} type={this.props.type}/>)}
             </div>
         )
     }

@@ -24,7 +24,10 @@ export const res = {
                 'id': 1,
                 'title':'Deliveries',
                 'component':Deliveries,
-                'path':'/deliveries'
+                'path':'/deliveries',
+                'inputs': {
+                    'tabs':['Pending', 'In Progress', 'Delivered', 'Delivery History']
+                }
             },
             {
                 'id': 2,
