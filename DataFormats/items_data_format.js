@@ -4,45 +4,74 @@ route = '/api/items/:category' //replace category with 0, 1, 2. Will return item
 type_of_http_request = 'get'
 //Note: $ sign means a variable
 
+
+///RESPONSE FROM SERVER SIDE
+
 response = 
 {
     "data" :
-    [
-        {
-            "$id" : 
+    {
+        "Main" :
+        [
             {
-                "id" : 41,
-                "name" : "V v v tasty burger",
-                "price" : 55,
-                "description" : "burger has big chic inside. man hungry, burger fill tummy",
-                "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
-                "options_list" :
+                "$id" : 
                 {
-                    "bigger" : 60, //extra charge if u make burger big
-                    "very very big" : 90
-                },
-                "category" : 0 //integer   
+                    "id" : 41,
+                    "name" : "big burger",
+                    "price" : 999,
+                    "description" : "juicy",
+                    "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
+                    "options_list" :
+                    {
+                        "Extra Patty" : 55
+                    },
+                    "category" : 0         
+                }  
             }
-        },
+        ],
 
-        {
-            "$id":
+        "Extras" : 
+        [
+                
             {
-                "id" : 48,
-                "name" : "V v v big burger",
-                "price" : 45,
-                "description" : "burger has big cow inside. man hungry, burger fill tummy",
-                "photo_url" : "https://www.burgerfoto.com/thicbeefburger.jpg",
-                "options_list" :
+                "$id" : 
                 {
-                    "bigger" : 55, //extra charge if u make burger big
-                    "very very big" : 75
-                },
-                "category" : 0 //integer   
+                    "id" : 42,
+                    "name" : "fries",
+                    "price" : 120,
+                    "description" : "masala",
+                    "photo_url" : "https://www.burgerfoto.com/fries.jpg",
+                    "options_list" :
+                    {
+                        "large" : 55
+                    },
+                    "category" : 1         
+                }  
             }
-        }
-    ]
+        ],
+
+        "Drinks" :
+        [
+            {
+                "$id" : 
+                {
+                    "id" : 44,
+                    "name" : "pepsi",
+                    "price" : 40,
+                    "description" : "chiiled",
+                    "photo_url" : "https://www.burgefoto.com/pepsi.jpg",
+                    "options_list" :
+                    {
+                        "Big can" : 10
+                    }
+                }, 
+                "category" : 2
+            }
+        ]
+    }
 }
+
+
 
 category_int_to_str = {0:"Main", 1:"Extras", 2:"Drinks"}
 category_str_to_int = {"Main":0, "Extras":1, "Drinks":2}
