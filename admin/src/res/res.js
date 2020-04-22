@@ -1,6 +1,7 @@
 import styles from '../css/cssFile.css'
 import Login from '../Components/Login'
 import Deliveries from '../Components/Deliveries'
+import { Pending, InProgress, Delivered} from '../Components/DeliveriesSubComponents'
 import Orders from '../Components/Orders'
 import Menu from '../Components/Menu'
 import Deals from '../Components/Deals'
@@ -9,6 +10,7 @@ import AboutUs from '../Components/AboutUs'
 import ContactUs from '../Components/ContactUs'
 import History from '../Components/History'
 import Settings from '../Components/Settings'
+import '../css/cssFile.css'
 
 export const res = {
     'admin': {
@@ -23,7 +25,21 @@ export const res = {
                 'id': 1,
                 'title':'Deliveries',
                 'component':Deliveries,
-                'path':'/deliveries'
+                'path':'/deliveries',
+                'tabs': {
+                    'Pending': {
+                        'path':'/pending',
+                        'component': Pending
+                    },
+                    'In Progress': {
+                        'path':'/inprogress',
+                        'component': InProgress
+                    }, 
+                    'Delivered':{
+                        'path':'/delivered',
+                        'component': Delivered
+                    } 
+                }
             },
             {
                 'id': 2,
@@ -91,7 +107,10 @@ export const res = {
             'NavBarDropdown': 'NavBarDropdown',  // <div>
             'Footer': '', //div
             'Header': 'Header', //div
-            'Body': '', //div
+            'Deliveries':'',
+            'DeliveriesSubTabs': '',
+            'DPendingContainer':'',
+            'DPendingButtons':'',
             'NavBarDivider': 'NavBarDivider' //div
         }
 

@@ -19,9 +19,11 @@ class App extends React.Component {
                 <NavBar />
                 {
                     res.admin.pages.map(e => {
-                        return <Switch key={e.id}>
-                            <Route path={e.path} component={e.component} />
-                        </Switch>
+                        return (
+                            <Switch key={e.id}>
+                                <Route path={e.path} component={ () => React.createElement(e.component, {'id':e.id})} />
+                            </Switch>
+                        )
                 })}
                 <Footer />
             </div>
