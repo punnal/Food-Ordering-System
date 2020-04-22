@@ -1,7 +1,7 @@
 import styles from "../css/cssFile.css"
 const Classes = {
-    Footer: '',
-    MainContents: '',
+    Footer: 'Footer',
+    MainContents: 'MainContents',
     NavigationBar: 'NavBar',
     NavBarItem: 'NavBarElement',
     NavBarDivider: 'NavBarDivider',

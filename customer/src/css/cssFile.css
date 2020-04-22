@@ -107,6 +107,16 @@ body {
 	z-index: -1;
 }
 
+.MainContents {
+	position: relative;
+	top: 100px;
+}
+
+.Footer {
+	position: relative;
+	top: 100px;
+}
+
 @media only screen and (max-width: 750px) {
 	
 	body {
