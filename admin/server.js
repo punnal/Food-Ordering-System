@@ -8,8 +8,8 @@ const dummydata =
 {
 "data":
 [
-            {"Name": "Ahmad Humayun", "Address":"203-C Askari 11", "Order":"something"},
-            {"Name": "Hassan Mahad", "Address":"Falcon complex", "Order":"something different"}
+            {"Name": "Ahmad Humayun", "Address":"203-C Askari 11", "Order":"something", "status":"Pending"},
+            {"Name": "Hassan Mahad", "Address":"Falcon complex", "Order":"something different", "status":"Pending"}
 ]
 }
 `

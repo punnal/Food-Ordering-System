@@ -9,7 +9,7 @@ const InputArray = (props) =>{
                     <input 
                         key={i} 
                         value={e} 
-                        onClick={() => props.onClick(e)} 
+                        onClick={() => props.onClick(e, props.id)} 
                         type={props.type}/>
                 )})}
             </div>
