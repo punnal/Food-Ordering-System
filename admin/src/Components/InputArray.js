@@ -6,7 +6,7 @@ const InputArray = (props) =>{
         <div>
             {props.inputs.map( (e, i) => {
                 return (
-                    <input 
+                    <input className = {e}
                         key={i} 
                         value={e} 
                         onClick={() => props.onClick(e, props.id)} 

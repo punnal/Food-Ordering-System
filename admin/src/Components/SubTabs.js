@@ -15,7 +15,7 @@ class SubTabs extends React.Component {
                     {
                         Object.keys(this.page.tabs).map((e,i) => { 
                             return (
-                                <Link key={i} to={`${this.page.path}${this.page.tabs[e].path}`} type='button' >
+                                <Link key={i} to={`${this.page.path}${this.page.tabs[e].path}`}>
                                     <div className={res.admin.css_classes.DSubTabElement}>
                                         {e}
                                     </div>
