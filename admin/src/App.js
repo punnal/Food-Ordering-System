@@ -21,7 +21,7 @@ class App extends React.Component {
                     res.admin.pages.map(e => {
                         return (
                             <Switch key={e.id}>
-                                <Route path={e.path.split('/')[0]} component={ () => React.createElement(e.component, {'id':e.id})} />
+                                <Route path={`/${e.path.split('/')[1]}`} component={ () => React.createElement(e.component, {'id':e.id})} />
                             </Switch>
                         )
                 })}
