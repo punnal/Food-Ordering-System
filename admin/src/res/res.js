@@ -122,10 +122,14 @@ export const res = {
             'NavBarDropdown': 'NavBarDropdown',  // <div>
             'Footer': '', //div
             'Header': 'Header', //div
-            'Deliveries':'',
+            'Deliveries':'Deliveries',
+            'DSubTabs' : 'DSubTabs',
+            'DSubTabElement' : 'DSubTabElement',
             'DeliveriesSubTabs': '',
-            'DPendingContainer':'',
-            'DPendingButtons':'',
+            'DeliveriesSubTabClicked': 'DeliveriesSubTabClicked',
+            'DeliveriesButtons':'DeliveriesButtons',
+            'DeliveriesContainer': 'DeliveriesContainer',
+            'DeliveriesInfo': 'DeliveriesInfo',
             'NavBarDivider': 'NavBarDivider' //div
         }
 

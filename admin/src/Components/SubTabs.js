@@ -18,7 +18,6 @@ class SubTabs extends React.Component {
                                 <Link 
                                     key={i} 
                                     to={`${this.page.path}${e.path}`} >
-
                                     <div className={res.admin.css_classes.DSubTabElement}>
                                         {e.name}
                                     </div>

@@ -22,7 +22,7 @@ class Deliveries extends React.Component {
             <Router>
             <div className={res.admin.css_classes.Deliveries}>
                 <SubTabs page={this.page}/>
-                <div className={res.admin.css_classes.DPendingContainer}>
+                <div className={res.admin.css_classes.DeliveriesSubTabClicked}>
                 {
                     this.page.tabs.map((e, i) => {
                         return (
