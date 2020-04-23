@@ -14,6 +14,7 @@ const Card = (props) => {
                 <InputArray 
                     id={props.id} 
                     inputs={props.inputs} 
+                    classNames={props.inputClassNames}
                     type={props.inputType} 
                     onClick={props.onClick}/>
             </div>

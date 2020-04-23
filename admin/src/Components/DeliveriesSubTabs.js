@@ -1,29 +1,30 @@
 import React from "react"
 import Card from './Card'
 import { api_pull, api_push} from '../api/api.js'
-import { res } from '../res/res.js'
 
-
-class Pending extends React.Component {
+class DeliveriesSubTabs extends React.Component {
     constructor(props) {
         super(props)
         this.clickHandler = this.clickHandler.bind(this)
         this.page = this.props.page
         this.tab_id = this.props.tab_id
-        this.state = {'tab': this.props.page.tabs[0], 'data': []}
+        this.tab = this.page.tabs[this.tab_id]
+        this.api = this.tab.api
+        this.state = {'data': []}
     }
+
     componentDidMount() {
-        api_pull(res.admin.api.pull.pending, data => this.setState({'data': data}))
+        api_pull(this.api, data => this.setState({'data': data}))
     }
+
     clickHandler(button, id) {
         this.setState(old => {
             let newdata = old.data.map((e,i) => {
                 if(i === id) {
-                    const updated = (button === 'Accept')? 'Accepted' : 'Rejected'
-                    api_push(res.admin.api.push.pending, {'value': updated})
+                    api_push(this.api, {'value': button})
                     return {
                         ...e,
-                        'status': updated
+                        'status': `${button}`
                     }
                 }
                 return e
@@ -34,6 +35,7 @@ class Pending extends React.Component {
             }
         })
     }
+
     render() {
         return (
             this.state.data.map((e, i) =>{
@@ -42,7 +44,8 @@ class Pending extends React.Component {
                      key={i} 
                      id = {i}
                      inputType='button'
-                     inputs={this.page.tabs[this.tab_id].inputs}
+                     inputClassNames= {this.tab.buttonscss}
+                     inputs={this.tab.buttons}
                      data={e} 
                      onClick={this.clickHandler}/>
             )})
@@ -50,21 +53,4 @@ class Pending extends React.Component {
     }
 }
 
-
-class InProgress extends React.Component {
-    render() {
-        return <div> SubTab Placeholder </div>
-    }
-}
-
-class Delivered extends React.Component {
-    render() {
-        return <div> SubTab Placeholder </div>
-    }
-}
-
-export {
-    Pending,
-    InProgress,
-    Delivered
-}
+export default DeliveriesSubTabs

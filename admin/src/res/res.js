@@ -1,7 +1,7 @@
 import styles from '../css/cssFile.css'
 import Login from '../Components/Login'
 import Deliveries from '../Components/Deliveries'
-import { Pending, InProgress, Delivered} from '../Components/DeliveriesSubComponents'
+import DeliveriesSubTabs from '../Components/DeliveriesSubTabs'
 import Orders from '../Components/Orders'
 import Menu from '../Components/Menu'
 import Deals from '../Components/Deals'
@@ -14,14 +14,6 @@ import '../css/cssFile.css'
 
 export const res = {
     'admin': {
-        'api' : {
-            'pull': {
-                'pending':'/api/pending'
-            },
-            'push': {
-                'pending':'api/something'
-            }
-        },
         'pages': [
             {
                 'id': 0,
@@ -33,25 +25,31 @@ export const res = {
                 'id': 1,
                 'title':'Deliveries',
                 'component':Deliveries,
-                'path':'/deliveries',
+                'path':'/deliveries/pending',
                 'tabs': [
                     {
                         'name': 'Pending',
-                        'path':'/pending',
-                        'component': Pending,
-                        'inputs': ['Accept', 'Reject']
+                        'path':'/deliveries/pending',
+                        'component': DeliveriesSubTabs,
+                        'api': '/api/pending',
+                        'buttons': ['Accept', 'Reject'],
+                        'buttonscss': ['Accept', 'Reject']
                     },
                     {
                         'name':'In Progress',
-                        'path':'/inprogress',
-                        'component': InProgress,
-                        'inputs': ['Completed', 'Failed']
+                        'path':'/deliveries/inprogress',
+                        'component': DeliveriesSubTabs,
+                        'api': '/api/inprogress',
+                        'buttons': ['Completed', 'Failed'],
+                        'buttonscss': ['Accept', 'Reject']
                     }, 
                     {
                         'name':'Delivered',
-                        'path':'/delivered',
-                        'component': Delivered,
-                        'inputs':['Delivered', 'Failed']
+                        'path':'/deliveries/delivered',
+                        'component': DeliveriesSubTabs,
+                        'api': '/api/delivered',
+                        'buttons':['Delivered', 'Failed'],
+                        'buttonscss': ['Accept', 'Reject']
 
                     }
                 ]

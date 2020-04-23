@@ -4,11 +4,12 @@ import {
     Link
 } from "react-router-dom";
 
-class SubTabs extends React.Component {
+class SubTabsNavBar extends React.Component {
     constructor(props) {
         super(props)
         this.page = this.props.page
     }
+
     render() {
         return (
                 <div className={res.admin.css_classes.DSubTabs}> 
@@ -17,7 +18,7 @@ class SubTabs extends React.Component {
                             return (
                                 <Link 
                                     key={i} 
-                                    to={`${this.page.path}${e.path}`} >
+                                    to={`${e.path}`} >
                                     <div className={res.admin.css_classes.DSubTabElement}>
                                         {e.name}
                                     </div>
@@ -29,4 +30,4 @@ class SubTabs extends React.Component {
     }
 }
 
-export default SubTabs
+export default SubTabsNavBar

@@ -30,7 +30,7 @@ const NavBarDivider = () => {
     return <div className = {res.admin.css_classes.NavBarDivider}></div>
 }
 const NavBarDropdown = (props) => {
-    return(
+    return (
      <div className = {res.admin.css_classes.NavBarDropdown} > 
         {props.title}
         <a href= "#"> <img src ={require('../img/polygon.png')} height = '20' width = '20' alt = 'polygon' /> </a>

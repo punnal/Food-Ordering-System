@@ -1,6 +1,6 @@
 import React from "react"
 import { res } from "../res/res"
-import SubTabs from "./SubTabs"
+import SubTabsNavBar from "./SubTabsNavBar"
 import {
   BrowserRouter as Router,
   Switch,
@@ -21,14 +21,14 @@ class Deliveries extends React.Component {
         return (
             <Router>
             <div className={res.admin.css_classes.Deliveries}>
-                <SubTabs page={this.page}/>
+                <SubTabsNavBar page={this.page}/>
                 <div className={res.admin.css_classes.DeliveriesSubTabClicked}>
                 {
                     this.page.tabs.map((e, i) => {
                         return (
                             <Switch key={i}>
                                 <Route 
-                                    exact path={`${this.page.path}${e.path}`} 
+                                    exact path={`${e.path}`} 
                                     component={() => React.createElement(e.component, {'page':this.page, 'tab_id':i})} />
                             </Switch>
                         )})
