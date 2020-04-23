@@ -14,6 +14,14 @@ import '../css/cssFile.css'
 
 export const res = {
     'admin': {
+        'api' : {
+            'pull': {
+                'pending':'/api/pending'
+            },
+            'push': {
+                'pending':'api/something'
+            }
+        },
         'pages': [
             {
                 'id': 0,
@@ -26,20 +34,27 @@ export const res = {
                 'title':'Deliveries',
                 'component':Deliveries,
                 'path':'/deliveries',
-                'tabs': {
-                    'Pending': {
+                'tabs': [
+                    {
+                        'name': 'Pending',
                         'path':'/pending',
-                        'component': Pending
+                        'component': Pending,
+                        'inputs': ['Accept', 'Reject']
                     },
-                    'In Progress': {
+                    {
+                        'name':'In Progress',
                         'path':'/inprogress',
-                        'component': InProgress
+                        'component': InProgress,
+                        'inputs': ['Completed', 'Failed']
                     }, 
-                    'Delivered':{
+                    {
+                        'name':'Delivered',
                         'path':'/delivered',
-                        'component': Delivered
-                    } 
-                }
+                        'component': Delivered,
+                        'inputs':['Delivered', 'Failed']
+
+                    }
+                ]
             },
             {
                 'id': 2,

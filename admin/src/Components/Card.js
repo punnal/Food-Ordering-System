@@ -11,7 +11,12 @@ const Card = (props) => {
                 })}
             </div>
             <div className={res.admin.css_classes.DPendingButtons}>
-                <InputArray id={props.id} inputs={props.inputs} type={props.inputType} onClick={props.onClick}/>
+
+                <InputArray 
+                    id={props.id} 
+                    inputs={props.inputs} 
+                    type={props.inputType} 
+                    onClick={props.onClick}/>
             </div>
         </div>
     )

@@ -13,11 +13,14 @@ class SubTabs extends React.Component {
         return (
                 <div className={res.admin.css_classes.DSubTabs}> 
                     {
-                        Object.keys(this.page.tabs).map((e,i) => { 
+                        this.page.tabs.map((e,i) => { 
                             return (
-                                <Link key={i} to={`${this.page.path}${this.page.tabs[e].path}`} type='button' >
+                                <Link 
+                                    key={i} 
+                                    to={`${this.page.path}${e.path}`} >
+
                                     <div className={res.admin.css_classes.DSubTabElement}>
-                                        {e}
+                                        {e.name}
                                     </div>
                                 </Link>
                             )})

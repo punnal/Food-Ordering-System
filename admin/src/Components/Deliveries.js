@@ -24,10 +24,12 @@ class Deliveries extends React.Component {
                 <SubTabs page={this.page}/>
                 <div className={res.admin.css_classes.DPendingContainer}>
                 {
-                    Object.keys(this.page.tabs).map((e, i) => {
+                    this.page.tabs.map((e, i) => {
                         return (
                             <Switch key={i}>
-                                <Route exact path={`${this.page.path}${this.page.tabs[e].path}`} component={() => React.createElement(this.page.tabs[e].component, {'page':this.page})} />
+                                <Route 
+                                    exact path={`${this.page.path}${e.path}`} 
+                                    component={() => React.createElement(e.component, {'page':this.page, 'tab_id':i})} />
                             </Switch>
                         )})
                 }
