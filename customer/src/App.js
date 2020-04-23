@@ -17,15 +17,15 @@ class App extends React.Component {
             loggedIn: false,
             navBar: NavBarData,
             currentPage: 0,
+            orders:[]
         }
     }
 
-    handlePageChange = (id, name) => {
-        console.log(name)
+    addOrder = (order) => {
         this.setState(prevState => {
-            return {
-                    currentPage: id
-            }
+            return ({
+                orders: [...prevState.orders, order] 
+            })
         })
     }
 
@@ -35,7 +35,7 @@ class App extends React.Component {
             <div className="App">
                 <Router>
                     <NavigationBar loggedIn={this.state.loggedIn} navBarData={this.state.navBar}/>
-                    <MainContents />
+                    <MainContents orders={this.state.orders} addOrders={this.addOrder}/>
                     <Footer />
                 </Router>
             </div>
