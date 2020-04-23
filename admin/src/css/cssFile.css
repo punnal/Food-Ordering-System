@@ -1,0 +1,405 @@
+body {
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/back6.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-color: black;
+	display: flex;
+	position: fixed;
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+}
+
+.MainDiv {
+	width: 100%;
+	height: 100%;
+}
+
+.Header {
+	width: 100%;
+	height: 48px;
+	background-color: rgba(0, 0, 0, 0.2);
+	text-align: center;
+	color: white;
+	font-size: 34px;
+	z-index: 1;
+	text-decoration: underline;
+	-webkit-animation-name: zoomIn;
+  	animation-name: zoomIn;
+  	animation-duration: 2s;
+  	position: relative;
+}
+
+.NavBar {
+	background-color: rgba(255, 255, 255, 0.2);
+	height: 50px;
+	color: white;
+	font-size: 20px;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	align-items: center;
+	position: relative;
+	width: 100%;
+	z-index: 1;
+	text-shadow: 1px 1px black;
+	overflow: auto;
+	-webkit-animation-name: bounceInLeft;
+  	animation-name: bounceInLeft;
+  	animation-duration: 5s;
+}
+
+.NavBar > a {
+	text-decoration: none;
+	color: white;
+}
+
+.NavBarElement {
+	margin-left: 15px;
+	z-index: 1;
+}
+
+.NavBarElement:hover {
+	text-decoration: underline;
+}
+
+.NavBarDivider {
+	margin-left: 15px;
+	border-left: 2px solid white;
+	height: 42px;
+	z-index: 1;
+}
+
+.NavBarDropdown {
+	margin-left: 15px;
+	margin-right: 15px;
+	z-index: 1;
+}
+
+.NavBarDropdown > a {
+	text-decoration: none;
+}
+
+.NavBarDropdown > img {
+	margin-left: 10px;
+}
+
+.NavBarDropdown > img:hover {
+	transform: translateX(10px);
+}
+
+.Logo {
+	position: absolute;
+	display: flex;
+	width: 100%;
+	z-index: -1;
+}
+
+.Deliveries {
+	background-image: url(../img/delivery.jpg);
+	width: 100%;
+	height: 100%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	position: fixed;
+	top: 0; 
+}
+
+.DSubTabs {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-top: 128px;
+}
+
+.DSubTabs > a {
+	text-decoration: none;
+	color: white;
+}
+
+.DSubTabs > a:hover {
+	text-decoration: underline;
+}
+
+.DSubTabElement {
+	margin-left: 150px;
+	height: 100%;
+	width: 100px;
+	padding: 5px;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 10px;
+	-webkit-animation-name: bounceInDown;
+  	animation-name: bounceInDown;
+  	animation-duration: 1.5s;
+}
+
+.DeliveriesSubTabClicked {
+	margin-top: 50px;
+}
+
+.DeliveriesContainer {
+	color: white;
+	display: flex;
+	margin-bottom: 50px;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 2s;
+}
+
+.DeliveriesInfo {
+	background-color: rgba(255, 255, 255, 0.2);
+	text-align: center;
+	border-radius: 10px;
+	margin-left: 50px;
+	padding: 10px;
+	width: 40%;
+}
+
+.DeliveriesButtons {
+	margin-left: 230px;
+	margin-top: 90px;
+}
+
+.Accept {
+	margin-right: 20px;
+	background-color: #00FF00;
+	border: none;
+	cursor: pointer;
+	padding: 12px 30px;
+	color: white;
+	border-radius: 10px;	
+}
+
+.Reject {
+	background-color: #FF0000;
+	border: none;
+	cursor: pointer;
+	padding: 12px 30px;
+	color: white;
+	border-radius: 10px;
+}
+
+@media only screen and (max-width: 750px) {
+	
+	body {
+		width: 100%;
+		height: 100%;
+		background-image: url(../img/back6.jpg);
+		background-size: 100%;
+		background-repeat: no-repeat;
+		background-color: black;
+		display: flex;
+	}
+
+	#root {
+		width: 100%;
+		height: 100%;
+	}
+
+	.MainDiv {
+		width: 100%;
+		height: 100%;
+	}
+
+	.Header {
+		width: 100%;
+		height: 48px;
+		background-color: rgba(0, 0, 0, 0.2);
+		color: white;
+		font-size: 17px;
+		text-decoration: underline;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.NavBar {
+		background-color: rgba(255, 255, 255, 0);
+		position: relative;
+		margin: auto;	
+		color: white;
+		font-size: 10px;
+		justify-content: flex-start;
+		width: 20%;
+		z-index: 1;
+		text-shadow: 1px 1px black;
+		overflow: auto;
+		height: 110px;
+	}
+
+	.NavBar > a {
+		text-decoration: none;
+		color: white;
+	}
+
+	.NavBarElement {
+		z-index: 1;
+	}
+
+	.NavBarElement:hover {
+		text-decoration: underline;
+	}
+
+	.NavBarDivider {
+		margin-left: 15px;
+		border-left: 2px solid white;
+		height: 42px;
+		display: none;
+		z-index: 1;
+	}
+
+	.NavBarDropdown {
+		margin-left: 15px;
+		margin-right: 15px;
+		display: none;
+		z-index: 1;
+	}
+
+	.NavBarDropdown > img {
+		margin-left: 10px;
+	}
+
+	.Logo {
+		position: absolute;
+		display: none;
+		width: 100%;
+		z-index: 1;
+	}
+
+}
+
+@keyframes bounceInLeft {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(-3000px, 0, 0);
+    transform: translate3d(-3000px, 0, 0);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(25px, 0, 0);
+    transform: translate3d(25px, 0, 0);
+  }
+
+  75% {
+    -webkit-transform: translate3d(-10px, 0, 0);
+    transform: translate3d(-10px, 0, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(5px, 0, 0);
+    transform: translate3d(5px, 0, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/*.bounceInLeft {
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+}*/
+
+@keyframes bounceInDown {
+  from,
+  60%,
+  75%,
+  90%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -3000px, 0);
+    transform: translate3d(0, -3000px, 0);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 25px, 0);
+    transform: translate3d(0, 25px, 0);
+  }
+
+  75% {
+    -webkit-transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -10px, 0);
+  }
+
+  90% {
+    -webkit-transform: translate3d(0, 5px, 0);
+    transform: translate3d(0, 5px, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-23 4:44:3
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-1000px);
+            transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-1000px);
+            transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}

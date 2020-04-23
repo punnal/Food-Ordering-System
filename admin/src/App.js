@@ -1,25 +1,33 @@
 import React from 'react';
-import { res } from './res.js'
-import Header from './Header.js'
-import NavBar from './NavBar.js'
-import Body from './Body.js'
-import Footer from './Footer.js'
+import { res } from './res/res.js'
+import Header from './Components/Header'
+import NavBar from './Components/NavBar'
+import Footer from './Components/Footer.js'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 class App extends React.Component {
 
-    constructor() {
-        super()
-        this.state = {'tab': res.admin.navbar.deliveries}
-    }
-
     render() {
         return (
+            <Router>
             <div>
                 <Header />
                 <NavBar />
-                <Body />
+                {
+                    res.admin.pages.map(e => {
+                        return (
+                            <Switch key={e.id}>
+                                <Route path={`/${e.path.split('/')[1]}`} component={ () => React.createElement(e.component, {'id':e.id})} />
+                            </Switch>
+                        )
+                })}
                 <Footer />
             </div>
+            </Router>
         );
     }
 }
