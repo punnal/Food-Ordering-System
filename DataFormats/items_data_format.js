@@ -1,9 +1,12 @@
 
-route = '/api/items' //will return all items
-route = '/api/items/:category' //replace category with 0, 1, 2. Will return items belonging to only that category
+route = '/api/items' //will return all items category-wise
 type_of_http_request = 'get'
 //Note: $ sign means a variable
 
+
+/*
+Note: options_list is an optional attribute. When parsing, make sure you check whether or not it's there.
+*/
 
 ///RESPONSE FROM SERVER SIDE
 
@@ -11,63 +14,77 @@ response =
 {
     "data" :
     {
-        "Main" :
-        [
+       "Main" :
+        {
+            
+            "$id" : 
             {
-                "$id" : 
+                "id" : 41,
+                "name" : "big burger",
+                "price" : 999,
+                "description" : "juicy",
+                "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
+                "options_lists" : //will contain all options lists. keys would represent names for the optin list
                 {
-                    "id" : 41,
-                    "name" : "big burger",
-                    "price" : 999,
-                    "description" : "juicy",
-                    "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
-                    "options_list" :
-                    {
-                        "Extra Patty" : 55
+                    "Sauce":  // key representing option list name
+                    {              //value representing the options_lists themselves
+                        "Honey mustard" : 20, // key represents the option. value represents additional price
+                        "Garlic Mayo" :10
                     },
-                    "category" : 0         
-                }  
-            }
-        ],
 
-        "Extras" : 
-        [
-                
-            {
-                "$id" : 
-                {
-                    "id" : 42,
-                    "name" : "fries",
-                    "price" : 120,
-                    "description" : "masala",
-                    "photo_url" : "https://www.burgerfoto.com/fries.jpg",
-                    "options_list" :
+                    "Add-on":
                     {
-                        "large" : 55
+                        "Mushrooms" : 50,
+                        "Jalepnos" : 60
+                    }
+                },
+                "category" : 0         
+            }  
+        },
+
+        "Extras" :
+        {
+            "$id" : 
+            {
+                "id" : 42,
+                "name" : "fries",
+                "price" : 50,
+                "description" : "juicy",
+                "photo_url" : "https://www.burgerfoto.com/thicfries.jpg",
+                "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                {
+                    "exists" : true,
+
+                    "Type":  // key representing option list name
+                    {              //value representing the options_lists themselves
+                        "Curly" : 50, // key represents the option. value represents additional price
+                        "Onion rings" :50
                     },
-                    "category" : 1         
-                }  
-            }
-        ],
+
+                    "Upsize":
+                    {
+                        "large" : 40,
+                        "Extra large" : 60
+                    }
+                },
+                "category" : 0         
+            }  
+        },
 
         "Drinks" :
-        [
+        {
+            
+            "$id" : 
             {
-                "$id" : 
-                {
-                    "id" : 44,
-                    "name" : "pepsi",
-                    "price" : 40,
-                    "description" : "chiiled",
-                    "photo_url" : "https://www.burgefoto.com/pepsi.jpg",
-                    "options_list" :
-                    {
-                        "Big can" : 10
-                    }
-                }, 
-                "category" : 2
-            }
-        ]
+                "id" : 44,
+                "name" : "Pepsi",
+                "price" : 50,
+                "description" : "juicy",
+                "photo_url" : "https://www.burgerfoto.com/pepsi.jpg",
+                // NOTE: options_list is not present here. that is because options list is an optional field
+                "category" : 0         
+            }  
+        },
     }
 }
 
