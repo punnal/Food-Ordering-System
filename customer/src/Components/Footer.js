@@ -2,12 +2,12 @@ import React from "react";
 import Classes from "../Resource/className";
 import "../css/cssFile.css";
 
-import Logo from "./phone123.png";
-import Logo2 from "./email.png";
-import FB from "./fb.png";
-import IG from "./insta.png";
-import TT from "./twitter.png";
-import LOC from "./location.png";
+import Logo from "../img/phone123.png";
+import Logo2 from "../img/email.png";
+import FB from "../img/fb.png";
+import IG from "../img/insta.png";
+import TT from "../img/twitter.png";
+import LOC from "../img/location.png";
 
 const Footer = () => {
   return (
