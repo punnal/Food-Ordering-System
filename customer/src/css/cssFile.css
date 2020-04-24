@@ -1,22 +1,25 @@
+html,
 body {
-	width: 100%;
-	height: 100%;
-	background-image: url(../img/back.jpg);
-	background-size: 100%;
-	background-repeat: no-repeat;
-	background-color: black;
-	display: flex;
-	margin: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background-image: url(../img/back.jpg);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
 }
 
 #root {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .MainDiv {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /*.Header {
@@ -33,176 +36,210 @@ body {
 }*/
 
 .NavBar {
-	background-color: rgba(255, 255, 255, 0.2);
-	height: 50px;
-	color: white;
-	font-size: 20px;
-	display: flex;
-	flex-direction: row;
-	flex-wrap: nowrap;
-	justify-content: flex-end;
-	align-items: center;
-	position: fixed;
-	width: 100%;
-	z-index: 1;
-	text-shadow: 1px 1px black;
-	overflow: hidden;
-	-webkit-animation-name: bounceInLeft;
-  	animation-name: bounceInLeft;
-  	animation-duration: 5s;
+  background-color: rgba(255, 255, 255, 0.2);
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  text-shadow: 1px 1px black;
+  overflow: hidden;
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  animation-duration: 5s;
 }
 
 .NavBarElement > a {
-	text-decoration: none;
-	color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .NavBarElement {
-	margin-left: 15px;
-	z-index: 1;
+  margin-left: 15px;
+  z-index: 1;
 }
 
 .NavBarElement:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 
 .NavBarDivider {
-	margin-left: 15px;
-	border-left: 2px solid white;
-	height: 42px;
-	z-index: 1;
+  margin-left: 15px;
+  border-left: 2px solid white;
+  height: 42px;
+  z-index: 1;
 }
 
 .NavBarLoggedOut {
-	display: inherit;
+  display: inherit;
 }
 
 .Cart {
-	margin-right: 15px;
-	margin-left: 15px;
-	margin-top: 10px;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top: 10px;
 }
 
 .NavBarDropdown {
-	margin-left: 15px;
-	margin-right: 15px;
-	z-index: 1;
+  margin-left: 15px;
+  margin-right: 15px;
+  z-index: 1;
 }
 
 .NavBarDropdown > a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .NavBarDropdown > img {
-	margin-left: 10px;
+  margin-left: 10px;
 }
 
 .NavBarDropdown > img:hover {
-	transform: translateX(10px);
+  transform: translateX(10px);
 }
 
 .Logo {
-	position: fixed;
-	left: 9px;
-	z-index: -1;
+  position: fixed;
+  left: 9px;
+  z-index: -1;
 }
 
 .MainContents {
-	position: relative;
-	top: 100px;
+  position: relative;
+  min-height: 100vh;
+  height: 100%;
+  top: 100px;
+  padding-bottom: 100px;
 }
 
-.Footer {
-	position: relative;
-	top: 100px;
+.footer {
+  background: #303036;
+  margin: auto;
+  margin-top: auto;
+  width: 100%;
+  color: #d3d3d3;
+  height: 250px;
+  position: relative;
+}
+
+.footer .footer-content {
+  border: 1px red;
+  height: 200px;
+  margin-top: auto;
+  display: flex;
+}
+
+.footer .footer-content .footer-section {
+  flex: 1;
+  padding: 25px;
+  border: 1px solid white;
+}
+
+.footer .footer-bottom {
+  background: #343a40;
+  color: #686868;
+  margin-top: auto;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  padding-top: 20px;
 }
 
 @media only screen and (max-width: 750px) {
-	
-	body {
-		width: 100%;
-		height: 100%;
-		background-image: url(../img/back.jpg);
-		background-size: 100%;
-		background-repeat: no-repeat;
-		background-color: black;
-		display: flex;
-	}
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    background-image: url(../img/back.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: black;
+    display: flex;
+  }
 
-	#root {
-		width: 100%;
-		height: 100%;
-	}
+  #root {
+    width: 100%;
+    height: 100%;
+  }
 
-	.MainDiv {
-		width: 100%;
-		height: 100%;
-	}
+  .MainDiv {
+    width: 100%;
+    height: 100%;
+  }
 
-	.Header {
-		width: 100%;
-		height: 48px;
-		background-color: rgba(0, 0, 0, 0.2);
-		color: white;
-		font-size: 17px;
-		text-decoration: underline;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+  .Header {
+    width: 100%;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-size: 17px;
+    text-decoration: underline;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-	.NavBar {
-		background-color: rgba(255, 255, 255, 0);
-		position: relative;
-		margin: auto;	
-		color: white;
-		font-size: 10px;
-		justify-content: flex-start;
-		width: 20%;
-		z-index: 1;
-		text-shadow: 1px 1px black;
-		overflow: auto;
-		height: 110px;
-	}
+  .NavBar {
+    background-color: rgba(255, 255, 255, 0);
+    position: relative;
+    margin: auto;
+    color: white;
+    font-size: 10px;
+    justify-content: flex-start;
+    width: 20%;
+    z-index: 1;
+    text-shadow: 1px 1px black;
+    overflow: auto;
+    height: 110px;
+  }
 
-	.NavBar > a {
-		text-decoration: none;
-		color: white;
-	}
+  .NavBar > a {
+    text-decoration: none;
+    color: white;
+  }
 
-	.NavBarElement {
-		z-index: 1;
-	}
+  .NavBarElement {
+    z-index: 1;
+  }
 
-	.NavBarElement:hover {
-		text-decoration: underline;
-	}
+  .NavBarElement:hover {
+    text-decoration: underline;
+  }
 
-	.NavBarDivider {
-		margin-left: 15px;
-		border-left: 2px solid white;
-		height: 42px;
-		display: none;
-		z-index: 1;
-	}
+  .NavBarDivider {
+    margin-left: 15px;
+    border-left: 2px solid white;
+    height: 42px;
+    display: none;
+    z-index: 1;
+  }
 
-	.NavBarDropdown {
-		margin-left: 15px;
-		margin-right: 15px;
-		display: none;
-		z-index: 1;
-	}
+  .NavBarDropdown {
+    margin-left: 15px;
+    margin-right: 15px;
+    display: none;
+    z-index: 1;
+  }
 
-	.NavBarDropdown > img {
-		margin-left: 10px;
-	}
+  .NavBarDropdown > img {
+    margin-left: 10px;
+  }
 
-	.Logo {
-		position: absolute;
-		display: none;
-		z-index: 1;
-	}
-
+  .Logo {
+    position: absolute;
+    display: none;
+    z-index: 1;
+  }
 }
 
 @keyframes bounceInLeft {
