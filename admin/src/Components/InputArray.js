@@ -10,7 +10,7 @@ const InputArray = (props) =>{
                         className = {props.classNames[i]}
                         key={i} 
                         value={e} 
-                        onClick={() => props.onClick(e, props.id)} 
+                        onClick={() => props.onClick({'name':e, 'id':i}, props.id)} 
                         type={props.type}/>
                 )})}
             </div>

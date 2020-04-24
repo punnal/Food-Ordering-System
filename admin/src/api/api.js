@@ -11,6 +11,13 @@ const api_pull = (url, callback) => {
 }
 
 const api_push = (url, data) => {
+    fetch(url, {
+        method:'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+    })
 }
 export {
     api_pull,

@@ -124,6 +124,7 @@ export const res = {
             'DSubTabs' : 'DSubTabs',
             'DSubTabElement' : 'DSubTabElement',
             'DeliveriesSubTabs': '',
+            'Popup':'',
             'DeliveriesSubTabClicked': 'DeliveriesSubTabClicked',
             'DeliveriesButtons':'DeliveriesButtons',
             'DeliveriesContainer': 'DeliveriesContainer',
