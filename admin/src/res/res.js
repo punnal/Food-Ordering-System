@@ -58,7 +58,21 @@ export const res = {
                 'id': 2,
                 'title':'Orders',
                 'component':Orders,
-                'path':'/orders'
+                'path':'/orders',
+                'tables': 
+                { 
+                    'left':
+                    [
+                        {
+                            'heading':'Deals',
+                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
+                        },
+                        {
+                            'heading':'Mains',
+                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                        }
+                    ]
+                }
             },
             {
                 'id': 3,
