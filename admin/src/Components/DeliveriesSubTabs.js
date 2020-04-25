@@ -1,6 +1,6 @@
 import React from "react"
 import Card from './Card'
-import Popup from './Popup'
+import Popup from './PopUpV2'
 import { api_pull, api_push} from '../api/api.js'
 
 class DeliveriesSubTabs extends React.Component {
@@ -36,15 +36,19 @@ class DeliveriesSubTabs extends React.Component {
 
     render() {
         return (
-            <>
-                <Popup 
-                    show={this.state.showpopup} 
-                    onHide={() => this.setState(old => {
+            <div>
+                {this.state.showpopup ?
+                <Popup  
+                    text = 'Are you sure?'
+                    closePopup={() => this.setState(old => {
                         return {
                             ...old,
                             showpopup:false
                         }
                     })}/>
+                    :
+                    null
+                }
                     {
                         this.state.data.map((e, i) =>{
                             return (
@@ -58,7 +62,7 @@ class DeliveriesSubTabs extends React.Component {
                                     onClick={this.clickHandler}/>
                             )})
                     }
-                </>
+                </div>
         )
     }
 }

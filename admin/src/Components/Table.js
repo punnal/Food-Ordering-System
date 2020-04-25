@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import { res } from '../res/res'
 
 class Table extends React.Component {
@@ -29,7 +29,7 @@ class Table extends React.Component {
                             null
                     }
                 </div>
-                <table>
+                <table className='Table'>
                     <thead>
                         <tr 
                             className={this.css.TableColumnHeadings}

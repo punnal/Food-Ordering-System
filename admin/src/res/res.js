@@ -91,11 +91,11 @@ export const res = {
                         },
                         {
                             'heading':'Mains',
-                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         },
                         {
                             'heading':'Drinks',
-                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         }
                     ]
             },
@@ -168,7 +168,17 @@ export const res = {
             'DeliveriesButtons':'DeliveriesButtons',
             'DeliveriesContainer': 'DeliveriesContainer',
             'DeliveriesInfo': 'DeliveriesInfo',
-            'NavBarDivider': 'NavBarDivider' //div
+            'NavBarDivider': 'NavBarDivider', //div
+            'OrdersRightTable': 'OrdersRightTable',
+            'Orders': 'Orders',
+            'OrdersLeftTable': 'OrdersLeftTable',
+            'OrdersRightTable': 'OrdersRightTable', 
+            'TableHeadingAndButtonDiv': 'TableHeadingAndButtonDiv',
+            'TableHeading': 'TableHeading',
+            'TableAddButton': 'TableAddButton',
+            'TableColumnHeadings': 'TableColumnHeadings',
+            'TableBody': 'TableBody',
+            'TableRow': 'TableRow'
         }
 
     }

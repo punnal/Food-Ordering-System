@@ -60,6 +60,7 @@ class Orders extends React.Component {
                     <Table 
                         heading = "Bill"
                         footerButton= "Generate Bill"
+                        cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
                         cols = {['ID', 'Name', 'Price']}
                         data = {[{}]}

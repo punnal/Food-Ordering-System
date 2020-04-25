@@ -8,6 +8,7 @@ class Menu extends React.Component {
 
     constructor(props){
         super(props)
+        this.css = res.admin.css_classes
         this.state = {showpopup:false, tables:{}}
         this.tables = res.admin.pages[this.props.id].tables
         this.popup = {}
@@ -63,7 +64,7 @@ class Menu extends React.Component {
                     buttons={this.popup.buttons}
                     onClose={this.onPopupClose}
                 />
-                <div>
+                <div className={this.css.OrdersLeftTable}>
                     {
                         this.tables.map((table, i) => 
                             <Table 
