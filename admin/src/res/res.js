@@ -127,7 +127,9 @@ export const res = {
                 'id':8,
                 'title':'History',
                 'component':History,
-                'path':'/history'
+                'path':'/history',
+                'api':'/api/pending'
+            
             },
             {
                 'id': 9,
