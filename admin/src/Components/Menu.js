@@ -41,6 +41,12 @@ class Menu extends React.Component {
     }
 
     onPopupClose(){
+        this.setState(old => {
+            return {
+                ...old,
+                showpopup:false
+            }
+        })
     }
 
     onDelete(tableid, rowid) {

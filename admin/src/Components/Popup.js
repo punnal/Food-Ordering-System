@@ -1,10 +1,19 @@
-import React from 'react'
-import { res } from '../res/res'
-import {Modal, Button, Row, Col, Form} from 'react-bootstrap'
-function Popup(props) {
-    return (
-            <button style={{'visibility':(props.show)?'visible':'hidden'}} onClick={props.onHide}>HASSAN</button>
-    );
-}
+import React from 'react';    
 
-export default Popup
+class Popup extends React.Component {  
+  render() {  
+		return (  
+            (this.props.show)?
+		<div className='popup'>  
+			<div className='popupInner'>  
+				<h1>{this.props.text}</h1>  
+				<button onClick={this.props.onClose}>Close</button>
+			</div>  
+		</div>  
+            :
+            null
+		);  
+	}  
+}  
+
+export default Popup;

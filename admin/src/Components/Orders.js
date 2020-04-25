@@ -28,12 +28,16 @@ class Orders extends React.Component {
     }
 
     onRowClick(tableid, rowid) {
+        //show all option lists in popup
     }
     onBillRowClick(rowid) {
     }
     onBillRowDelete(rowid){
     }
 
+    totalBill(){
+        return 100
+    }
     render() {
         return (
             <div 
@@ -63,7 +67,8 @@ class Orders extends React.Component {
                         footerButton= "Generate Bill"
                         cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
-                        cols = {['ID', 'Name', 'Price']}
+                        footerText = {`Total: ${this.totalBill()}`}
+                        cols = {['ID', 'Name', 'Price', 'Qty']}
                         data = {[{}]}
                     />
                 </div>

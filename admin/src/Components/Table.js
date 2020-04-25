@@ -79,7 +79,10 @@ class Table extends React.Component {
                 </table>
                 {
                     (this.props.footerButton)?
-                        <button className = {this.props.cssClassName} onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
+                        <div>
+                            <p> {this.props.footerText} </p>
+                            <button className = {this.props.cssClassName} onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
+                        </div>
                         :
                         null
                 }
