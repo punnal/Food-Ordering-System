@@ -158,7 +158,7 @@ app.get("/api/tables", (req, res) => {
 
 app.get("/api/menu", (req, res) => {
     console.log(req.url)
-    res.send(JSON.parse(dummytables))
+    res.send(JSON.parse(dummy_menu))
 })
 
 app.get("/api/*", (req, res) => {
