@@ -48,9 +48,11 @@ class Menu extends React.Component {
     }
 
     onAdd(tableid) {
+        this.showPopup()
     }
 
     onRowClick(tableid, rowid){
+        console.log(`row ${rowid} click of table ${tableid}`)
     }
 
     render() {

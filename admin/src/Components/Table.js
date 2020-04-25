@@ -49,11 +49,17 @@ class Table extends React.Component {
                                         <tr 
                                             className = {this.css.TableRow} 
                                             key={i}
-                                            onClick={this.props.onRowClick}
                                         >
                                             {
                                                 this.props.cols.map(
-                                                    (e,i) => <td key={i}>{row[e]}</td>
+                                                    (e,c) => {
+                                                        return (
+                                                            <td 
+                                                                onClick={() => this.props.onRowClick(this.props.heading, i)}
+                                                                key={c}>{row[e]}
+                                                            </td>
+                                                        )
+                                                    }
                                                 )
                                             } 
                                                 {

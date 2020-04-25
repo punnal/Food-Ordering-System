@@ -142,7 +142,11 @@ export const res = {
             'left': [1,2,3,4,5,6,7],
             'dropdown': {
                 'title': 'Hi, Admin',
-                'options': [8,]
+                'options': [
+                    {'name':'History', 'path':'/history'},
+                    {'name':'Settings', 'path':'/settings'},
+                    {'name':'Signout', 'path':'/gallery'},
+                ]
             }
         },
 
