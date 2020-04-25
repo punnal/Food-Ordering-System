@@ -22,32 +22,15 @@ class App extends React.Component {
     }
 
     addOrder = (order) => {
-        this.setState(prevState => {
-            let exist = false
-            let newOrders = prevState.orders.map((ord) => {
-                if(ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options)){
-                    console.log("======start ", ord.quantity)
-                    ord.quantity = ord.quantity + order.quantity
-                    console.log("======end ", ord.quantity)
-                    exist = true
-                    return ord
-                }
-                else{
-                    return ord
-                }
-            })
-            if(exist){
+        if(!this.changeQuantity(order, order.quantity)){
+            this.setState(prevState => {
                 return ({
-                    orders: newOrders
-                })
-            }
-            else{
-                return ({
-                    orders: [...newOrders, order]
+                    orders: [...prevState.orders, order]
 
                 })
-            }
-        })
+            
+            })
+        }
     }
     
     deleteOrder = (order) => {
@@ -59,15 +42,20 @@ class App extends React.Component {
     changeQuantity = (order, changeBy) => {
         console.log("start")
         let newOrders = [...this.state.orders,]
+        let exist = false
         console.log(newOrders)
         newOrders =  newOrders.map((ord) => {
             const newQuantity = ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options) && !(ord.quantity + changeBy === 0)?ord.quantity + changeBy:ord.quantity
+            exist = exist || ord.quantity === newQuantity? false:true
             ord.quantity = newQuantity
             return ord
         })
-        this.setState({orders: newOrders})
+        if(exist){
+            this.setState({orders: newOrders})
+        }
         console.log("end")
         console.log(this.state.orders)
+        return exist
     }
 
 

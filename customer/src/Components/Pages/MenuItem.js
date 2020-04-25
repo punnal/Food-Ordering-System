@@ -64,15 +64,6 @@ class MenuItem extends React.Component {
                 console.log("Order added")
                 this.props.addOrders({...this.state,})
                 this.handleClick("hidePopup")
-                
-        this.setState({
-            price: this.props.menuData.price,
-            quantity: 1,
-            id: this.props.menuData.id,
-            name: this.props.menuData.name,
-
-        })
-
                 this.setState({
                     options: {},
                     optionsPrices: {},
