@@ -58,7 +58,7 @@ class Menu extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className = 'Menu'>
                 <Popup 
                     show={this.state.showpopup}
                     buttons={this.popup.buttons}
@@ -72,6 +72,7 @@ class Menu extends React.Component {
                                 heading = {table.heading}
                                 headingButton={table.headingbutton}
                                 rowButton="Delete"
+                                cssClassName = "TableLeftButton"
                                 onRowClick={this.onRowClick}
                                 onHeadingButtonClick={this.onAdd}
                                 cols = {table.cols}
