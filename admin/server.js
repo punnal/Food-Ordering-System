@@ -34,11 +34,11 @@ const dummytables =
     ],
     "Mains":
     [
-        {"ID":1, "Name": "Kamaal Main", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+        {"ID":2, "Name": "Kamaal Main", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
     ],
     "Drinks":
     [
-        {"ID":1, "Name": "Kamaal Drink", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+        {"ID":3, "Name": "Kamaal Drink", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
     ]
 }
 }

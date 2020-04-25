@@ -28,7 +28,9 @@ class Orders extends React.Component {
     }
 
     onRowClick(tableid, rowid) {
+        this.setState(old => {
 
+        })
     }
 
     onBillRowClick(rowid) {
