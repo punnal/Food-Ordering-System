@@ -10,7 +10,7 @@ class Orders extends React.Component {
         this.page = res.admin.pages[this.props.id]
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
-        this.state = {'tables':{}}
+        this.state = {'tables':{}, 'bill':{}}
     }
 
     componentDidMount() {
@@ -28,12 +28,18 @@ class Orders extends React.Component {
     }
 
     onRowClick(tableid, rowid) {
+
     }
+
     onBillRowClick(rowid) {
     }
+
     onBillRowDelete(rowid){
     }
 
+    totalBill(){
+        return 100
+    }
     render() {
         return (
             <div 
@@ -63,7 +69,8 @@ class Orders extends React.Component {
                         footerButton= "Generate Bill"
                         cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
-                        cols = {['ID', 'Name', 'Price']}
+                        footerText = {`Total: ${this.totalBill()}`}
+                        cols = {['ID', 'Name', 'Price', 'Qty']}
                         data = {[{}]}
                     />
                 </div>
