@@ -3,6 +3,7 @@ import React from "react"
 
 const InputArray = (props) =>{ 
     return (
+        (props.inputs)?
         <div>
             {props.inputs.map( (e, i) => {
                 return (
@@ -14,6 +15,8 @@ const InputArray = (props) =>{
                         type={props.type}/>
                 )})}
             </div>
+    :
+        null
     )
 }
 
