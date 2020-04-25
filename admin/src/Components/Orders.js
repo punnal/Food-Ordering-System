@@ -1,83 +1,7 @@
 import React from "react"
 import {api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
-
-
-class Table extends React.Component {
-
-    constructor(props) {
-        super(props)
-        this.css = res.admin.css_classes
-    }
-
-    render() {
-        return (
-            <div>
-                <div 
-                    className={this.css.TableHeadingAndButtonDiv}
-                >
-                    <h2 
-                        className={this.css.TableHeading}>{this.props.heading}
-                    </h2> 
-                    {
-                        (this.props.headingButton)?
-                            <button 
-                                className={this.css.TableAddButton} 
-                                onClick={this.props.onAdd}
-                            > 
-                                {this.props.headingbutton} 
-                            </button>
-                            :
-                            null
-                    }
-                </div>
-                <table>
-                    <thead>
-                        <tr 
-                            className={this.css.TableColumnHeadings}
-                        >
-                            {
-                                this.props.cols.map((col,i) => <th key={i}> {col} </th>) 
-                            }
-                        </tr>
-                    </thead>
-                    <tbody 
-                        className={this.css.TableBody}
-                    >
-                        { 
-                            this.props.data.map((row,i) => {
-                                return (
-                                    <tr 
-                                        className = {this.css.TableRow} 
-                                        key={i}
-                                    >
-                                        {
-                                            this.props.cols.map(
-                                                (e,i) => <td key={i}>{row[e]}</td>
-                                            )
-                                        } 
-                                            {
-                                                (this.props.rowButton)?
-                                                    <td> <button> {this.props.rowButton} </button> </td>
-                                                    :
-                                                    null
-                                            }
-                                        </tr>
-                                )
-
-                            })}
-                        </tbody>
-                    </table>
-                    {
-                        (this.props.footerButton)?
-                            <button> {this.props.footerButton} </button>
-                            :
-                            null
-                    }
-                </div>
-        )
-    }
-}
+import Table from './Table'
 
 class Orders extends React.Component {
 
@@ -128,6 +52,7 @@ class Orders extends React.Component {
                                     heading = {table.heading}
                                     headingButton={table.headingbutton}
                                     rowButton="Delete"
+                                    cssClassName = "TableLeftButton"
                                     onRowClick={this.onRowClick}
                                     onAdd={this.onAdd}
                                     cols = {table.cols}
@@ -143,6 +68,7 @@ class Orders extends React.Component {
                     <Table 
                         heading = "Bill"
                         footerButton= "Generate Bill"
+                        cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
                         cols = {['ID', 'Name', 'Price']}
                         data = {[{}]}

@@ -6,7 +6,7 @@ function Popup(props) {
         <Modal
             {...props}
                 size="lg"
-                dialogClassName={'somethingsomething'}
+                dialogClassName={'PopUP'}
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >

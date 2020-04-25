@@ -143,7 +143,17 @@ export const res = {
             'DeliveriesButtons':'DeliveriesButtons',
             'DeliveriesContainer': 'DeliveriesContainer',
             'DeliveriesInfo': 'DeliveriesInfo',
-            'NavBarDivider': 'NavBarDivider' //div
+            'NavBarDivider': 'NavBarDivider', //div
+            'OrdersRightTable': 'OrdersRightTable',
+            'Orders': 'Orders',
+            'OrdersLeftTable': 'OrdersLeftTable',
+            'OrdersRightTable': 'OrdersRightTable', 
+            'TableHeadingAndButtonDiv': 'TableHeadingAndButtonDiv',
+            'TableHeading': 'TableHeading',
+            'TableAddButton': 'TableAddButton',
+            'TableColumnHeadings': 'TableColumnHeadings',
+            'TableBody': 'TableBody',
+            'TableRow': 'TableRow'
         }
 
     }
