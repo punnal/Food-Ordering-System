@@ -4,11 +4,13 @@ class MenuItem extends React.Component {
     constructor() {
         super()
         this.state = {
+            name: "",
             options: {},
             optionsPrices: {},
             price: 0,
             quantity: 0,
             id: 0,
+
         }
     }
     componentDidMount() {
@@ -16,6 +18,7 @@ class MenuItem extends React.Component {
             price: this.props.menuData.price,
             quantity: 1,
             id: this.props.menuData.id,
+            name: this.props.menuData.name,
 
         })
     }
@@ -61,12 +64,21 @@ class MenuItem extends React.Component {
                 console.log("Order added")
                 this.props.addOrders({...this.state,})
                 this.handleClick("hidePopup")
+                
+        this.setState({
+            price: this.props.menuData.price,
+            quantity: 1,
+            id: this.props.menuData.id,
+            name: this.props.menuData.name,
+
+        })
+
                 this.setState({
                     options: {},
                     optionsPrices: {},
-                    price: 0,
-                    quantity: 0,
-                    id: 0,
+                    price: this.props.menuData.price,
+                    quantity: 1,
+                    id: this.props.menuData.id,
                 })
             }
         }
@@ -85,6 +97,8 @@ class MenuItem extends React.Component {
                         checked={this.state.options[name] === option[0]}
                         onChange={this.handleChange}
                     /> {option[0]}
+
+                <div>{option[1]}</div>
                 </div>
             )
 
