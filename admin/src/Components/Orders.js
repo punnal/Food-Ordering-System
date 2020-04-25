@@ -10,7 +10,11 @@ class Orders extends React.Component {
         this.page = res.admin.pages[this.props.id]
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
-        this.state = {'tables':{}, 'bill':{}}
+        this.state = {'tables':{}, 'bill':[]}
+        this.onAdd = this.onAdd.bind(this)
+        this.onRowClick = this.onRowClick.bind(this)
+        this.onBillRowClick = this.onBillRowClick.bind(this)
+        this.totalBill = this.totalBill.bind(this)
     }
 
     componentDidMount() {
@@ -28,19 +32,37 @@ class Orders extends React.Component {
     }
 
     onRowClick(tableid, rowid) {
+        console.log('onclick')
+        let item = this.state.tables[tableid][rowid]
         this.setState(old => {
-
+            let newbill = [...old.bill]
+            let found = false
+            newbill.forEach((e, i) => {
+                if(e.ID === item.ID) {
+                    e.Qty += 1
+                    found = true
+                }
+            })
+            if(!found){
+                item.Qty = 1
+                newbill = [...newbill, item]
+            }
+            return {
+                ...old,
+                'bill': [...newbill]
+            }
         })
     }
 
     onBillRowClick(rowid) {
     }
 
-    onBillRowDelete(rowid){
-    }
-
     totalBill(){
-        return 100
+        let total = 0
+        this.state.bill.forEach(item => {
+            total += item.Price*item.Qty
+        })
+        return total
     }
     render() {
         return (
@@ -73,7 +95,7 @@ class Orders extends React.Component {
                         onRowClick={this.onBillRowClick}
                         footerText = {`Total: ${this.totalBill()}`}
                         cols = {['ID', 'Name', 'Price', 'Qty']}
-                        data = {[{}]}
+                        data = {this.state.bill}
                     />
                 </div>
             </div>
