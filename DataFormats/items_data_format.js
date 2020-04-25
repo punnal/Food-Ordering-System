@@ -25,19 +25,23 @@ response =
                 "description" : "juicy",
                 "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
                 "options_lists" : //will contain all options lists. keys would represent names for the optin list
-                {
-                    "Sauce":  // key representing option list name
-                    {              //value representing the options_lists themselves
-                        "Honey mustard" : 20, // key represents the option. value represents additional price
-                        "Garlic Mayo" :10
+                [
+                    {
+                        "Sauce":  // key representing option list name
+                        {              //value representing the options_lists themselves
+                            "Honey mustard" : 20, // key represents the option. value represents additional price
+                            "Garlic Mayo" :10
+                        }
                     },
 
-                    "Add-on":
                     {
-                        "Mushrooms" : 50,
-                        "Jalepnos" : 60
+                        "Add-on":
+                        {
+                            "Mushrooms" : 50,
+                            "Jalepnos" : 60
+                        }
                     }
-                },
+                ],
                 "category" : 0         
             }  
         },
@@ -52,21 +56,23 @@ response =
                 "description" : "juicy",
                 "photo_url" : "https://www.burgerfoto.com/thicfries.jpg",
                 "options_lists" : //will contain all options lists. keys would represent names for the optin list
-                {
-                    "exists" : true,
-
-                    "Type":  // key representing option list name
-                    {              //value representing the options_lists themselves
-                        "Curly" : 50, // key represents the option. value represents additional price
-                        "Onion rings" :50
+                [
+                    {
+                        "Type":  // key representing option list name
+                        {              //value representing the options_lists themselves
+                            "Curly" : 50, // key represents the option. value represents additional price
+                            "Onion rings" :50
+                        }
                     },
 
-                    "Upsize":
                     {
-                        "large" : 40,
-                        "Extra large" : 60
+                        "Upsize":
+                        {
+                            "large" : 40,
+                            "Extra large" : 60
+                        }
                     }
-                },
+                ],
                 "category" : 0         
             }  
         },
@@ -81,7 +87,10 @@ response =
                 "price" : 50,
                 "description" : "juicy",
                 "photo_url" : "https://www.burgerfoto.com/pepsi.jpg",
-                // NOTE: options_list is not present here. that is because options list is an optional field
+                "options_lists" :
+                [
+
+                ],
                 "category" : 0         
             }  
         },
