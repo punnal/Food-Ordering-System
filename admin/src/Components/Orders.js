@@ -48,6 +48,7 @@ class Orders extends React.Component {
                                     key={i}
                                     heading = {table.heading}
                                     onRowClick={this.onRowClick}
+                                    cssClassName = "TableLeftButton"
                                     cols = {table.cols}
                                     data = {this.state.tables[table.heading]}
                                 />

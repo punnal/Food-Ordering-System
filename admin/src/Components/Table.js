@@ -64,7 +64,7 @@ class Table extends React.Component {
                                             } 
                                                 {
                                                     (this.props.rowButton)?
-                                                        <td> <button onClick={() => this.props.onRowButtonClick(this.props.heading, i)}> {this.props.rowButton} </button> </td>
+                                                        <td> <a onClick={() => this.props.onRowButtonClick(this.props.heading, i)}><img className = {this.props.cssClassName} src = {require('../img/delete.png')} width = '30' height = '30'/></a> </td>
                                                         :
                                                         null
                                                 }
@@ -79,7 +79,7 @@ class Table extends React.Component {
                 </table>
                 {
                     (this.props.footerButton)?
-                        <button onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
+                        <button className = {this.props.cssClassName} onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
                         :
                         null
                 }
