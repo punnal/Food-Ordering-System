@@ -124,13 +124,13 @@ body {
   margin-top: auto;
   width: 100%;
   color: #d3d3d3;
-  height: 250px;
+  height: 325px;
   position: relative;
 }
 
 .footer .footer-content {
   border: 1px red;
-  height: 200px;
+  height: 275px;
   margin-top: auto;
   display: flex;
 }
@@ -139,6 +139,13 @@ body {
   flex: 1;
   padding: 25px;
   border: 1px solid white;
+}
+
+.footer .footer-content .links ul a {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: white;
 }
 
 .footer .footer-bottom {

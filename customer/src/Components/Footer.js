@@ -8,53 +8,65 @@ import FB from "../img/fb.png";
 import IG from "../img/insta.png";
 import TT from "../img/twitter.png";
 import LOC from "../img/location.png";
+import Lo from "../img/logo.png";
 
 const Footer = () => {
   return (
     <div className="footer">
       <div className="footer-content">
         <div className="footer-section about">
-          <h1 className="logo-text">
-            <span>Smoke&Grill</span>
+          <h1 style={{ position: "relative", bottom: "30px" }}>
+            <img src={Lo} height="90" width="90" align="middle" />
+            <span
+              style={{
+                position: "relative",
+                bottom: "-15px",
+              }}
+            >
+              Smoke&Grill
+            </span>
           </h1>
-          <p>Fast-food chain serving fried chicken & big burgers.</p>
-          <div className="contact">
-            <span>
-              <img src={Logo} height="25" width="25" />
-              &nbsp; 123-456-789 &nbsp;&nbsp;
-            </span>
-            <span>
-              <img src={Logo2} height="25" width="25" />
-              &nbsp; SMOKE&GRILL@somewhere.com
-            </span>
-          </div>
+          <p style={{ position: "relative", bottom: "30px" }}>
+            Fast-food chain serving fried chicken & big burgers.
+          </p>
+          <div className="contact"></div>
         </div>
         <div className="footer-section links">
-          <div className="social-media">
-            <span>
-              <h1>SOCIAL MEDIA</h1>
-              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-                <img src={FB} height="38" width="35" />
+          <div>
+            <h2>Quick Links</h2>
+            <ul>
+              <a href="http://localhost:3000/">
+                <li>Menu</li>
               </a>
-              &nbsp;&nbsp;
-              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-                <img src={IG} height="39" width="50" />
+              <a href="http://localhost:3000/deals">
+                <li>Deals</li>
               </a>
-              &nbsp;&nbsp;
-              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-                <img src={TT} height="40" width="45" />
+              <a href="http://localhost:3000/gallery">
+                <li>Gallery</li>
               </a>
-            </span>
+              <a href="http://localhost:3000/about">
+                <li>About Us</li>
+              </a>
+              <a href="http://localhost:3000/contact">
+                <li>Contact Us</li>
+              </a>
+            </ul>
           </div>
         </div>
         <div className="footer-section contact-form">
           <span>
-            <h3>LOCATION</h3>
+            <h3>Contact</h3>
+            <img src={Logo} height="25" width="25" />
+            &nbsp; 123-456-789 &nbsp;&nbsp;
+            <img src={Logo2} height="25" width="25" />
+            &nbsp; SMOKE&GRILL@somewhere.com
             <p>ADDRESS: MODEL TOWN</p>
-            <p>GOOGLE LOCATION:</p>
-            <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-              <img src={LOC} height="40" width="45" />
-            </a>
+            <h3>GOOGLE LOCATION</h3>
+            <span>
+              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
+                <img src={LOC} height="40" width="45" />
+              </a>
+            </span>
           </span>
         </div>
       </div>
