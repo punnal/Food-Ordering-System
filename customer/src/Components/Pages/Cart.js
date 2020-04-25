@@ -45,22 +45,26 @@ class Cart extends React.Component {
     }
 
     listOrders = (order) => {
+        console.log(order)
         return (
             <div>
                 <div>{order.name}</div>
                 <div>
-                <div onClick={ () => this.handleClick("decrease", order.id)}>◀</div>
+                <div onClick={ () => this.handleClick("decrease", order)}>◀</div>
                 <div>{order.quantity}</div>
-                <div onClick={ () => this.handleClick("increase", order.id)}>▶</div>
+                <div onClick={ () => this.handleClick("increase", order)}>▶</div>
                 </div>
                 <div>{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity}</div>
-                <div onClick={ () => this.handleClick("delete", order.id)}>&#128465;</div>
+                <div onClick={ () => this.handleClick("delete", order)}>&#128465;</div>
             </div>
 
             )
     }
 
     render() {
+        console.log("rnd")
+        console.log(this.props.orders)
+        console.log("rnddd")
         const orders = this.props.orders.map(this.listOrders)
         return(
             <div>
@@ -105,7 +109,7 @@ class Cart extends React.Component {
                                 />
                         </div>
                     </div>
-                    <div onClick={ () => this.handleClick("checkOut")}>Check Out</div>
+                    <div onClick={ () => this.handleClick("checkOut", null)}>Check Out</div>
                     
                 </div>
             </div>

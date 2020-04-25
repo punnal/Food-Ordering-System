@@ -23,22 +23,51 @@ class App extends React.Component {
 
     addOrder = (order) => {
         this.setState(prevState => {
-            return ({
-                orders: [...prevState.orders, order] 
+            let exist = false
+            let newOrders = prevState.orders.map((ord) => {
+                if(ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options)){
+                    console.log("======start ", ord.quantity)
+                    ord.quantity = ord.quantity + order.quantity
+                    console.log("======end ", ord.quantity)
+                    exist = true
+                    return ord
+                }
+                else{
+                    return ord
+                }
             })
+            if(exist){
+                return ({
+                    orders: newOrders
+                })
+            }
+            else{
+                return ({
+                    orders: [...newOrders, order]
+
+                })
+            }
         })
     }
     
-    deleteOrder = (id) => {
+    deleteOrder = (order) => {
         let newOrders = [...this.state.orders,]
-        newOrders =  newOrders.filter((ord) => ord.id === id?false:true)
+        newOrders =  newOrders.filter((ord) => ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options)?false:true)
         this.setState({orders: newOrders})
     }
     
-    changeQuantity = (id, changeBy) => {
+    changeQuantity = (order, changeBy) => {
+        console.log("start")
         let newOrders = [...this.state.orders,]
-        newOrders =  newOrders.map((ord) => ord.quantity = ord.id === id && !(ord.quantity + changeBy === 0)?ord.quantity + changeBy:ord.quantity + changeBy)
+        console.log(newOrders)
+        newOrders =  newOrders.map((ord) => {
+            const newQuantity = ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options) && !(ord.quantity + changeBy === 0)?ord.quantity + changeBy:ord.quantity
+            ord.quantity = newQuantity
+            return ord
+        })
         this.setState({orders: newOrders})
+        console.log("end")
+        console.log(this.state.orders)
     }
 
 
