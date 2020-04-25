@@ -1,13 +1,37 @@
 import React from 'react';    
 
+
+const PopupH = (props) => {
+    return (
+        <div className='PopupHeading'> 
+            {props.children}
+        </div>
+    )
+}
+
+const PopupBody = (props) => {
+    return (
+        <div className='PopupBody'>
+            {props.children}
+        </div>
+    )
+}
+
+const PopupButtons = (props) => {
+    return (
+        <div>
+            {props.children}
+        </div>
+    )
+}
+
 class Popup extends React.Component {  
   render() {  
 		return (  
             (this.props.show)?
 		<div className='popup'>  
 			<div className='popupInner'>  
-				<h1>{this.props.text}</h1>  
-				<button onClick={this.props.onClose}>Close</button>
+                {this.props.children}
 			</div>  
 		</div>  
             :
@@ -16,4 +40,9 @@ class Popup extends React.Component {
 	}  
 }  
 
-export default Popup;
+export {
+    Popup,
+    PopupBody,
+    PopupH,
+    PopupButtons
+}

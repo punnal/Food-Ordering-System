@@ -10,7 +10,7 @@ class Orders extends React.Component {
         this.page = res.admin.pages[this.props.id]
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
-        this.state = {'tables':{}}
+        this.state = {'tables':{}, 'bill':{}}
     }
 
     componentDidMount() {
@@ -28,10 +28,12 @@ class Orders extends React.Component {
     }
 
     onRowClick(tableid, rowid) {
-        //show all option lists in popup
+
     }
+
     onBillRowClick(rowid) {
     }
+
     onBillRowDelete(rowid){
     }
 

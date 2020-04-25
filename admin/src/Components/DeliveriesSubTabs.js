@@ -1,6 +1,6 @@
 import React from "react"
 import Card from './Card'
-import Popup from './Popup'
+import { Popup, PopupH, PopupBody } from './Popup'
 import { api_pull, api_push} from '../api/api.js'
 
 class DeliveriesSubTabs extends React.Component {

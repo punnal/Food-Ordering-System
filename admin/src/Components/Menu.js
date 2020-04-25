@@ -2,7 +2,7 @@ import React from "react"
 import Table from './Table'
 import { api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
-import Popup from './Popup'
+import { Popup, PopupH, PopupBody, PopupButtons } from './Popup'
 
 class Menu extends React.Component {
 
@@ -68,8 +68,13 @@ class Menu extends React.Component {
                 <Popup 
                     show={this.state.showpopup}
                     buttons={this.popup.buttons}
-                    onClose={this.onPopupClose}
-                />
+                >
+                    <PopupH>This is a popup</PopupH>
+                    <PopupBody> This is the body of the popup</PopupBody>
+                    <PopupButtons>
+                        <button onClick={this.onPopupClose}> Close </button>
+                    </PopupButtons>
+                </Popup>
                 <div className={this.css.OrdersLeftTable}>
                     {
                         this.tables.map((table, i) => 
