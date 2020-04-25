@@ -22,19 +22,42 @@ const dummydata =
 ]
 }
 `
+
+const dummytables = 
+` 
+{
+"data": 
+{
+    "Deals": 
+    [
+        {"ID":1, "Name": "Kamaal Deal", "Items":[1,2,3,4], "Image":"images", "Price":6969}
+    ],
+    "Mains":
+    [
+        {"ID":1, "Name": "Kamaal Main", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+    ],
+    "Drinks":
+    [
+        {"ID":1, "Name": "Kamaal Drink", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+    ]
+}
+}
+`
+
+app.get("/api/tables", (req, res) => {
+    console.log(req.url)
+    res.send(JSON.parse(dummytables))
+})
 app.get("/api/*", (req, res) => {
 
     console.log(req.url)
     res.send(JSON.parse(dummydata))
 })
 app.get("/*", function(req, res) {
-    console.log(req.baseUrl)
-    console.log(req.originalUrl)
-    console.log(req.route)
     res.sendFile(path.join(__dirname, "build", "index.html"));
 });
-app.post('/api/*', (req, res) => {
-    console.log('POST', req.body)
+app.post("/api/*", (req, res) => {
+    console.log("POST", req.body)
 })
 
 

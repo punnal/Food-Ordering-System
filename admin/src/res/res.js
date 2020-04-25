@@ -69,7 +69,11 @@ export const res = {
                         },
                         {
                             'heading':'Mains',
-                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Drinks',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         }
                     ]
                 }
@@ -78,7 +82,22 @@ export const res = {
                 'id': 3,
                 'title':'Menu',
                 'component':Menu,
-                'path':'/menu'
+                'path':'/menu',
+                'tables': 
+                [
+                        {
+                            'heading':'Deals',
+                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
+                        },
+                        {
+                            'heading':'Mains',
+                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Drinks',
+                            'cols':['ID', 'Name', 'Descriptioin', 'Image', 'Option Lists', 'Price']
+                        }
+                    ]
             },
             {
                 'id': 4,
