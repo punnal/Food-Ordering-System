@@ -55,7 +55,8 @@ class App extends React.Component {
         console.log(this.state.orders)
         return exist
     }
-
+    
+    resetOrders = (callback) => this.setState({orders:[]}, callback)
 
     render(){
 
@@ -63,7 +64,7 @@ class App extends React.Component {
             <div className="App">
                 <Router>
                     <NavigationBar loggedIn={this.state.loggedIn} navBarData={this.state.navBar}/>
-                    <MainContents orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity}/>
+                    <MainContents orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
                     <Footer />
                 </Router>
             </div>
