@@ -28,7 +28,7 @@ class History extends React.Component {
 
     render() {
         return (
-            <>
+            <div className = "History">
                 {
                     this.state.data.map((e, i) =>{
                         return (
@@ -40,7 +40,7 @@ class History extends React.Component {
                                 onClick={this.clickHandler}/>
                         )})
                 }
-            </>
+            </div>
         )
     }
 }
