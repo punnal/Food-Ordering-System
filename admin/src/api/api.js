@@ -1,4 +1,4 @@
-const parser = (data) => {
+const parser = (data, url) => {
     return data
 }
 
@@ -6,7 +6,7 @@ const api_pull = (url, callback) => {
         fetch(url)
             .then(response => response.json())
             .then(json => {
-                callback(parser(json.data))
+                callback(parser(json.data, url))
             })
 }
 
