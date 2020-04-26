@@ -1,23 +1,14 @@
-import React from 'react'
-
+import React from "react";
 
 class ContactUs extends React.Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-    constructor() {
-        super()
-        this.state = {
-            
-        }
-    }
-
-    render() {
-        return(
-            <div>
-                This is a template.
-            </div>
-        )
-    }
-
+  render() {
+    return <div>This is a template.</div>;
+  }
 }
 
-export default ContactUs
+export default ContactUs;

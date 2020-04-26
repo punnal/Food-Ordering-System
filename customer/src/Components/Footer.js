@@ -61,12 +61,6 @@ const Footer = () => {
             <img src={Logo2} height="25" width="25" />
             &nbsp; SMOKE&GRILL@somewhere.com
             <p>ADDRESS: MODEL TOWN</p>
-            <h3>GOOGLE LOCATION</h3>
-            <span>
-              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-                <img src={LOC} height="40" width="45" />
-              </a>
-            </span>
           </span>
         </div>
       </div>

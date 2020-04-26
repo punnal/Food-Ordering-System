@@ -161,6 +161,12 @@ body {
   padding-top: 20px;
 }
 
+.aboutus {
+  background-image: url(https://images.pexels.com/photos/616404/pexels-photo-616404.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500);
+  width: 500px;
+  height: 500px;
+}
+
 @media only screen and (max-width: 750px) {
   html,
   body {
