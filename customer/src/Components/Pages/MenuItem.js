@@ -113,7 +113,7 @@ class MenuItem extends React.Component {
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">
-                            <img src = {require('../../img/close.png')} className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}} />
+                            <img src = {require('../../img/close2.png')} className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}} />
                             <div className = "PopupOptions">
                                 <div> {option_lists} </div>
                             </div>

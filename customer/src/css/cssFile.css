@@ -23,6 +23,11 @@ body {
 
 /*==============================================================================================================================*/
 /*NAVBAR CSS*/
+
+.MobileIcon {
+  display: none;
+}
+
 .NavBar {
   background-color: rgba(255, 255, 255, 0);
   height: 50px;
@@ -103,7 +108,6 @@ body {
 
 .MainContents {
   position: relative;
-  min-height: 100vh;
   height: 100%;
   top: 100px;
   padding-bottom: 100px;
@@ -151,40 +155,30 @@ body {
 }
 
 .MenuItemName {
-  background-color: rgba(0, 0, 0, 0.9);
-  width: 80%;
-  height: 50px;
-  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 20px;
-  border-bottom: 1px solid white;
 }
 
 .MenuItemDescription {
-  background-color: rgba(0, 0, 0, 0.9);
-  width: 80%;
-  height: 50px;
-  font-size: 30px;
-  text-transform: uppercase;
-  font-weight: 500;
-  border-bottom: 1px solid white;
+  background-color: rgba(0, 0, 0, 0);
+  height: 25px;
+  font-size: 15px;
+  font-weight: 400;
 }
 
 .MenuItemPrice {
-  background-color: rgba(0, 0, 0, 0.9);
-  width: 80%;
-  height: 50px;
-  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .MenuItemAddToCart {
   background-color: rgba(0, 0, 0, 0.9);
-  width: 50%;
-  height: 50px;
-  font-size: 30px;
+  font-size: 20px;
   text-transform: uppercase;
   font-weight: 500;
   margin-top: 20px;
@@ -196,6 +190,7 @@ body {
   text-shadow: none;
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   cursor: pointer;
+  padding: 5px;
 }
 
 .MenuItemAddToCart:hover {
@@ -207,9 +202,9 @@ body {
 }
 
 .MenuItem > img {
-  height: 350px;
-  width: 350px;
-  border-radius: 50%;
+  max-height: 350px;
+  max-width: 350px;
+  border-radius: 10%;
   padding: 0;
 }
 
@@ -315,7 +310,7 @@ body {
 .PopupQuantity {
   display: flex;
   justify-content: center;
-  margin-left: 10px;
+  margin: auto;
   z-index: 1;
 }
 .PopupQuantity > div {
@@ -325,13 +320,12 @@ body {
 }
 
 .PopupAddToCart {
-  height: 50px;
-  width: 30%;
-  font-size: 25px;
+  font-size: 15px;
+  width: 15%;
   text-transform: uppercase;
   font-weight: 500;
   margin-top: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
   border: 0 solid;
@@ -342,6 +336,7 @@ body {
   text-shadow: none;
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   cursor: pointer;
+  padding: 5px;
   z-index: 1;
 }
 
@@ -412,6 +407,7 @@ body {
     background-repeat: no-repeat;
     background-color: black;
     display: flex;
+    background-attachment: fixed;
   }
 
   #root {
@@ -424,67 +420,88 @@ body {
     height: 100%;
   }
 
-  .Header {
-    width: 100%;
-    height: 48px;
-    background-color: rgba(0, 0, 0, 0.2);
-    color: white;
-    font-size: 17px;
-    text-decoration: underline;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .MobileIcon {
+    display: block;
+    margin-top: 15px;
+    margin-left: 10px;
+    float: left;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1;
   }
 
   .NavBar {
-    background-color: rgba(255, 255, 255, 0);
-    position: relative;
-    margin: auto;
-    color: white;
-    font-size: 10px;
-    justify-content: flex-start;
-    width: 20%;
-    z-index: 1;
-    text-shadow: 1px 1px black;
-    overflow: auto;
-    height: 110px;
-  }
-
-  .NavBar > a {
-    text-decoration: none;
-    color: white;
-  }
-
-  .NavBarElement {
-    z-index: 1;
-  }
-
-  .NavBarElement:hover {
-    text-decoration: underline;
-  }
-
-  .NavBarDivider {
-    margin-left: 15px;
-    border-left: 2px solid white;
-    height: 42px;
     display: none;
-    z-index: 1;
   }
 
-  .NavBarDropdown {
-    margin-left: 15px;
-    margin-right: 15px;
-    display: none;
-    z-index: 1;
-  }
+.mobileNav {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1s;  
+}
 
-  .NavBarDropdown > img {
-    margin-left: 10px;
-  }
+.mobileNavClose {
+  position: relative;
+  margin-right: 300px;
+  margin-top: 10px;
+}
+
+.mobileNav .NavBarDivider {
+  display: none;
+}
+
+.NavBarElement > a {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 20px;
+  margin-top: 20px; 
+  color: white;
+  border-bottom: 1px solid white;
+}
+
+.NavBarElement {
+  margin: auto;
+  z-index: 1;
+}
+
+.NavBarElement:hover {
+  text-decoration: underline;
+}
+
+.ClosePopup {
+  margin-left: 220px;
+  width: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.popupInner {  
+  position: absolute;
+  width: 100%;   
+  top: 25%;    
+  left: 8%;
+  margin: auto;  
+  border-radius: 20px;  
+  background: black;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1.5s;  
+  z-index: 1;
+}
 
   .Logo {
-    position: absolute;
-    display: none;
+    display: block;
     z-index: 1;
   }
 }
