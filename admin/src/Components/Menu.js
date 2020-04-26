@@ -47,13 +47,15 @@ class Menu extends React.Component {
         this.setState(old => {
             let newstate = {...old}
             newstate.pshow[id] = true
+            return newstate
         })
     }
 
     onPopupClose(id){
         this.setState(old => {
             let newstate = {...old}
-            newstate.pshow[id].show = false
+            newstate.pshow[id] = false
+            return newstate
         })
     }
 
@@ -74,6 +76,7 @@ class Menu extends React.Component {
     render() {
         return (
             <div className = 'Menu'>
+
                 <Popup 
                     show={this.state.pshow.delete}
                 >
@@ -83,6 +86,7 @@ class Menu extends React.Component {
                         <button onClick={()=>this.onPopupClose('delete')}> Close </button>
                     </PopupButtons>
                 </Popup>
+
                 <Popup 
                     show={this.state.pshow.add}
                 >
@@ -92,6 +96,7 @@ class Menu extends React.Component {
                         <button onClick={()=>this.onPopupClose('add')}> Close </button>
                     </PopupButtons>
                 </Popup>
+
                 <div className={this.css.OrdersLeftTable}>
                     {
                         this.tables.map((table, i) => 
