@@ -83,18 +83,19 @@ export const res = {
                 'title':'Menu',
                 'component':Menu,
                 'path':'/menu',
+                'api':'/api/menu',
                 'tables': 
                 [
-                        {
-                            'heading':'Deals',
-                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
-                        },
                         {
                             'heading':'Mains',
                             'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         },
                         {
                             'heading':'Drinks',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Extras',
                             'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         }
                     ]
@@ -172,7 +173,6 @@ export const res = {
             'OrdersRightTable': 'OrdersRightTable',
             'Orders': 'Orders',
             'OrdersLeftTable': 'OrdersLeftTable',
-            'OrdersRightTable': 'OrdersRightTable', 
             'TableHeadingAndButtonDiv': 'TableHeadingAndButtonDiv',
             'TableHeading': 'TableHeading',
             'TableAddButton': 'TableAddButton',

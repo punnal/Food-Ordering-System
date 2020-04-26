@@ -8,6 +8,7 @@ const dummydata =
 {
 "data":
 [
+                
             {"orderid": 1, "Name": "Ahmad Humayun", "Address":"203-C Askari 11", "Order":"something", "status":"Pending"},
             {"orderid": 2, "Name": "something", "Address":"203-C Askari 11", "Order":"something", "status":"Pending"},
             {"orderid": 3, "Name": "Punnal", "Address":"203-C Askari 11", "Order":"something", "status":"Pending"},
@@ -30,20 +31,21 @@ const dummytables =
 {
     "Deals": 
     [
-        {"ID":1, "Name": "Kamaal Deal", "Items":[1,2,3,4], "Image":"images", "Price":6969}
+        {"photo_url" : "https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg","id":1, "name": "Kamaal Deal", "items":[1,2,3,4], "image":"images", "price":6969}
     ],
     "Mains":
     [
-        {"ID":2, "Name": "Kamaal Main", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+        {"photo_url" : "https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg","id":2, "name": "Kamaal Main", "items":[1,2,3,4], "image":"images", "price":6969, "description":"WOWOWOOWOWOWOWOWO"}
     ],
     "Drinks":
     [
-        {"ID":3, "Name": "Kamaal Drink", "Items":[1,2,3,4], "Image":"images", "Price":6969, "Description":"WOWOWOOWOWOWOWOWO"}
+        {"photo_url" : "https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg","id":3, "name": "Kamaal Drink", "items":[1,2,3,4], "image":"images", "price":6969, "description":"WOWOWOOWOWOWOWOWO"}
     ]
 }
 }
 `
 var dummy_menu = 
+`
 {
     "data" :
     {
@@ -56,13 +58,13 @@ var dummy_menu =
                 "name" : "big burger",
                 "price" : 999,
                 "description" : "juicy",
-                "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
-                "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                "photo_url" : "https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg",
+                "options_lists" : 
                 [
                     {
-                        "Sauce":  // key representing option list name
-                        {              //value representing the options_lists themselves
-                            "Honey mustard" : 20, // key represents the option. value represents additional price
+                        "Sauce": 
+                        {             
+                            "Honey mustard" : 20,
                             "Garlic Mayo" :10
                         }
                     },
@@ -84,7 +86,7 @@ var dummy_menu =
                 "name" : "very very chicken",
                 "price" : 700,
                 "description" : "juicy juicy burger",
-                "photo_url" : "https://www.burgerfoto.com/beefyburger.jpg",
+                "photo_url" :"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg",
                 "options_lists" : 
                 [
                     {
@@ -106,13 +108,13 @@ var dummy_menu =
                 "name" : "fries",
                 "price" : 50,
                 "description" : "juicy",
-                "photo_url" : "https://www.burgerfoto.com/thicfries.jpg",
-                "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                "photo_url" :"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg",
+                "options_lists" :
                 [
                     {
-                        "Type":  // key representing option list name
-                        {              //value representing the options_lists themselves
-                            "Curly" : 50, // key represents the option. value represents additional price
+                        "Type": 
+                        {             
+                            "Curly" : 50,
                             "Onion rings" :50
                         }
                     },
@@ -132,13 +134,13 @@ var dummy_menu =
         "Drinks" :
         {
             
-            "44" : 
+            "49" : 
             {
                 "id" : 44,
                 "name" : "Pepsi",
                 "price" : 50,
                 "description" : "juicy",
-                "photo_url" : "https://www.burgerfoto.com/pepsi.jpg",
+                "photo_url" :"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg",
                 "options_lists" :
                 [
 
@@ -148,7 +150,7 @@ var dummy_menu =
         }
     }
 }
-
+`
 
 
 app.get("/api/tables", (req, res) => {

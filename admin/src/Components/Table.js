@@ -56,7 +56,13 @@ class Table extends React.Component {
                                                         return (
                                                             <td 
                                                                 onClick={() => this.props.onRowClick(this.props.heading, i)}
-                                                                key={c}>{row[e]}
+                                                                key={c}>
+                                                                {
+                                                                    (e.toLowerCase() !== 'image')?
+                                                                        JSON.stringify(row[e.toLowerCase()])
+                                                                    :
+                                                                        <img width="30" height="30" alt="" src={row['photo_url']}/>
+                                                                }
                                                             </td>
                                                         )
                                                     }

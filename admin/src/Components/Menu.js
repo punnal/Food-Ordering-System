@@ -9,56 +9,65 @@ class Menu extends React.Component {
     constructor(props){
         super(props)
         this.css = res.admin.css_classes
-        this.state = {showpopup:false, tables:{}}
+        this.api = res.admin.pages[this.props.id].api
         this.tables = res.admin.pages[this.props.id].tables
-        this.popup = {}
         this.showPopup = this.showPopup.bind(this)
         this.onPopupClose = this.onPopupClose.bind(this)
         this.onAdd = this.onAdd.bind(this)
         this.onDelete = this.onDelete.bind(this)
         this.onRowClick = this.onRowClick.bind(this)
+        this.parse_data = this.parse_data.bind(this)
+        this.state = {'tables':{}, 'pshow':{
+            'add':false,
+            'delete':false
+        }}
 
     }
 
+    parse_data(data) {
+        Object.keys(data).forEach(e => {
+            data[e] = Object.values(data[e])
+        })
+
+        return data
+    }
+
     componentDidMount() {
-        api_pull('/api/tables', d => {
+        api_pull(this.api, d => {
             this.setState(old => {
                 return {
                     ...old, 
-                    'tables': d
+                    'tables': this.parse_data(d)
                 }
             })
         })
     }
 
-    showPopup() {
+    showPopup(id) {
         this.setState(old => {
-            return {
-                ...old,
-                showpopup:true
-            }
+            let newstate = {...old}
+            newstate.pshow[id] = true
         })
     }
 
-    onPopupClose(){
+    onPopupClose(id){
         this.setState(old => {
-            return {
-                ...old,
-                showpopup:false
-            }
+            let newstate = {...old}
+            newstate.pshow[id].show = false
         })
     }
 
     onDelete(tableid, rowid) {
-        this.showPopup()
+        this.showPopup('delete')
         console.log(`Deleting ${rowid} from ${tableid}`)
     }
 
     onAdd(tableid) {
-        this.showPopup()
+        this.showPopup('add')
     }
 
     onRowClick(tableid, rowid){
+        this.showPopup('add')
         console.log(`row ${rowid} click of table ${tableid}`)
     }
 
@@ -66,13 +75,21 @@ class Menu extends React.Component {
         return (
             <div className = 'Menu'>
                 <Popup 
-                    show={this.state.showpopup}
-                    buttons={this.popup.buttons}
+                    show={this.state.pshow.delete}
                 >
-                    <PopupH>This is a popup</PopupH>
-                    <PopupBody> This is the body of the popup</PopupBody>
+                    <PopupH>Delete Item</PopupH>
+                    <PopupBody>Are you sure you want to Delete? </PopupBody>
                     <PopupButtons>
-                        <button onClick={this.onPopupClose}> Close </button>
+                        <button onClick={()=>this.onPopupClose('delete')}> Close </button>
+                    </PopupButtons>
+                </Popup>
+                <Popup 
+                    show={this.state.pshow.add}
+                >
+                    <PopupH>Add an item</PopupH>
+                    <PopupBody> Name, Image, something something</PopupBody>
+                    <PopupButtons>
+                        <button onClick={()=>this.onPopupClose('add')}> Close </button>
                     </PopupButtons>
                 </Popup>
                 <div className={this.css.OrdersLeftTable}>

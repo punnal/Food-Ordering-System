@@ -2,6 +2,7 @@ import React from "react"
 import {api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
 import Table from './Table'
+import { Popup, PopupH, PopupBody, PopupButtons} from './Popup'
 
 class Orders extends React.Component {
 
@@ -10,15 +11,19 @@ class Orders extends React.Component {
         this.page = res.admin.pages[this.props.id]
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
-        this.state = {'tables':{}, 'bill':[]}
+        this.state = {'tables':{}, 'bill':[], 'showpopup':false}
         this.onAdd = this.onAdd.bind(this)
         this.onRowClick = this.onRowClick.bind(this)
         this.onBillRowClick = this.onBillRowClick.bind(this)
         this.totalBill = this.totalBill.bind(this)
+        this.onGenerateBill = this.onGenerateBill.bind(this)
+        this.onPopupClose = this.onPopupClose.bind(this)
+        this.showPopup = this.showPopup.bind(this)
     }
 
     componentDidMount() {
         api_pull('/api/tables', d => {
+            console.log(d)
             this.setState(old => {
                 return {
                     ...old, 
@@ -38,13 +43,13 @@ class Orders extends React.Component {
             let newbill = [...old.bill]
             let found = false
             newbill.forEach((e, i) => {
-                if(e.ID === item.ID) {
-                    e.Qty += 1
+                if(e.id === item.id) {
+                    e.qty += 1
                     found = true
                 }
             })
             if(!found){
-                item.Qty = 1
+                item.qty = 1
                 newbill = [...newbill, item]
             }
             return {
@@ -54,15 +59,38 @@ class Orders extends React.Component {
         })
     }
 
-    onBillRowClick(rowid) {
+    onBillRowClick(table, rowid) {
+        console.log(rowid)
+        this.setState(old => {
+            let newbill = [...old.bill]
+            newbill[rowid].qty -= 1
+            if(newbill[rowid].qty === 0)
+                newbill = newbill.filter( e => e.id !== newbill[rowid].id)
+            let newstate = {
+                ...old,
+                'bill': [...newbill]
+            }
+            return newstate
+        })
     }
 
     totalBill(){
         let total = 0
         this.state.bill.forEach(item => {
-            total += item.Price*item.Qty
+            total += item.price*item.qty
         })
         return total
+    }
+
+    onPopupClose() {
+        this.setState(old => {return {...old, showpopup:false}})
+    }
+
+    showPopup(){
+        this.setState(old => {return {...old, showpopup:true}})
+    }
+    onGenerateBill(){
+        this.showPopup()
     }
     render() {
         return (
@@ -90,14 +118,22 @@ class Orders extends React.Component {
                 >
                     <Table 
                         heading = "Bill"
+                        footerText = {`Total: ${this.totalBill()}`}
                         footerButton= "Generate Bill"
+                        onFooterButtonClick={this.onGenerateBill}
                         cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
-                        footerText = {`Total: ${this.totalBill()}`}
                         cols = {['ID', 'Name', 'Price', 'Qty']}
                         data = {this.state.bill}
                     />
                 </div>
+                <Popup
+                    show={this.state.showpopup}
+                >
+                    <PopupButtons>
+                        <button onClick={this.onPopupClose}> Close </button> 
+                    </PopupButtons>
+                </Popup>
             </div>
         )
     }
