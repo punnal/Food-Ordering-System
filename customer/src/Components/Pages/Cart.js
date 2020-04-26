@@ -14,20 +14,29 @@ class Cart extends React.Component {
         }
     }
 
+    componentDidMount() {
+        //Initilize values here
+        this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
+    }
 
-    handleClick = (type, id) => {
+    calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity, init)
+
+    handleClick = (type, order) => {
         
         if(type === "increase"){
-            this.props.changeQuantity(id, 1)
+            this.props.changeQuantity(order, 1, () => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
+            this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
         } 
         else if(type === "decrease"){
-            this.props.changeQuantity(id, -1)
+            this.props.changeQuantity(order, -1, () => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
+            this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
         } 
         else if(type === "delete"){
-            this.props.deleteOrder(id)
+            this.props.deleteOrder(order, () => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
+            this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
         } 
         else if(type === "checkOut"){
-            if(this.props.orders.length === 0){
+            if(this.props.orders.length === 0 || this.state.phone === "" || this.state.address === "" || (this.state.totalPrice - this.state.delivery) < this.state.minOrder){
                 return
             }
             console.log({
@@ -39,7 +48,7 @@ class Cart extends React.Component {
         } 
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         const {name, value} = event.target
         this.setState({ [name]: value })
     }
@@ -62,9 +71,6 @@ class Cart extends React.Component {
     }
 
     render() {
-        console.log("rnd")
-        console.log(this.props.orders)
-        console.log("rnddd")
         const orders = this.props.orders.map(this.listOrders)
         return(
             <div>

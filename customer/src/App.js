@@ -21,29 +21,27 @@ class App extends React.Component {
         }
     }
 
-    addOrder = (order) => {
-        if(!this.changeQuantity(order, order.quantity)){
+    addOrder = (order, callback) => {
+        if(!this.changeQuantity(order, order.quantity, callback)){
             this.setState(prevState => {
                 return ({
                     orders: [...prevState.orders, order]
 
                 })
             
-            })
+            }, callback)
         }
     }
     
-    deleteOrder = (order) => {
+    deleteOrder = (order, callback) => {
         let newOrders = [...this.state.orders,]
         newOrders =  newOrders.filter((ord) => ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options)?false:true)
-        this.setState({orders: newOrders})
+        this.setState({orders: newOrders}, callback)
     }
     
-    changeQuantity = (order, changeBy) => {
-        console.log("start")
+    changeQuantity = (order, changeBy, callback) => {
         let newOrders = [...this.state.orders,]
         let exist = false
-        console.log(newOrders)
         newOrders =  newOrders.map((ord) => {
             const newQuantity = ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options) && !(ord.quantity + changeBy === 0)?ord.quantity + changeBy:ord.quantity
             exist = exist || ord.quantity === newQuantity? false:true
@@ -51,7 +49,7 @@ class App extends React.Component {
             return ord
         })
         if(exist){
-            this.setState({orders: newOrders})
+            this.setState({orders: newOrders}, callback)
         }
         console.log("end")
         console.log(this.state.orders)
