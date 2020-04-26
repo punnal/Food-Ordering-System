@@ -35,13 +35,19 @@ class Menu extends React.Component {
         const drinksMenuItems = this.state.drinksMenuItems.map(this.createMenu)
         
         return(
-            <div>
-                <div>Main</div>
-                {mainMenuItems}
-                <div>Extras</div>
-                {extrasMenuItems}
-                <div>Drinks</div>
-                {drinksMenuItems}
+            <div className = "MenuContainer">
+                <div className = "MainTitle">Main</div>
+                <div className = "MainContainer">
+                    {mainMenuItems}
+                </div>
+                <div className = "Extras">Extras</div>
+                <div className = "ExtrasContainer">
+                    {extrasMenuItems}
+                </div>    
+                <div className = "Drinks">Drinks</div>
+                <div className = "DrinksContainer">
+                    {drinksMenuItems}
+                </div>
             </div>
         )
     }
