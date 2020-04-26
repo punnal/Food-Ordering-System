@@ -45,6 +45,7 @@ class Cart extends React.Component {
                 address: this.state.address,
                 phone: this.state.phone,
             })
+            this.props.resetOrders(() => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
         } 
     }
 

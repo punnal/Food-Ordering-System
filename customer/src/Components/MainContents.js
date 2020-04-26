@@ -76,7 +76,7 @@ const MainContents = (props) => {
                     <SignUp />
                 </Route>
                 <Route path="/cart">
-                    <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity}/>
+                    <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
                 </Route>
                 <Route path="/orders">
                     <Orders />
