@@ -29,7 +29,8 @@ app.post("/api/orders", order_defs.post_handler)
 /// Make edits Here 
 
 app.get("/*", function(req, res) {
-    res.sendFile("index.html", {root : "../admin/build"});
+    res.send("Hello!")
+    //res.sendFile("index.html", {root : "../admin/build"});
 });
 
 const port = process.env.PORT | 3000;
