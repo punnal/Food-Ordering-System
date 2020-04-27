@@ -1,6 +1,16 @@
 import React from "react";
 import Classes from "../Resource/className";
 import "../css/cssFile.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Menu from "./Pages/Menu";
+import Deals from "./Pages/Deals";
+import Gallery from "./Pages/Gallery";
+import AboutUs from "./Pages/AboutUs";
+import ContactUs from "./Pages/ContactUs";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import Cart from "./Pages/Cart";
+import Orders from "./Pages/Orders";
 
 import Logo from "../img/phone123.png";
 import Logo2 from "../img/email.png";
@@ -35,21 +45,11 @@ const Footer = () => {
           <div>
             <h2>Quick Links</h2>
             <ul>
-              <a href="http://localhost:3000/">
-                <li>Menu</li>
-              </a>
-              <a href="http://localhost:3000/deals">
-                <li>Deals</li>
-              </a>
-              <a href="http://localhost:3000/gallery">
-                <li>Gallery</li>
-              </a>
-              <a href="http://localhost:3000/about">
-                <li>About Us</li>
-              </a>
-              <a href="http://localhost:3000/contact">
-                <li>Contact Us</li>
-              </a>
+              <Link to="/">Menu</Link>
+              <Link to="/deals">Deals</Link>
+              <Link to="/gallery">Gallery</Link>
+              <Link to="/about">About us</Link>
+              <Link to="/contact">Contact us</Link>
             </ul>
           </div>
         </div>
@@ -61,12 +61,6 @@ const Footer = () => {
             <img src={Logo2} height="25" width="25" />
             &nbsp; SMOKE&GRILL@somewhere.com
             <p>ADDRESS: MODEL TOWN</p>
-            <h3>GOOGLE LOCATION</h3>
-            <span>
-              <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore">
-                <img src={LOC} height="40" width="45" />
-              </a>
-            </span>
           </span>
         </div>
       </div>

@@ -252,6 +252,8 @@ export default class Contact extends React.Component {
                     className="cta-form__textarea"
                     id="message"
                     style={{
+                      width: "400px",
+                      borderRadius: "8px",
                       margin: `${
                         this.state.messageError.length > 0 ? "0" : ""
                       }`,
