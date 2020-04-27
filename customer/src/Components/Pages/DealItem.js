@@ -1,41 +1,54 @@
 import React from "react"
 
-class MenuItem extends React.Component {
+class DealItem extends React.Component {
     constructor() {
         super()
         this.state = {
             name: "",
-            options: {},
-            optionsPrices: {},
+            items: [],
             price: 0,
             quantity: 0,
             id: 0,
             showPopup: false,
+            init: 0,
         }
     }
     componentDidMount() {
-        this.setState({
-            price: this.props.menuData.price,
-            quantity: 1,
-            id: this.props.menuData.id,
-            name: this.props.menuData.name,
 
+        const items = this.props.dealData.items.map((item) => {
+            return ({
+                name:item.name, 
+                id:item.id, 
+                options:{}, 
+                optionsPrices:{}
+            })
+        })
+
+        this.setState({
+            price: this.props.dealData.price,
+            quantity: 1,
+            init:1,
+            id: this.props.dealData.id,
+            name: this.props.dealData.name,
+            items: items 
         })
     }
    
-    handleChange = (event) => {
+    handleChange = (event, iter) => {
         const {name, value, type} = event.target
-        this.setState(prevState => { 
-            return({
-                options: {
-                    ...prevState.options,
-                    [name]: value
-                },
-                optionsPrices: {
-                    ...prevState.optionsPrices,
-                    [name]: this.props.menuData.options_lists[name][value]
-                },
-            })
+        console.log(this.props.dealData)
+        this.setState(prevState => {
+            let newState = {...prevState,}
+            newState.items[iter].options = {
+                ...newState.items[iter].options,
+                [name]: value
+            }
+            newState.items[iter].optionsPrices = {
+                ...newState.items[iter].options,
+                [name]: this.props.dealData.items[iter].options_lists[name][value]
+            } 
+            
+            return(newState)
         })
     }
     
@@ -66,26 +79,27 @@ class MenuItem extends React.Component {
             })
         }
         else if(type === "addToCart"){
-            if(Object.keys(this.state.options).length === Object.keys(this.props.menuData.options_lists).length){
+            if(Object.keys(this.state.options).length === Object.keys(this.props.dealData.options_lists).length){
                 console.log("Order added")
                 this.props.addOrders({...this.state,})
                 this.handleClick("hidePopup")
                 this.setState({
                     options: {},
                     optionsPrices: {},
-                    price: this.props.menuData.price,
+                    price: this.props.dealData.price,
                     quantity: 1,
-                    id: this.props.menuData.id,
+                    id: this.props.dealData.id,
                 })
             }
         }
 
     } 
 
-    createRadioButtons = (name, options) => {
-        console.log("==>" , this.state)
-        console.log("==>>" , this.state.options[name])
+    createRadioButtons = (name, options, iter) => {
         return options.map((option) => {
+            if(this.state.init){
+                console.log(this.state.items[iter].options[name], "===", option[0])
+            }
             const val = option[0]
             return (
                 <div>
@@ -93,8 +107,8 @@ class MenuItem extends React.Component {
                         type="radio" 
                         name={name}
                         value={val}
-                        checked={this.state.options[name] === option[0]}
-                        onChange={this.handleChange}
+                        checked={this.state.init && (this.state.items[iter].options[name] === option[0])}
+                        onChange={(event) => this.handleChange(event, iter)}
                     /> {option[0]}
 
                 <div>{option[1]}</div>
@@ -106,17 +120,23 @@ class MenuItem extends React.Component {
     }
 
     render() {
-        console.log("renderStart", this.props)
-        const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>)
-        console.log("map end", option_lists)
+        const option_lists = this.props.dealData.items.map((item, iter) => 
+            <div>
+                <div>{item.name}</div>{ 
+                    Object.entries(item.options_lists).map((options) => 
+                        <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]), iter)}</div>
+                    )
+                }
+            </div>
+        )
 
         return (
-            <div className = "MenuItem">
-                <img src={this.props.menuData.photo_url} height = '200' weight = '200'></img>
-                <div className = "MenuItemName">{this.props.menuData.name}</div>
-                <div className = "MenuItemDescription">{this.props.menuData.description}</div>
-                <div className = "MenuItemPrice">{this.props.menuData.price} PKR</div>
-                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+            <div className = "DealItem">
+                <img src={this.props.dealData.photo_url} height = '200' weight = '200'></img>
+                <div className = "DealItemName">{this.props.dealData.name}</div>
+                <div className = "DealItemDescription">{this.props.dealData.description}</div>
+                <div className = "DealItemPrice">{this.props.dealData.price} PKR</div>
+                <div className = "DealItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">
@@ -140,4 +160,4 @@ class MenuItem extends React.Component {
 
 }
 
-export default MenuItem
+export default DealItem

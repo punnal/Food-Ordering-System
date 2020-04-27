@@ -19,7 +19,7 @@ class Cart extends React.Component {
         this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
     }
 
-    calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity, init)
+    calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity, init)
 
     handleClick = (type, order) => {
         
@@ -65,7 +65,7 @@ class Cart extends React.Component {
                         <div>{order.quantity}</div>
                         <div className = "CartIncrease" onClick={ () => this.handleClick("increase", order)}>▶</div>
                         </div>
-                        <div className = "CartPrice">{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity}</div>
+                        <div className = "CartPrice">{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity}</div>
                         <div className = "CartDelete" onClick={ () => this.handleClick("delete", order)}>&#128465;</div>
                     </div>
                     <div className = "CartOrderItemOutter"></div>
