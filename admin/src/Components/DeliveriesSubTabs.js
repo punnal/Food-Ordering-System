@@ -20,8 +20,6 @@ function parse_items(obj){ //either deal or order
         return obj 
     }
 
-    obj["items"] = Object.values(obj["items"])
-
     obj["items"].forEach(item => {
         parse_option_list(item)
     })
