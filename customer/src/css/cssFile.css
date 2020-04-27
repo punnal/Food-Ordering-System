@@ -3,12 +3,12 @@ body {
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  background-image: url(../img/back.jpg);
+  background-image: url(../img/back3.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
   background-color: black;
-  display: flex;
-  flex-direction: column;
+  background-attachment: fixed;
+  scroll-behavior: smooth;
   margin: 0;
 }
 
@@ -22,24 +22,19 @@ body {
   height: 100%;
 }
 
-/*.Header {
-	width: 100%;
-	height: 48px;
-	background-color: rgba(0, 0, 0, 0.2);
-	text-align: center;
-	color: white;
-	font-size: 34px;
-	text-decoration: underline;
-	-webkit-animation-name: zoomIn;
-  	animation-name: zoomIn;
-  	animation-duration: 2s;
-}*/
+/*==============================================================================================================================*/
+/*NAVBAR CSS*/
+
+.MobileIcon {
+  display: none;
+}
 
 .NavBar {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0);
+  top: 0;
   height: 50px;
   color: white;
-  font-size: 20px;
+  font-size: 15px;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -52,12 +47,13 @@ body {
   overflow: hidden;
   -webkit-animation-name: bounceInLeft;
   animation-name: bounceInLeft;
-  animation-duration: 5s;
+  animation-duration: 2s;
 }
 
 .NavBarElement > a {
   text-decoration: none;
   color: white;
+  letter-spacing: 0;
 }
 
 .NavBarElement {
@@ -65,8 +61,34 @@ body {
   z-index: 1;
 }
 
-.NavBarElement:hover {
-  text-decoration: underline;
+.NavBarElement > a:hover, .NavBarElement > a:active {
+  letter-spacing: 5px;
+}
+
+.NavBarElement > a:after, .NavBarElement > a:before {
+  backface-visibility: hidden;
+  border: 1px solid rgba(255, 255, 255, 0);
+  bottom: 0px;
+  content: " ";
+  display: block;
+  margin: 0 auto;
+  position: relative;
+  transition: all 280ms ease-in-out;
+  width: 0;
+}
+
+.NavBarElement > a:hover:after,
+.NavBarElement > a:hover:before {
+  backface-visibility: hidden;
+  border-color: #fff;
+  transition: width 350ms ease-in-out;
+  width: 100%;
+}
+
+.NavBarElement > a:hover:before {
+  bottom: auto;
+  top: 0;
+  width: 100%;
 }
 
 .NavBarDivider {
@@ -84,6 +106,11 @@ body {
   margin-right: 15px;
   margin-left: 15px;
   margin-top: 10px;
+  transition: all 350ms ease-in-out;
+}
+
+.Cart:hover {
+  transform: translateX(10px);
 }
 
 .NavBarDropdown {
@@ -110,14 +137,444 @@ body {
   z-index: -1;
 }
 
+/*==============================================================================================================================*/
+/*MAIN CONTENTS CSS*/
+
 .MainContents {
   position: relative;
-  min-height: 100vh;
   height: 100%;
+  min-height: 100vh;
   top: 100px;
   padding-bottom: 100px;
 }
 
+/*================================================================================================================================*/
+/*MENU*/
+
+.MenuContainer { 
+  color: white;
+  margin-top: 200px;
+}
+
+.ScrollImageContainer {
+  margin-bottom: 200px;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1s;
+}
+
+.ScrollImage {
+  border-radius: 10%;
+  filter: gray; /* IE5+ */
+  -webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */
+  -webkit-transition: all .8s ease-in-out;
+  margin-right: 20px;
+}
+
+.ScrollImage:hover {
+  filter: none;
+  -webkit-filter: grayscale(0);
+  -webkit-transform: scale(1.01);
+}
+
+.MainTitle {
+  font-size: 60px;
+  font-family: sans-serif;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid white;
+  border-top: 2px solid white;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.9);
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1s;
+}
+
+.MainContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+  -webkit-animation-name: slide-in-right;
+  animation-name: slide-in-right;
+  animation-duration: 1s;
+}
+
+.MenuItem {
+  width: 470px;
+  margin-bottom: 100px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.MenuItemName {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.MenuItemDescription {
+  background-color: rgba(0, 0, 0, 0);
+  height: 25px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.MenuItemPrice {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.MenuItemAddToCart {
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 20px;
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.MenuItemAddToCart:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}
+
+.MenuItem > img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10%;
+  padding: 0;
+  filter: gray; /* IE5+ */
+  -webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */
+  -webkit-transition: all .8s ease-in-out;
+}
+
+.MenuItem > img:hover {
+  filter: none;
+  -webkit-filter: grayscale(0);
+  -webkit-transform: scale(1.01);
+}
+
+
+.Extras {
+  font-size: 60px;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 10px;
+  border-bottom: 2px solid white;
+  border-top: 2px solid white;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.9);
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  animation-duration: 1s;
+}
+
+.ExtrasContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+}
+
+.Drinks {
+  font-size: 60px;
+  font-family: sans-serif;
+  text-align: right;
+  padding: 10px;
+  border-bottom: 2px solid white;
+  border-top: 2px solid white;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.9);
+  -webkit-animation-name: bounceInLeft;
+  animation-name: bounceInLeft;
+  animation-duration: 1s;
+  z-index: 0;
+}
+
+.DrinksContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+}
+
+.popup {  
+  position: fixed;  
+  width: 100%;  
+  height: 100%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: rgba(0,0,0, 0.5);
+  -webkit-animation-name: slide-in-bck-center;
+  animation-name: slide-in-bck-center;
+  animation-duration: 1s;  
+}  
+.popupInner {  
+  position: absolute;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;    
+  margin: auto;  
+  border-radius: 20px;  
+  background: black;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1.5s;  
+  z-index: 1;
+}
+
+.ClosePopup {
+  margin-left: 720px;
+  width: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.PopupOptions {
+  font-size: 20px;
+  z-index: 1;
+}
+
+.OptionsHeading {
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  margin-top: 32px;
+  text-decoration: underline;
+  z-index: 1;
+}
+
+.RadioButtons {
+  cursor: pointer;
+  z-index: 1;
+}
+
+.PopupQuantity {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  z-index: 1;
+}
+.PopupQuantity > div {
+  margin-left: 10px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.PopupAddToCart {
+  font-size: 15px;
+  width: 15%;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1;
+}
+
+.PopupAddToCart:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}
+
+/*================================================================================================================================*/
+/*CART*/
+
+.CartMain {
+  position: relative;
+  margin-bottom: 300px;
+  width: 50%;
+  left: 25%;
+  right: 25%;
+  color: white;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 1px;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1.5s;  
+}
+
+.CartMinOrder {
+  margin-top: 100px;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.CartHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.CartOrderItemOutter {
+  margin-bottom: 20px;
+}
+
+.CartOrderItem {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.CartOrderName {
+  margin-left: 100px;
+  position: relative;
+}
+
+.CartQuantity {
+  display: flex;
+  flex-direction: row;
+  margin-left: 203px;
+  position: relative;
+}
+
+.CartPrice {
+  margin-left: 216px;
+  position: relative;
+}
+
+.CartDelete {
+  position: relative;
+  margin-left: 92px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.CartIncrease {
+  margin-left: 9px;
+  cursor: pointer;
+}
+
+.CartDecrease {
+  margin-right: 9px;
+  cursor: pointer;
+}
+
+.CartLine {
+  margin-top: 60px;
+  border-bottom: 2px solid white;
+  margin-bottom: 20px;
+}
+
+.CartDeliveryFee {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.CartTotal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.CartPhoneAndAddress {
+  margin-top: 20px;
+}
+
+.CartPhoneLabel {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.CartCheckOutButton {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 10%;
+  margin-left: 10px;
+  margin-bottom: 15px;
+  font-weight: 500;
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.CartCheckOutButton:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}
+
+.CartPhone {
+  padding: 5px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 17%;
+  transition: width 0.4s ease-in-out;
+  margin-left: -550px;
+}
+
+.CartPhone:focus {
+  width: 20%;
+}
+
+.CartAddress {
+  padding: 5px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 17%;
+  transition: width 0.4s ease-in-out;
+  margin-bottom: 20px;
+  margin-left: -550px;
+}
+
+.CartAddress:focus {
+  width: 25%;
+}
+
+/*==============================================================================================================================*/
+/*FOOTER*/
 .footer {
   background: #303036;
   margin: auto;
@@ -161,6 +618,9 @@ body {
   padding-top: 20px;
 }
 
+/*==============================================================================================================================*/
+/*RESPONSIVENESS*/
+
 @media only screen and (max-width: 750px) {
   html,
   body {
@@ -172,6 +632,7 @@ body {
     background-repeat: no-repeat;
     background-color: black;
     display: flex;
+    background-attachment: fixed;
   }
 
   #root {
@@ -184,71 +645,116 @@ body {
     height: 100%;
   }
 
-  .Header {
-    width: 100%;
-    height: 48px;
-    background-color: rgba(0, 0, 0, 0.2);
-    color: white;
-    font-size: 17px;
-    text-decoration: underline;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .MobileIcon {
+    display: block;
+    margin-top: 15px;
+    margin-left: 10px;
+    float: left;
+    cursor: pointer;
+    position: fixed;
+    z-index: 1;
   }
 
   .NavBar {
-    background-color: rgba(255, 255, 255, 0);
-    position: relative;
-    margin: auto;
-    color: white;
-    font-size: 10px;
-    justify-content: flex-start;
-    width: 20%;
-    z-index: 1;
-    text-shadow: 1px 1px black;
-    overflow: auto;
-    height: 110px;
-  }
-
-  .NavBar > a {
-    text-decoration: none;
-    color: white;
-  }
-
-  .NavBarElement {
-    z-index: 1;
-  }
-
-  .NavBarElement:hover {
-    text-decoration: underline;
-  }
-
-  .NavBarDivider {
-    margin-left: 15px;
-    border-left: 2px solid white;
-    height: 42px;
     display: none;
-    z-index: 1;
   }
 
-  .NavBarDropdown {
-    margin-left: 15px;
-    margin-right: 15px;
-    display: none;
-    z-index: 1;
-  }
+.mobileNav {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1s;  
+}
 
-  .NavBarDropdown > img {
-    margin-left: 10px;
-  }
+.mobileNavClose {
+  position: relative;
+  margin-right: 300px;
+  margin-top: 10px;
+}
+
+.mobileNav .NavBarDivider {
+  display: none;
+}
+
+.NavBarElement > a {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 20px;
+  margin-top: 20px; 
+  color: white;
+  border-bottom: 1px solid white;
+}
+
+.NavBarElement {
+  margin: auto;
+  z-index: 1;
+}
+
+.NavBarElement:hover {
+  text-decoration: underline;
+}
+
+.ClosePopup {
+  margin-left: 220px;
+  width: 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.popupInner {  
+  position: absolute;
+  width: 100%;   
+  top: 25%;    
+  left: 8%;
+  margin: auto;  
+  border-radius: 20px;  
+  background: black;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 1.5s;  
+  z-index: 1;
+}
 
   .Logo {
-    position: absolute;
-    display: none;
+    display: block;
     z-index: 1;
   }
 }
 
+/*================================================================================================================================*/
+/*SCROLLBAR*/
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: black; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: white; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/*=============================================================================================================================*/
+/*ANIMATIONS*/
 @keyframes bounceInLeft {
   from,
   60%,
@@ -338,6 +844,154 @@ body {
   }
 
   50% {
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 15:41:21
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-left
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-1000px);
+            transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-left {
+  0% {
+    -webkit-transform: translateX(-1000px);
+            transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 15:43:52
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-right
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-right {
+  0% {
+    -webkit-transform: translateX(1000px);
+            transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-right {
+  0% {
+    -webkit-transform: translateX(1000px);
+            transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 15:45:42
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation fade-in-fwd
+ * ----------------------------------------
+ */
+@-webkit-keyframes fade-in-fwd {
+  0% {
+    -webkit-transform: translateZ(-80px);
+            transform: translateZ(-80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-fwd {
+  0% {
+    -webkit-transform: translateZ(-80px);
+            transform: translateZ(-80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 15:46:57
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-bck-center
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-bck-center {
+  0% {
+    -webkit-transform: translateZ(600px);
+            transform: translateZ(600px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-bck-center {
+  0% {
+    -webkit-transform: translateZ(600px);
+            transform: translateZ(600px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0);
     opacity: 1;
   }
 }

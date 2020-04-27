@@ -4,11 +4,13 @@ class MenuItem extends React.Component {
     constructor() {
         super()
         this.state = {
+            name: "",
             options: {},
             optionsPrices: {},
             price: 0,
             quantity: 0,
             id: 0,
+            showPopup: false,
         }
     }
     componentDidMount() {
@@ -16,6 +18,7 @@ class MenuItem extends React.Component {
             price: this.props.menuData.price,
             quantity: 1,
             id: this.props.menuData.id,
+            name: this.props.menuData.name,
 
         })
     }
@@ -40,10 +43,16 @@ class MenuItem extends React.Component {
         if(type === "showPopup"){
             console.log("openPopup")
             //ADD YOUR CODE TO DISPLAY POPUP HERE
+            this.setState({
+                showPopup: true
+            })
         }
         else if(type === "hidePopup"){
             console.log("hidePopup")
             //ADD YOUR CODE TO DISPLAY POPUP HERE
+            this.setState({
+                showPopup: false
+            })
         }
         else if(type === "increase"){
             this.setState((prevState) => {
@@ -64,9 +73,9 @@ class MenuItem extends React.Component {
                 this.setState({
                     options: {},
                     optionsPrices: {},
-                    price: 0,
-                    quantity: 0,
-                    id: 0,
+                    price: this.props.menuData.price,
+                    quantity: 1,
+                    id: this.props.menuData.id,
                 })
             }
         }
@@ -78,13 +87,15 @@ class MenuItem extends React.Component {
             const val = option[0]
             return (
                 <div>
-                <input 
+                <input className = "RadioButtons"
                         type="radio" 
                         name={name}
                         value={val}
                         checked={this.state.options[name] === option[0]}
                         onChange={this.handleChange}
                     /> {option[0]}
+
+                <div>{option[1]}</div>
                 </div>
             )
 
@@ -94,30 +105,32 @@ class MenuItem extends React.Component {
 
     render() {
         console.log(this.state)
-        const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => <div><div>{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>)
+        const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>)
 
         return (
-            <div>
-                <img src={this.props.menuData.photo_url}></img>
-                <div>{this.props.menuData.name}</div>
-                <div>{this.props.menuData.description}</div>
-                <div>{this.props.menuData.price} PKR</div>
-                <div onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
-                <div>
-                    <div>
-                        <div>
-                            <div> {option_lists} </div>
-                        </div>
-                        <div>
-                            <div onClick={() => {this.handleClick("decrease")}}> ◀ </div>
-                            <div  > {this.state.quantity} </div>
-                            <div onClick={() => {this.handleClick("increase")}}> ▶ </div>
-
-                            <div onClick={() => {this.handleClick("addToCart")}}>Add to cart</div>
-
+            <div className = "MenuItem">
+                <img src={this.props.menuData.photo_url} height = '200' weight = '200'></img>
+                <div className = "MenuItemName">{this.props.menuData.name}</div>
+                <div className = "MenuItemDescription">{this.props.menuData.description}</div>
+                <div className = "MenuItemPrice">{this.props.menuData.price} PKR</div>
+                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+                {this.state.showPopup?   
+                    <div className = "popup">
+                        <div className = "popupInner">
+                            <img src = {require('../../img/close2.png')} className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}} />
+                            <div className = "PopupOptions">
+                                <div> {option_lists} </div>
+                            </div>
+                            <div className = "PopupQuantity">
+                                <div onClick={() => {this.handleClick("decrease")}}> ◀ </div>
+                                <div  > {this.state.quantity} </div>
+                                <div onClick={() => {this.handleClick("increase")}}> ▶ </div>
+                            </div>
+                                <div className = "PopupAddToCart" onClick={() => {this.handleClick("addToCart")}}>Add to cart</div>
                         </div>
                     </div>
-                </div>
+                    : null 
+                }
             </div>
         )
     }
