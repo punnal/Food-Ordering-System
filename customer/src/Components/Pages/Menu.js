@@ -13,12 +13,29 @@ class Menu extends React.Component {
             drinksMenuItems: [],
         }
     }
+        
+    listToObject = (item) => {
+        console.log(item)
+        item.options_lists = item.options_lists.reduce((accum, options) => {
+            accum[Object.keys(options)[0]] = Object.values(options)[0]
+            return accum
+        }, {})
+        return item
+    }
 
     componentDidMount() {
+        console.log(Items) 
+        const itemsCopy = {...Items,}
+        let main = Object.values(itemsCopy.data.Main)
+        let extras = Object.values(itemsCopy.data.Extras)
+        let drinks = Object.values(itemsCopy.data.Drinks)
+        main = main.map(this.listToObject)
+        extras = extras.map(this.listToObject)
+        drinks = drinks.map(this.listToObject)
         this.setState({
-            mainMenuItems: Object.values(Items.data.Main),
-            extrasMenuItems: Object.values(Items.data.Extras),
-            drinksMenuItems: Object.values(Items.data.Drinks),
+            mainMenuItems: main,
+            extrasMenuItems: extras,
+            drinksMenuItems: drinks,
 
         })
     }

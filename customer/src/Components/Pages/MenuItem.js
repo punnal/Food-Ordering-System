@@ -83,8 +83,6 @@ class MenuItem extends React.Component {
     } 
 
     createRadioButtons = (name, options) => {
-        console.log("==>" , this.state)
-        console.log("==>>" , this.state.options[name])
         return options.map((option) => {
             const val = option[0]
             return (
@@ -106,9 +104,8 @@ class MenuItem extends React.Component {
     }
 
     render() {
-        console.log("renderStart", this.props)
+        console.log(this.state)
         const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>)
-        console.log("map end", option_lists)
 
         return (
             <div className = "MenuItem">

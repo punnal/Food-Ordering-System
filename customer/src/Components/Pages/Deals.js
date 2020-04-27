@@ -12,9 +12,24 @@ class Deals extends React.Component {
         }
     }
 
+
+    listToObject = (item) => {
+        console.log(item)
+        item.options_lists = item.options_lists.reduce((accum, options) => {
+            accum[Object.keys(options)[0]] = Object.values(options)[0]
+            return accum
+        }, {})
+        return item
+    }
+
     componentDidMount() {
+        let deals = Object.values(Items.data).map((deal) => {
+            deal.items = deal.items.map(this.listToObject)
+            return deal
+            
+        })
         this.setState({
-            dealsItems: Object.values(Items.data),
+            dealsItems: deals,
 
         })
     }
