@@ -45,15 +45,22 @@ class Menu extends React.Component {
         })
     }
 
-    showPopup(id) {
+    showPopup(id, table, row) {
         this.setState(old => {
             let newstate = {...old}
             newstate.pshow[id] = true
+            if(id==='delete')
+                newstate.staged_delete = [table, row]
             return newstate
         })
     }
 
     validate(state) {
+    }
+
+    delete_item(){
+        //api call to delete item from database
+        //remove from state as well
     }
 
     onPopupClose(id, action){
@@ -62,12 +69,15 @@ class Menu extends React.Component {
             newstate.pshow[id] = false
             delete newstate.prefill
             console.log(newstate.prefill)
+            if(action === 'confirm')
+                this.delete_item(old.staged_delete)
+            delete newstate.staged_delete
             return newstate
         })
     }
 
     onDelete(tableid, rowid) {
-        this.showPopup('delete')
+        this.showPopup('delete', tableid, rowid)
     }
 
     onAdd(tableid) {
@@ -109,7 +119,8 @@ class Menu extends React.Component {
                     <PopupH>Delete Item</PopupH>
                     <PopupBody>Are you sure you want to Delete? </PopupBody>
                     <PopupButtons>
-                        <button onClick={()=>this.onPopupClose('delete')}> Close </button>
+                        <button onClick={()=>this.onPopupClose('delete, cancel')}> Close </button>
+                        <button onClick={()=>this.onPopupClose('delete', 'confirm')}> Confirm </button>
                     </PopupButtons>
                 </Popup>
 

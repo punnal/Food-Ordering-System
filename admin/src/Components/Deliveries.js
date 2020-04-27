@@ -13,6 +13,7 @@ class Deliveries extends React.Component {
     constructor(props) {
         super(props)
         this.page = res.admin.pages[this.props.id]
+        this.api = this.page.api
     }
 
 

@@ -59,6 +59,7 @@ export const res = {
                 'title':'Orders',
                 'component':Orders,
                 'path':'/orders',
+                'api':'/api/orders',
                 'tables': 
                 { 
                     'left':

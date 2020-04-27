@@ -103,7 +103,7 @@ class AddItemForm extends React.Component {
     }
 
     onDeleteOption(key, i, option) {
-
+        console.log(key, i, option)
         this.setState(old => {
             let newstate = {...old}
             delete newstate.options_lists[i][key][option]
@@ -151,9 +151,9 @@ class AddItemForm extends React.Component {
                                     onChange={(e) => this.onChange(e, 'options_name')} 
                                     name={key} />
                                 {
-                                    sorted.map((option, i) => {
+                                    sorted.map((option, b) => {
                                         return (
-                                            <div key={i}>
+                                            <div key={b}>
                                             <input 
                                                 onChange={(e) => this.onChange(e, 'option_list_value', key)} 
                                                 value={option}//{this.parseOptions(Object.values(optionList)[0])} 
