@@ -27,7 +27,7 @@ response =
                 {
                     "0": 
                     {
-                        "name" : "cheese burger", "id" : "40", "price" : "200", 
+                        "name" : "cheese burger", "id" : "40", "price" : "200", "quantity" : "3", 
                         "option_list_choices" : 
                         {
                             "0" : {"list_name" : "sauce", "option_choice" : "chipotole", "price" : "50"},
@@ -37,7 +37,7 @@ response =
                     
                     "1" : 
                     {
-                        "name" : "cheese burger", "id" : "40", "price" : "200",
+                        "name" : "cheese burger", "id" : "40", "price" : "200", "quantity" : "1",
                         "option_list_choices" :
                         {
                             "0" : {"list_name" : "sauce", "option_choice" : "garlic mayo", "price": "80"},
@@ -53,12 +53,12 @@ response =
                 {
                     "0": 
                     {
-                        "name" : "big mega deal", "id" : "58", "price": "450",
+                        "name" : "big mega deal", "id" : "58", "quantity" : "2", "price": "450",
                         "items" : 
                         {
                             "0": 
                             {
-                                "name" : "cheese burger", "id" : "40", "price" : "50", 
+                                "name" : "cheese burger", "id" : "40", "price" : "50", "quantity" : "1", 
                                 "option_list_choices" : 
                                 {
                                     "0" : {"list_name" : "sauce", "option_choice" : "chipotole", "price" : 50},
@@ -68,7 +68,7 @@ response =
     
                             "1": 
                             {
-                                "name" : "fries", "id" : "42", "price" : "40",  //youll need to ignore individual items price in deals
+                                "name" : "fries", "id" : "42", "price" : "40", "quantity" : "1",  //youll need to ignore individual items price in deals
                                 "option_list_choices" :
                                 {
                                     "0" : {"list_name" : "Type", "option_choice" : "curly", "price" : "40"}
