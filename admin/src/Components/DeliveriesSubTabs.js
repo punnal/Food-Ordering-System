@@ -81,8 +81,10 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     clickHandler(button, id) {
-        console.log(this.state.data[id].orderid)
-        api_push(this.api, {'orderid': this.state.data[id].orderid})
+        console.log(this.state.data[id])
+        let updatedorder = {...this.state.data[id]}
+        updatedorder.status = 1
+        api_push(this.api, updatedorder)
         this.setState(old => {
             const showpopup = (button.id === 1)? true:false 
             let newstate = {...old, showpopup:showpopup, 'reject_id':id}

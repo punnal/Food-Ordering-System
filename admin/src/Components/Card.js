@@ -32,7 +32,22 @@ const parseItem = (item, id) => {
 }
 
 const parseDeals = (deal, id) => {
-    return <div key={id}> {deal.name} </div>
+    return (
+        <div key={id}> 
+            <h2> {deal.name} </h2>
+            {
+                deal.items.map((e,i) => {
+                    return (
+
+                        <div key={i}>
+                            <h3> {e.name} </h3>
+                            {parseOptions(e.option_list_choices)}
+                        </div>
+                    )})
+            }
+
+        </div>
+    )
 }
 
 const Card = (props) => {

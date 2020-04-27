@@ -47,8 +47,6 @@ response =
                     }
                 },
     
-    
-    
                 "deals" :
                 {
                     "0": 
