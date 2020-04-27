@@ -44,7 +44,6 @@ const MainContents = (props) => {
                     <Orders />
                 </Route>
             </Switch>
-            <h1>These are main contents</h1>
         </div>
     )
 }

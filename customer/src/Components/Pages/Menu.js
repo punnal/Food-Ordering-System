@@ -36,15 +36,20 @@ class Menu extends React.Component {
         
         return(
             <div className = "MenuContainer">
-                <div className = "MainTitle">Main</div>
+                <div className = "ScrollImageContainer">
+                    <a href = '#Main'> <img  src = "https://www.macphie.com/wp-content/uploads/2018/08/branded-melts-1-350x350.jpg" className = "ScrollImage" /> </a>
+                    <a href = "#Extra"> <img src = "https://www.fda.gov/media/87250/download" className = "ScrollImage" /> </a>
+                    <a href = "#Drink"> <img src = "https://www.nerdwallet.com/assets/blog/wp-content/uploads/2017/10/Bartender_original-350x350.jpg" className = "ScrollImage" /> </a>
+                </div>
+                <div id = "Main" className = "MainTitle">Main</div>
                 <div className = "MainContainer">
                     {mainMenuItems}
                 </div>
-                <div className = "Extras">Extras</div>
+                <div id = "Extra" className = "Extras">Extras</div>
                 <div className = "ExtrasContainer">
                     {extrasMenuItems}
                 </div>    
-                <div className = "Drinks">Drinks</div>
+                <div id = "Drink" className = "Drinks">Drinks</div>
                 <div className = "DrinksContainer">
                     {drinksMenuItems}
                 </div>
