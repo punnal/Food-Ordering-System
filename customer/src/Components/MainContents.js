@@ -13,7 +13,6 @@ import Orders from "./Pages/Orders";
 import Classes from "../Resource/className";
 
 const MainContents = (props) => {
-<<<<<<< HEAD
   return (
     <div className={Classes.MainContents}>
       <Switch>
@@ -39,53 +38,21 @@ const MainContents = (props) => {
           <SignUp />
         </Route>
         <Route path="/cart">
-          <Cart orders={props.orders} addOrders={props.addOrders} />
+          <Cart
+            orders={props.orders}
+            addOrders={props.addOrders}
+            deleteOrder={props.deleteOrder}
+            changeQuantity={props.changeQuantity}
+            resetOrders={props.resetOrders}
+          />
         </Route>
         <Route path="/orders">
           <Orders />
         </Route>
       </Switch>
       <h1>These are main contents</h1>
-
     </div>
   );
 };
-=======
-    return (
-        <div className={Classes.MainContents}>
-            <Switch>
-                <Route exact path="/">
-                    <Menu orders={props.orders} addOrders={props.addOrders}/>
-                </Route>
-                <Route path="/deals">
-                    <Deals orders={props.orders} addOrders={props.addOrders}/>
-                </Route>
-                <Route path="/gallery">
-                    <Gallery />
-                </Route>
-                <Route exact path="/about">
-                    <AboutUs />
-                </Route>
-                <Route path="/contact">
-                    <ContactUs />
-                </Route>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <Route exact path="/signup">
-                    <SignUp />
-                </Route>
-                <Route path="/cart">
-                    <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
-                </Route>
-                <Route path="/orders">
-                    <Orders />
-                </Route>
-            </Switch>
-            <h1>These are main contents</h1>
-        </div>
-    )
-}
->>>>>>> 5a34815e62ae6ee06a56f628c8791600832e9e61
 
 export default MainContents;

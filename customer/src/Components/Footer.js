@@ -64,7 +64,7 @@ const Footer = () => {
           </span>
         </div>
       </div>
-      <div className="footer-bottom">&copy; SMOKE&GRILL|FAST FOOD CHAIN</div>
+      <div className="footer-bottom">&copy SMOKE&GRILL|FAST FOOD CHAIN</div>
     </div>
   );
 };

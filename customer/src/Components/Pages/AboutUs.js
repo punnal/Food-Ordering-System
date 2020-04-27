@@ -1,5 +1,6 @@
 import React from "react";
 import Lo from "../../img/about.jpg";
+import "../../css/cssFile.css";
 
 class AboutUs extends React.Component {
   constructor() {
@@ -8,7 +9,7 @@ class AboutUs extends React.Component {
   }
 
   render() {
-    return;
+    return <div className="aboutus">About US</div>;
   }
 }
 
