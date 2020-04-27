@@ -31,7 +31,7 @@ export const res = {
                         'name': 'Pending',
                         'path':'/deliveries/pending',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/pending',
+                        'api': '/api/deliveries',
                         'buttons': ['Accept', 'Reject'],
                         'buttonscss': ['Accept', 'Reject']
                     },
@@ -39,7 +39,7 @@ export const res = {
                         'name':'In Progress',
                         'path':'/deliveries/inprogress',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/inprogress',
+                        'api': '/api/deliveries',
                         'buttons': ['Completed', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
                     }, 
@@ -47,7 +47,7 @@ export const res = {
                         'name':'Delivered',
                         'path':'/deliveries/delivered',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/delivered',
+                        'api': '/api/deliveries',
                         'buttons':['Delivered', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
 

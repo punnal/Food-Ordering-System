@@ -152,9 +152,9 @@ var dummy_menu =
 }
 `
 
-const dummy_orders =
+const orders=
 `
- {
+{
     "data":
         {  
             "129590596":
@@ -211,7 +211,7 @@ const dummy_orders =
     
                             "1": 
                             {
-                                "name" : "fries", "id" : "42", "price" : "40",  //youll need to ignore individual items price in deals
+                                "name" : "fries", "id" : "42", "price" : "40", 
                                 "option_list_choices" :
                                 {
                                     "0" : {"list_name" : "Type", "option_choice" : "curly", "price" : "40"}
@@ -228,6 +228,9 @@ const dummy_orders =
 }
 `
 
+app.get("/api/deliveries", (req, res) => {
+    res.send(JSON.parse(orders))
+})
 
 app.get("/api/tables", (req, res) => {
     console.log(req.url)

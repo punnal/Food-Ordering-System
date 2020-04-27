@@ -3,6 +3,56 @@ import Card from './Card'
 import { Popup, PopupH, PopupBody, PopupButtons } from './Popup'
 import { api_pull, api_push} from '../api/api.js'
 
+function parse_option_list(item){
+    if (!("option_list_choices" in item)){ // insert an empty list in place if options list does not exist
+        item["option_list_choices"] = []
+        return item 
+    }
+
+    item["option_list_choices"] = Object.values(item["option_list_choices"])
+    return item
+}
+
+function parse_items(obj){ //either deal or order
+    if (!("items" in obj)){ // insert an empty list in place if no items exist 
+        let order = {}
+        order["items"] = []
+        return obj 
+    }
+
+    obj["items"] = Object.values(obj["items"])
+
+    obj["items"].forEach(item => {
+        parse_option_list(item)
+    })
+    return obj
+}
+
+
+function parse_deals(order){
+
+    if (!("deals" in order)){ // insert an empty list in place if no deals exist
+        order["deals"] = []
+        return order 
+    }
+    
+    order["deals"] = Object.values(order["deals"])
+
+    order["deals"].forEach(deal =>{
+        parse_items(deal)
+    })
+
+    return order
+}
+
+function parse_order(order){
+    order = parse_items(order)
+    order = parse_deals(order)
+
+    return order
+
+}
+
 class DeliveriesSubTabs extends React.Component {
     constructor(props) {
         super(props)
@@ -19,9 +69,13 @@ class DeliveriesSubTabs extends React.Component {
 
     componentDidMount() {
         api_pull(this.api, data => this.setState( old => { 
+            let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
+            parsed.forEach(order =>{
+                parse_order(order)
+            })
             return {
                 ...old, 
-                'data': data
+                'data': parsed
             }
         }))
     }
