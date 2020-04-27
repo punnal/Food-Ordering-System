@@ -57,66 +57,68 @@ class Cart extends React.Component {
     listOrders = (order) => {
         console.log(order)
         return (
-            <div>
-                <div>{order.name}</div>
                 <div>
-                <div onClick={ () => this.handleClick("decrease", order)}>◀</div>
-                <div>{order.quantity}</div>
-                <div onClick={ () => this.handleClick("increase", order)}>▶</div>
-                </div>
-                <div>{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity}</div>
-                <div onClick={ () => this.handleClick("delete", order)}>&#128465;</div>
-            </div>
-
+                    <div className = "CartOrderItem">
+                        <div className = "CartOrderName">{order.name}</div>
+                        <div className = "CartQuantity">
+                        <div className = "CartDecrease" onClick={ () => this.handleClick("decrease", order)}>◀</div>
+                        <div>{order.quantity}</div>
+                        <div className = "CartIncrease" onClick={ () => this.handleClick("increase", order)}>▶</div>
+                        </div>
+                        <div className = "CartPrice">{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b))*order.quantity}</div>
+                        <div className = "CartDelete" onClick={ () => this.handleClick("delete", order)}>&#128465;</div>
+                    </div>
+                    <div className = "CartOrderItemOutter"></div>
+                </div>    
             )
     }
 
     render() {
         const orders = this.props.orders.map(this.listOrders)
         return(
-            <div>
+            <div className = "CartMain">
                 <div>
                     <div>
-                        <div>Minimum order of {this.state.minOrder} PKR</div>
-                        <div>
+                        <div className = "CartMinOrder">Minimum order of {this.state.minOrder} PKR</div>
+                        <div className = "CartHeading">
                             <div>Item</div>
                             <div>Quantity</div>
                             <div>Price</div>
                         </div>
                         {orders}
-                        <div>------------line</div>
-                        <div>
+                        <div className = "CartLine"></div>
+                        <div className = "CartDeliveryFee">
                         <div>Delivery</div>
                         <div>{this.state.delivery} PKR</div>
                         </div>
-                        <div>
+                        <div className = "CartTotal">
                             <div>Total(Including Tax)</div>
                             <div>{this.state.totalPrice} PKR</div>
                         </div>
                     </div>
-                    <div>
-                        <div>Phone Number</div>
+                    <div className = "CartPhoneAndAddress">
+                        <div className = "CartPhoneLabel">Phone Number</div>
                         <div>
-                            <input 
+                            <input className = "CartPhone"
                                 type="text" 
                                 value={this.state.phone} 
                                 name="phone" 
-                                placeholder="03001234567" 
+                                placeholder="Enter Phone Number" 
                                 onChange={this.handleChange} 
                                 />
                         </div>
-                        <div>Address</div>
+                        <div className = "CartPhoneLabel">Address</div>
                         <div>
-                            <input 
+                            <input className = "CartAddress"
                                 type="text" 
                                 value={this.state.address} 
                                 name="address" 
-                                placeholder="Your address" 
+                                placeholder="Enter Address" 
                                 onChange={this.handleChange} 
                                 />
                         </div>
                     </div>
-                    <div onClick={ () => this.handleClick("checkOut", null)}>Check Out</div>
+                    <div className = "CartCheckOutButton" onClick={ () => this.handleClick("checkOut", null)}>Check Out</div>
                     
                 </div>
             </div>

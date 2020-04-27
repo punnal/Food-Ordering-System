@@ -62,6 +62,8 @@ class App extends React.Component {
     return exist;
   };
 
+  resetOrders = (callback) => this.setState({ orders: [] }, callback);
+
   render() {
     return (
       <div className="App">
@@ -75,6 +77,7 @@ class App extends React.Component {
             addOrders={this.addOrder}
             deleteOrder={this.deleteOrder}
             changeQuantity={this.changeQuantity}
+            resetOrders={this.resetOrders}
           />
           <Footer />
         </Router>
