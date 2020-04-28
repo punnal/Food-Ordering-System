@@ -5,7 +5,7 @@ import { res } from "../res/res"
 const Card = (props) => {
     return ( 
         <div className = {res.admin.css_classes.DeliveriesContainer}> 
-            <div className = {res.admin.css_classes.DeliveriesInfo}>
+            <div className = "bg-dark text-white" id = {res.admin.css_classes.DeliveriesInfo}>
                 {
                     Object.keys(props.data).map((e, i) => {
                         return <p key={i}> {e}: {props.data[e]} </p>

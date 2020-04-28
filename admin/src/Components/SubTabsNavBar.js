@@ -19,9 +19,9 @@ class SubTabNavBar extends React.Component {
                                 <Link 
                                     key={i} 
                                     to={`${e.path}`} >
-                                    <div className={res.admin.css_classes.DSubTabElement}>
-                                        {e.name}
-                                    </div>
+                                    <button type = "button" className = "btn btn-info" id={res.admin.css_classes.DSubTabElement}>
+                                        {e.name} {e.name != 'Delivered' ? <span class="badge badge-light">5</span> : null}
+                                    </button>
                                 </Link>
                             )})
                     }

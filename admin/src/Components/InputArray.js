@@ -9,6 +9,7 @@ const InputArray = (props) =>{
                 return (
                     <input 
                         className = {props.classNames[i]}
+                        id = 'Accept'
                         key={i} 
                         value={e} 
                         onClick={() => props.onClick({'name':e, 'id':i}, props.id)} 
