@@ -205,7 +205,7 @@ function get_delivery_handler(req, res){
 
 module.exports.get_local_handler = get_local_handler
 module.exports.get_delivery_handler = get_delivery_handler
-module.exports.post_hadler = post_handler
+module.exports.post_handler = post_handler
 
 module.exports.route_deliveries = route_deliveries
 module.exports.route_local = route_local
