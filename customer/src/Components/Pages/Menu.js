@@ -37,9 +37,18 @@ class Menu extends React.Component {
         return(
             <div className = "MenuContainer">
                 <div className = "ScrollImageContainer">
-                    <a href = '#Main'> <img  src = "https://www.macphie.com/wp-content/uploads/2018/08/branded-melts-1-350x350.jpg" className = "ScrollImage" /> </a>
-                    <a href = "#Extra"> <img src = "https://www.fda.gov/media/87250/download" className = "ScrollImage" /> </a>
-                    <a href = "#Drink"> <img src = "https://www.nerdwallet.com/assets/blog/wp-content/uploads/2017/10/Bartender_original-350x350.jpg" className = "ScrollImage" /> </a>
+                    <a href = '#Main'> 
+                        <img  src = "https://www.macphie.com/wp-content/uploads/2018/08/branded-melts-1-350x350.jpg" className = "ScrollImage" />
+                        <p> Main </p>
+                    </a>
+                    <a href = "#Extra">
+                        <img src = "https://www.fda.gov/media/87250/download" className = "ScrollImage" />
+                        <p> Extras </p> 
+                    </a>
+                    <a href = "#Drink">
+                        <img src = "https://www.nerdwallet.com/assets/blog/wp-content/uploads/2017/10/Bartender_original-350x350.jpg" className = "ScrollImage" />
+                        <p> Drinks </p>
+                    </a>
                 </div>
                 <div id = "Main" className = "MainTitle">Main</div>
                 <div className = "MainContainer">
