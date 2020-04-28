@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Axios from 'axios'
 
 class Cart extends React.Component {
 
@@ -45,6 +45,12 @@ class Cart extends React.Component {
                 address: this.state.address,
                 phone: this.state.phone,
             })
+            Axios.post('http://localhost:5000/api/orders', {
+                    user: "guest",
+                    orders: this.props.orders,
+                    address: this.state.address,
+                    phone: this.state.phone,
+                })
             this.props.resetOrders(() => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
         } 
     }
