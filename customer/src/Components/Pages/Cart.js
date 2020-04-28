@@ -89,11 +89,11 @@ class Cart extends React.Component {
                         <div className = "CartLine"></div>
                         <div className = "CartDeliveryFee">
                         <div>Delivery</div>
-                        <div>{this.state.delivery} PKR</div>
+                        <div className = "Price">{this.state.delivery} PKR</div>
                         </div>
                         <div className = "CartTotal">
                             <div>Total(Including Tax)</div>
-                            <div>{this.state.totalPrice} PKR</div>
+                            <div className = "Price">{this.state.totalPrice} PKR</div>
                         </div>
                     </div>
                     <div className = "CartPhoneAndAddress">

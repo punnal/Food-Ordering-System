@@ -61,10 +61,6 @@ body {
   z-index: 1;
 }
 
-.NavBarElement > a:hover, .NavBarElement > a:active {
-  letter-spacing: 5px;
-}
-
 .NavBarElement > a:after, .NavBarElement > a:before {
   backface-visibility: hidden;
   border: 1px solid rgba(255, 255, 255, 0);
@@ -158,6 +154,10 @@ body {
 
 .ScrollImageContainer {
   margin-bottom: 200px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
   -webkit-animation-name: slide-in-left;
   animation-name: slide-in-left;
   animation-duration: 1s;
@@ -177,18 +177,22 @@ body {
   -webkit-transform: scale(1.01);
 }
 
+.ScrollImageContainer > a {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+}
+
 .MainTitle {
-  font-size: 60px;
+  font-size: 30px;
   font-family: sans-serif;
-  text-align: left;
+  text-align: center;
   padding: 10px;
-  border-bottom: 2px solid white;
-  border-top: 2px solid white;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.9);
   -webkit-animation-name: slide-in-left;
   animation-name: slide-in-left;
   animation-duration: 1s;
+  text-transform: uppercase;
 }
 
 .MainContainer {
@@ -276,14 +280,12 @@ body {
 
 
 .Extras {
-  font-size: 60px;
+  font-size: 30px;
   font-family: sans-serif;
   text-align: center;
   padding: 10px;
-  border-bottom: 2px solid white;
-  border-top: 2px solid white;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
   -webkit-animation-name: bounceInLeft;
   animation-name: bounceInLeft;
   animation-duration: 1s;
@@ -298,17 +300,15 @@ body {
 }
 
 .Drinks {
-  font-size: 60px;
+  font-size: 30px;
   font-family: sans-serif;
-  text-align: right;
+  text-align: center;
   padding: 10px;
-  border-bottom: 2px solid white;
-  border-top: 2px solid white;
   position: relative;
-  background-color: rgba(0, 0, 0, 0.9);
   -webkit-animation-name: bounceInLeft;
   animation-name: bounceInLeft;
   animation-duration: 1s;
+  text-transform: uppercase;
   z-index: 0;
 }
 
@@ -320,10 +320,9 @@ body {
   align-content: space-between;
 }
 
-.popup {  
+.popup {    
+  width: 100%;
   position: fixed;  
-  width: 100%;  
-  height: 100%;  
   top: 0;  
   left: 0;  
   right: 0;  
@@ -332,14 +331,18 @@ body {
   background-color: rgba(0,0,0, 0.5);
   -webkit-animation-name: slide-in-bck-center;
   animation-name: slide-in-bck-center;
-  animation-duration: 1s;  
+  animation-duration: 1s;
+  z-index: 2;  
 }  
-.popupInner {  
-  position: absolute;  
-  left: 25%;  
-  right: 25%;  
-  top: 25%;    
-  margin: auto;  
+.popupInner {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  width: 50%;    
+  margin: auto;
+  top: 25%;
+  margin-top: 200px;
+  height: 65%;  
   border-radius: 20px;  
   background: black;
   -webkit-animation-name: fade-in-fwd;
@@ -452,7 +455,7 @@ body {
 .CartOrderItem {
   display: flex;
   flex-direction: row;
-  position: relative;
+  justify-content: space-around;
 }
 
 .CartOrderName {
@@ -498,13 +501,19 @@ body {
 .CartDeliveryFee {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-left: 10px;
 }
 
 .CartTotal {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.Price {
+  margin-right: 10px;
 }
 
 .CartPhoneAndAddress {
@@ -575,7 +584,190 @@ body {
 
 /*==============================================================================================================================*/
 /*FOOTER*/
-.footer {
+
+footer{
+  position: fixed;
+  bottom: 0;
+}
+ 
+@media (max-height:800px){
+  footer { position: static; }
+  header { padding-top:40px; }
+}
+ 
+ 
+.Footer{
+  background-color: rgba(0, 0, 0, 0.9);
+  box-sizing: border-box;
+  width: 100%;
+  text-align: left;
+  font: bold 16px sans-serif;
+  padding: 50px 50px 60px 50px;
+  margin-top: 80px;
+}
+ 
+.Footer .FooterLinksArea,
+.Footer .FooterContact,
+.Footer .FooterAboutArea{
+  display: inline-block;
+  vertical-align: top;
+}
+ 
+/* Footer Links */
+ 
+.Footer .FooterLinksArea{
+  width: 30%;
+}
+ 
+.Footer h3{
+  color:  white;
+  font: normal 36px;
+  margin: 0;
+}
+ 
+/* The company logo */
+ 
+.Footer .FooterLinksArea img{
+}
+ 
+.Footer h3 span{
+  color:  white;
+}
+ 
+/* Footer links */
+ 
+.Footer .FooterLinks{
+  color:  white;
+  margin: 20px 0 12px;
+}
+ 
+.Footer .FooterLinks a{
+  display:inline-block;
+  line-height: 1.8;
+  text-decoration: none;
+  color:  inherit;
+}
+ 
+.Footer .FooterCopyRight{
+  color:  #8f9296;
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+ 
+/* Footer Center */
+ 
+.Footer .FooterContact{
+  width: 35%;
+}
+ 
+ 
+.Footer .FooterContact i{
+  background-color:  #33383b;
+  color: white;
+  font-size: 25px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 42px;
+  margin: 10px 15px;
+  vertical-align: middle;
+}
+ 
+.Footer .FooterContact i.fa-envelope{
+  font-size: 17px;
+  line-height: 38px;
+}
+ 
+.Footer .FooterContact p{
+  display: inline-block;
+  color: white;
+  vertical-align: middle;
+  margin:0;
+}
+ 
+.Footer .FooterContact p span{
+  display:block;
+  font-weight: normal;
+  font-size:14px;
+  line-height:2;
+}
+ 
+.Footer .FooterContact p a{
+  color:  white;
+  text-decoration: none;;
+}
+ 
+ 
+/* Footer Right */
+ 
+.Footer .FooterAboutArea{
+  width: 30%;
+}
+ 
+.Footer .FooterAbout{
+  line-height: 20px;
+  color:  #92999f;
+  font-size: 13px;
+  font-weight: normal;
+  margin: 0;
+}
+ 
+.Footer .FooterAbout span{
+  display: block;
+  color:  #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+ 
+.Footer .footer-icons{
+  margin-top: 25px;
+}
+ 
+.Footer .footer-icons a{
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color:  #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  transition: 0.5s;
+}
+
+.Footer .footer-icons a{
+  color: #fff;
+  transform: rotateY(360deg);
+}
+ 
+/* Here is the code for Responsive Footer */
+/* You can remove below code if you don't want Footer to be responsive */
+ 
+ 
+@media (max-width: 880px) {
+ 
+  .Footer .FooterLinksArea,
+  .Footer .FooterContact,
+  .Footer .FooterAboutArea{
+    display: block;
+    width: 100%;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+ 
+  .Footer .FooterContact i{
+    margin-left: 0;
+  }
+
+}
+/*.footer {
   background: #303036;
   margin: auto;
   margin-top: auto;
@@ -616,7 +808,7 @@ body {
   left: 0px;
   bottom: 0px;
   padding-top: 20px;
-}
+}*/
 
 /*==============================================================================================================================*/
 /*RESPONSIVENESS*/
@@ -627,7 +819,7 @@ body {
     width: 100%;
     height: 100%;
     min-height: 100%;
-    background-image: url(../img/back.jpg);
+    background-image: url(../img/back3.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
     background-color: black;
@@ -647,7 +839,8 @@ body {
 
   .MobileIcon {
     display: block;
-    margin-top: 15px;
+    top: 0;
+    margin-top: 10px;
     margin-left: 10px;
     float: left;
     cursor: pointer;
@@ -713,9 +906,11 @@ body {
 
 .popupInner {  
   position: absolute;
-  width: 100%;   
-  top: 25%;    
-  left: 8%;
+  height: 100%;
+  width: 100%;       
+  left: auto;
+  right: auto;
+  bottom: 25%;
   margin: auto;  
   border-radius: 20px;  
   background: black;
@@ -723,6 +918,10 @@ body {
   animation-name: fade-in-fwd;
   animation-duration: 1.5s;  
   z-index: 1;
+}
+
+.ScrollImageContainer {
+  display: none;
 }
 
   .Logo {
@@ -745,7 +944,8 @@ body {
  
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: white; 
+  background: white;
+  border-radius: 5px; 
 }
 
 /* Handle on hover */
