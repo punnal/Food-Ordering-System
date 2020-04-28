@@ -1,4 +1,5 @@
 const MenuData = {
+   {
     "data" :
     {
        "Main" :
@@ -83,5 +84,4 @@ const MenuData = {
         },
     }
 }
-
 export default MenuData
