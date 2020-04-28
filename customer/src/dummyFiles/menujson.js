@@ -1,5 +1,4 @@
 const MenuData = {
-   {
     "data" :
     {
        "Main" :
