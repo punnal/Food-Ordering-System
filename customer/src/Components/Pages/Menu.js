@@ -3,7 +3,7 @@ import Axios from 'axios'
 import MenuItem from './MenuItem'
 
 
-//import Items from '../../dummyFiles/menujson'
+import Items from '../../dummyFiles/menujson'
 
 class Menu extends React.Component {
 
@@ -26,7 +26,7 @@ class Menu extends React.Component {
     }
 
     componentDidMount() {
-        Axios.get('http://localhost:5000/api/menu')
+        /*Axios.get('http://localhost:5000/api/menu')
             .then((response) => {
                 console.log(response) 
                 const itemsCopy = {...response,}
@@ -44,8 +44,8 @@ class Menu extends React.Component {
         })
 
 
-            })
-        /*const itemsCopy = {...Items,}
+            })*/
+        const itemsCopy = {...Items,}
         let main = Object.values(itemsCopy.data.Main)
         let extras = Object.values(itemsCopy.data.Extras)
         let drinks = Object.values(itemsCopy.data.Drinks)
@@ -57,7 +57,7 @@ class Menu extends React.Component {
             extrasMenuItems: extras,
             drinksMenuItems: drinks,
 
-        })*/
+        })
     }
 
     createMenu = (item) => {
