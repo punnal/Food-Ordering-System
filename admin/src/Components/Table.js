@@ -23,7 +23,7 @@ class Table extends React.Component {
                                 className={this.css.TableAddButton} 
                                 onClick={() => this.props.onAdd(this.props.heading)}
                             > 
-                                {this.props.headingbutton} 
+                                {this.props.headingButton} 
                             </button>
                             :
                             null

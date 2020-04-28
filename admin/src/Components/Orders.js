@@ -19,6 +19,7 @@ class Orders extends React.Component {
         this.onGenerateBill = this.onGenerateBill.bind(this)
         this.onPopupClose = this.onPopupClose.bind(this)
         this.showPopup = this.showPopup.bind(this)
+        this.api = this.page.api
     }
 
     componentDidMount() {

@@ -3,12 +3,14 @@ import Table from './Table'
 import { api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
 import { Popup, PopupH, PopupBody, PopupButtons } from './Popup'
+import AddItemForm from './AddItemForm'
 
 class Menu extends React.Component {
 
     constructor(props){
         super(props)
         this.css = res.admin.css_classes
+        this.headingButton = 'Add'
         this.api = res.admin.pages[this.props.id].api
         this.tables = res.admin.pages[this.props.id].tables
         this.showPopup = this.showPopup.bind(this)
@@ -43,34 +45,67 @@ class Menu extends React.Component {
         })
     }
 
-    showPopup(id) {
+    showPopup(id, table, row) {
         this.setState(old => {
             let newstate = {...old}
             newstate.pshow[id] = true
+            if(id==='delete')
+                newstate.staged_delete = [table, row]
             return newstate
         })
     }
 
-    onPopupClose(id){
+    validate(state) {
+    }
+
+    delete_item(){
+        //api call to delete item from database
+        //remove from state as well
+    }
+
+    onPopupClose(id, action){
         this.setState(old => {
             let newstate = {...old}
             newstate.pshow[id] = false
+            delete newstate.prefill
+            console.log(newstate.prefill)
+            if(action === 'confirm')
+                this.delete_item(old.staged_delete)
+            delete newstate.staged_delete
             return newstate
         })
     }
 
     onDelete(tableid, rowid) {
-        this.showPopup('delete')
-        console.log(`Deleting ${rowid} from ${tableid}`)
+        this.showPopup('delete', tableid, rowid)
     }
 
     onAdd(tableid) {
+        this.setState(old => {
+            let prefill = {
+            'name':'',
+            'description':'',
+            'options_lists':[{'':{'':''}}],
+            'photo_url':'',
+            'price':''
+        }
+            return {
+                ...old,
+                prefill:prefill
+            }
+        })
         this.showPopup('add')
     }
 
     onRowClick(tableid, rowid){
+        this.setState(old => {
+            let prefill = old.tables[tableid][rowid]
+            return {
+                ...old,
+                prefill:prefill
+            }
+        })
         this.showPopup('add')
-        console.log(`row ${rowid} click of table ${tableid}`)
     }
 
     render() {
@@ -79,11 +114,13 @@ class Menu extends React.Component {
 
                 <Popup 
                     show={this.state.pshow.delete}
+                    onDataChanged={this.onDataChanged}
                 >
                     <PopupH>Delete Item</PopupH>
                     <PopupBody>Are you sure you want to Delete? </PopupBody>
                     <PopupButtons>
-                        <button onClick={()=>this.onPopupClose('delete')}> Close </button>
+                        <button onClick={()=>this.onPopupClose('delete, cancel')}> Close </button>
+                        <button onClick={()=>this.onPopupClose('delete', 'confirm')}> Confirm </button>
                     </PopupButtons>
                 </Popup>
 
@@ -91,10 +128,11 @@ class Menu extends React.Component {
                     show={this.state.pshow.add}
                 >
                     <PopupH>Add an item</PopupH>
-                    <PopupBody> Name, Image, something something</PopupBody>
-                    <PopupButtons>
-                        <button onClick={()=>this.onPopupClose('add')}> Close </button>
-                    </PopupButtons>
+                    <PopupBody>
+                        <AddItemForm 
+                            onPopupClose={this.onPopupClose}
+                            prefill={this.state.prefill}/>
+                    </PopupBody>
                 </Popup>
 
                 <div className={this.css.OrdersLeftTable}>
@@ -103,7 +141,8 @@ class Menu extends React.Component {
                             <Table 
                                 key={i}
                                 heading = {table.heading}
-                                headingButton={table.headingbutton}
+                                headingButton={this.headingButton}
+                                onAdd={this.onAdd}
                                 rowButton="Delete"
                                 cssClassName = "TableLeftButton"
                                 onRowClick={this.onRowClick}
