@@ -1,10 +1,6 @@
 const util = require('util')
 
 var firebase = require('./db_initialize.js')
-var utils = require('./utils.js')
-
-var snapshotToArray = utils.snapshotToArray
-
 
 
 const db_orders = firebase.database().ref().child("Orders");
