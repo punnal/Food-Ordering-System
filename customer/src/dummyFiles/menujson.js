@@ -12,6 +12,7 @@ const MenuData = {
                 "description" : "juicy",
                 "photo_url" : "https://www.burgerfoto.com/thicburger.jpg",
                 "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                [
                     {
                         "Sauce":  // key representing option list name
                         {              //value representing the options_lists themselves
