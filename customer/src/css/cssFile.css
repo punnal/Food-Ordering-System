@@ -424,6 +424,8 @@ body {
   margin-top: 200px;
 }
 
+.DealsCarousel {}
+
 .DealsContainerInner { 
   display: flex;
   flex-direction: row;

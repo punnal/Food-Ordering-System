@@ -1,5 +1,6 @@
 import React from 'react'
 import DealItem from './DealItem'
+import DealsCarousel from './DealsCarousel'
 
 import Items from '../../dummyFiles/dealsjson'
 
@@ -44,12 +45,13 @@ class Deals extends React.Component {
         const DealsItems = this.state.dealsItems.map(this.createDeals)
         
         return(
-            <div className = "DealsContainerOutter"> 
-                <div className = "DealsTitle">Deals</div>
-                <div className = "DealsContainerInner">
-                    {DealsItems}
+                <div className = "DealsContainerOutter"> 
+                    <DealsCarousel/>
+                    <div className = "DealsTitle">Deals</div>
+                    <div className = "DealsContainerInner">
+                        {DealsItems}
+                    </div>
                 </div>
-            </div>
         )
     }
 
