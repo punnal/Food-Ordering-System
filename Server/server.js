@@ -28,10 +28,10 @@ app.post("/api/orders", order_defs.post_handler)
 
 /// Make edits Here 
 
-app.get("/*", function(req, res) {
+app.get("*", function(req, res) {
     res.send("Hello!")
     //res.sendFile("index.html", {root : "../admin/build"});
 });
 
-const port = process.env.PORT | 3000;
+const port = process.argv[2] | 3000;
 app.listen(port, () => console.log(`listening on port ${port}...`))
