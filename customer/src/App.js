@@ -4,9 +4,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
 import NavigationBar from "./Components/NavigationBar";
 import MainContents from "./Components/MainContents";
-import Footer from "./Components/Footer";
+import Footer from "./Components/MyFooter";
 
 import NavBarData from "./Resource/navBarData";
+import FooterData from "./Resource/footerData";
 
 class App extends React.Component {
     constructor(){
@@ -14,6 +15,7 @@ class App extends React.Component {
         this.state = {
             loggedIn: false,
             navBar: NavBarData,
+            footer: FooterData,
             currentPage: 0,
             orders:[]
         }
@@ -63,7 +65,7 @@ class App extends React.Component {
                 <Router>
                     <NavigationBar loggedIn={this.state.loggedIn} navBarData={this.state.navBar}/>
                     <MainContents orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
-                    <Footer />
+                    <Footer FooterData={this.state.footer} />
                 </Router>
             </div>
             );

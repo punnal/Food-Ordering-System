@@ -17,7 +17,11 @@ const MenuData = {
                     "Sauce":  // key representing option list name
                     {              //value representing the options_lists themselves
                         "Honey mustard" : 20, // key represents the option. value represents additional price
-                        "Garlic Mayo" :10
+                        "Garlic Mayoa" :12,
+                        "Garlic Mayos" :15,
+                        "Garlic Mayod" :19,
+                        "Garlic Mayof" :13,
+                        "Garlic Mayog" :16
                     },
 
                     "Add-on":
