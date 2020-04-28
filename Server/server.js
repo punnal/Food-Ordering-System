@@ -33,6 +33,8 @@ app.get("*", function(req, res) {
     //res.sendFile("index.html", {root : "../admin/build"});
 });
 
-const port = process.env.PORT || 80;
-const host = process.env.HOST || '0.0.0.0';
-app.listen(port, host, () => console.log(`listening on port ${port}...`))
+const port = process.env.PORT;
+
+//process.env.PORT
+// const host = process.env.HOST || '0.0.0.0';
+app.listen(port, () => console.log(`listening on port ${port}...`))
