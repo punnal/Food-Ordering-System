@@ -44,9 +44,9 @@ class Deals extends React.Component {
         const DealsItems = this.state.dealsItems.map(this.createDeals)
         
         return(
-            <div className = "DealContainer"> 
-                <div id = "Deals" className = "DealsTitle">Deals</div>
-                <div className = "DealsContainer">
+            <div className = "DealsContainerOutter"> 
+                <div className = "DealsTitle">Deals</div>
+                <div className = "DealsContainerInner">
                     {DealsItems}
                 </div>
             </div>

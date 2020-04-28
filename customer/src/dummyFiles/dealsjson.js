@@ -6,7 +6,7 @@ const Deals =
         {
             "name" : "big mega deal 1",
             "id" : 100,
-            "photo_url" : "https://www.bigmegadeal.com/deal.jpg",
+            "photo_url" : "https://fastly.4sqi.net/img/general/200x200/65819168_dM36zilRc8ZgKUprvGBAWi6Kf0MeTkN91ts734kOfaA.jpg",
             "price" : "1000",
             "items":
             [
