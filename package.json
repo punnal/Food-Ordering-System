@@ -12,6 +12,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "nodebb-plugin-dbsearch": "0.0.10",
+     "redis": "~0.10.1",
+     "connect-redis": "~2.0.0"
   }
 }
