@@ -1,6 +1,45 @@
 import React from "react"
 import { res } from '../res/res'
 
+
+const parseItems = (items) => {
+    console.log('ITEMS')
+    return (
+        <div>
+            {
+                items.map((item, i) => {
+                    return <li key = {i}> {item.name} </li>
+                })
+            }
+        </div>
+    )
+}
+
+const TableHeading = (props) => {
+    return (
+        <div 
+            className={props.style}
+        >
+            <h2 
+                className={props.headingStyle}
+            >
+                {props.heading}
+            </h2> 
+            {
+                (props.headingButton)?
+                    <button 
+                        className={props.buttonStyle} 
+                        onClick={() => props.onAdd(props.heading)}
+                    > 
+                        {props.headingButton} 
+                    </button>
+                    :
+                    null
+            }
+        </div>
+    )
+}
+
 class Table extends React.Component {
 
     constructor(props) {
@@ -11,24 +50,14 @@ class Table extends React.Component {
     render() {
         return (
             <div>
-                <div 
-                    className={this.css.TableHeadingAndButtonDiv}
-                >
-                    <h2 
-                        className={this.css.TableHeading}>{this.props.heading}
-                    </h2> 
-                    {
-                        (this.props.headingButton)?
-                            <button 
-                                className={this.css.TableAddButton} 
-                                onClick={() => this.props.onAdd(this.props.heading)}
-                            > 
-                                {this.props.headingButton} 
-                            </button>
-                            :
-                            null
-                    }
-                </div>
+                <TableHeading
+                    style= {this.css.TableHeadingAndButtonDiv}
+                    heading = {this.props.heading}
+                    headingStyle = {this.css.TableHeading}
+                    headingButton = {this.props.headingButton}
+                    buttonStyle = {this.css.TableAddButton}
+                    onAdd = {this.props.onAdd}
+                />
                 <table className='Table'>
                     <thead>
                         <tr 
@@ -44,22 +73,25 @@ class Table extends React.Component {
                     >
                         { 
                             (this.props.data)?
-                                this.props.data.map((row,i) => {
+                                this.props.data.map((row, row_index) => {
                                     return (
                                         <tr 
                                             className = {this.css.TableRow} 
-                                            key={i}
+                                            key={row_index}
                                         >
                                             {
                                                 this.props.cols.map(
-                                                    (e,c) => {
+                                                    (colname,col_index) => {
                                                         return (
                                                             <td 
-                                                                onClick={() => this.props.onRowClick(this.props.heading, i)}
-                                                                key={c}>
+                                                                onClick={() => this.props.onRowClick(this.props.heading, row_index)}
+                                                                key={col_index}>
                                                                 {
-                                                                    (e.toLowerCase() !== 'image')?
-                                                                        JSON.stringify(row[e.toLowerCase()])
+                                                                    (colname.toLowerCase() === 'items')?
+                                                                    parseItems(row['items'])
+                                                                    :
+                                                                    (colname.toLowerCase() !== 'image')?
+                                                                    row[colname.toLowerCase()]
                                                                     :
                                                                         <img width="30" height="30" alt="" src={row['photo_url']}/>
                                                                 }
@@ -70,7 +102,16 @@ class Table extends React.Component {
                                             } 
                                                 {
                                                     (this.props.rowButton)?
-                                                        <td> <a onClick={() => this.props.onRowButtonClick(this.props.heading, i)}><img className = {this.props.cssClassName} src = {require('../img/delete.png')} width = '30' height = '30'/></a> </td>
+                                                        <td> 
+                                                            <img 
+                                                                onClick={() => this.props.onRowButtonClick(this.props.heading, row_index)}
+                                                                alt =""
+                                                                className = {this.props.cssClassName} 
+                                                                src = {require('../img/delete.png')} 
+                                                                width = '30' 
+                                                                height = '30'
+                                                            />
+                                                        </td>
                                                         :
                                                         null
                                                 }

@@ -22,14 +22,32 @@ class Orders extends React.Component {
         this.api = this.page.api
     }
 
+    parse_deals(data) {
+        let newdata = {}
+        newdata['Deals'] = Object.values(data)
+        return newdata
+    }
+
+    parse_menu(data) {
+        Object.keys(data).forEach(e => {
+            data[e] = Object.values(data[e])
+        })
+
+        return data
+    }
+
     componentDidMount() {
-        api_pull('/api/tables', d => {
-            console.log(d)
-            this.setState(old => {
-                return {
-                    ...old, 
-                    'tables': d
-                }
+        api_pull('/api/deals', deals => {
+            api_pull('/api/menu', menu => {
+                this.setState(old => {
+                    return {
+                        ...old, 
+                        'tables': {
+                            ...this.parse_deals(deals),
+                            ...this.parse_menu(menu)
+                        }
+                    }
+                })
             })
         })
     }
@@ -101,15 +119,16 @@ class Orders extends React.Component {
                     className={this.css.OrdersLeftTable}
                 >
                     {
-                        this.page.tables.left.map((table,i) => {
+                        Object.keys(this.state.tables).map((table,i) => {
+                            console.log(table)
                             return (
                                 <Table 
                                     key={i}
-                                    heading = {table.heading}
+                                    heading = {table}
                                     onRowClick={this.onRowClick}
                                     cssClassName = "TableLeftButton"
-                                    cols = {table.cols}
-                                    data = {this.state.tables[table.heading]}
+                                    cols = {this.page.tables[table].cols}
+                                    data = {this.state.tables[table]}
                                 />
                             )})
                     }

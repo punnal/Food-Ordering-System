@@ -1,6 +1,6 @@
 import React from 'react'
 
-class AddItemForm extends React.Component {
+class AddDealForm extends React.Component {
     constructor(props){
         super(props)
         this.state = this.props.prefill
@@ -194,11 +194,11 @@ class AddItemForm extends React.Component {
                     id='price' 
                     type='text' 
                     name='price' /><br/>
-                <button onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
-                <button onClick={() => this.onPopupClose('done', this.state !== this.props.prefill, this.state)}> Done </button>
+                <button onClick={()=>this.onPopupClose('add', 'cancel')}> Cancel </button>
+                <button onClick={this.validate}> Done </button>
             </div>
         )
     }
 }
 
-export default AddItemForm
+export default AddDealForm

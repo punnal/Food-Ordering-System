@@ -61,22 +61,24 @@ export const res = {
                 'path':'/orders',
                 'api':'/api/orders',
                 'tables': 
-                { 
-                    'left':
-                    [
-                        {
-                            'heading':'Deals',
-                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
-                        },
-                        {
-                            'heading':'Mains',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
-                        },
-                        {
-                            'heading':'Drinks',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
-                        }
-                    ]
+                {
+                    'Mains':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Deals':
+                    {
+                        'cols':['ID', 'Name', 'Image', 'Price']
+                    },
+                    'Drinks':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Extras':
+                    {
+                        'heading':'Extras',
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    }
                 }
             },
             {
@@ -105,7 +107,8 @@ export const res = {
                 'id': 4,
                 'title':'Deals',
                 'component':Deals,
-                'path':'/deals'
+                'path':'/deals',
+                'api':'/api/deals'
             },
             {
                 'id': 5,
