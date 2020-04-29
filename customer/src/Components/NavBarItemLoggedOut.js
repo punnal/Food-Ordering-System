@@ -1,4 +1,5 @@
 import React from 'react'
+import Classes from '../Resource/className'
 
 class NavBarItemLoggedOut extends React.Component {
 
@@ -13,10 +14,8 @@ class NavBarItemLoggedOut extends React.Component {
         
         const navBarItems = this.props.item.options.loggedOut.options.map(this.props.dataTranslator) 
         return(
-            <div>
-                <div>
-                    {navBarItems}
-                </div>
+            <div className = {Classes.NavBarLoggedOut}>
+                {navBarItems}
             </div>
         )
 
