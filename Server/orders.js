@@ -184,10 +184,9 @@ function get_delivery_handler(req, res){
             db_ref = db_deliveries_users.child(req.params.email)
         }
     }
-    if(typeof req.query.state != 'undefined'){
-
-        state = req.query.state
-        db_ref.orderByChild("state").equalTo(state).once("value", (db_snapshot) =>{
+    if(typeof req.query.status != 'undefined'){
+        status = req.query.status
+        db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
             res.send( {"data" : db_snapshot.val()})
         })
     }

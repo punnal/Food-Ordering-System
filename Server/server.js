@@ -33,7 +33,7 @@ app.get("*", function(req, res) {
     //res.sendFile("index.html", {root : "../admin/build"});
 });
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 3000;
 
 //process.env.PORT
 // const host = process.env.HOST || '0.0.0.0';
