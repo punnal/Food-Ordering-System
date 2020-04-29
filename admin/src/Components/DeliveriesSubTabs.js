@@ -130,7 +130,7 @@ class DeliveriesSubTabs extends React.Component {
                                     inputType='button'
                                     inputClassNames= {this.tab.buttonscss}
                                     inputs={this.tab.buttons}
-                                    data={e} 
+                                    data={e}
                                     onClick={this.clickHandler}/>
                             )})
                     }
