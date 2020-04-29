@@ -12,7 +12,7 @@ class Login extends React.Component {
 
     render() {
         return(
-            <div id = "Login" className  = "container">
+            <div id = "Login" className  = "container pt-2 pb-3">
                 <h2 className = "mt-5">User Account</h2>
                 <form class="needs-validation"  action = "/action_page.php" novalidate>
                     <div className = "form-group">

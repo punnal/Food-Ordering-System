@@ -79,7 +79,7 @@ class App extends React.Component {
                         <hr id = "LeftLine"/>
                         <hr id = "RightLine"/>
                         <h5 id = "StartOverlaySubTitle">Burgers & Drinks</h5>
-                        <Button onClick = {this.handleClick} aria-controls = "Vanish" aria-expanded = {this.state.Overlay} id = "StartOverlayButton" variant = "dark" >Enter Website</Button>
+                        <Button onClick = {this.handleClick} aria-controls = "Vanish" aria-expanded = {this.state.Overlay} id = "StartOverlayButton" variant = "secondary" >Enter Website</Button>
                     </div>
                 </Fade>
                 <Router>
