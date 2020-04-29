@@ -3,7 +3,7 @@ import React from 'react';
 
 const PopupH = (props) => {
     return (
-        <div className='PopupHeading'> 
+        <div style={{color:'black'}}>
             {props.children}
         </div>
     )
@@ -11,7 +11,7 @@ const PopupH = (props) => {
 
 const PopupBody = (props) => {
     return (
-        <div className='PopupBody'>
+        <div style={{color:'black'}}>
             {props.children}
         </div>
     )
@@ -19,7 +19,7 @@ const PopupBody = (props) => {
 
 const PopupButtons = (props) => {
     return (
-        <div>
+        <div style={{color:'black'}}>
             {props.children}
         </div>
     )

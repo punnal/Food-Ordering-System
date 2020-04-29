@@ -31,7 +31,7 @@ export const res = {
                         'name': 'Pending',
                         'path':'/deliveries/pending',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/pending',
+                        'api': '/api/deliveries',
                         'buttons': ['Accept', 'Reject'],
                         'buttonscss': ['Accept', 'Reject']
                     },
@@ -39,7 +39,7 @@ export const res = {
                         'name':'In Progress',
                         'path':'/deliveries/inprogress',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/inprogress',
+                        'api': '/api/deliveries',
                         'buttons': ['Completed', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
                     }, 
@@ -47,7 +47,7 @@ export const res = {
                         'name':'Delivered',
                         'path':'/deliveries/delivered',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/delivered',
+                        'api': '/api/deliveries',
                         'buttons':['Delivered', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
 
@@ -59,23 +59,26 @@ export const res = {
                 'title':'Orders',
                 'component':Orders,
                 'path':'/orders',
+                'api':'/api/orders',
                 'tables': 
-                { 
-                    'left':
-                    [
-                        {
-                            'heading':'Deals',
-                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
-                        },
-                        {
-                            'heading':'Mains',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
-                        },
-                        {
-                            'heading':'Drinks',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
-                        }
-                    ]
+                {
+                    'Mains':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Deals':
+                    {
+                        'cols':['ID', 'Name', 'Image', 'Price']
+                    },
+                    'Drinks':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Extras':
+                    {
+                        'heading':'Extras',
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    }
                 }
             },
             {
@@ -83,18 +86,19 @@ export const res = {
                 'title':'Menu',
                 'component':Menu,
                 'path':'/menu',
+                'api':'/api/menu',
                 'tables': 
                 [
-                        {
-                            'heading':'Deals',
-                            'cols':['ID', 'Name', 'Items', 'Image', 'Price']
-                        },
                         {
                             'heading':'Mains',
                             'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         },
                         {
                             'heading':'Drinks',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Extras',
                             'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
                         }
                     ]
@@ -103,7 +107,8 @@ export const res = {
                 'id': 4,
                 'title':'Deals',
                 'component':Deals,
-                'path':'/deals'
+                'path':'/deals',
+                'api':'/api/deals'
             },
             {
                 'id': 5,
@@ -172,7 +177,6 @@ export const res = {
             'OrdersRightTable': 'OrdersRightTable',
             'Orders': 'Orders',
             'OrdersLeftTable': 'OrdersLeftTable',
-            'OrdersRightTable': 'OrdersRightTable', 
             'TableHeadingAndButtonDiv': 'TableHeadingAndButtonDiv',
             'TableHeading': 'TableHeading',
             'TableAddButton': 'TableAddButton',

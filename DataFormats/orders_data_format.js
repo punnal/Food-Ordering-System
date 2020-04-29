@@ -43,6 +43,7 @@ response =
                         ]
     
                     }
+    
                   ],
                       
                 "deals" :
@@ -137,8 +138,6 @@ orders_list.forEach(order =>{
 // console.log(orders_list)
 
 console.log(util.inspect(orders_list, false, null, true /* enable colors */))
-
-
 
 /*
 OUTPUT

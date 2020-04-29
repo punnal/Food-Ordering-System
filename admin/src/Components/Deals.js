@@ -1,9 +1,156 @@
 import React from "react"
+import Table from './Table'
+import { api_pull, api_push } from '../api/api'
+import { res } from '../res/res'
+import AddDealPopup from './AddDealPopup'
+import DeleteItemPopup from './DeleteItemPopup'
+
 
 class Deals extends React.Component {
 
+    constructor(props){
+        super(props)
+        this.css = res.admin.css_classes
+        this.headingButton = 'Add'
+        this.api = res.admin.pages[this.props.id].api
+        this.tables = res.admin.pages[this.props.id].tables
+        this.showPopup = this.showPopup.bind(this)
+        this.onPopupClose = this.onPopupClose.bind(this)
+        this.onAdd = this.onAdd.bind(this)
+        this.onDelete = this.onDelete.bind(this)
+        this.onRowClick = this.onRowClick.bind(this)
+        this.parse_data = this.parse_data.bind(this)
+        this.hidePopup = this.hidePopup.bind(this)
+        this.onDeletePopupClose = this.onDeletePopupClose.bind(this)
+        this.state = {'tables':[], 'pshow':{
+            'add':false,
+            'delete':false
+        }}
+
+    }
+
+    componentDidMount() {
+        api_pull(this.api, d => {
+            this.setState(old => {
+                return {
+                    ...old, 
+                    'tables': this.parse_data(d)
+                }
+            })
+        })
+    }
+
+    parse_data(data) {
+        let newdata = {}
+        newdata['Deals'] = Object.values(data)
+        return newdata
+    }
+
+    showPopup(id, table, row) {
+        this.setState(old => {
+            let newstate = {...old}
+            newstate.pshow[id] = true
+            if(id==='delete')
+                newstate.staged_delete = [table, row]
+            return newstate
+        })
+    }
+
+    validate(state) {
+    }
+
+    delete_item(){
+        //api call to delete item from database
+        //remove from state as well
+    }
+
+    onDeletePopupClose(action){
+        console.log(action)
+        this.hidePopup('delete')
+    }
+
+    hidePopup(popup){
+        this.setState(old => {
+            let newstate = {...old}
+            newstate.pshow[popup] = false
+            return newstate
+        })
+    }
+
+    onPopupClose(action){
+        this.hidePopup('add')
+        this.setState(old => {
+            if(action === 'confirm')
+                this.delete_item(old.staged_delete)
+        })
+    }
+
+    onDelete(tableid, rowid) {
+        this.showPopup('delete', tableid, rowid)
+    }
+
+    onAdd(tableid) {
+        this.setState(old => {
+            let prefill = {
+            'name':'',
+            'description':'',
+            'options_lists':[{'':{'':''}}],
+            'photo_url':'',
+            'price':''
+        }
+            return {
+                ...old,
+                prefill:prefill
+            }
+        })
+        this.showPopup('add')
+    }
+
+    onRowClick(tableid, rowid){
+        this.setState(old => {
+            let prefill = old.tables[tableid][rowid]
+            return {
+                ...old,
+                prefill:prefill
+            }
+        })
+        this.showPopup('add')
+    }
+
     render() {
-        return <div> Placeholder </div>
+        return (
+            <div className = 'Menu'>
+                <AddDealPopup 
+                    show = {this.state.pshow.add}
+                    onClose = {this.onPopupClose}
+                    prefill = {this.state.prefill}
+                />
+                <DeleteItemPopup
+                    show = {this.state.pshow.delete}
+                    onClose = {this.onDeletePopupClose}
+                />
+
+                <div className={this.css.OrdersLeftTable}>
+                    {
+                        Object.keys(this.state.tables).map((table, i) => 
+                            <Table 
+                                key={i}
+                                heading = {'Deals'}
+                                headingButton={this.headingButton}
+                                onAdd={this.onAdd}
+                                rowButton="Delete"
+                                cssClassName = "TableLeftButton"
+                                onRowClick={this.onRowClick}
+                                onHeadingButtonClick={this.onAdd}
+                                cols = {['ID', 'Name', 'Items', 'Image', 'Price']}
+                                data = {this.state.tables[table]}
+                                onRowButtonClick= {this.onDelete}
+                            />
+                        )
+                    }
+                </div>
+            </div>
+        )
     }
 }
 

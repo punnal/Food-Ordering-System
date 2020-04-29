@@ -2,7 +2,7 @@ const navBarData = [
     {
         id: 0,
         name: "Menu",
-        link: "/menu"
+        link: "/"
     },
     {
         id: 1,

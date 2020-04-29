@@ -2,7 +2,7 @@ response =
 {
     "data" :
     {
-        "$id" : 
+        "1345135234" : 
         {
             "name" : "big mega deal 1",
             "id" : 100,
@@ -14,12 +14,12 @@ response =
                 {
                     "id" : 41,
                     "name" : "big burger",
-                    "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                    "options_lists" : 
                     [
                         {
-                            "Sauce":  // key representing option list name
-                            {              //value representing the options_lists themselves
-                                "Honey mustard" : 20, // key represents the option. value represents additional price
+                            "Sauce": 
+                            {              
+                                "Honey mustard" : 20, 
                                 "Garlic Mayo" :10
                             }
                         },
@@ -38,12 +38,12 @@ response =
                 {
                     "id" : 42,
                     "name" : "fries",
-                    "options_lists" : //will contain all options lists. keys would represent names for the optin list
+                    "options_lists" : 
                     [
                         {
-                            "Type":  // key representing option list name
-                            {              //value representing the options_lists themselves
-                                "Curly" : 50, // key represents the option. value represents additional price
+                            "Type":  
+                            {              
+                                "Curly" : 50, 
                                 "Onion rings" :50
                             }
                         },
