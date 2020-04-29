@@ -34,7 +34,7 @@ function post_handler(req, res){
 }
 
 function get_handler(req, res){
-    res.send(menu_by_category)
+    res.send(JSON.stringify({"data" : menu_by_category}))
 }
 
 
