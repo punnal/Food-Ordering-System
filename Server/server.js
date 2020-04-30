@@ -28,8 +28,8 @@ get_routes.forEach((element, i) =>{
 })
 
 
-post_routes = ["/api/orders", user_defs.signup_post_route, user_defs.login_post_route]
-post_handlers = [order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler]
+post_routes = [menu_defs.route, "/api/orders", user_defs.signup_post_route, user_defs.login_post_route]
+post_handlers = [menu_defs.post_handler, order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler]
 
 post_routes.forEach((element, i) =>{
     app.post(element, post_handlers[i])

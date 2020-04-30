@@ -16,26 +16,26 @@ var menu = {}
 category_int_to_str = {0:"Mains", 1:"Extras", 2:"Drinks"}
 category_str_to_int = {"Mains":0, "Extras":1, "Drinks":2}
 
+function getTimeStamp(){
+    d = new Date()
 
-function parse_menu(req, res){
-    var menu_data = JSON.stringify(req.body)
-    photo_url = menu_data["photo_url"]
-}
-
-
-function post_handler(req, res){
-    var menu_data = JSON.parse(req.body)
-
-    menu_data = menu_data["data"]
-
-    menu_data["id"] = Object.values(menu_by_category)
+    date_in_array = [d.getFullYear(), d.getMonth(), d.getDay(),  d.getHours(),  d.getMinutes(), d.getSeconds(), d.getMilliseconds()]
     
+    date_in_array = date_in_array.map( (val) =>{
+        val = val.toString()
 
+        if(val.length < 2){
+            val = '0' + val
+        }
+        return val
+    })
+
+    return date_in_array.join('')
 }
 
-function get_handler(req, res){
-    res.send(JSON.stringify({"data" : menu_by_category}))
-}
+
+
+
 
 
 function conv_options_lists(item_data){
@@ -54,6 +54,94 @@ function conv_options_lists(item_data){
 
     return item_data
 }
+
+
+function conv_back_options_lists(item_data){
+    
+    options_lists = item_data["options_lists"]
+    item_data["options_lists"] = {}
+    
+    options_lists.forEach((options_list) => { 
+        item_data["options_lists"][Object.keys(options_list)[0]] = Object.values(options_list)[0] 
+    });
+
+    return item_data
+}
+
+
+
+function parse_menu_post(req){ //parses the req object and does the neccessary formatting
+
+    var menu_data = req.body["data"]
+
+    return new Promise(function(resolve, reject){
+        Object.keys(menu_data).forEach((type_of_operation) => {
+            item_data = menu_data[type_of_operation]
+            if(type_of_operation == "edit" || type_of_operation == "add"){
+                if(type_of_operation == "add"){
+                    item_data["id"] = getTimeStamp()
+                }
+    
+                item_data = conv_back_options_lists(item_data)
+                
+                if("id" in item_data){
+                    try
+                    {
+                        db_menu.child(item_data["id"]).set(item_data, () =>{
+                            resolve(200)
+                        })
+                    }
+                    catch(err)
+                    {
+                        reject(404)
+                    }   
+                }
+    
+            }
+            else if(type_of_operation == "delete"){
+                if("id" in item_data)
+                {
+                    try{
+                        db_menu.child(item_data["id"]).remove(() =>{
+                            resolve(200)
+                        })
+                    }
+                    catch(err)
+                    {
+                        reject(404)
+                    }
+                    
+                }
+            }
+            
+        })
+    })
+
+}
+    
+
+
+
+
+
+function post_handler(req){
+    
+    menu_item_op_promise = parse_menu_post(req).then((statusCode) => {
+        res.statusCode = statusCode
+        res.send("Update successful!")
+    })
+    .catch((statusCode) =>{
+        res.statusCode = statusCode
+        res.send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
+    })
+}
+
+function get_handler(req, res){
+    res.send(JSON.stringify({"data" : menu_by_category}))
+}
+
+
+
 
 
 
@@ -115,3 +203,4 @@ db_menu.on("child_changed", (child_snapshot) => {
 module.exports.get_handler = get_handler
 module.exports.route = route
 
+module.exports.post_handler = post_handler
