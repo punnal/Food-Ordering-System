@@ -72,7 +72,7 @@ class App extends React.Component {
 
         return (
             <div className="App">
-                <Fade in = {this.state.Overlay} unmountOnExit>
+                <Fade in = {this.state.Overlay} unmountOnExit timeout = {5000}>
                     <div id = "Vanish" className = "StartOverlay">
                         <div className = "VerticalLine"></div>
                         <h1 id = "StartOverlayTitle">Smoke&Grill</h1>
