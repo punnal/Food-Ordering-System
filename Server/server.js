@@ -37,7 +37,7 @@ post_routes.forEach((element, i) =>{
 
 /// Make edits Here 
 
-app.get("*", function(req, res) {s
+app.get("*", function(req, res) {
     res.send("Hello!")
     //res.sendFile("index.html", {root : "../admin/build"});
 });
