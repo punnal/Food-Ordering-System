@@ -39,6 +39,7 @@ class Menu extends React.Component {
 
     componentDidMount() {
         api_pull(this.api, d => {
+            console.log(d)
             this.setState(old => {
                 return {
                     ...old, 
