@@ -1,4 +1,6 @@
 import React from 'react'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
 
 class SignUp extends React.Component {
@@ -12,7 +14,7 @@ class SignUp extends React.Component {
 
     render() {
         return(
-            <div id = "SignUp" className  = "container">
+            <div id = "SignUp" className  = "container pt-2 pb-3">
                 <h2 className = "mt-5">User Account</h2>
                 <form class="needs-validation"  action = "/action_page.php" novalidate>
                     <div className = "form-group">
@@ -41,7 +43,17 @@ class SignUp extends React.Component {
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <p>The password provided must be at least 8 characters long, containing at least one digit, one capital letter, one small letter.</p>
+                    <OverlayTrigger 
+                            key = "left"
+                            placement = "left"
+                            overlay = {
+                                <Tooltip id = "tooltip-left">
+                                    e.g Address: House no.14 St-14, Gulberg III. Phone: 0900-7860100
+                                </Tooltip>
+                            }
+                        >
                     <h2 className = "mt-5">Contact Information</h2>
+                    </OverlayTrigger>
                     <div className = "form-group">
                         <input type = "text" className = "form-control" id = "address" placeholder = "Address" name = "Address" required />
                         <div class="valid-feedback">Good to go!</div>
@@ -57,7 +69,7 @@ class SignUp extends React.Component {
                         <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
                         <label className = "custom-control-label" for="customCheck">Remember Me</label>
                     </div>
-                    <button type="submit" className = "btn btn-dark">SignUp</button>
+                    <button type="submit" className = "btn btn-secondary">SignUp</button>
                 </form>
             </div>
         )
