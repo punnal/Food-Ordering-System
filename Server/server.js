@@ -7,6 +7,7 @@ app.use(express.static("../admin/build"));
 var firebase = require('./db_initialize.js')
 var menu_defs = require('./menu.js')
 var order_defs = require("./orders.js")
+var deals_defs = require("./deals.js")
 var utils = require('./utils.js')
 
 
@@ -14,11 +15,11 @@ var db = firebase.database().ref().child("rand_vals");
 var db_users = firebase.database().ref().child("User");
 
 
-routes = [menu_defs.route, order_defs.route_deliveries, order_defs.route_local]
+routes = [menu_defs.route, order_defs.route_deliveries, order_defs.route_local, deals_defs.route]
 
 
 
-handlers = [menu_defs.get_handler, order_defs.get_delivery_handler, order_defs.get_local_handler]
+handlers = [menu_defs.get_handler, order_defs.get_delivery_handler, order_defs.get_local_handler, deals_defs.get_handler]
 
 routes.forEach((element, i) =>{
     app.get(element, handlers[i])
