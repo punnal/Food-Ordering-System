@@ -4,6 +4,7 @@ class DealItem extends React.Component {
     constructor() {
         super()
         this.state = {
+            type: "Deal",
             name: "",
             items: [],
             price: 0,
@@ -44,7 +45,7 @@ class DealItem extends React.Component {
                 [name]: value
             }
             newState.items[iter].optionsPrices = {
-                ...newState.items[iter].options,
+                ...newState.items[iter].optionsPrices,
                 [name]: this.props.dealData.items[iter].options_lists[name][value]
             } 
             
@@ -79,7 +80,10 @@ class DealItem extends React.Component {
             })
         }
         else if(type === "addToCart"){
-            if(Object.keys(this.state.options).length === Object.keys(this.props.dealData.options_lists).length){
+            console.log(this.state)
+            console.log(this.props.dealData)
+
+            if(this.state.items.reduce((a, b) => a + Object.keys(b.options).length, 0) === this.props.dealData.items.reduce((a, b) => a + Object.keys(b.options_lists).length,0)){
                 console.log("Order added")
                 this.props.addOrders({...this.state,})
                 this.handleClick("hidePopup")

@@ -18,8 +18,16 @@ class Cart extends React.Component {
         //Initilize values here
         this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
     }
+    
+    // order.type === "Menu"?
+    //     order.price + ((Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity:
+    //     order.price + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+b, 0)), 0))*order.quantity
 
-    calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity, init)
+    calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (
+        order.type === "Menu"?
+        (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity:
+         (order.price + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+b, 0)), 0)))*order.quantity
+    ), init)
 
     handleClick = (type, order) => {
         
@@ -71,7 +79,12 @@ class Cart extends React.Component {
                         <div>{order.quantity}</div>
                         <div className = "CartIncrease" onClick={ () => this.handleClick("increase", order)}>▶</div>
                         </div>
-                        <div className = "CartPrice">{(order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity}</div>
+                        <div className = "CartPrice">{(
+                            order.type === "Menu"?
+                                order.price + ((Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity:
+                                order.price + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+b, 0)), 0))*order.quantity
+                        )}
+                        </div>
                         <div className = "CartDelete" onClick={ () => this.handleClick("delete", order)}>&#128465;</div>
                     </div>
                     <div className = "CartOrderItemOutter"></div>
