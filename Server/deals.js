@@ -7,10 +7,17 @@ var db_menu = firebase.database().ref().child("Menu");
 
 function getTimeStamp(){
     const d = new Date()
-    return [d.getFullYear(), d.getMonth(), d.getDay(),  d.getHours(),  d.getMinutes(), d.getSeconds(), d.getMilliseconds()].map( (val) =>{
-        if(val.toString().length < 2)
-            return '0' + val.toString()
-    }).join('')
+    date_in_array = [d.getFullYear(), d.getMonth(), d.getDay(),  d.getHours(),  d.getMinutes(), d.getSeconds(), d.getMilliseconds()]
+    date_in_array = date_in_array.map( (val) =>{
+        val = val.toString()
+        if(val.length < 2)
+            val = '0' + val
+        return val
+    })
+    if(date_in_array[6].length < 3)
+        date_in_array[6] = '0' + date_in_array[6]
+ 
+    return date_in_array.join('')
 }
 
 
@@ -52,31 +59,37 @@ function deal_parse_post(req){
 
         var deal_data = req.body["data"]
         
-        if(typeof deal_data == 'undefined'){
+        if(typeof deal_data == 'undefined')
             reject(403)
-        }
 
-        
         db_menu.once("value", (menu_snapshot) =>{
 
-            if(!menu_snapshot.exists()){
+            if(!menu_snapshot.exists())
                 reject(400)
-            }
+            
             const items = menu_snapshot.val()
 
             Object.keys(deal_data).forEach((type_of_operation) => {
                 deal_data = deal_data[type_of_operation]
                 
                 if(type_of_operation == "edit" || type_of_operation == "add"){
-                    if(type_of_operation == "add"){
+                    if(type_of_operation == "add")
                         deal_data["id"] = getTimeStamp()
-                    }
 
-                    if(!"items" in deal_data){
+                    if(!"items" in deal_data)
                         reject(403)
-                    }
-        
-                    deal_data["items"] = deal_data["items"].map((item_id) =>{
+                    
+                    var item_quantities = {}
+
+                    deal_data["items"].forEach((item_id) => {
+                        if(!(item_id in item_quantities))
+                            item_quantities[item_id] = 1
+                        else
+                            item_quantities[item_id] = item_quantities[item_id] + 1 
+                    })
+                                        
+                    deal_data["items"] = []
+                    Object.keys(item_quantities).forEach((item_id) =>{
                         if(item_id in items)
                         {
                             var item = items[item_id]
@@ -86,46 +99,23 @@ function deal_parse_post(req){
                             delete item.price
                             
                             item = conv_options_lists(item)
+                            item["quantity"] = item_quantities[item_id]
 
-                            return item
+                            deal_data["items"].push(item)                            
                         }
                         else
-                        {
                             reject(404)
-                        }    
+                        
                     })
                     
                     
-                    if("id" in deal_data){
-                        try
-                        {
-                            db_deals.child(deal_data["id"]).set(deal_data, () =>{
-                                resolve(200)
-                            })
-                        }
-                        catch(err)
-                        {
-                            reject(404)
-                        }   
-                    }
+                    if("id" in deal_data)
+                        db_deals.child(deal_data["id"]).set(deal_data).then(() => resolve(200)).catch((err)=> reject(404))
         
                 }
-                else if(type_of_operation == "delete"){
+                else if(type_of_operation == "delete")
                     if("id" in deal_data)
-                    {
-                        try{
-                            db_deals.child(deal_data["id"]).remove(() =>{
-                                resolve(200)
-                            })
-                        }
-                        catch(err)
-                        {
-                            reject(404)
-                        }
-                        
-                    }
-                }
-                
+                        db_deals.child(deal_data["id"]).remove().then(() => resolve(200)).catch((err) => reject(404))
             })
         })
 
@@ -135,11 +125,11 @@ function deal_parse_post(req){
 
 function post_handler(req, res){
     deal_parse_post(req).then((statusCode) => {
-        res.statusCode = statusCode
+        res.status(200)
         res.send("Changes made successfully!")
     })
     .catch((statusCode) =>{
-        res.statusCode = statusCode
+        res.status(statusCode)
 
         if(statusCode == 403)
         {
