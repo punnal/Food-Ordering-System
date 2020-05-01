@@ -74,9 +74,13 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 
     var menu_data = req.body["data"]
 
+    if(typeof deal_data == 'undefined'){
+        reject(403)
+    }
+
     return new Promise(function(resolve, reject){
         Object.keys(menu_data).forEach((type_of_operation) => {
-            item_data = menu_data[type_of_operation]
+            var item_data = menu_data[type_of_operation]
             if(type_of_operation == "edit" || type_of_operation == "add"){
                 if(type_of_operation == "add"){
                     item_data["id"] = getTimeStamp()
@@ -200,7 +204,10 @@ db_menu.on("child_changed", (child_snapshot) => {
 })
 
 
+
+
 module.exports.get_handler = get_handler
 module.exports.route = route
 
 module.exports.post_handler = post_handler
+
