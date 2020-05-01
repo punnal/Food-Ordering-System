@@ -27,6 +27,16 @@ class Gallery extends React.Component {
                         }, () => this.setState({
                             loading: false
                         }))
+                    }).catch(() => {
+                        this.setState({
+                            //Hardcoded here
+                            pictures: [
+                                {id:1,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
+                                {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
+                            ]//response.data
+                        }, () => this.setState({
+                            loading: false
+                        }))
                     })
         )
 
