@@ -4,6 +4,8 @@ import axios from "axios";
 import Logo from "../../img/phone123.png";
 import Logo2 from "../../img/email.png";
 import * as emailjs from "emailjs-com";
+import Maps from "./google_maps";
+import Loc from "../../img/location.png";
 
 export default class Contact extends React.Component {
   state = {
@@ -161,154 +163,185 @@ export default class Contact extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          flex: "1",
-        }}
-      >
-        <div>
-          <div
-            id="contactForm"
-            style={{
-              position: "relative",
-              bottom: "-100px",
-              right: "-100px",
-              color: "White",
-              border: "solid black 5px",
-              borderRadius: "25px",
-              backgroundColor: "grey",
-              padding: "50px",
-            }}
-          >
-            <div className="full-width-row cta-form--bg">
-              <div className="row-container">
-                <form className="cta-form">
-                  <label className="cta-form__label" htmlFor="name">
-                    <h4>Name: &nbsp;</h4>
-                  </label>
-                  <input
-                    name="name"
-                    value={this.state.name}
-                    onChange={(e) => this.change(e)}
-                    type="text"
-                    className="cta-form__input"
-                    id="name"
-                    style={{
-                      margin: `${this.state.nameError.length > 0 ? "0" : ""}`,
-                    }}
-                  />
-                  <p className="form-error">{this.state.nameError}</p>
-                  <label className="cta-form__label" htmlFor="email">
-                    <h4>Email: &nbsp;</h4>
-                  </label>
-                  <input
-                    name="email"
-                    value={this.state.email}
-                    onChange={(e) => this.change(e)}
-                    type="text"
-                    className="cta-form__input"
-                    id="email"
-                    style={{
-                      margin: `${this.state.emailError.length > 0 ? "0" : ""}`,
-                    }}
-                  />
-                  <p className="form-error">{this.state.emailError}</p>
-                  <label className="cta-form__label" htmlFor="subject">
-                    <h4>Subject: &nbsp;</h4>
-                  </label>
-                  <input
-                    name="subject"
-                    value={this.state.subject}
-                    onChange={(e) => this.change(e)}
-                    type="text"
-                    className="cta-form__input"
-                    id="subject"
-                    style={{
-                      margin: `${
-                        this.state.subjectError.length > 0 ? "0" : ""
-                      }`,
-                    }}
-                  />
-                  <p className="form-error">{this.state.subjectError}</p>
-                  <label className="cta-form__label" htmlFor="message">
-                    <h4>Message: &nbsp;</h4>
-                  </label>
-                  <textarea
-                    name="message"
-                    onChange={(e) => this.change(e)}
-                    value={this.state.message}
-                    className="cta-form__textarea"
-                    id="message"
-                    style={{
-                      width: "400px",
-                      borderRadius: "8px",
-                      margin: `${
-                        this.state.messageError.length > 0 ? "0" : ""
-                      }`,
-                    }}
-                  />
-                  <p className="form-error">{this.state.messageError}</p>
-                  <button
-                    type="button"
-                    style={{
-                      backgroundColor: "Red",
-                      width: "80px",
-                      borderRadius: "8px",
-                    }}
-                    onClick={(e) => this.onSubmit(e)}
-                  >
-                    <h3 style={{ color: "white" }}>Send</h3>
-                  </button>
-                </form>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            flex: "1",
+          }}
+        >
+          <div>
+            <div
+              id="contactForm"
+              style={{
+                position: "relative",
+                bottom: "-100px",
+                right: "-100px",
+                color: "White",
+                border: "solid black 5px",
+                borderRadius: "25px",
+                backgroundColor: "grey",
+                padding: "50px",
+              }}
+            >
+              <div className="full-width-row cta-form--bg">
+                <div className="row-container">
+                  <form className="cta-form">
+                    <label className="cta-form__label" htmlFor="name">
+                      <h4>Name: &nbsp;</h4>
+                    </label>
+                    <input
+                      name="name"
+                      value={this.state.name}
+                      onChange={(e) => this.change(e)}
+                      type="text"
+                      className="cta-form__input"
+                      id="name"
+                      style={{
+                        margin: `${this.state.nameError.length > 0 ? "0" : ""}`,
+                      }}
+                    />
+                    <p className="form-error">{this.state.nameError}</p>
+                    <label className="cta-form__label" htmlFor="email">
+                      <h4>Email: &nbsp;</h4>
+                    </label>
+                    <input
+                      name="email"
+                      value={this.state.email}
+                      onChange={(e) => this.change(e)}
+                      type="text"
+                      className="cta-form__input"
+                      id="email"
+                      style={{
+                        margin: `${
+                          this.state.emailError.length > 0 ? "0" : ""
+                        }`,
+                      }}
+                    />
+                    <p className="form-error">{this.state.emailError}</p>
+                    <label className="cta-form__label" htmlFor="subject">
+                      <h4>Subject: &nbsp;</h4>
+                    </label>
+                    <input
+                      name="subject"
+                      value={this.state.subject}
+                      onChange={(e) => this.change(e)}
+                      type="text"
+                      className="cta-form__input"
+                      id="subject"
+                      style={{
+                        margin: `${
+                          this.state.subjectError.length > 0 ? "0" : ""
+                        }`,
+                      }}
+                    />
+                    <p className="form-error">{this.state.subjectError}</p>
+                    <label className="cta-form__label" htmlFor="message">
+                      <h4>Message: &nbsp;</h4>
+                    </label>
+                    <textarea
+                      name="message"
+                      onChange={(e) => this.change(e)}
+                      value={this.state.message}
+                      className="cta-form__textarea"
+                      id="message"
+                      style={{
+                        width: "400px",
+                        borderRadius: "8px",
+                        margin: `${
+                          this.state.messageError.length > 0 ? "0" : ""
+                        }`,
+                      }}
+                    />
+                    <p className="form-error">{this.state.messageError}</p>
+                    <button
+                      type="button"
+                      style={{
+                        backgroundColor: "Red",
+                        width: "80px",
+                        borderRadius: "8px",
+                      }}
+                      onClick={(e) => this.onSubmit(e)}
+                    >
+                      <h3 style={{ color: "white" }}>Send</h3>
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          style={{
-            position: "relative",
-            bottom: "-100px",
-            right: "-200px",
-            height: "600px",
-            width: "1000px",
-            color: "White",
-            border: "solid black 5px",
-            borderRadius: "25px",
-            backgroundColor: "lightgrey",
-            padding: "50px",
-          }}
-        >
-          <h1
+          <div
             style={{
-              color: "purple",
-              textAlignLast: "start",
-              fontSize: "80px",
+              position: "relative",
+              bottom: "-100px",
+              right: "-200px",
+              height: "600px",
+              width: "1000px",
+              color: "White",
+              border: "solid black 5px",
+              borderRadius: "25px",
+              backgroundColor: "lightgrey",
+              padding: "50px",
             }}
           >
-            Don't Be a Stranger
-          </h1>
-          <h1
-            style={{ color: "purple", textAlignLast: "end", fontSize: "100px" }}
-          >
-            Say Hello
-          </h1>
-          <h1
-            style={{ color: "purple", textAlignLast: "end", fontSize: "50px" }}
-          >
-            ----Leave a message for us----
-          </h1>
-          <hr></hr> <br></br>
-          <div className="footer-section contact-form">
-            <span>
-              <h3>Contact</h3>
-              <img src={Logo} height="25" width="25" />
-              &nbsp; 123-456-789 &nbsp;&nbsp;
-              <img src={Logo2} height="25" width="25" />
-              &nbsp; SMOKE&GRILL@somewhere.com
-              <p>ADDRESS: MODEL TOWN</p>
-            </span>
+            <h1
+              style={{
+                color: "purple",
+                textAlignLast: "start",
+                fontSize: "80px",
+              }}
+            >
+              Don't Be a Stranger
+            </h1>
+            <h1
+              style={{
+                color: "purple",
+                textAlignLast: "end",
+                fontSize: "100px",
+              }}
+            >
+              Say Hello
+            </h1>
+            <h1
+              style={{
+                color: "purple",
+                textAlignLast: "end",
+                fontSize: "50px",
+              }}
+            >
+              ----Leave a message for us----
+            </h1>
+            <hr></hr> <br></br>
+            <div className="footer-section contact-form">
+              <span>
+                <h3>Contact</h3>
+                <img src={Logo} height="25" width="25" />
+                &nbsp; 123-456-789 &nbsp;&nbsp;
+                <img src={Logo2} height="25" width="25" />
+                &nbsp; SMOKE&GRILL@somewhere.com
+                <p>ADDRESS: MODEL TOWN</p>
+              </span>
+            </div>
           </div>
+        </div>
+        <div>
+          <div style={{ left: "1000px" }}>
+            <hr />
+            <hr />
+            <hr />
+            <hr />
+            <hr />
+            <hr />
+            <hr />
+            <hr />
+            <h1 style={{ color: "grey", bottom: "1000px" }}>
+              Open the location in google Maps by clicking the icon below
+            </h1>
+            <a href="https://www.google.com/maps/place/Smoke%26Grill/@31.5361647,74.3049368,15z">
+              <img src={Loc} Width="100px" height="100px" />
+            </a>
+          </div>
+          <Maps />
         </div>
       </div>
     );
