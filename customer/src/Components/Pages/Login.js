@@ -22,7 +22,7 @@ class Login extends React.Component {
 
     render() {
         return(
-            <div id = "Login" className  = "container">
+            <div id = "Login" className  = "container pt-2 pb-3">
                 <h2 className = "mt-5">User Account</h2>
                 <form class="needs-validation" action="javascript:void(0);" onSubmit={this.handleSubmit} novalidate>
                     <div className = "form-group">
@@ -38,10 +38,6 @@ class Login extends React.Component {
                         <div class="valid-feedback">All done!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                    {/*<div className = "custom-control custom-checkbox mb-3">
-                        <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
-                        <label className = "custom-control-label" for="customCheck">Remember Me</label>
-                    </div>*/}
                     <button type="submit" className = "btn btn-dark">Login</button>
                 </form>
                 <h3>Or</h3>
@@ -54,3 +50,8 @@ class Login extends React.Component {
 }
 
 export default Login
+
+/*{<div className = "custom-control custom-checkbox mb-3">
+                        <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
+                        <label className = "custom-control-label" for="customCheck">Remember Me</label>
+                    </div>}*/

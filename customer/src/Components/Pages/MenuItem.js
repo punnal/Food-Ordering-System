@@ -1,4 +1,5 @@
 import React from "react"
+import Alert from 'react-bootstrap/Alert'
 
 class MenuItem extends React.Component {
     constructor() {
@@ -12,6 +13,7 @@ class MenuItem extends React.Component {
             quantity: 0,
             id: 0,
             showPopup: false,
+            visible: false
         }
     }
     componentDidMount() {
@@ -78,6 +80,11 @@ class MenuItem extends React.Component {
                     quantity: 1,
                     id: this.props.menuData.id,
                 })
+                this.setState({visible:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({visible:false})
+            }, 2000)
+        })
             }
         }
 
@@ -114,7 +121,7 @@ class MenuItem extends React.Component {
                 <div className = "MenuItemName">{this.props.menuData.name}</div>
                 <div className = "MenuItemDescription">{this.props.menuData.description}</div>
                 <div className = "MenuItemPrice">{this.props.menuData.price} PKR</div>
-                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}><img src = {require('../../img/cart.png')} height = '35' width = '35'/></div>
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">
@@ -132,6 +139,9 @@ class MenuItem extends React.Component {
                     </div>
                     : null 
                 }
+                <Alert variant = "success" show = {this.state.visible}>
+                    <strong>Order Added to Cart Succesfully!</strong>
+                </Alert>
             </div>
         )
     }
