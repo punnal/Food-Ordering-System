@@ -4,7 +4,7 @@ var firebase = require('./db_initialize.js')
 
 
 const db_orders = firebase.database().ref().child("Orders");
-const db_deliveries = firebase.database().ref().child("Deliveries")
+const db_local = firebase.database().ref().child("Local")
 const db_deliveries_users = firebase.database().ref().child("Deliveries_users")
 
 function getTimeStamp(){
@@ -60,6 +60,7 @@ function parse_item(item){
 
 function parse_deal(deal){
     parsed_deal = {}
+    
     parsed_deal["name"] = deal["name"]
     parsed_deal["price"] = deal["price"]
     parsed_deal["id"] = deal["id"]
@@ -88,6 +89,7 @@ function is_item(obj){
 
 
 function parse_order(order){
+
     parsed_order = {}
     parsed_order["email"] = order["user"]
     parsed_order["contact_no"] = order["phone"]
@@ -96,18 +98,19 @@ function parse_order(order){
     parsed_order["deals"] = []
     parsed_order["price"] = 0
     parsed_order["status"] = "0"
+    
     if(!("type" in parsed_order))
-    {
         parsed_order["type"] = "1"
-    }
+
 
     order["orders"].forEach(obj =>{
-        if(!("quantity" in obj)){
+        
+        if(!("quantity" in obj))
             obj["quantity"] = 1
-        }
-        else{
+            
+        else
             obj["quantity"] = parseInt(obj["quantity"])
-        }
+        
 
 
         if(!is_item(obj)){
@@ -131,27 +134,40 @@ function parse_order(order){
 // console.log(util.inspect(parse_order(request["data"]), false, null, true /* enable colors */))
 
 function post_handler(req, res){
-    parsed_order = parse_order(req["data"])
-    parsed_order["id"] = getTimeStamp()
+    if(!("data" in req.body))
+    {
+        res.status(403)
+        res.send("Error: Possibly incorrect format for post request.")
+    }
 
+
+    try{
+        parsed_order = parse_order(req.body["data"])
+    }
+    catch(err){
+        res.status(403)
+        res.send("Err: Possibly incorrect format for post request")
+    }
+
+    parsed_order["id"] = getTimeStamp()
     parsed_order["time"] = new Date().getTime()
 
-    // console.log(parsed_order)
 
 
-    if(parsed["type"] == "1"){
-        db_deliveries.child(parsed_order["id"]).set(parsed_order)
+    db_orders.child(parsed_order["id"]).set(parsed_order)
+
+    if(parsed["type"] == "1")
         db_deliveries_users.child(parsed_order["email"]).child(parsed_order["id"]).set(parsed_order)
-    }
-    else{
-        db_orders.child(parsed_order["id"]).set(parsed_order)
-    }
+    else
+        db_local.child(parsed_order["id"]).set(parsed_order)
+    
+    res.status(403)
+    res.send("Order placed successfully!")
     
 }
 
 
-const route_local = '/api/orders'
-const route_deliveries = '/api/deliveries'
+const route = '/api/orders'
 
 
 
@@ -171,19 +187,20 @@ function get_local_handler(req, res){
     }
 }
 
-function get_delivery_handler(req, res){
-    db_ref = db_deliveries
+function get_handler(req, res){
+    db_ref = db_orders
 
-    if(typeof req.query.email != 'undefined'){
-        console.log(req.params.email)
+    if(typeof req.query.type != 'undefined' && parseInt(req.query.type) == 1)
+        db_ref = db_local
 
-        // console.log("here")
-
-        if(firebase.database().ref().hasChild("Deliveries_users"))
-        {
+    try{
+        if(typeof req.query.email != 'undefined' && firebase.database().ref().hasChild("Deliveries_users") && db_deliveries_users.hasChild(req.params.email))
             db_ref = db_deliveries_users.child(req.params.email)
-        }
+    }catch(err){
+        
     }
+    
+    
     if(typeof req.query.status != 'undefined'){
         status = req.query.status
         db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
@@ -198,9 +215,6 @@ function get_delivery_handler(req, res){
 }
 
 
-module.exports.get_local_handler = get_local_handler
-module.exports.get_delivery_handler = get_delivery_handler
 module.exports.post_handler = post_handler
-
-module.exports.route_deliveries = route_deliveries
-module.exports.route_local = route_local
+module.exports.get_handler = get_handler
+module.exports.route = route

@@ -74,46 +74,25 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 
     var menu_data = req.body["data"]
 
+    if(typeof deal_data == 'undefined')
+        reject(403)
+
     return new Promise(function(resolve, reject){
         Object.keys(menu_data).forEach((type_of_operation) => {
-            item_data = menu_data[type_of_operation]
+            var item_data = menu_data[type_of_operation]
             if(type_of_operation == "edit" || type_of_operation == "add"){
-                if(type_of_operation == "add"){
+                if(type_of_operation == "add")
                     item_data["id"] = getTimeStamp()
-                }
-    
+                
                 item_data = conv_back_options_lists(item_data)
                 
-                if("id" in item_data){
-                    try
-                    {
-                        db_menu.child(item_data["id"]).set(item_data, () =>{
-                            resolve(200)
-                        })
-                    }
-                    catch(err)
-                    {
-                        reject(404)
-                    }   
-                }
-    
-            }
-            else if(type_of_operation == "delete"){
                 if("id" in item_data)
-                {
-                    try{
-                        db_menu.child(item_data["id"]).remove(() =>{
-                            resolve(200)
-                        })
-                    }
-                    catch(err)
-                    {
-                        reject(404)
-                    }
-                    
-                }
+                    db_menu.child(item_data["id"]).set(item_data).then(() => resolve(200)).catch((err) => reject(404))
+                
             }
-            
+            else if(type_of_operation == "delete")
+                if("id" in item_data)
+                    db_menu.child(item_data["id"]).remove().then(() => resolve(200)).catch((err)=> reject(404))
         })
     })
 
@@ -200,7 +179,10 @@ db_menu.on("child_changed", (child_snapshot) => {
 })
 
 
+
+
 module.exports.get_handler = get_handler
 module.exports.route = route
 
 module.exports.post_handler = post_handler
+
