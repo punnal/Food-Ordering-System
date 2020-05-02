@@ -91,8 +91,8 @@ class SignUp extends React.Component {
 export default SignUp
 
 
-/*/*<div className = "custom-control custom-checkbox mb-3">
-                        <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
-                        <label className = "custom-control-label" for="customCheck">Remember Me</label>
-                    </div>
-                    <button type="submit" className = "btn btn-secondary">SignUp</button>*/*/
+/*<div className = "custom-control custom-checkbox mb-3">
+    <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
+    <label className = "custom-control-label" for="customCheck">Remember Me</label>
+</div>
+<button type="submit" className = "btn btn-secondary">SignUp</button>*/

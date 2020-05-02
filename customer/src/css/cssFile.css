@@ -599,6 +599,10 @@ body {
   animation-duration: 1.5s;  
 }
 
+.CartClick {
+  cursor: pointer;
+}
+
 .CartMinOrder {
   margin-top: 100px;
   font-size: 20px;
