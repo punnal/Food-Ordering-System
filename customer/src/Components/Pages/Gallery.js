@@ -32,7 +32,12 @@ class Gallery extends React.Component {
                             //Hardcoded here
                             pictures: [
                                 {id:1,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
-                                {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
+                                {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"},
+                                {id:3,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"},
+                                {id:4,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"},
+                                {id:5,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"},
+                                {id:6,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"},
+                                {id:7,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
                             ]//response.data
                         }, () => this.setState({
                             loading: false
@@ -62,7 +67,7 @@ class Gallery extends React.Component {
         const pictures = this.createGallery()
         const loading = this.createLoading()
         return(
-            <div>
+            <div className = "GalleryBox">
                 {this.state.loading?loading:pictures}
             </div>
         )

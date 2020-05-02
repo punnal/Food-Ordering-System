@@ -859,6 +859,49 @@ body {
   width: 100%;
 }
 
+/*==================================================================================================================================*/
+/*GALLERY*/
+
+.GalleryBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.GalleryBoxItem {
+  cursor: pointer;
+  transition: all 1s;
+  margin-bottom: 50px;
+}
+
+.GalleryBoxItem:hover {
+  transform: scale(1.05);
+}
+
+.GalleryPopup {
+  width: 100%;
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: rgba(0,0,0, 0.7);
+  -webkit-animation-name: slide-in-bck-center;
+  animation-name: slide-in-bck-center;
+  animation-duration: 1s;
+  z-index: 2;  
+}
+
+.GalleryPopupClose {
+  float: right;
+}
+
+.fa-window-close {
+  color: red;
+}
+
 /*==============================================================================================================================*/
 
 /*FOOTER*/
