@@ -62,6 +62,9 @@ class AddDealPopup extends React.Component {
         this.onItemChange = this.onItemChange.bind(this)
         this.onAdd = this.onAdd.bind(this)
         this.onRemove = this.onRemove.bind(this)
+        this.onNameChange = this.onNameChange.bind(this)
+        this.onPriceChange = this.onPriceChange.bind(this)
+        this.onImageUpload = this.onImageUpload.bind(this)
     }
 
     onChange(event) {
@@ -120,6 +123,49 @@ class AddDealPopup extends React.Component {
         })
     }
 
+    onNameChange(event) {
+        const {value} = event.target
+        this.setState(old => {
+            return {
+                deal: {
+                    ...old.deal,
+                    name:value
+                }
+            }
+        })
+    }
+
+    onImageUpload(event){
+        let file = event.target.files[0]
+        var reader = new FileReader()
+        let dataurl = ''
+        reader.onload = () => {
+            dataurl = reader.result
+            console.log(dataurl)
+            this.setState(old => {
+                return {
+                    deal:{
+                        ...old.deal,
+                        'photo_url':dataurl
+                    }
+                }
+            })
+        }
+        reader.readAsDataURL(file)
+    }
+
+    onPriceChange(event) {
+        const {value} = event.target
+        this.setState(old => {
+            return {
+                deal: {
+                    ...old.deal,
+                    price:value
+                }
+            }
+        })
+    }
+
     render() {
         return (
             <Popup 
@@ -127,7 +173,8 @@ class AddDealPopup extends React.Component {
                 <PopupH> Add/Edit An Item </PopupH>
                 <PopupBody> 
                     <div>
-                        <h2> {this.state.deal.name} </h2>
+                        <input type="text" onChange={this.onNameChange} value={this.state.deal.name} />
+                        <input type="number" onChange={this.onPriceChange} value={this.state.deal.price} />
                         <h4> Items </h4>
                         {
                             this.state.deal.items.map((item, i) => {
@@ -149,6 +196,9 @@ class AddDealPopup extends React.Component {
                             })
                         }
                         <button id={this.state.deal.items.length} onClick={this.onAdd}> + </button>
+                        <img height="100" src={this.state.deal.photo_url}/>
+                        <br/>
+                        <input onChange={this.onImageUpload} type="file"/>
                     </div>
                 </PopupBody>
                 <button onClick={() => this.props.onClose('cancel')}> Close </button>

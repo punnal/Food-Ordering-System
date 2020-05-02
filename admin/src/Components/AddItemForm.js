@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 
 class AddItemForm extends React.Component {
     constructor(props){
@@ -41,6 +42,7 @@ class AddItemForm extends React.Component {
 
     onChange(event, key, parent) {
         let target = event.target
+        const {id, name} = target
         this.setState(old => {
             if(!key.includes('option')) {
                 let newstate = {
@@ -68,26 +70,10 @@ class AddItemForm extends React.Component {
                     }
                 }
                 else if(key === 'option_list_value'){
-                    let new_option_value = old.options_lists.map((e, i) => {
-                        let option_name = Object.keys(e)[0]
-                        console.log(`${option_name} = ${parent}`)
-                        if(option_name === parent) {
-                            let options = {
-                                [option_name]:{
-                                    ...e[option_name],
-                                }
-                            }
-                            let price = options[option_name][target.name]
-                            delete options[option_name][target.name]
-                            options[option_name][target.value] = price
-                            return options
-                        }
-                        return e
-                    })
-                    return {
-                        ...old,
-                        'options_lists': [...new_option_value]
-                    }
+                    let newstate = _.cloneDeep(old)
+                    const [key, option] = name.split('/')
+                    newstate.options_lists[id][key][option] = target.value
+                    return newstate
                 }
             }
         })
@@ -130,6 +116,8 @@ class AddItemForm extends React.Component {
     render() {
         return (
             <div>
+                <button onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
+                <button onClick={() => this.onPopupClose('done', this.state !== this.props.prefill, this.state)}> Done </button>
                 <label htmlFor='name'>Name:</label>
                 <input 
                     onChange={(e) => this.onChange(e, 'name')} value={this.state.name} 
@@ -154,18 +142,20 @@ class AddItemForm extends React.Component {
                                     sorted.map((option, b) => {
                                         return (
                                             <div key={b}>
-                                            <input 
-                                                onChange={(e) => this.onChange(e, 'option_list_value', key)} 
-                                                value={option}//{this.parseOptions(Object.values(optionList)[0])} 
+                                            <label
                                                 id='option_value' 
                                                 type='text' 
-                                                name={option} />
+                                                name={option} 
+                                            >
+                                                {option}
+                                            </label>
                                             <input 
                                                 onChange={(e) => this.onChange(e, 'option_list_value', option)} 
                                                 value={optionList[key][option]}//{this.parseOptions(Object.values(optionList)[0])} 
-                                                id='option_price' 
-                                                type='text' 
-                                                name={optionList[key][option]}/>
+                                                id={i}
+                                                min="0"
+                                                type='number' 
+                                                name={`${key}/${option}`}/>
                                             <button onClick={() => this.onDeleteOption(key, i, option)}> - </button>
                                             </div>
                                         )
@@ -194,8 +184,6 @@ class AddItemForm extends React.Component {
                     id='price' 
                     type='text' 
                     name='price' /><br/>
-                <button onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
-                <button onClick={() => this.onPopupClose('done', this.state !== this.props.prefill, this.state)}> Done </button>
             </div>
         )
     }

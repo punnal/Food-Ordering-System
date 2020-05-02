@@ -1,5 +1,4 @@
 const parser = (json, url) => {
-    if(url === '/api/deals') return json
     return json.data
 }
 
@@ -11,12 +10,16 @@ const api_pull = (url, callback) => {
 }
 
 const api_push = (url, data) => {
+    let body = {
+        'data':data
+    }
+    console.log(body)
     fetch(url, {
         method:'POST',
         headers: {
             'Content-Type':'application/json'
         },
-        body:JSON.stringify(data)
+        body:JSON.stringify(body)
     })
 }
 export {

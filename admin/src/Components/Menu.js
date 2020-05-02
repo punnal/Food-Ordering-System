@@ -85,7 +85,7 @@ class Menu extends React.Component {
     }
 
     onPopupClose(action, changed, state){
-        console.log(changed, state)
+        console.log('changed', changed, state)
         this.hidePopup('add')
     }
 

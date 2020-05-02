@@ -24,6 +24,7 @@ class Deals extends React.Component {
         this.hidePopup = this.hidePopup.bind(this)
         this.onDeletePopupClose = this.onDeletePopupClose.bind(this)
         this.onDealChanged = this.onDealChanged.bind(this)
+        this.updateTables = this.updateTables.bind(this)
         this.state = {'tables':[], 'pshow':{
             'add':false,
             'delete':false
@@ -31,7 +32,7 @@ class Deals extends React.Component {
 
     }
 
-    componentDidMount() {
+    updateTables() {
         api_pull('/api/menu', menu => {
             this.menu = menu
             api_pull(this.api, d => {
@@ -43,6 +44,9 @@ class Deals extends React.Component {
                 })
             })
         })
+    }
+    componentDidMount() {
+        this.updateTables()
     }
 
     parse_data(data) {
@@ -66,11 +70,22 @@ class Deals extends React.Component {
 
     delete_item(){
         //api call to delete item from database
+        const [table, row] = this.state.staged_delete
+        console.log('deleting')
+        api_push('/api/deals', Parsers.parseDealsBeforePush(this.state.tables[table][row], 'delete'))
+        this.updateTables()
         //remove from state as well
+        this.setState(old => {
+            let newstate = {...old}
+            delete newstate.staged_delete
+            return newstate
+        })
     }
 
     onDeletePopupClose(action){
         this.hidePopup('delete')
+        if(action === 'confirm')
+            this.delete_item(this.state.staged_delete)
     }
 
     hidePopup(popup){
@@ -83,10 +98,7 @@ class Deals extends React.Component {
 
     onPopupClose(action){
         this.hidePopup('add')
-        this.setState(old => {
-            if(action === 'confirm')
-                this.delete_item(old.staged_delete)
-        })
+        console.log('action', action)
     }
 
     onDelete(tableid, rowid) {
@@ -128,6 +140,7 @@ class Deals extends React.Component {
         if(!changed)
             return
         api_push('/api/deals', Parsers.parseDealsBeforePush(state, type))
+        this.updateTables()
     }
 
     render() {
