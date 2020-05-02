@@ -18,6 +18,7 @@ class App extends React.Component {
         this.handleClick = this.handleClick.bind(this)
         this.state = {
             loggedIn: false,
+            tokken: "",
             navBar: NavBarData,
             footer: FooterData,
             currentPage: 0,
@@ -25,6 +26,22 @@ class App extends React.Component {
             Overlay: true,
             cartItems: 0
         }
+    }
+
+    logIn = (tok) => {
+        this.setState({
+            loggedIn: true,
+            tokken: tok,
+        })
+
+    }
+
+    logOut = () => {
+        this.setState({
+            loggedIn: false,
+            tokken: "",
+        })
+
     }
 
     addOrder = (order, callback) => {
@@ -97,8 +114,8 @@ class App extends React.Component {
                     </div>
                 </Fade>
                 <Router>
-                    <NavigationBar loggedIn={this.state.loggedIn} navBarData={this.state.navBar} cartItems = {this.state.cartItems} />
-                    <MainContents orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
+                    <NavigationBar logout={this.logOut} loggedIn={this.state.loggedIn} navBarData={this.state.navBar} cartItems = {this.state.cartItems} />
+                    <MainContents login={this.logIn} orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
                     <Footer FooterData={this.state.footer} />
                 </Router>
             </div>

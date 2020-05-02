@@ -1,23 +1,49 @@
 import React from 'react'
+import Axios from 'axios'
 
+import Api from '../../api/api'
 
 class Login extends React.Component {
 
     constructor() {
         super()
         this.state = {
-            email: "",
-            password: "",
+            contents:{
+                email: "",
+                password: "",
+            },
+            loading: false,
+            error: ""
         }
     }
 
     handleSubmit = () => {
         console.log(this.state)
+        this.setState({loading:true}, () => { 
+            Axios.post(Api.login, this.state.contents)
+                .then((response) => {
+                    this.setState({loading: false}, () => {
+                        if(response.success){//Success
+                            this.props.login(response.data.tokken)
+                            console.log("Sucess", response.data)
+                            
+                        }else{
+                            console.log("Login Failed: ", response.data.error)
+                        }
+                    })
+
+                })
+        })
     }
-    
+
     handleChange = (event) => {
         const {name, value} = event.target
-        this.setState({ [name]: value })
+        this.setState({ 
+            contents:{
+                ...this.state.contents,
+                [name]: value
+            } 
+        })
     }
 
     render() {
@@ -27,14 +53,13 @@ class Login extends React.Component {
                 <form class="needs-validation" action="javascript:void(0);" onSubmit={this.handleSubmit} novalidate>
                     <div className = "form-group">
                         <label for = "email">Email:</label>
-                        <input onChange={this.handleChange} value={this.state.email} type = "email" className = "form-control" id = "email" placeholder = "Enter email" name = "email" required />
+                        <input onChange={this.handleChange} value={this.state.contents.email} type = "email" className = "form-control" id = "email" placeholder = "Enter email" name = "email" required />
                         <div class="valid-feedback">Good to go!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <div className = "form-group">
                         <label for = "pass">Password:</label>
-                        <input onChange={this.handleChange} value={this.state.password} type = "password" className= "form-control" id = "pass" placeholder = "Enter password" name = "password" min = "8" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
-                        <p>The password provided must be at least 8 characters long, containing at least one digit, one capital letter, one small letter.</p>
+                        <input onChange={this.handleChange} value={this.state.contents.password} type = "password" className= "form-control" id = "pass" placeholder = "Enter password" name = "password" min = "8" required />
                         <div class="valid-feedback">All done!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>

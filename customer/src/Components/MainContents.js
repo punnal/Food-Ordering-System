@@ -32,10 +32,10 @@ const MainContents = (props) => {
                     <ContactUs />
                 </Route>
                 <Route path="/login">
-                    <Login />
+                    <Login login={this.props.login}/>
                 </Route>
                 <Route exact path="/signup">
-                    <SignUp />
+                    <SignUp login={this.props.login}/>
                 </Route>
                 <Route path="/cart">
                     <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
