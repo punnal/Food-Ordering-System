@@ -907,8 +907,7 @@ body {
 /*FOOTER*/
 
 footer{
-  position: fixed;
-  bottom: 0;
+  position: absolute;
 }
  
 @media (max-height:800px){
