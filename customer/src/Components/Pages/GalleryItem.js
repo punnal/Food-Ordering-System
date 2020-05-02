@@ -20,12 +20,12 @@ class GalleryItem extends React.Component {
     render(){
         return (      
             <div>
-                <div onClick={() => this.handleClick("openPopup")}>
-                    <img src={this.props.picture.link} alt="" height = '200' weight = '200'></img>
+                <div className = "GalleryBoxItem" onClick={() => this.handleClick("openPopup")}>
+                    <img class = "img-thumbnail" src={this.props.picture.link} alt="" height = '300' width = '350'></img>
                 </div>
                 {this.state.showPopup?
-                    <div>
-                        <div onClick={() => this.handleClick("closePopup")}>X</div>
+                    <div className = "GalleryPopup">
+                        <div className = "GalleryPopupClose" onClick={() => this.handleClick("closePopup")}><i class="fas fa-window-close fa-2x"></i></div>
                         <img src={this.props.picture.link} alt=""></img>
                     </div>
                     :null
