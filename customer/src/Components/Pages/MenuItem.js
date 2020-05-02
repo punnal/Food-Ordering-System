@@ -5,6 +5,7 @@ class MenuItem extends React.Component {
     constructor() {
         super()
         this.state = {
+            type: "Menu",
             name: "",
             options: {},
             optionsPrices: {},
@@ -120,7 +121,7 @@ class MenuItem extends React.Component {
                 <div className = "MenuItemName">{this.props.menuData.name}</div>
                 <div className = "MenuItemDescription">{this.props.menuData.description}</div>
                 <div className = "MenuItemPrice">{this.props.menuData.price} PKR</div>
-                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}><img src = {require('../../img/cart.png')} height = '35' width = '35'/></div>
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">

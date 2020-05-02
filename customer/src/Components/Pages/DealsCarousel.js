@@ -22,7 +22,7 @@ class DealsCarousel extends React.Component {
 			    />
 			    </a>
 			    <Carousel.Caption>
-			      <h3>Deal 1</h3>
+			      <h3 className = "CarouselCaptionTitle">Deal 1</h3>
 			      <p>Buy 1 get 0 free.</p>
 			    </Carousel.Caption>
 			  </Carousel.Item>
@@ -35,7 +35,7 @@ class DealsCarousel extends React.Component {
 			    />
 			    </a>
 			    <Carousel.Caption>
-			      <h3>My Ass</h3>
+			      <h3 className = "CarouselCaptionTitle">My Ass</h3>
 			      <p>I really want this thing to be the best.</p>
 			    </Carousel.Caption>
 			  </Carousel.Item>
@@ -48,7 +48,7 @@ class DealsCarousel extends React.Component {
 			    />
 			    </a>
 			    <Carousel.Caption>
-			      <h3>Filth Frank</h3>
+			      <h3 className = "CarouselCaptionTitle">Filth Frank</h3>
 			      <p>Please can we figure out how to deploy.</p>
 			    </Carousel.Caption>
 			  </Carousel.Item>

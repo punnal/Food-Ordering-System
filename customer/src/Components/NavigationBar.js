@@ -36,6 +36,7 @@ class NavigationBar extends React.Component{
             <div className={Classes.Cart}>
                 <Link to={item.link}>
                 <img src={require('../img/cart.png')} height = '35' width = '35' />
+                <span id = "badge" class="badge badge-light">{this.props.cartItems}</span>
                 </Link>
             </div>)
         }
