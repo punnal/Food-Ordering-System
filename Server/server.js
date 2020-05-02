@@ -16,18 +16,18 @@ var user_defs = require("./users.js")
 var utils = require('./utils.js')
 
 
-get_routes = [menu_defs.route, order_defs.route_deliveries, order_defs.route_local, deals_defs.route]
+get_routes = [menu_defs.route, order_defs.route, deals_defs.route]
 
 
 
-get_handlers = [menu_defs.get_handler, order_defs.get_delivery_handler, order_defs.get_local_handler, deals_defs.get_handler]
+get_handlers = [menu_defs.get_handler, order_defs.get_handler,  deals_defs.get_handler]
 
 get_routes.forEach((element, i) =>{
     app.get(element, get_handlers[i])
 })
 
 
-post_routes = [deals_defs.route, menu_defs.route, "/api/orders", user_defs.signup_post_route, user_defs.login_post_route]
+post_routes = [deals_defs.route, menu_defs.route, order_defs.route, user_defs.signup_post_route, user_defs.login_post_route]
 post_handlers = [deals_defs.post_handler, menu_defs.post_handler, order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler]
 
 post_routes.forEach((element, i) =>{
