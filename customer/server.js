@@ -184,7 +184,6 @@ const MenuData = {
 app.use(express.static(path.join(__dirname, "build")));
 
 app.get("/api/menu", (req, res) => {
-    console.log(res)
     res.send(MenuData)
 })
 
@@ -200,7 +199,7 @@ app.get("/api/gallery", (req, res) => {
 
 
 app.post("/api/orders", (req, res) => {
-    console.log("POST", req)
+    console.log("POST", req.body)
 })
 
 app.get("/*", function(req, res) {
