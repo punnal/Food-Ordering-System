@@ -4,6 +4,7 @@ import { api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
 import AddDealPopup from './AddDealPopup'
 import DeleteItemPopup from './DeleteItemPopup'
+import Parsers from './Parsers'
 
 
 class Deals extends React.Component {
@@ -22,6 +23,7 @@ class Deals extends React.Component {
         this.parse_data = this.parse_data.bind(this)
         this.hidePopup = this.hidePopup.bind(this)
         this.onDeletePopupClose = this.onDeletePopupClose.bind(this)
+        this.onDealChanged = this.onDealChanged.bind(this)
         this.state = {'tables':[], 'pshow':{
             'add':false,
             'delete':false
@@ -30,12 +32,15 @@ class Deals extends React.Component {
     }
 
     componentDidMount() {
-        api_pull(this.api, d => {
-            this.setState(old => {
-                return {
-                    ...old, 
-                    'tables': this.parse_data(d)
-                }
+        api_pull('/api/menu', menu => {
+            this.menu = menu
+            api_pull(this.api, d => {
+                this.setState(old => {
+                    return {
+                        ...old, 
+                        'tables': this.parse_data(d)
+                    }
+                })
             })
         })
     }
@@ -65,7 +70,6 @@ class Deals extends React.Component {
     }
 
     onDeletePopupClose(action){
-        console.log(action)
         this.hidePopup('delete')
     }
 
@@ -89,18 +93,19 @@ class Deals extends React.Component {
         this.showPopup('delete', tableid, rowid)
     }
 
-    onAdd(tableid) {
+    onAdd() {
         this.setState(old => {
             let prefill = {
-            'name':'',
-            'description':'',
-            'options_lists':[{'':{'':''}}],
-            'photo_url':'',
-            'price':''
-        }
+                'name':'',
+                'description':'',
+                'items': [],
+                'photo_url':'',
+                'price':''
+            }
             return {
                 ...old,
-                prefill:prefill
+                prefill:prefill,
+                type:'add'
             }
         })
         this.showPopup('add')
@@ -108,28 +113,43 @@ class Deals extends React.Component {
 
     onRowClick(tableid, rowid){
         this.setState(old => {
-            let prefill = old.tables[tableid][rowid]
+            const prefill = old.tables[tableid][rowid]
             return {
                 ...old,
-                prefill:prefill
+                prefill:prefill,
+                type:'edit'
             }
         })
         this.showPopup('add')
     }
 
+    onDealChanged(changed, state, type){
+        this.hidePopup('add')
+        if(!changed)
+            return
+        api_push('/api/deals', Parsers.parseDealsBeforePush(state, type))
+    }
+
     render() {
         return (
             <div className = 'Menu'>
-                <AddDealPopup 
-                    show = {this.state.pshow.add}
-                    onClose = {this.onPopupClose}
-                    prefill = {this.state.prefill}
-                />
+                {
+                    this.state.pshow.add?
+                        <AddDealPopup 
+                            show = {this.state.pshow.add}
+                            onClose = {() => this.hidePopup('add')}
+                            onAdd = {this.onDealChanged}
+                            prefill = {this.state.prefill}
+                            menu = {this.menu}
+                            type = {this.state.type}
+                        />
+                        :
+                        null
+                }
                 <DeleteItemPopup
                     show = {this.state.pshow.delete}
                     onClose = {this.onDeletePopupClose}
                 />
-
                 <div className={this.css.OrdersLeftTable}>
                     {
                         Object.keys(this.state.tables).map((table, i) => 

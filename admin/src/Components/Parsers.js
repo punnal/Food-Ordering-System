@@ -22,6 +22,13 @@ class Parsers {
             [item]: final
         }
     }
+
+    static parseDealsBeforePush = (deal, type) => {
+        deal.items = deal.items.map(item => item.id)
+        const parsed = {[type]:deal}
+        console.log(parsed)
+        return parsed
+    }
 }
 
 export default Parsers

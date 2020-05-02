@@ -3,12 +3,11 @@ import { res } from '../res/res'
 
 
 const parseItems = (items) => {
-    console.log('ITEMS')
     return (
         <div>
             {
                 items.map((item, i) => {
-                    return <li key = {i}> {item.name} </li>
+                    return <li key = {i}> {item.quantity} {item.name} </li>
                 })
             }
         </div>

@@ -10,6 +10,7 @@ class Orders extends React.Component {
     constructor(props) {
         super(props)
         this.page = res.admin.pages[this.props.id]
+        this.options_charges = 0
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
         this.state = {'tables':{}, 'bill':[], 'showpopup':false, 'checked':{}}
@@ -23,6 +24,7 @@ class Orders extends React.Component {
         this.showOptionsPopup = this.showOptionsPopup.bind(this)
         this.createCheckBox = this.createCheckBox.bind(this)
         this.hideOptionsPopup = this.hideOptionsPopup.bind(this)
+        this.addToBill = this.addToBill.bind(this)
     }
 
     parse_deals(data) {
@@ -55,24 +57,57 @@ class Orders extends React.Component {
         })
     }
 
-    onAdd(tableid) {
+    optionsToString(selected) {
+        return Object.keys(selected).map((item, i) => {
+            return (
+                <div key={i}>
+                    <h5> {item} </h5>
+                    {
+                        Object.keys(selected[item]).map((list, j) => {
+                            const ref = selected[item][list]
+                            const selected_name = Object.keys(ref).filter(e => ref[e].checked)
+                            const selected_charge = Object.values(ref).filter(e => e.checked)[0].charge
+                            this.options_charges += selected_charge
+                            return (
+                                <div key={j}>
+                                    <h6>{list} : {selected_name} : + {selected_charge}</h6>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            )
+        })
     }
 
-    addToBill(table, row, options){
-        let item = this.state.tables[table][row]
+    onAdd() {
+        const options = this.optionsToString(this.state.checked)
+        const {table, row} = this.state.staged_add
+        this.addToBill(table, row, options, this.options_charges)
+        this.hideOptionsPopup()
+        this.options_charges = 0
+        //clear up state
+    }
+
+    addToBill(table, row, options, charges){
+        let item = {...this.state.tables[table][row]}
         this.setState(old => {
             let newbill = [...old.bill]
             let found = false
             newbill.forEach((e, i) => {
                 if(e.id === item.id) {
                     e.qty += 1
+                    e.charges += charges
+                    e.options = [...e.options, options]
                     found = true
                 }
             })
             if(!found){
                 item.qty = 1
+                item.charges = charges
                 newbill = [...newbill, item]
             }
+            item.options = [options]
             return {
                 ...old,
                 'bill': [...newbill]
@@ -92,8 +127,8 @@ class Orders extends React.Component {
             dic[item] = {}
             ol[item].forEach(list => {
                 dic[item][list.name] = {}
-                Object.keys(list.options).forEach(option_name => {
-                    dic[item][list.name][option_name] = false
+                Object.keys(list.options).forEach((option_name, i) => {
+                    dic[item][list.name][option_name] = {checked:i? false:true, charge:parseInt(list.options[option_name])}
                 })
             })
         })
@@ -115,7 +150,8 @@ class Orders extends React.Component {
                 ...old,
                 showpopup:true,
                 options_lists:this.parseOptionsLists(table, row),
-                checked:this.initCheckBoxState(table, row)
+                checked:this.initCheckBoxState(table, row),
+                staged_add:{table:table, row:row}
             }
         })
     }
@@ -146,14 +182,15 @@ class Orders extends React.Component {
     totalBill(){
         let total = 0
         this.state.bill.forEach(item => {
-            total += item.price*item.qty
+            total += item.price*item.qty + item.charges
         })
         return total
     }
 
     showPopup(){
-        this.setState(old => {return {...old, showpopup:true}})
+        this.setState(old => {return {...old, showbill:true}})
     }
+
     onGenerateBill(){
         this.showPopup()
     }
@@ -163,7 +200,7 @@ class Orders extends React.Component {
             let newstate = {...old}
             let ref = newstate.checked[item][listName]
             Object.keys(ref).forEach(e => {
-                newstate.checked[item][listName][e] = e===option
+                newstate.checked[item][listName][e].checked = e===option
             })
             return newstate
         })
@@ -179,10 +216,10 @@ class Orders extends React.Component {
                             <div key={i}>
                                 <input 
                                     type="radio" 
-                                    checked={this.state.checked[item][list.name][option]}
+                                    checked={this.state.checked[item][list.name][option].checked}
                                     onChange={() => this.onChecked(item, list.name, option)}
                                 />
-                                <label> {option} </label>
+                                <label> {option} : +{list.options[option]}</label>
                             </div>
                         )
                     })
@@ -224,7 +261,7 @@ class Orders extends React.Component {
                         onFooterButtonClick={this.onGenerateBill}
                         cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
-                        cols = {['ID', 'Name', 'Price', 'Qty']}
+                        cols = {['ID', 'Name', 'Price', 'Options', 'Charges', 'Qty']}
                         data = {this.state.bill}
                     />
                 </div>
@@ -235,6 +272,7 @@ class Orders extends React.Component {
                         >
                             <PopupButtons>
                                 <button onClick={this.hideOptionsPopup}> Close </button> 
+                                <button onClick={this.onAdd}> Add To Bill </button> 
                             </PopupButtons>
                             <PopupBody>
                                 {
