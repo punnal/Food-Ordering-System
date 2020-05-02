@@ -3,8 +3,8 @@ const app = express();
 
 var bodyParser     =        require("body-parser");
 //Here we are configuring express to use body-parser as middle-ware.
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit : '50mb', extended: false }));
+app.use(bodyParser.json({limit : '50mb'}));
 
 app.use(express.static("../admin/build"));
 
