@@ -1,7 +1,7 @@
 import React from 'react'
 import Axios from 'axios'
 import MenuItem from './MenuItem'
-
+import Api from '../../api/api'
 
 import Items from '../../dummyFiles/menujson'
 
@@ -13,6 +13,7 @@ class Menu extends React.Component {
             mainMenuItems: [],
             extrasMenuItems: [],
             drinksMenuItems: [],
+            loading:false
         }
     }
         
@@ -25,41 +26,82 @@ class Menu extends React.Component {
         return item
     }
 
-    componentDidMount() {
-        /*Axios.get('http://localhost:5000/api/menu')
-            .then((response) => {
-                console.log(response) 
-                const itemsCopy = {...response,}
-                let main = Object.values(itemsCopy.data.Main)
-                let extras = Object.values(itemsCopy.data.Extras)
-                let drinks = Object.values(itemsCopy.data.Drinks)
-                main = main.map(this.listToObject)
-                extras = extras.map(this.listToObject)
-                drinks = drinks.map(this.listToObject)
-                this.setState({
-                    mainMenuItems: main,
-                    extrasMenuItems: extras,
-                    drinksMenuItems: drinks,
+    // componentDidMount() {
+    //     /*Axios.get('http://localhost:5000/api/menu')
+    //         .then((response) => {
+    //             console.log(response) 
+    //             const itemsCopy = {...response,}
+    //             let main = Object.values(itemsCopy.data.Main)
+    //             let extras = Object.values(itemsCopy.data.Extras)
+    //             let drinks = Object.values(itemsCopy.data.Drinks)
+    //             main = main.map(this.listToObject)
+    //             extras = extras.map(this.listToObject)
+    //             drinks = drinks.map(this.listToObject)
+    //             this.setState({
+    //                 mainMenuItems: main,
+    //                 extrasMenuItems: extras,
+    //                 drinksMenuItems: drinks,
 
-        })
+    //     })
 
 
-            })*/
-        const itemsCopy = {...Items,}
-        let main = Object.values(itemsCopy.data.Main)
-        let extras = Object.values(itemsCopy.data.Extras)
-        let drinks = Object.values(itemsCopy.data.Drinks)
-        main = main.map(this.listToObject)
-        extras = extras.map(this.listToObject)
-        drinks = drinks.map(this.listToObject)
-        this.setState({
-            mainMenuItems: main,
-            extrasMenuItems: extras,
-            drinksMenuItems: drinks,
+    //         })*/
+    //     const itemsCopy = {...Items,}
+    //     let main = Object.values(itemsCopy.data.Main)
+    //     let extras = Object.values(itemsCopy.data.Extras)
+    //     let drinks = Object.values(itemsCopy.data.Drinks)
+    //     main = main.map(this.listToObject)
+    //     extras = extras.map(this.listToObject)
+    //     drinks = drinks.map(this.listToObject)
+    //     this.setState({
+    //         mainMenuItems: main,
+    //         extrasMenuItems: extras,
+    //         drinksMenuItems: drinks,
 
-        })
+    //     })
+    // }
+
+    componentWillMount(){
+        this.setState({loading: true}, () =>
+            Axios.get(Api.menu)
+                .then((response) => {
+                    console.log("then")
+                    console.log(response.data)
+                    console.log(response.data.data)
+                    const itemsCopy = response.data
+                    let main = Object.values(itemsCopy.data.Main)
+                    let extras = Object.values(itemsCopy.data.Extras)
+                    let drinks = Object.values(itemsCopy.data.Drinks)
+                    main = main.map(this.listToObject)
+                    extras = extras.map(this.listToObject)
+                    drinks = drinks.map(this.listToObject)
+                    this.setState({
+                        mainMenuItems: main,
+                        extrasMenuItems: extras,
+                        drinksMenuItems: drinks,
+                    }, () => this.setState({
+                        loading: false
+                    }))
+                }).catch(() => {
+                    console.log("catch")
+                    const itemsCopy = {...Items,}
+                    let main = Object.values(itemsCopy.data.Main)
+                    let extras = Object.values(itemsCopy.data.Extras)
+                    let drinks = Object.values(itemsCopy.data.Drinks)
+                    main = main.map(this.listToObject)
+                    extras = extras.map(this.listToObject)
+                    drinks = drinks.map(this.listToObject)
+                    this.setState({
+                        mainMenuItems: main,
+                        extrasMenuItems: extras,
+                        drinksMenuItems: drinks,
+                    }, () => this.setState({
+                        loading: false
+                    }))
+                })
+        )
+
     }
-
     createMenu = (item) => {
         return (
             <MenuItem key={item.id} menuData={item} orders={this.props.orders} addOrders={this.props.addOrders} />

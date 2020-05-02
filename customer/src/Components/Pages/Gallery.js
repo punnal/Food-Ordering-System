@@ -18,12 +18,15 @@ class Gallery extends React.Component {
         this.setState({loading: true}, () =>
                 Axios.get(Api.gallery)
                     .then((response) => {
+                        console.log(response.data)
+                        console.log(response.data.data.pictures)
                         this.setState({
                             //Hardcoded here
-                            pictures: [
-                                {id:1,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
-                                {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
-                            ]//response.data
+                            //pictures: [
+                            //    {id:1,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
+                            //    {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
+                            //]
+                            pictures:response.data.data.pictures
                         }, () => this.setState({
                             loading: false
                         }))
@@ -32,6 +35,8 @@ class Gallery extends React.Component {
                             //Hardcoded here
                             pictures: [
                                 {id:1,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
+                                {id:3,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
+                                {id:4,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}, 
                                 {id:2,link:"https://natashaskitchen.com/wp-content/uploads/2019/04/Best-Burger-5-600x900.jpg"}
                             ]//response.data
                         }, () => this.setState({
