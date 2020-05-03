@@ -6,6 +6,12 @@ import AddItemPopup from './AddItemPopup'
 import DeleteItemPopup from './DeleteItemPopup'
 import Parsers from './Parsers'
 
+const mapper = {
+    'Mains':0,
+    'Extras':1,
+    'Drinks':2
+}
+
 class Menu extends React.Component {
 
     constructor(props){
@@ -111,10 +117,12 @@ class Menu extends React.Component {
     }
 
     onAdd(tableid) {
+        console.log(tableid)
         this.setState(old => {
             let prefill = {
             'name':'',
             'description':'',
+            'category':mapper[tableid],
             'options_lists':[{'':{}}],
             'photo_url':'',
             'price':''
