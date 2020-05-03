@@ -26,9 +26,10 @@ class EditAccount extends React.Component {
     }
 
     componentWillMount() {
+        console.log("Before", this.props.info)
         this.setState({
             contents:this.props.info
-        })
+        }, console.log("After", this.props.info))
     }
 
     handleSubmit = () => {
@@ -52,7 +53,7 @@ class EditAccount extends React.Component {
                     this.setState({
                         loading: false
                     }, () => {
-                        this.login()//Hardcoded Login. Remove plis
+                        this.props.setInfo(this.state.contents)//Hardcoded Login. Remove plis
                         console.log("error")
                     })
                 })

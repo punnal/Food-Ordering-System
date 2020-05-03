@@ -20,7 +20,6 @@ class NavBarItemLoggedIn extends React.Component {
 
     constructor(props) {
         super(props)
-        this.handleClick = this.handleClick.bind(this)
         this.state = {
             dropdown: false
         }
@@ -45,8 +44,9 @@ class NavBarItemLoggedIn extends React.Component {
         /*const navBarItems = this.props.item.options.loggedIn.options.map(this.props.dataTranslator)*/ 
         const DropDownItems = this.props.item.options.loggedIn.options.map(option => {
             if(option.name === "Sign Out"){
+                console.log("SignOut: ")
                 return(
-                    <div onClick={()=>this.logout}>
+                    <div onClick={()=>this.logout()}>
                         <Dropdown.Item as='button' className = "DropDownItem">
                             {option.name}
                         </Dropdown.Item>
