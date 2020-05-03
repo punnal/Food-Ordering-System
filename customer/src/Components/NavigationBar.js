@@ -11,6 +11,7 @@ class NavigationBar extends React.Component{
         super()
         this.state = {
             mobileNav: false,
+            dropdown: false
         }
     }
     
@@ -18,7 +19,7 @@ class NavigationBar extends React.Component{
         if(item.name == "Customer"){
             if(this.props.loggedIn){
                 return (
-                    <NavBarItemLoggedIn item={item} dataTranslator={this.dataTranslator} />
+                    <NavBarItemLoggedIn click={this.handleDropDownClick} item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
@@ -53,9 +54,27 @@ class NavigationBar extends React.Component{
         })
     }
 
+    handleDropDownClick = () => {
+        console.log(this.state.dropdown)
+        this.setState({
+            dropdown: !this.state.dropdown
+        })
+    }
+
 
     render() {
         const navBarItems = this.props.navBarData.map(this.dataTranslator) 
+        const navBarItemsDropDown = this.props.navBarData.map(items => {
+            if(items.name == "Customer"){
+                items.options.loggedIn.options.map(item => {
+                   return( 
+                   <div>
+                        item.name
+                    </div>
+                )
+                })
+            }
+        })
         
         return(
             <div>
@@ -72,6 +91,12 @@ class NavigationBar extends React.Component{
                     <img className = {Classes.Logo} src={require('../img/logo.png')} height = '50' width = '50' />
                     {navBarItems}
                 </div>
+                    {this.state.dropdown?
+                        <div>
+                            {navBarItemsDropDown}
+                        </div>
+                        : null
+                    }
             </div>
         )
     }

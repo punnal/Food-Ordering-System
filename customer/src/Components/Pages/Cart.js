@@ -90,9 +90,9 @@ class Cart extends React.Component {
     render() {
         const orders = this.props.orders.map(this.listOrders)
         return(
-            <div className = "CartMain">
+            <div class = "container" className = "CartMain">
                 <div>
-                    <div class = "table-responsive">
+                    <div>
                         <div className = "CartMinOrder">Minimum order of {this.state.minOrder} PKR</div>
                         <table class = "table table-dark table-striped">
                             <thead>
