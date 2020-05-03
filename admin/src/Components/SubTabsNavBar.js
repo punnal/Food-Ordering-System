@@ -1,5 +1,7 @@
 import React from 'react'
 import { res } from "../res/res"
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 import {
     Link
 } from "react-router-dom";
@@ -19,9 +21,23 @@ class SubTabNavBar extends React.Component {
                                 <Link 
                                     key={i} 
                                     to={`${e.path}`} >
-                                    <div className={res.admin.css_classes.DSubTabElement}>
+                                    <button type = "button" className = "btn btn-info" id={res.admin.css_classes.DSubTabElement}>
                                         {e.name}
-                                    </div>
+                                        {e.name != 'Delivered' ?
+                                        <OverlayTrigger 
+                                            key = "top"
+                                            placement = "top"
+                                            overlay = {
+                                            <Tooltip id = "tooltip-top">
+                                                Number of orders {e.name}.
+                                            </Tooltip>
+                                            }
+                                        > 
+                                            <span id = "badge" class="badge badge-light">5</span>
+                                        </OverlayTrigger>
+                                        : null
+                                    }
+                                    </button>
                                 </Link>
                             )})
                     }

@@ -1,5 +1,6 @@
 import React from "react"
 import InputArray from "./InputArray"
+import Alert from 'react-bootstrap/Alert'
 import { res } from "../res/res"
 
 
@@ -25,8 +26,8 @@ const parseOptions =(options) => {
 const parseItem = (item, id) => {
     return (
         <div key={id}> 
-            <h2> {item.name} </h2>
-            <div> {parseOptions(item.option_list_choices)} </div>
+            <h6> {item.name} </h6>
+            <div className = "CardInfoInner"> {parseOptions(item.option_list_choices)} </div>
         </div>
     )
 }
@@ -34,13 +35,13 @@ const parseItem = (item, id) => {
 const parseDeals = (deal, id) => {
     return (
         <div key={id}> 
-            <h2> {deal.name} </h2>
+            <h6> {deal.name} </h6>
             {
                 deal.items.map((e,i) => {
                     return (
 
-                        <div key={i}>
-                            <h3> {e.name} </h3>
+                        <div className = "CardInfoInner" key={i}>
+                            <h6> {e.name} </h6>
                             {parseOptions(e.option_list_choices)}
                         </div>
                     )})
@@ -53,7 +54,7 @@ const parseDeals = (deal, id) => {
 const Card = (props) => {
     return ( 
         <div className = {res.admin.css_classes.DeliveriesContainer}> 
-            <div className = {res.admin.css_classes.DeliveriesInfo}>
+            <div className = "bg-dark text-white" id = {res.admin.css_classes.DeliveriesInfo}>
                 {
                     Object.keys(props.data).map((e, i) => {
                         return (
@@ -63,8 +64,8 @@ const Card = (props) => {
                             (e === 'deals')?
                             props.data[e].map((item, dealid) => parseDeals(item, dealid))
                             :
-                                <div key={i}>
-                                    <h2> {e.toUpperCase()}</h2> 
+                                <div className = "CardInfo" key={i}>
+                                    <h6> {e.toUpperCase()}</h6> 
                                     <p> {(e === 'status')? 
                                             statmap[props.data[e]]
                                             :
