@@ -36,6 +36,11 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
             if(type_of_operation == "edit" || type_of_operation == "add"){
                 if(type_of_operation == "add")
                     item_data["id"] = getTimeStamp()
+
+                if(!("category" in item_data))
+                    reject(403)
+                
+                item_data["category"] = item_data["category"].toString()
                                 
                 if("id" in item_data)
                     db_menu.child(item_data["id"]).set(item_data).then(() => resolve(200)).catch((err) => reject(404))
@@ -55,7 +60,7 @@ function post_handler(req, res){
         res.status(statusCode).send("Update successful!")
     })
     .catch((statusCode) =>{
-        res.status(statusCode)send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
+        res.status(statusCode).send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
     })
 }
 
