@@ -2,6 +2,7 @@ import React from 'react'
 import Classes from '../Resource/className'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {Link} from 'react-router-dom'
+import History from '../hist/customHistory'
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <div
@@ -33,18 +34,33 @@ class NavBarItemLoggedIn extends React.Component {
     }
 
     
+    logout = () => {
+        console.log("logout")
+        this.props.logout()
+        History.push('/')
+    }
 
     render() {
         
         /*const navBarItems = this.props.item.options.loggedIn.options.map(this.props.dataTranslator)*/ 
         const DropDownItems = this.props.item.options.loggedIn.options.map(option => {
-            return(
-            <Link to={option.link} >
-                <Dropdown.Item as='button' className = "DropDownItem">
-                {option.name}
-            </Dropdown.Item>
-            </Link>
-            )
+            if(option.name === "Sign Out"){
+                return(
+                    <div onClick={()=>this.logout}>
+                        <Dropdown.Item as='button' className = "DropDownItem">
+                            {option.name}
+                        </Dropdown.Item>
+                    </div>
+                )
+            }else{
+                return(
+                    <Link to={option.link} >
+                        <Dropdown.Item as='button' className = "DropDownItem">
+                            {option.name}
+                        </Dropdown.Item>
+                    </Link>
+                )
+            }
         })
         return(
             <div>
