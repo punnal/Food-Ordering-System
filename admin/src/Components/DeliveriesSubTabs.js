@@ -67,6 +67,7 @@ class DeliveriesSubTabs extends React.Component {
 
     componentDidMount() {
         api_pull(this.api, data => this.setState( old => { 
+            if(!data) return
             let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
             parsed.forEach(order =>{
                 parse_order(order)
