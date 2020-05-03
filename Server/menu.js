@@ -29,7 +29,7 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
         
         var menu_data = req.body["data"]
         if(typeof menu_data == 'undefined')
-        reject(403)
+            reject(403)
 
         Object.keys(menu_data).forEach((type_of_operation) => {
             var item_data = menu_data[type_of_operation]
@@ -49,15 +49,13 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 
 }
 
-function post_handler(req){
+function post_handler(res, req){
     
     menu_item_op_promise = parse_menu_post(req).then((statusCode) => {
-        res.statusCode = statusCode
-        res.send("Update successful!")
+        res.status(statusCode).send("Update successful!")
     })
     .catch((statusCode) =>{
-        res.statusCode = statusCode
-        res.send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
+        res.status(statusCode)send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
     })
 }
 
