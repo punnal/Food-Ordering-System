@@ -23,6 +23,11 @@ class Parsers {
         }
     }
 
+    static parseMenuBeforePush = (type, data) => {
+        const parsed = {[type]:data}
+        return parsed
+    }
+
     static parseDealsBeforePush = (deal, type) => {
         let arr = []
         deal.items.forEach(item => arr = [...arr, ...Array(parseInt(item.quantity)).fill(item.id)])
