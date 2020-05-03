@@ -26,7 +26,7 @@ class NavigationBar extends React.Component{
         if(item.name === "Customer"){
             if(this.props.loggedIn){
                 return (
-                    <NavBarItemLoggedIn click={this.handleDropDownClick} logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
+                    <NavBarItemLoggedIn logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
@@ -79,7 +79,7 @@ class NavigationBar extends React.Component{
                 items.options.loggedIn.options.map(item => {
                    return( 
                    <div>
-                        item.name
+                        orders
                     </div>
                 )
                 })
