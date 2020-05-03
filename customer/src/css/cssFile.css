@@ -912,6 +912,89 @@ body {
   width: 100%;
 }
 
+/*======================================================================================================================================*/
+/*CONTACTUS*/
+
+#contactForm {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.ContactUsTitle {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ContactUsSubTitle {
+  margin-bottom: 15px;
+}
+
+#ContactUsSubmit {
+  margin-left: -650px;
+}
+
+#ContactUsMessageBox {
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.ContactUsTitle2 {
+}
+
+.ContactUsSubTitle2 {
+}
+
+#ContactUsContacts {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+
+.ContactUsIcons > a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color:  #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  transition: 0.5s;
+}
+
+.ContactUsIcons a:hover{
+  color: #fff;
+  transform: rotateY(360deg);
+}
+
+#ContactUsPhone {
+  width: 35px;
+  height: 35px;
+  background-color:  #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  transition: 0.5s;
+  margin-top: 20px;
+}
+
+#ContactUsPhone:hover {
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.ContactUsMail {
+  color: white;
+  text-decoration: none;
+}
+
 /*==================================================================================================================================*/
 /*GALLERY*/
 
@@ -1122,7 +1205,7 @@ footer{
   transition: 0.5s;
 }
 
-.Footer .footer-icons a{
+.Footer .footer-icons a:hover{
   color: #fff;
   transform: rotateY(360deg);
 }
