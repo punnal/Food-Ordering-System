@@ -3,6 +3,7 @@ import { res } from '../res/res'
 
 
 const parseItems = (items) => {
+    if(!items) return null
     return (
         <div>
             {
