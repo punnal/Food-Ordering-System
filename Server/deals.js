@@ -32,25 +32,8 @@ function get_handler(req, res){
                 }
             }) 
          })
-        res.send(JSON.stringify({"data" : all_deals}))
+        res.send(JSON.stringify({"data" : all_deals})).status(200)
     })
-}
-
-function conv_options_lists(item_data){
-    
-    if (!("options_lists" in item_data)){
-        item_data["options_lists"] = []
-    }
-    else{
-        var options_lists_object = item_data["options_lists"]
-        var options_lists_list = Object.keys(options_lists_object).map(function(option_list_name) {
-            return {[option_list_name] : options_lists_object[option_list_name]};
-        });
-
-        item_data["options_lists"] = options_lists_list
-    }
-
-    return item_data
 }
 
 
@@ -98,7 +81,6 @@ function deal_parse_post(req){
                             delete item.description
                             delete item.price
                             
-                            item = conv_options_lists(item)
                             item["quantity"] = item_quantities[item_id]
 
                             deal_data["items"].push(item)                            
@@ -107,7 +89,6 @@ function deal_parse_post(req){
                             reject(404)
                         
                     })
-                    
                     
                     if("id" in deal_data)
                         db_deals.child(deal_data["id"]).set(deal_data).then(() => resolve(200)).catch((err)=> reject(404))
@@ -125,25 +106,19 @@ function deal_parse_post(req){
 
 function post_handler(req, res){
     deal_parse_post(req).then((statusCode) => {
-        res.status(200)
-        res.send("Changes made successfully!")
+        res.send("Changes made successfully!").status(200)
     })
     .catch((statusCode) =>{
         res.status(statusCode)
 
         if(statusCode == 403)
-        {
             res.send("Please check post request again.")
-        }
+        
         else if(statusCode == 400)
-        {
             res.send("Couldn't fetch the list of menu items. Please check if there are items stored in the database.")
-        }
+        
         else if(statusCode == 404)
-        {
             res.send("Check if the item you are trying to edit/add/delete exists.")
-        }
-
     })
 }
 
