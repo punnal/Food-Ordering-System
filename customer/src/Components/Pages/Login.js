@@ -18,8 +18,8 @@ class Login extends React.Component {
         }
     }
 
-    login = () => {
-        this.props.login()
+    login = (contents) => {
+        this.props.login(contents)
         History.push('/')
     }
 
@@ -35,8 +35,8 @@ class Login extends React.Component {
                         },
                         loading: false
                     }, () => {
-                        if(response.success){//Success
-                            this.login()
+                        if(response.data.success){//Success
+                            this.login(response.data.contents)
                             console.log("Sucess", response.data)
                             
                         }else{
@@ -52,7 +52,7 @@ class Login extends React.Component {
                         },
                         loading: false
                     }, () => {
-                        this.login()//Hardcoded Login. Remove plis
+                        this.login(this.state.contents)//Hardcoded Login. Remove plis
                         console.log("error")
                     })
                 })
