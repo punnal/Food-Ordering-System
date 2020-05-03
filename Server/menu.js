@@ -49,7 +49,7 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 
 }
 
-function post_handler(res, req){
+function post_handler(req, res){
     
     menu_item_op_promise = parse_menu_post(req).then((statusCode) => {
         res.status(statusCode).send("Update successful!")
