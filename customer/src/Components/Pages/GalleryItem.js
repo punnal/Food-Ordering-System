@@ -25,7 +25,7 @@ class GalleryItem extends React.Component {
                 </div>
                 {this.state.showPopup?
                     <div className = "GalleryPopup">
-                        <div className = "GalleryPopupClose" onClick={() => this.handleClick("closePopup")}><i class="fas fa-window-close fa-2x"></i></div>
+                        <div className = "GalleryPopupClose" onClick={() => this.handleClick("closePopup")}><i class="fas fa-times fa-2x"></i></div>
                         <img src={this.props.picture.link} alt=""></img>
                     </div>
                     :null

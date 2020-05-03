@@ -18,7 +18,7 @@ class App extends React.Component {
         super()
         this.handleClick = this.handleClick.bind(this)
         this.state = {
-            loggedIn: false,
+            loggedIn: true,
             navBar: NavBarData,
             footer: FooterData,
             currentPage: 0,

@@ -167,9 +167,56 @@ body {
   display: inherit;
 }
 
+.NavBarLoggedIn {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1px;
+}
+
+.fa-caret-down {
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.fa-caret-down:hover {
+  transform: rotate(180deg);
+}
+
+/*.NavBarLoggedInDropDown {
+  top: 10%;
+  display: flex;
+  flex-direction: column;
+}*/
+
+.DropDown {
+  position: fixed;
+  margin-left: 83px;
+}
+
+.DropDownMenu {
+  background-color: black;
+  color: white;
+}
+
+.DropDownMenu > a {
+  color: white;
+}
+
+.DropDownItem {
+  color: white;
+  transition: all 0.5s;
+}
+
+.DropDownItem > a:hover {
+  color: black;
+  text-decoration: none;
+}
+
 .Cart {
   margin-right: 15px;
-  margin-left: 15px;
+  margin-left: 30px;
   margin-top: 10px;
   transition: all 350ms ease-in-out;
 }
@@ -591,7 +638,7 @@ body {
   right: 25%;
   color: white;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.9);
   border-radius: 10px;
   padding: 1px;
   -webkit-animation-name: fade-in-fwd;
@@ -896,9 +943,16 @@ body {
 
 .GalleryPopupClose {
   float: right;
+  transition: all 1s;
 }
 
-.fa-window-close {
+.GalleryPopupClose:hover {
+  cursor: pointer;
+  transform: rotate(360deg);
+
+}
+
+.fa-times {
   color: red;
 }
 
@@ -907,7 +961,8 @@ body {
 /*FOOTER*/
 
 footer{
-  position: absolute;
+  position: fixed;
+  bottom: 0;
 }
  
 @media (max-height:800px){
