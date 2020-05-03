@@ -2,7 +2,7 @@ import React from "react";
 import Button from 'react-bootstrap/Button'
 import Fade from 'react-bootstrap/Fade'
 import Collapse from 'react-bootstrap/Collapse'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route, Link } from "react-router-dom";
 
 import "./App.css";
 import NavigationBar from "./Components/NavigationBar";
@@ -11,6 +11,7 @@ import Footer from "./Components/MyFooter";
 
 import NavBarData from "./Resource/navBarData";
 import FooterData from "./Resource/footerData";
+import History from './hist/customHistory'
 
 class App extends React.Component {
     constructor(){
@@ -25,6 +26,21 @@ class App extends React.Component {
             Overlay: true,
             cartItems: 0
         }
+    }
+
+    logIn = () => {
+        this.setState({
+            loggedIn: true,
+        })
+
+    }
+
+    logOut = () => {
+        console.log("Logged Out")
+        this.setState({
+            loggedIn: false,
+        })
+
     }
 
     addOrder = (order, callback) => {
@@ -96,9 +112,9 @@ class App extends React.Component {
                         <Button onClick = {this.handleClick} aria-controls = "Vanish" aria-expanded = {this.state.Overlay} id = "StartOverlayButton" variant = "secondary" >Enter Website</Button>
                     </div>
                 </Fade>
-                <Router>
-                    <NavigationBar loggedIn={this.state.loggedIn} navBarData={this.state.navBar} cartItems = {this.state.cartItems} />
-                    <MainContents orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
+                <Router history={History}>
+                    <NavigationBar logout={this.logOut} loggedIn={this.state.loggedIn} navBarData={this.state.navBar} cartItems = {this.state.cartItems} />
+                    <MainContents login={this.logIn} orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
                     <Footer FooterData={this.state.footer} />
                 </Router>
             </div>

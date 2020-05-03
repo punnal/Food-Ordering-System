@@ -4,6 +4,7 @@ import NavBarItemLoggedIn from './NavBarItemLoggedIn'
 import NavBarItemLoggedOut from './NavBarItemLoggedOut'
 import Classes from '../Resource/className'
 import {Link} from 'react-router-dom'
+import History from '../hist/customHistory'
 
 class NavigationBar extends React.Component{
     
@@ -14,12 +15,18 @@ class NavigationBar extends React.Component{
             dropdown: false
         }
     }
+
+    logout = () => {
+        console.log("logout")
+        this.props.logout()
+        History.push('/')
+    }
     
     dataTranslator = (item) => {
-        if(item.name == "Customer"){
+        if(item.name === "Customer"){
             if(this.props.loggedIn){
                 return (
-                    <NavBarItemLoggedIn click={this.handleDropDownClick} item={item} dataTranslator={this.dataTranslator} />
+                    <NavBarItemLoggedIn click={this.handleDropDownClick} logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
@@ -29,10 +36,13 @@ class NavigationBar extends React.Component{
             }
                 
         }
-        else if(item.name == "Divider"){
+        else if(item.name === "Sign Out"){
+            return (<div onClick={this.logout}><NavBarItem name={item.name} /></div>)
+        }
+        else if(item.name === "Divider"){
             return (<div className={Classes.NavBarDivider}></div>)
         }
-        else if(item.name == "Cart"){
+        else if(item.name === "Cart"){
             return (
             <div className={Classes.Cart}>
                 <Link to={item.link}>
@@ -102,5 +112,6 @@ class NavigationBar extends React.Component{
     }
     
 }
+
 
 export default NavigationBar

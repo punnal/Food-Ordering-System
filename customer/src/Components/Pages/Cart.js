@@ -1,6 +1,8 @@
 import React from 'react'
 import Axios from 'axios'
 
+import Api from '../../api/api'
+
 class Cart extends React.Component {
 
     constructor() {
@@ -53,7 +55,7 @@ class Cart extends React.Component {
                 address: this.state.address,
                 phone: this.state.phone,
             })
-            Axios.post('http://localhost:5000/api/orders', {
+            Axios.post(Api.orders, {
                     user: "guest",
                     orders: this.props.orders,
                     address: this.state.address,
