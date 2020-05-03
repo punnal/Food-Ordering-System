@@ -28,7 +28,7 @@ function get_handler(req, res){
         Object.values(deals_snapshot.val()).forEach((deal) => {
             deal["items"].forEach((item) => {
                 if(!("options_lists" in item)){
-                    all_deals["options_lists"] = [] 
+                    item["options_lists"] = [] 
                 }
             }) 
          })
