@@ -80,15 +80,17 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     clickHandler(button, id) {
-        console.log(this.state.data[id])
+        if(button.id === 1){
+            console.log('rejected') 
+            this.setState(old => {
+                let newstate = {...old, showpopup:true, 'reject_id':id}
+                return newstate
+            })
+        }
+
         let updatedorder = {...this.state.data[id]}
-        updatedorder.status = 1
-        api_push(this.api, updatedorder)
-        this.setState(old => {
-            const showpopup = (button.id === 1)? true:false 
-            let newstate = {...old, showpopup:showpopup, 'reject_id':id}
-            return newstate
-        })
+        updatedorder.status += 1
+        api_push('/api/orders', {edit:{updatedorder}})
     }
 
     onPopupClose(){
