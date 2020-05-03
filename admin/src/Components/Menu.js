@@ -2,8 +2,15 @@ import React from "react"
 import Table from './Table'
 import { api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
-import { Popup, PopupH, PopupBody, PopupButtons } from './Popup'
-import AddItemForm from './AddItemForm'
+import AddItemPopup from './AddItemPopup'
+import DeleteItemPopup from './DeleteItemPopup'
+import Parsers from './Parsers'
+
+const mapper = {
+    'Mains':0,
+    'Extras':1,
+    'Drinks':2
+}
 
 class Menu extends React.Component {
 
@@ -19,6 +26,10 @@ class Menu extends React.Component {
         this.onDelete = this.onDelete.bind(this)
         this.onRowClick = this.onRowClick.bind(this)
         this.parse_data = this.parse_data.bind(this)
+        this.hidePopup = this.hidePopup.bind(this)
+        this.onDeletePopupClose = this.onDeletePopupClose.bind(this)
+        this.delete_item = this.delete_item.bind(this)
+        this.updateTables = this.updateTables.bind(this)
         this.state = {'tables':{}, 'pshow':{
             'add':false,
             'delete':false
@@ -34,7 +45,7 @@ class Menu extends React.Component {
         return data
     }
 
-    componentDidMount() {
+    updateTables() {
         api_pull(this.api, d => {
             this.setState(old => {
                 return {
@@ -43,6 +54,9 @@ class Menu extends React.Component {
                 }
             })
         })
+    }
+    componentDidMount() {
+        this.updateTables()
     }
 
     showPopup(id, table, row) {
@@ -60,49 +74,76 @@ class Menu extends React.Component {
 
     delete_item(){
         //api call to delete item from database
-        //remove from state as well
+        const [table, row] = this.state.staged_delete
+        const data = this.state.tables[table][row]
+        api_push('/api/menu', Parsers.parseMenuBeforePush('delete', data))
+        this.updateTables()
+        //remove staged_delete and row from state
+        this.setState(old => {
+            return {
+                ...old,
+                staged_delete: []
+            }
+        })
     }
 
-    onPopupClose(id, action){
+    onDeletePopupClose(action){
+        this.hidePopup('delete')
         this.setState(old => {
-            let newstate = {...old}
-            newstate.pshow[id] = false
-            delete newstate.prefill
-            console.log(newstate.prefill)
             if(action === 'confirm')
                 this.delete_item(old.staged_delete)
-            delete newstate.staged_delete
+        })
+    }
+
+    hidePopup(popup){
+        this.setState(old => {
+            let newstate = {...old}
+            newstate.pshow[popup] = false
             return newstate
         })
     }
 
-    onDelete(tableid, rowid) {
-        this.showPopup('delete', tableid, rowid)
+    onPopupClose(action, changed, state){
+        console.log('changed', changed, state)
+        this.hidePopup('add')
+        if(!changed)
+            return
+        api_push('/api/menu', Parsers.parseMenuBeforePush(this.state.type, state))
+        this.updateTables()
+    }
+
+    onDelete(table, row) {
+        this.showPopup('delete', table, row)
     }
 
     onAdd(tableid) {
+        console.log(tableid)
         this.setState(old => {
             let prefill = {
             'name':'',
             'description':'',
-            'options_lists':[{'':{'':''}}],
+            'category':mapper[tableid],
+            'options_lists':[{'':{}}],
             'photo_url':'',
             'price':''
         }
             return {
                 ...old,
-                prefill:prefill
+                prefill:prefill,
+                type:'add'
             }
         })
         this.showPopup('add')
     }
 
-    onRowClick(tableid, rowid){
+    onRowClick(table, row){
         this.setState(old => {
-            let prefill = old.tables[tableid][rowid]
+            let prefill = old.tables[table][row]
             return {
                 ...old,
-                prefill:prefill
+                staged_change:[table, row],
+                prefill:prefill,
+                type:'edit'
             }
         })
         this.showPopup('add')
@@ -111,29 +152,15 @@ class Menu extends React.Component {
     render() {
         return (
             <div className = 'Menu'>
-
-                <Popup 
-                    show={this.state.pshow.delete}
-                    onDataChanged={this.onDataChanged}
-                >
-                    <PopupH>Delete Item</PopupH>
-                    <PopupBody>Are you sure you want to Delete? </PopupBody>
-                    <PopupButtons>
-                        <button onClick={()=>this.onPopupClose('delete, cancel')}> Close </button>
-                        <button onClick={()=>this.onPopupClose('delete', 'confirm')}> Confirm </button>
-                    </PopupButtons>
-                </Popup>
-
-                <Popup 
-                    show={this.state.pshow.add}
-                >
-                    <PopupH>Add an item</PopupH>
-                    <PopupBody>
-                        <AddItemForm 
-                            onPopupClose={this.onPopupClose}
-                            prefill={this.state.prefill}/>
-                    </PopupBody>
-                </Popup>
+                <AddItemPopup 
+                    show = {this.state.pshow.add}
+                    onClose = {this.onPopupClose}
+                    prefill = {this.state.prefill}
+                />
+                <DeleteItemPopup
+                    show = {this.state.pshow.delete}
+                    onClose = {this.onDeletePopupClose}
+                />
 
                 <div className={this.css.OrdersLeftTable}>
                     {

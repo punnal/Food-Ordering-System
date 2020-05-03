@@ -3,56 +3,111 @@ import {api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
 import Table from './Table'
 import { Popup, PopupH, PopupBody, PopupButtons} from './Popup'
+import Parsers from './Parsers'
 
 class Orders extends React.Component {
 
     constructor(props) {
         super(props)
         this.page = res.admin.pages[this.props.id]
+        this.options_charges = 0
         this.billtable = this.page.tables.right
         this.css = res.admin.css_classes
-        this.state = {'tables':{}, 'bill':[], 'showpopup':false}
+        this.state = {'tables':{}, 'bill':[], 'showpopup':false, 'checked':{}}
         this.onAdd = this.onAdd.bind(this)
         this.onRowClick = this.onRowClick.bind(this)
         this.onBillRowClick = this.onBillRowClick.bind(this)
         this.totalBill = this.totalBill.bind(this)
         this.onGenerateBill = this.onGenerateBill.bind(this)
-        this.onPopupClose = this.onPopupClose.bind(this)
         this.showPopup = this.showPopup.bind(this)
         this.api = this.page.api
+        this.showOptionsPopup = this.showOptionsPopup.bind(this)
+        this.createCheckBox = this.createCheckBox.bind(this)
+        this.hideOptionsPopup = this.hideOptionsPopup.bind(this)
+        this.addToBill = this.addToBill.bind(this)
+    }
+
+    parse_deals(data) {
+        let newdata = {}
+        newdata['Deals'] = Object.values(data)
+        return newdata
+    }
+
+    parse_menu(data) {
+        Object.keys(data).forEach(e => {
+            data[e] = Object.values(data[e])
+        })
+
+        return data
     }
 
     componentDidMount() {
-        api_pull('/api/tables', d => {
-            console.log(d)
-            this.setState(old => {
-                return {
-                    ...old, 
-                    'tables': d
-                }
+        api_pull('/api/deals', deals => {
+            api_pull('/api/menu', menu => {
+                this.setState(old => {
+                    return {
+                        ...old, 
+                        'tables': {
+                            ...this.parse_deals(deals),
+                            ...this.parse_menu(menu)
+                        }
+                    }
+                })
             })
         })
     }
 
-    onAdd(tableid) {
+    optionsToString(selected) {
+        return Object.keys(selected).map((item, i) => {
+            return (
+                <div key={i}>
+                    <h5> {item} </h5>
+                    {
+                        Object.keys(selected[item]).map((list, j) => {
+                            const ref = selected[item][list]
+                            const selected_name = Object.keys(ref).filter(e => ref[e].checked)
+                            const selected_charge = Object.values(ref).filter(e => e.checked)[0].charge
+                            this.options_charges += selected_charge
+                            return (
+                                <div key={j}>
+                                    <h6>{list} : {selected_name} : + {selected_charge}</h6>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+            )
+        })
     }
 
-    onRowClick(tableid, rowid) {
-        console.log('onclick')
-        let item = this.state.tables[tableid][rowid]
+    onAdd() {
+        const options = this.optionsToString(this.state.checked)
+        const {table, row} = this.state.staged_add
+        this.addToBill(table, row, options, this.options_charges)
+        this.hideOptionsPopup()
+        this.options_charges = 0
+        //clear up state
+    }
+
+    addToBill(table, row, options, charges){
+        let item = {...this.state.tables[table][row]}
         this.setState(old => {
             let newbill = [...old.bill]
             let found = false
             newbill.forEach((e, i) => {
                 if(e.id === item.id) {
                     e.qty += 1
+                    e.charges += charges
+                    e.options = [...e.options, options]
                     found = true
                 }
             })
             if(!found){
                 item.qty = 1
+                item.charges = charges
                 newbill = [...newbill, item]
             }
+            item.options = [options]
             return {
                 ...old,
                 'bill': [...newbill]
@@ -60,13 +115,62 @@ class Orders extends React.Component {
         })
     }
 
-    onBillRowClick(table, rowid) {
-        console.log(rowid)
+    onRowClick(table, row) {
+        this.showOptionsPopup(table, row)
+    }
+
+
+    initCheckBoxState(table, row) {
+        const ol = this.parseOptionsLists(table, row)
+        let dic = {}
+        Object.keys(ol).forEach(item => {
+            dic[item] = {}
+            ol[item].forEach(list => {
+                dic[item][list.name] = {}
+                Object.keys(list.options).forEach((option_name, i) => {
+                    dic[item][list.name][option_name] = {checked:i? false:true, charge:parseInt(list.options[option_name])}
+                })
+            })
+        })
+        return dic
+    }
+
+    parseOptionsLists(table, rowid) {
+        const row = this.state.tables[table][rowid]
+        return (table === 'Deals')
+                ?
+                Parsers.parseDealOptions(row.items)
+                : 
+                Parsers.parseItemOptions(row.options_lists, row.name)
+    }
+
+    showOptionsPopup(table, row) {
+        this.setState(old => {
+            return {
+                ...old,
+                showpopup:true,
+                options_lists:this.parseOptionsLists(table, row),
+                checked:this.initCheckBoxState(table, row),
+                staged_add:{table:table, row:row}
+            }
+        })
+    }
+
+    hideOptionsPopup() {
+        this.setState(old => {
+            return {
+                ...old,
+                showpopup:false
+            }
+        })
+    }
+
+    onBillRowClick(table, row) {
         this.setState(old => {
             let newbill = [...old.bill]
-            newbill[rowid].qty -= 1
-            if(newbill[rowid].qty === 0)
-                newbill = newbill.filter( e => e.id !== newbill[rowid].id)
+            newbill[row].qty -= 1
+            if(newbill[row].qty === 0)
+                newbill = newbill.filter( e => e.id !== newbill[row].id)
             let newstate = {
                 ...old,
                 'bill': [...newbill]
@@ -78,22 +182,55 @@ class Orders extends React.Component {
     totalBill(){
         let total = 0
         this.state.bill.forEach(item => {
-            total += item.price*item.qty
+            total += item.price*item.qty + item.charges
         })
         return total
     }
 
-    onPopupClose() {
-        this.setState(old => {return {...old, showpopup:false}})
+    showPopup(){
+        this.setState(old => {return {...old, showbill:true}})
     }
 
-    showPopup(){
-        this.setState(old => {return {...old, showpopup:true}})
-    }
     onGenerateBill(){
         this.showPopup()
     }
+
+    onChecked(item, listName, option) {
+        this.setState(old => {
+            let newstate = {...old}
+            let ref = newstate.checked[item][listName]
+            Object.keys(ref).forEach(e => {
+                newstate.checked[item][listName][e].checked = e===option
+            })
+            return newstate
+        })
+    }
+
+    createCheckBox(list, item) {
+        return (
+            <>
+                <h2> {list.name} </h2>
+                {
+                    Object.keys(list.options).map((option, i) => {
+                        return (
+                            <div key={i}>
+                                <input 
+                                    type="radio" 
+                                    checked={this.state.checked[item][list.name][option].checked}
+                                    onChange={() => this.onChecked(item, list.name, option)}
+                                />
+                                <label> {option} : +{list.options[option]}</label>
+                            </div>
+                        )
+                    })
+                }
+            </>
+
+        )
+    }
+
     render() {
+
         return (
             <div 
                 className={this.css.Orders}>
@@ -101,15 +238,15 @@ class Orders extends React.Component {
                     className={this.css.OrdersLeftTable}
                 >
                     {
-                        this.page.tables.left.map((table,i) => {
+                        Object.keys(this.state.tables).map((table,i) => {
                             return (
                                 <Table 
                                     key={i}
-                                    heading = {table.heading}
+                                    heading = {table}
                                     onRowClick={this.onRowClick}
                                     cssClassName = "TableLeftButton"
-                                    cols = {table.cols}
-                                    data = {this.state.tables[table.heading]}
+                                    cols = {this.page.tables[table].cols}
+                                    data = {this.state.tables[table]}
                                 />
                             )})
                     }
@@ -124,20 +261,42 @@ class Orders extends React.Component {
                         onFooterButtonClick={this.onGenerateBill}
                         cssClassName = "TableRightButton"
                         onRowClick={this.onBillRowClick}
-                        cols = {['ID', 'Name', 'Price', 'Qty']}
+                        cols = {['ID', 'Name', 'Price', 'Options', 'Charges', 'Qty']}
                         data = {this.state.bill}
                     />
                 </div>
-                <Popup
-                    show={this.state.showpopup}
-                >
-                    <PopupButtons>
-                        <button onClick={this.onPopupClose}> Close </button> 
-                    </PopupButtons>
-                </Popup>
+                {
+                    this.state.showpopup?
+                        <Popup
+                            show={this.state.showpopup}
+                        >
+                            <PopupButtons>
+                                <button onClick={this.hideOptionsPopup}> Close </button> 
+                                <button onClick={this.onAdd}> Add To Bill </button> 
+                            </PopupButtons>
+                            <PopupBody>
+                                {
+                                    Object.keys(this.state.options_lists).map((item, i) => {
+                                        return (
+                                            <div key={i}>
+                                                <h1>{item}</h1>
+                                                {
+                                                    this.state.options_lists[item].map((list, j) => {
+                                                        return (
+                                                            <div key={`${i}${j}`}> {this.createCheckBox(list, item)} </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        )})
+                                }
+                            </PopupBody>
+                        </Popup>
+                        :
+                        null
+                }
             </div>
         )
     }
 }
-
 export default Orders

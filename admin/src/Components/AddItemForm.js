@@ -1,9 +1,10 @@
 import React from 'react'
+import _ from 'lodash'
 
 class AddItemForm extends React.Component {
     constructor(props){
         super(props)
-        this.state = this.props.prefill
+        this.state = {stagedOption:{}, data:_.cloneDeep(this.props.prefill)}
         this.parseOptions = this.parseOptions.bind(this)
         this.onAddOptionsList = this.onAddOptionsList.bind(this)
         this.onChange = this.onChange.bind(this)
@@ -11,6 +12,9 @@ class AddItemForm extends React.Component {
         this.onDeleteOption = this.onDeleteOption.bind(this)
         this.validate = this.props.OnDataChanged
         this.onPopupClose = this.props.onPopupClose
+        this.onDeleteStaged = this.onDeleteStaged.bind(this)
+        this.onStagedOptionChange = this.onStagedOptionChange.bind(this)
+        this.onDescriptionChange = this.onDescriptionChange.bind(this)
     }
 
     parseOptions(options) {
@@ -32,7 +36,10 @@ class AddItemForm extends React.Component {
             this.setState(old => {
                 return {
                     ...old,
-                    'photo_url':dataurl
+                    data:{
+                        ...old.data,
+                        'photo_url':dataurl
+                    }
                 }
             })
         }
@@ -41,17 +48,21 @@ class AddItemForm extends React.Component {
 
     onChange(event, key, parent) {
         let target = event.target
+        const {id, name} = target
         this.setState(old => {
             if(!key.includes('option')) {
                 let newstate = {
                     ...old,
-                    [key]:target.value
+                    data:{
+                        ...old.data,
+                        [key]:target.value
+                    }
                 }
                 return newstate
             }
             else {
                 if(key === 'options_name') {
-                    let new_options_lists = old.options_lists.map((e, i) => {
+                    let new_options_lists = old.data.options_lists.map((e, i) => {
                         let option_name = Object.keys(e)[0]
                         if(option_name === target.name) {
                             return {
@@ -64,30 +75,17 @@ class AddItemForm extends React.Component {
                     })
                     return {
                         ...old,
-                        'options_lists': [...new_options_lists]
+                        data: {
+                            ...old.data,
+                            'options_lists': [...new_options_lists]
+                        }
                     }
                 }
                 else if(key === 'option_list_value'){
-                    let new_option_value = old.options_lists.map((e, i) => {
-                        let option_name = Object.keys(e)[0]
-                        console.log(`${option_name} = ${parent}`)
-                        if(option_name === parent) {
-                            let options = {
-                                [option_name]:{
-                                    ...e[option_name],
-                                }
-                            }
-                            let price = options[option_name][target.name]
-                            delete options[option_name][target.name]
-                            options[option_name][target.value] = price
-                            return options
-                        }
-                        return e
-                    })
-                    return {
-                        ...old,
-                        'options_lists': [...new_option_value]
-                    }
+                    let newstate = _.cloneDeep(old)
+                    const [main, key, option] = name.split('/')
+                    newstate.data[main][id][key][option] = target.value
+                    return newstate
                 }
             }
         })
@@ -106,7 +104,7 @@ class AddItemForm extends React.Component {
         console.log(key, i, option)
         this.setState(old => {
             let newstate = {...old}
-            delete newstate.options_lists[i][key][option]
+            delete newstate.data.options_lists[i][key][option]
             return this.clense(newstate)
         })
     }
@@ -114,15 +112,68 @@ class AddItemForm extends React.Component {
         this.setState(old => {
             return {
                 ...old,
+                data:{
+                    ...old.data,
                 'options_lists': [
-                    ...old.options_lists,
+                    ...old.data.options_lists,
                     {
                         '':
                         {
-                            '':''
                         }
                     }
                 ]
+                }
+            }
+        })
+    }
+
+    onAddOption(i, listName) {
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            newstate.stagedOption[listName] = {
+                name: "",
+                value: ""
+            }
+            return newstate
+        })
+    }
+
+    onDeleteStaged(key){
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            newstate.stagedOption[key] = false
+            return newstate
+        })
+    }
+
+    onStagedOptionChange(event, key){
+        const {id, value} = event.target
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            newstate.stagedOption[key][id] = value
+            return newstate
+        })
+    }
+
+    onNewOptionCommit(i, listName) {
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            const {name, value} = old.stagedOption[listName]
+            newstate.data.options_lists[i][listName][name] = value
+            newstate.stagedOption[listName] = false
+            return newstate
+        })
+    }
+
+    onDescriptionChange(event) {
+        const {value} = event.target
+        this.setState(old => {
+            return {
+                ...old,
+                data:{
+                    ...old.data,
+                    description:value
+                }
             }
         })
     }
@@ -130,18 +181,20 @@ class AddItemForm extends React.Component {
     render() {
         return (
             <div>
+                <button onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
+                <button onClick={() => this.onPopupClose('done', !_.isEqual(this.state.data, this.props.prefill), this.state.data)}> Done </button>
                 <label htmlFor='name'>Name:</label>
                 <input 
-                    onChange={(e) => this.onChange(e, 'name')} value={this.state.name} 
+                    onChange={(e) => this.onChange(e, 'name')} value={this.state.data.name} 
                     id='name' 
                     type='text' 
                     name='item-name' /><br/>
 
                 <label htmlFor='option_lists'>Option Lists</label><br/>
                 {
-                    this.state.options_lists.map((optionList, i) => {
+                    this.state.data.options_lists.map((optionList, i) => {
                         let key = Object.keys(optionList)[0]
-                        let sorted = Object.keys(optionList[key]).sort()
+                        let sorted = Object.keys(optionList[key])
                         return (
                             <div key={i}>
                                 <input 
@@ -154,22 +207,49 @@ class AddItemForm extends React.Component {
                                     sorted.map((option, b) => {
                                         return (
                                             <div key={b}>
-                                            <input 
-                                                onChange={(e) => this.onChange(e, 'option_list_value', key)} 
-                                                value={option}//{this.parseOptions(Object.values(optionList)[0])} 
-                                                id='option_value' 
-                                                type='text' 
-                                                name={option} />
-                                            <input 
-                                                onChange={(e) => this.onChange(e, 'option_list_value', option)} 
-                                                value={optionList[key][option]}//{this.parseOptions(Object.values(optionList)[0])} 
-                                                id='option_price' 
-                                                type='text' 
-                                                name={optionList[key][option]}/>
-                                            <button onClick={() => this.onDeleteOption(key, i, option)}> - </button>
+                                                <label
+                                                    id='option_value' 
+                                                    type='text' 
+                                                    name={option} 
+                                                >
+                                                    {option}
+                                                </label>
+                                                <input 
+                                                    onChange={(e) => this.onChange(e, 'option_list_value', option)} 
+                                                    value={optionList[key][option]}//{this.parseOptions(Object.values(optionList)[0])} 
+                                                    id={i}
+                                                    min="0"
+                                                    type='number' 
+                                                    name={`options_lists/${key}/${option}`}/>
+                                                <button onClick={() => this.onDeleteOption(key, i, option)}> - </button>
                                             </div>
                                         )
                                     })
+                                }
+                                <button onClick={() => this.onAddOption(i, key)}> Add Option </button>
+                                {
+                                    this.state.stagedOption[key]?
+                                        <div>
+                                            <input
+                                                id='name' 
+                                                type='text' 
+                                                name={this.state.stagedOption[key].name} 
+                                                value={this.state.stagedOption[key].name}
+                                                onChange={(event) => this.onStagedOptionChange(event, key)}
+                                            />
+                                            <input 
+                                                id='value'
+                                                value={this.state.stagedOption[key].value}//{this.parseOptions(Object.values(optionList)[0])} 
+                                                min="0"
+                                                type='number' 
+                                                onChange={(event) => this.onStagedOptionChange(event, key)}
+                                                name={`stagedOption/value/`}/>
+                                            <button onClick={() => this.onDeleteStaged(key)}> - </button>
+                                            <button onClick={() => this.onNewOptionCommit(i, key)}> commit </button>
+
+                                        </div>
+                                        :
+                                        null
                                 }
                             </div>
                         )
@@ -177,25 +257,23 @@ class AddItemForm extends React.Component {
                 }
                 <button onClick={this.onAddOptionsList}>+</button>
                 <label htmlFor='description'>Description</label>
-                <input 
-                    onChange={(e) => this.onChange(e, 'price')} 
-                    value={this.state.description} 
+                <textarea 
+                    onChange={this.onDescriptionChange} 
+                    value={this.state.data.description} 
                     id='description' 
                     type='text' 
                     name='description' /><br/>
 
-                <img src={this.state.photo_url} height="100"/>
+                <img src={this.state.data.photo_url} height="100"/>
                 <input type="file" onChange={(event) => this.onImageAdd(event)}/>
 
                 <label htmlFor='price'>Price</label>
                 <input 
                     onChange={(e) => this.onChange(e, 'price')} 
-                    value={this.state.price} 
+                    value={this.state.data.price} 
                     id='price' 
                     type='text' 
                     name='price' /><br/>
-                <button onClick={()=>this.onPopupClose('add', 'cancel')}> Cancel </button>
-                <button onClick={this.validate}> Done </button>
             </div>
         )
     }

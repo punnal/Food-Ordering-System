@@ -20,8 +20,6 @@ function parse_items(obj){ //either deal or order
         return obj 
     }
 
-    obj["items"] = Object.values(obj["items"])
-
     obj["items"].forEach(item => {
         parse_option_list(item)
     })
@@ -69,6 +67,7 @@ class DeliveriesSubTabs extends React.Component {
 
     componentDidMount() {
         api_pull(this.api, data => this.setState( old => { 
+            if(!data) return
             let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
             parsed.forEach(order =>{
                 parse_order(order)
@@ -81,15 +80,17 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     clickHandler(button, id) {
-        console.log(this.state.data[id])
+        if(button.id === 1){
+            console.log('rejected') 
+            this.setState(old => {
+                let newstate = {...old, showpopup:true, 'reject_id':id}
+                return newstate
+            })
+        }
+
         let updatedorder = {...this.state.data[id]}
-        updatedorder.status = 1
-        api_push(this.api, updatedorder)
-        this.setState(old => {
-            const showpopup = (button.id === 1)? true:false 
-            let newstate = {...old, showpopup:showpopup, 'reject_id':id}
-            return newstate
-        })
+        updatedorder.status += 1
+        api_push('/api/orders', {edit:{updatedorder}})
     }
 
     onPopupClose(){
