@@ -29,13 +29,18 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
         
         var menu_data = req.body["data"]
         if(typeof menu_data == 'undefined')
-        reject(403)
+            reject(403)
 
         Object.keys(menu_data).forEach((type_of_operation) => {
             var item_data = menu_data[type_of_operation]
             if(type_of_operation == "edit" || type_of_operation == "add"){
                 if(type_of_operation == "add")
                     item_data["id"] = getTimeStamp()
+
+                if(!("category" in item_data))
+                    reject(403)
+                
+                item_data["category"] = item_data["category"].toString()
                                 
                 if("id" in item_data)
                     db_menu.child(item_data["id"]).set(item_data).then(() => resolve(200)).catch((err) => reject(404))
@@ -49,15 +54,13 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 
 }
 
-function post_handler(req){
+function post_handler(req, res){
     
     menu_item_op_promise = parse_menu_post(req).then((statusCode) => {
-        res.statusCode = statusCode
-        res.send("Update successful!")
+        res.status(statusCode).send("Update successful!")
     })
     .catch((statusCode) =>{
-        res.statusCode = statusCode
-        res.send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
+        res.status(statusCode).send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
     })
 }
 
