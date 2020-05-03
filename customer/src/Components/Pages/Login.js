@@ -2,6 +2,7 @@ import React from 'react'
 import Axios from 'axios'
 
 import Api from '../../api/api'
+import History from '../../hist/customHistory'
 
 class Login extends React.Component {
 
@@ -17,14 +18,25 @@ class Login extends React.Component {
         }
     }
 
+    login = () => {
+        this.props.login()
+        History.push('/')
+    }
+
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
             Axios.post(Api.login, this.state.contents)
                 .then((response) => {
-                    this.setState({loading: false}, () => {
+                    this.setState({
+                        contents:{
+                            email: "",
+                            password: "",
+                        },
+                        loading: false
+                    }, () => {
                         if(response.success){//Success
-                            this.props.login(response.data.tokken)
+                            this.login()
                             console.log("Sucess", response.data)
                             
                         }else{
@@ -32,6 +44,17 @@ class Login extends React.Component {
                         }
                     })
 
+                }).catch(() => {
+                    this.setState({
+                        contents:{
+                            email: "",
+                            password: "",
+                        },
+                        loading: false
+                    }, () => {
+                        this.login()//Hardcoded Login. Remove plis
+                        console.log("error")
+                    })
                 })
         })
     }
