@@ -1,16 +1,16 @@
-import React from "react";
+import React from "react"
 import Button from 'react-bootstrap/Button'
 import Fade from 'react-bootstrap/Fade'
 import Collapse from 'react-bootstrap/Collapse'
-import { Router, Switch, Route, Link } from "react-router-dom";
+import { Router, Switch, Route, Link } from "react-router-dom"
 
 import "./App.css";
-import NavigationBar from "./Components/NavigationBar";
-import MainContents from "./Components/MainContents";
-import Footer from "./Components/MyFooter";
+import NavigationBar from "./Components/NavigationBar"
+import MainContents from "./Components/MainContents"
+import Footer from "./Components/MyFooter"
 
-import NavBarData from "./Resource/navBarData";
-import FooterData from "./Resource/footerData";
+import NavBarData from "./Resource/navBarData"
+import FooterData from "./Resource/footerData"
 import History from './hist/customHistory'
 
 class App extends React.Component {
@@ -133,8 +133,9 @@ class App extends React.Component {
                     <Footer FooterData={this.state.footer} />
                 </Router>
             </div>
-            );
+        )
     }
+
 }
 
-export default App;
+export default App
