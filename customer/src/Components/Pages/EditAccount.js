@@ -8,7 +8,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 
 
-class SignUp extends React.Component {
+class EditAccount extends React.Component {
 
     constructor() {
         super()
@@ -17,8 +17,6 @@ class SignUp extends React.Component {
                 firstName: "",
                 lastName: "",
                 email: "",
-                password: "",
-                repassword: "",
                 address: "",
                 phone: "",
             },
@@ -27,31 +25,22 @@ class SignUp extends React.Component {
         }
     }
 
-
-    login = () => {
-        this.props.login()
-        History.push('/')
+    componentWillMount() {
+        this.setState({
+            contents:this.props.info
+        })
     }
 
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
-            Axios.post(Api.signup, this.state.contents)
+            Axios.post(Api.editaccount, this.state.contents)
                 .then((response) => {
                     this.setState({
-                        contents:{
-                            firstName: "",
-                            lastName: "",
-                            email: "",
-                            password: "",
-                            repassword: "",
-                            address: "",
-                            phone: "",
-                        },
                         loading: false
                     }, () => {
                         if(response.success){//Success
-                            this.login()
+                            this.props.setInfo(response.data.contents)
                             console.log("Sucess", response.data)
                             
                         }else{
@@ -61,18 +50,9 @@ class SignUp extends React.Component {
 
                 }).catch(() => {
                     this.setState({
-                        contents:{
-                            firstName: "",
-                            lastName: "",
-                            email: "",
-                            password: "",
-                            repassword: "",
-                            address: "",
-                            phone: "",
-                        },
                         loading: false
                     }, () => {
-                        this.login(this.state.contents)//Hardcoded Login. Remove plis
+                        this.login()//Hardcoded Login. Remove plis
                         console.log("error")
                     })
                 })
@@ -90,6 +70,7 @@ class SignUp extends React.Component {
     }
 
     render() {
+        console.log(this.state.contents)
         return(
             <div id = "SignUp" className  = "container pt-2 pb-3">
                 <h2 className = "mt-5">User Account</h2>
@@ -109,18 +90,7 @@ class SignUp extends React.Component {
                         <div class="valid-feedback">Good to go!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                    <div className = "form-group">
-                        <input onChange={this.handleChange} value={this.state.contents.password} type = "password" className = "form-control" id = "pass" placeholder = "Enter password" name = "password" min = "8" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
-                        <div class="valid-feedback">All done!</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
-                    </div>
-                    <div className = "form-group">
-                        <input onChange={this.handleChange} value={this.state.contents.repassword} type = "password" className = "form-control" id = "pass" placeholder = "Re-enter Password" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" name = "repassword" required />
-                        <div class="valid-feedback">All done!</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
-                    </div>
-                    <p>The password provided must be at least 8 characters long, containing at least one digit, one capital letter, one small letter.</p>
-                    <OverlayTrigger 
+                            <OverlayTrigger 
                             key = "left"
                             placement = "left"
                             overlay = {
@@ -142,7 +112,7 @@ class SignUp extends React.Component {
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <p>Phone number should be entered in this format: xxxx-xxxxxxx</p>
-                    <button type="submit" className = "btn btn-dark">SignUp</button>
+                    <button type="submit" className = "btn btn-dark">Save Changes</button>
                 </form>
             </div>
         )
@@ -150,11 +120,6 @@ class SignUp extends React.Component {
 
 }
 
-export default SignUp
+export default EditAccount
 
 
-/*<div className = "custom-control custom-checkbox mb-3">
-    <input type="checkbox" className = "custom-control-input" id="customCheck" name="remember" />
-    <label className = "custom-control-label" for="customCheck">Remember Me</label>
-</div>
-<button type="submit" className = "btn btn-secondary">SignUp</button>*/

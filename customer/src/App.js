@@ -24,12 +24,27 @@ class App extends React.Component {
             currentPage: 0,
             orders:[],
             Overlay: true,
-            cartItems: 0
+            cartItems: 0,
+            contents:{
+                firstName: "punnal",
+                lastName: "baloch",
+                email: "punnal@gmail.com",
+                address: "Lums",
+                phone: "0303-1234567",
+            },
+
         }
     }
 
-    logIn = () => {
+    setInfo = (contents) => {
         this.setState({
+            contents: contents,
+        })
+    }
+
+    logIn = (contents) => {
+        this.setState({
+            contents: contents,
             loggedIn: true,
         })
 
@@ -114,7 +129,7 @@ class App extends React.Component {
                 </Fade>
                 <Router history={History}>
                     <NavigationBar logout={this.logOut} loggedIn={this.state.loggedIn} navBarData={this.state.navBar} cartItems = {this.state.cartItems} />
-                    <MainContents login={this.logIn} orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
+                    <MainContents setInfo={this.setInfo} info={this.state.contents} login={this.logIn} orders={this.state.orders} addOrders={this.addOrder} deleteOrder={this.deleteOrder} changeQuantity={this.changeQuantity} resetOrders={this.resetOrders}/>
                     <Footer FooterData={this.state.footer} />
                 </Router>
             </div>
