@@ -156,7 +156,7 @@ function post_handler(req, res){
 
     db_orders.child(parsed_order["id"]).set(parsed_order)
 
-    if(parsed["type"] == "1")
+    if(parsed_order["type"] == "1")
         db_deliveries_users.child(parsed_order["email"]).child(parsed_order["id"]).set(parsed_order)
     else
         db_local.child(parsed_order["id"]).set(parsed_order)
@@ -215,6 +215,49 @@ function get_handler(req, res){
 }
 
 
+function order_mgmt_parse_post(req){
+    return new Promise(function(resolve, reject){
+        
+        var status_change_req = req.body["data"]
+        if(typeof status_change_req == 'undefined')
+            reject(403)
+
+        Object.keys(status_change_req).forEach((type_of_operation) => {
+            var order = status_change_req[type_of_operation]
+            if(type_of_operation == "edit"){
+
+                if(!("id" in order) || !("status" in order))
+                    reject(403)
+
+                db_orders.child(order["id"]).once("value").then((order_snapshot) => {
+                    if(order_snapshot.exists())
+                    {
+                        var changed_order = order_snapshot.val()
+                        changed_order["status"] = order["status"]
+
+                        db_orders.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(()=> reject(404))
+                    }
+                    else
+                        reject(400)
+                    
+                }).catch(() => reject(404))
+            }
+            else
+                reject(403)
+        })
+    })
+}
+
+function order_mgmt_post_handler(req, res){
+    order_mgmt_parse_post(req).then((statusCode) => res.status(statusCode).send("Status changed successfully."))
+    .catch((statusCode) => res.status(statusCode).send("Could not change status. Please view status code for further details."))
+}
+
+
 module.exports.post_handler = post_handler
 module.exports.get_handler = get_handler
 module.exports.route = route
+
+
+module.exports.order_mgmt_post_handler = order_mgmt_post_handler
+module.exports.order_mgmt_route = '/api/orders/management'
