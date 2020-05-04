@@ -4,6 +4,7 @@ import NavBarItemLoggedIn from './NavBarItemLoggedIn'
 import NavBarItemLoggedOut from './NavBarItemLoggedOut'
 import Classes from '../Resource/className'
 import {Link} from 'react-router-dom'
+import History from '../hist/customHistory'
 
 class NavigationBar extends React.Component{
     
@@ -11,14 +12,21 @@ class NavigationBar extends React.Component{
         super()
         this.state = {
             mobileNav: false,
+            dropdown: false
         }
+    }
+
+    logout = () => {
+        console.log("logout")
+        this.props.logout()
+        History.push('/')
     }
     
     dataTranslator = (item) => {
-        if(item.name == "Customer"){
+        if(item.name === "Customer"){
             if(this.props.loggedIn){
                 return (
-                    <NavBarItemLoggedIn item={item} dataTranslator={this.dataTranslator} />
+                    <NavBarItemLoggedIn logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
@@ -28,14 +36,18 @@ class NavigationBar extends React.Component{
             }
                 
         }
-        else if(item.name == "Divider"){
+        else if(item.name === "Sign Out"){
+            return (<div onClick={this.logout}><NavBarItem name={item.name} /></div>)
+        }
+        else if(item.name === "Divider"){
             return (<div className={Classes.NavBarDivider}></div>)
         }
-        else if(item.name == "Cart"){
+        else if(item.name === "Cart"){
             return (
             <div className={Classes.Cart}>
                 <Link to={item.link}>
                 <img src={require('../img/cart.png')} height = '35' width = '35' />
+                <span id = "badge" class="badge badge-light">{this.props.cartItems}</span>
                 </Link>
             </div>)
         }
@@ -52,9 +64,27 @@ class NavigationBar extends React.Component{
         })
     }
 
+    handleDropDownClick = () => {
+        console.log(this.state.dropdown)
+        this.setState({
+            dropdown: !this.state.dropdown
+        })
+    }
+
 
     render() {
         const navBarItems = this.props.navBarData.map(this.dataTranslator) 
+        const navBarItemsDropDown = this.props.navBarData.map(items => {
+            if(items.name == "Customer"){
+                items.options.loggedIn.options.map(item => {
+                   return( 
+                   <div>
+                        orders
+                    </div>
+                )
+                })
+            }
+        })
         
         return(
             <div>
@@ -71,10 +101,17 @@ class NavigationBar extends React.Component{
                     <img className = {Classes.Logo} src={require('../img/logo.png')} height = '50' width = '50' />
                     {navBarItems}
                 </div>
+                    {this.state.dropdown?
+                        <div>
+                            {navBarItemsDropDown}
+                        </div>
+                        : null
+                    }
             </div>
         )
     }
     
 }
+
 
 export default NavigationBar

@@ -1,7 +1,10 @@
 import React from 'react'
 import Axios from 'axios'
-import MenuItem from './MenuItem'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Tooltip from 'react-bootstrap/Tooltip'
 
+import MenuItem from './MenuItem'
+import Api from '../../api/api'
 
 import Items from '../../dummyFiles/menujson'
 
@@ -13,6 +16,7 @@ class Menu extends React.Component {
             mainMenuItems: [],
             extrasMenuItems: [],
             drinksMenuItems: [],
+            loading:false
         }
     }
         
@@ -25,41 +29,82 @@ class Menu extends React.Component {
         return item
     }
 
-    componentDidMount() {
-        /*Axios.get('http://localhost:5000/api/menu')
-            .then((response) => {
-                console.log(response) 
-                const itemsCopy = {...response,}
-                let main = Object.values(itemsCopy.data.Main)
-                let extras = Object.values(itemsCopy.data.Extras)
-                let drinks = Object.values(itemsCopy.data.Drinks)
-                main = main.map(this.listToObject)
-                extras = extras.map(this.listToObject)
-                drinks = drinks.map(this.listToObject)
-                this.setState({
-                    mainMenuItems: main,
-                    extrasMenuItems: extras,
-                    drinksMenuItems: drinks,
+    // componentDidMount() {
+    //     /*Axios.get('http://localhost:5000/api/menu')
+    //         .then((response) => {
+    //             console.log(response) 
+    //             const itemsCopy = {...response,}
+    //             let main = Object.values(itemsCopy.data.Main)
+    //             let extras = Object.values(itemsCopy.data.Extras)
+    //             let drinks = Object.values(itemsCopy.data.Drinks)
+    //             main = main.map(this.listToObject)
+    //             extras = extras.map(this.listToObject)
+    //             drinks = drinks.map(this.listToObject)
+    //             this.setState({
+    //                 mainMenuItems: main,
+    //                 extrasMenuItems: extras,
+    //                 drinksMenuItems: drinks,
 
-        })
+    //     })
 
 
-            })*/
-        const itemsCopy = {...Items,}
-        let main = Object.values(itemsCopy.data.Main)
-        let extras = Object.values(itemsCopy.data.Extras)
-        let drinks = Object.values(itemsCopy.data.Drinks)
-        main = main.map(this.listToObject)
-        extras = extras.map(this.listToObject)
-        drinks = drinks.map(this.listToObject)
-        this.setState({
-            mainMenuItems: main,
-            extrasMenuItems: extras,
-            drinksMenuItems: drinks,
+    //         })*/
+    //     const itemsCopy = {...Items,}
+    //     let main = Object.values(itemsCopy.data.Main)
+    //     let extras = Object.values(itemsCopy.data.Extras)
+    //     let drinks = Object.values(itemsCopy.data.Drinks)
+    //     main = main.map(this.listToObject)
+    //     extras = extras.map(this.listToObject)
+    //     drinks = drinks.map(this.listToObject)
+    //     this.setState({
+    //         mainMenuItems: main,
+    //         extrasMenuItems: extras,
+    //         drinksMenuItems: drinks,
 
-        })
+    //     })
+    // }
+
+    componentWillMount(){
+        this.setState({loading: true}, () =>
+            Axios.get(Api.menu)
+                .then((response) => {
+                    console.log("then")
+                    console.log(response.data)
+                    console.log(response.data.data)
+                    const itemsCopy = response.data
+                    let main = Object.values(itemsCopy.data.Main)
+                    let extras = Object.values(itemsCopy.data.Extras)
+                    let drinks = Object.values(itemsCopy.data.Drinks)
+                    main = main.map(this.listToObject)
+                    extras = extras.map(this.listToObject)
+                    drinks = drinks.map(this.listToObject)
+                    this.setState({
+                        mainMenuItems: main,
+                        extrasMenuItems: extras,
+                        drinksMenuItems: drinks,
+                    }, () => this.setState({
+                        loading: false
+                    }))
+                }).catch(() => {
+                    console.log("catch")
+                    const itemsCopy = {...Items,}
+                    let main = Object.values(itemsCopy.data.Main)
+                    let extras = Object.values(itemsCopy.data.Extras)
+                    let drinks = Object.values(itemsCopy.data.Drinks)
+                    main = main.map(this.listToObject)
+                    extras = extras.map(this.listToObject)
+                    drinks = drinks.map(this.listToObject)
+                    this.setState({
+                        mainMenuItems: main,
+                        extrasMenuItems: extras,
+                        drinksMenuItems: drinks,
+                    }, () => this.setState({
+                        loading: false
+                    }))
+                })
+        )
+
     }
-
     createMenu = (item) => {
         return (
             <MenuItem key={item.id} menuData={item} orders={this.props.orders} addOrders={this.props.addOrders} />
@@ -74,18 +119,48 @@ class Menu extends React.Component {
         return(
             <div className = "MenuContainer">
                 <div className = "ScrollImageContainer">
-                    <a href = '#Main'> 
-                        <img  src = "https://www.macphie.com/wp-content/uploads/2018/08/branded-melts-1-350x350.jpg" className = "ScrollImage" />
-                        <p> Main </p>
-                    </a>
-                    <a href = "#Extra">
-                        <img src = "https://www.fda.gov/media/87250/download" className = "ScrollImage" />
-                        <p> Extras </p> 
-                    </a>
-                    <a href = "#Drink">
-                        <img src = "https://www.nerdwallet.com/assets/blog/wp-content/uploads/2017/10/Bartender_original-350x350.jpg" className = "ScrollImage" />
-                        <p> Drinks </p>
-                    </a>
+                    <OverlayTrigger 
+                        key = "top"
+                        placement = "top"
+                        overlay = {
+                            <Tooltip id = "tooltip-top">
+                                Click me, for big juicy burgers and wraps!
+                            </Tooltip>
+                        }
+                     >
+                        <a href = '#Main'> 
+                            <img  src = "https://www.macphie.com/wp-content/uploads/2018/08/branded-melts-1-350x350.jpg" className = "ScrollImage" />   
+                            <p> Main </p>
+                        </a>
+                    </OverlayTrigger>
+                    <OverlayTrigger 
+                        key = "top"
+                        placement = "top"
+                        overlay = {
+                            <Tooltip id = "tooltip-top">
+                                Click me for a snack to grab!
+                            </Tooltip>
+                        }
+                     > 
+                        <a href = "#Extra">
+                            <img src = "https://www.fda.gov/media/87250/download" className = "ScrollImage" />
+                            <p> Extras </p> 
+                        </a>
+                    </OverlayTrigger>
+                    <OverlayTrigger 
+                        key = "top"
+                        placement = "top"
+                        overlay = {
+                            <Tooltip id = "tooltip-top">
+                                Click me for thirst quenching drinks made buy our mixologist!
+                            </Tooltip>
+                        }
+                     >
+                        <a href = "#Drink">
+                            <img src = "https://www.nerdwallet.com/assets/blog/wp-content/uploads/2017/10/Bartender_original-350x350.jpg" className = "ScrollImage" />
+                            <p> Drinks </p>
+                        </a>
+                    </OverlayTrigger>
                 </div>
                 <div id = "Main" className = "MainTitle">Main</div>
                 <div className = "MainContainer">
