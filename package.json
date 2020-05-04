@@ -12,7 +12,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "firebase": "^7.14.2",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "cookie-parser": "^1.4.5",
+    "jsonwebtoken": "^8.5.1"
   },
   "engines": {
     "node": "14.0.0",
