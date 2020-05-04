@@ -262,24 +262,28 @@ class AddItemForm extends React.Component {
                     })
                 }
                 <button id="AddItemFormPlus" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
-                <label id="AddItemFormDescriptionLabel" htmlFor='description'>Description</label>
-                <textarea
-                    onChange={this.onDescriptionChange} 
-                    value={this.state.data.description} 
-                    id='description' 
-                    type='text' 
-                    name='description' /><br/>
+                <div id="AddItemFormOptions" class="input-group-prepend">
+                    <span class="input-group-text">Description</span>
+                    <textarea className = "form-control"
+                        onChange={this.onDescriptionChange} 
+                        value={this.state.data.description} 
+                        id='description' 
+                        type='text' 
+                        name='description' /><br/>
+                </div>
 
                 <img id="AddItemFormImage" src={this.state.data.photo_url} height="100"/>
-                <input type="file" onChange={(event) => this.onImageAdd(event)}/>
+                <input id="AddItemFormImageButton" class="form-control" type="file" onChange={(event) => this.onImageAdd(event)}/>
 
-                <label htmlFor='price'>Price:</label>
-                <input 
-                    onChange={(e) => this.onChange(e, 'price')} 
-                    value={this.state.data.price} 
-                    id='price' 
-                    type='text' 
-                    name='price' /><br/>
+                <div id="AddItemFormOptions" class="input-group-prepend">
+                    <span class="input-group-text">Price</span>
+                    <input class="form-control"
+                        onChange={(e) => this.onChange(e, 'price')} 
+                        value={this.state.data.price} 
+                        id='price' 
+                        type='text' 
+                        name='price' /><br/>
+                </div>
             </div>
         )
     }
