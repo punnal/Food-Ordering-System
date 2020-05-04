@@ -59,22 +59,22 @@ class AboutUs extends React.Component {
 
     render() {
         return (
-            <div>
-                <label> Heading </label>
-                <textarea 
+            <div id="AboutUsMain" class="container pt-3">
+                <label id="AboutUsHeading"> Heading </label>
+                <textarea class="form-control"
                     id="heading"
                     onChange={this.onTextChange}
                     value={this.state.data.heading}
                 />
 
-                <label> Body </label>
-                <textarea 
+                <label id="AboutUsBody"> Body </label>
+                <textarea class="form-control"
                     id="body"
                     onChange={this.onTextChange}
                     value={this.state.data.body}
                 />
 
-                <button onClick={() => this.onSave(!_.isEqual(this.originalData, this.state.data), this.state.data)}> Save Changes </button>
+                <button id="AboutUsButton" class="btn btn-success" onClick={() => this.onSave(!_.isEqual(this.originalData, this.state.data), this.state.data)}> Save Changes </button>
             </div>
         )
     }
