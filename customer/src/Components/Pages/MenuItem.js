@@ -1,9 +1,11 @@
 import React from "react"
+import Alert from 'react-bootstrap/Alert'
 
 class MenuItem extends React.Component {
     constructor() {
         super()
         this.state = {
+            type: "Menu",
             name: "",
             options: {},
             optionsPrices: {},
@@ -11,6 +13,8 @@ class MenuItem extends React.Component {
             quantity: 0,
             id: 0,
             showPopup: false,
+            visible: false,
+            cartNotFull: false
         }
     }
     componentDidMount() {
@@ -77,6 +81,18 @@ class MenuItem extends React.Component {
                     quantity: 1,
                     id: this.props.menuData.id,
                 })
+                this.setState({visible:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({visible:false})
+            }, 2000)
+        })
+            }
+            else {
+                this.setState({cartNotFull:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({cartNotFull:false})
+            }, 2000)
+        })
             }
         }
 
@@ -86,17 +102,20 @@ class MenuItem extends React.Component {
         return options.map((option) => {
             const val = option[0]
             return (
-                <div>
-                <input className = "RadioButtons"
+                <tr>
+                <td>
+                <div class="custom-control custom-radio">
+                <input class="custom-control-input" id = "customRadio" className = "RadioButtons"
                         type="radio" 
                         name={name}
                         value={val}
                         checked={this.state.options[name] === option[0]}
                         onChange={this.handleChange}
                     /> {option[0]}
-
-                <div>{option[1]}</div>
                 </div>
+                </td>
+                <td>{option[1]}</td>
+                </tr>
             )
 
         })
@@ -105,7 +124,18 @@ class MenuItem extends React.Component {
 
     render() {
         console.log(this.state)
-        const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>)
+        const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => {
+            return (
+                <table class = "table table-dark">
+                    <thead>
+                        <tr>
+                            <th className = "OptionsHeading">{options[0]}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.createRadioButtons(options[0], Object.entries(options[1]))}
+                    </tbody>
+                </table>)})
 
         return (
             <div className = "MenuItem">
@@ -113,28 +143,42 @@ class MenuItem extends React.Component {
                 <div className = "MenuItemName">{this.props.menuData.name}</div>
                 <div className = "MenuItemDescription">{this.props.menuData.description}</div>
                 <div className = "MenuItemPrice">{this.props.menuData.price} PKR</div>
-                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+                <div className = "MenuItemAddToCart" onClick={() => {this.handleClick("showPopup")}}><img src = {require('../../img/cart.png')} height = '35' width = '35'/></div>
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">
-                            <img src = {require('../../img/close2.png')} className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}} />
-                            <div className = "PopupOptions">
-                                <div> {option_lists} </div>
-                            </div>
-                            <div className = "PopupQuantity">
-                                <div onClick={() => {this.handleClick("decrease")}}> ◀ </div>
-                                <div  > {this.state.quantity} </div>
-                                <div onClick={() => {this.handleClick("increase")}}> ▶ </div>
-                            </div>
-                                <div className = "PopupAddToCart" onClick={() => {this.handleClick("addToCart")}}>Add to cart</div>
+                            <div className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}}><i class="fas fa-times fa-2x"></i></div>
+                            {option_lists}
+                            <table class = "table table-dark" className = "PopupQuantity">
+                                <thead>
+                                 <tr>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                 </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td className = "MenuItemPointers" onClick={() => {this.handleClick("decrease")}}> ◀ </td>
+                                        <td> {this.state.quantity} </td>
+                                        <td className = "MenuItemPointers" onClick={() => {this.handleClick("increase")}}> ▶ </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                                <Alert variant = "danger" show = {this.state.cartNotFull}>
+                                    <strong>Select all options to add</strong>
+                                </Alert>
+                                <button type="button" class="btn btn-dark" className = "PopupAddToCart" onClick={() => {this.handleClick("addToCart")}}>Add to cart</button>
                         </div>
                     </div>
                     : null 
                 }
+                <Alert variant = "success" show = {this.state.visible}>
+                    <strong>Order Added to Cart Succesfully!</strong>
+                </Alert>
             </div>
         )
     }
-
 }
 
 export default MenuItem

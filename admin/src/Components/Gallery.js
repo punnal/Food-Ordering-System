@@ -2,7 +2,7 @@ import React from "react"
 import Table from './Table'
 import DeleteItemPopup from './DeleteItemPopup'
 import AddImagePopup from './AddImagePopup'
-import { api_push, api_pull_dummy } from '../api/api'
+import { api_push, api_pull } from '../api/api'
 
 const parseData = (data) => {
     return data
@@ -23,7 +23,7 @@ class Gallery extends React.Component {
     }
 
     loadGallery(){
-        api_pull_dummy(this.api, data => {
+        api_pull(this.api, data => {
             this.setState(old => {
                 return {
                     ...old,
@@ -66,13 +66,13 @@ class Gallery extends React.Component {
         this.togglePopup('delete')
         if(action !== 'confirm')
             return 
-        //api_push(this.api, {delete:this.state.data[this.state.staged_delete]})
+        api_push(this.api, {delete:this.state.data[this.state.staged_delete]})
         this.setState(old => {
             let newstate = {...old}
             delete newstate.staged_delete
             return newstate
         })
-        //this.loadGallery()
+        this.loadGallery()
     }
 
     onImageAdded(changed, data){
@@ -80,7 +80,7 @@ class Gallery extends React.Component {
         if(!changed)
             return
 
-        //api_push(this.api, {add:{photo_url:data}})
+        api_push(this.api, {add:{photo_url:data}})
         this.loadGallery()
     }
 

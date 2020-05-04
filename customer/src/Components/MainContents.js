@@ -9,6 +9,8 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import Cart from "./Pages/Cart";
 import Orders from "./Pages/Orders";
+import EditPassword from "./Pages/EditPassword";
+import EditAccount from "./Pages/EditAccount";
 
 import Classes from "../Resource/className";
 
@@ -32,16 +34,22 @@ const MainContents = (props) => {
                     <ContactUs />
                 </Route>
                 <Route path="/login">
-                    <Login />
+                    <Login login={props.login}/>
                 </Route>
                 <Route exact path="/signup">
-                    <SignUp />
+                    <SignUp login={props.login}/>
                 </Route>
                 <Route path="/cart">
                     <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
                 </Route>
                 <Route path="/orders">
                     <Orders />
+                </Route>
+                <Route path="/editpassword">
+                    <EditPassword />
+                </Route>
+                <Route path="/editaccount">
+                    <EditAccount info={props.info} setInfo={props.setInfo}/>
                 </Route>
             </Switch>
         </div>
