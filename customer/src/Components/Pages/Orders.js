@@ -21,55 +21,56 @@ class Orders extends React.Component {
         }
     }
     parseOrders = (orders) => {
+      
         orders = Object.values(orders["data"]).map((order_obj, i) => {
-        order_obj["orders"] = []
-        if ("items" in order_obj) 
-        {
-            order_obj["items"].forEach((item) =>{
-                item["options"] = {}
-                item["optionsPrices"] = {}
-                if("options_lists" in item){
-                    item["options_lists"].forEach((choice) => {
-                        item["options"][choice["list_name"]] = choice["option_choice"]
-                        item["optionsPrices"][choice["list_name"]] = choice["price"]
-                    })
-                }
-                delete item.options_lists
-                item["type"] = "Menu"
-                order_obj["orders"].push(item)
-            })
-        }
- 
-        if ("deals" in order_obj) 
-        {
-            order_obj["deals"].forEach((deal) =>{
-                var deal_items = deal["items"]
-                deal["items"] = []
-                deal_items.forEach((item) => {
-                    item["options"] = {}
-                    item["optionsPrices"] ={}
-                    if("options_lists" in item){
-                        item["options_lists"].forEach((choice) => {
-                            item["options"][choice["list_name"]] = choice["option_choice"]
-                            item["optionsPrices"][choice["list_name"]] = choice["price"]
-                        })
-                    }
-                    delete item.options_lists
-                    deal["items"].push(item)
-                })
-                deal["type"] = "Deal"
-                order_obj["orders"].push(deal)  
-            })
-        }
- 
-        delete order_obj.deals
-        delete order_obj.items
-        return order_obj
-    })
- 
+           order_obj["orders"] = []
+           if ("items" in order_obj) 
+           {
+               order_obj["items"].forEach((item) =>{
+                 item["options"] = {}
+                 item["optionsPrices"] = {}
+                 if("option_list_choices" in item){
+                   item["option_list_choices"].forEach((choice) => {
+                     item["options"][choice["list_name"]] = choice["option_choice"]
+                     item["optionsPrices"][choice["list_name"]] = choice["price"]
+                   })
+                 }
+               delete item.option_list_choices
+               item["type"] = "Menu"
+               order_obj["orders"].push(item)
+             })
+           }
+     
+           if ("deals" in order_obj) 
+           {
+             order_obj["deals"].forEach((deal) =>{
+               var deal_items = deal["items"]
+               deal["items"] = []
+               deal_items.forEach((item) => {
+                 item["options"] = {}
+                 item["optionsPrices"] ={}
+                 if("option_list_choices" in item){
+                   item["option_list_choices"].forEach((choice) => {
+                     item["options"][choice["list_name"]] = choice["option_choice"]
+                     item["optionsPrices"][choice["list_name"]] = choice["price"]
+                   })
+                 }
+                 delete item.option_list_choices
+                 deal["items"].push(item)
+               })
+               deal["type"] = "Deal"
+               order_obj["orders"].push(deal)  
+             })
+           }
+     
+           delete order_obj.deals
+           delete order_obj.items
+           return order_obj
+        })
+     
         return orders
-    }
-    
+     }
+         
 
     componentWillMount(){
         this.setState({loading: true}, () =>
@@ -113,7 +114,7 @@ class Orders extends React.Component {
 
 
     createOrders = () => this.state.orders.map((order) => {
-        const names = order.orders.reduce((accum, item) => accum + ", " + item.name, "")
+        const names = order.orders.reduce((accum, item) => accum + item.quantity.toString() + " " + item.name + ", ", "")
         console.log("lololol", order.orders)
         const price = this.calTotalPrice(order.orders)
         return (

@@ -4,6 +4,7 @@ const Api = {
     deals:'/api/deals',
     login:'/api/login',
     orders:'/api/orders',
+    about:'/api/aboutus'
 
 }
 

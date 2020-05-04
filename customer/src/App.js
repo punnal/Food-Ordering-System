@@ -63,23 +63,23 @@ class App extends React.Component {
             this.setState(prevState => {
                 return ({
                     orders: [...prevState.orders, order],
-                    cartItems: prevState.cartItems + 1
+                    cartItems: this.state.orders.length + 1
 
                 })
             
-            }, callback)
+            }, () => this.setState({cartItems: this.state.orders.length} , callback))
         }
     }
     
     deleteOrder = (order, callback) => {
         let newOrders = [...this.state.orders,]
         newOrders =  newOrders.filter((ord) => ord.id === order.id && JSON.stringify(ord.options) === JSON.stringify(order.options)?false:true)
-        this.setState(prevState => {
+        this.setState(_ => {
             return ({
                 orders: newOrders,
-                cartItems: prevState.cartItems - 1
+                cartItems: this.state.orders.length - 1
             })
-        }, callback)
+        },  () => this.setState({cartItems: this.state.orders.length} , callback))
     }
     
     changeQuantity = (order, changeBy, callback) => {
@@ -99,7 +99,7 @@ class App extends React.Component {
         return exist
     }
     
-    resetOrders = (callback) => this.setState({orders:[]}, callback)
+    resetOrders = (callback) => this.setState({cartItems: 0, orders:[]}, callback)
 
     handleClick = () => {
         console.log(this.state.Overlay)
