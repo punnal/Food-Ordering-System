@@ -215,7 +215,7 @@ function get_handler(req, res){
 }
 
 
-function post_handler_status(req, res){
+function order_mgmt_parse_post(req){
     return new Promise(function(resolve, reject){
         
         var status_change_req = req.body["data"]
@@ -224,27 +224,40 @@ function post_handler_status(req, res){
 
         Object.keys(status_change_req).forEach((type_of_operation) => {
             var order = status_change_req[type_of_operation]
-            if(type_of_operation == "edit" || type_of_operation == "add"){
-                if(type_of_operation == "add")
-                    item_data["id"] = getTimeStamp()
+            if(type_of_operation == "edit"){
 
-                if(!("category" in item_data))
+                if(!("id" in order) || !("status" in order))
                     reject(403)
-                
-                item_data["category"] = item_data["category"].toString()
-                                
-                if("id" in item_data)
-                    db_menu.child(item_data["id"]).set(item_data).then(() => resolve(200)).catch((err) => reject(404))
-                
+
+                db_orders.child(order["id"]).once("value").then((order_snapshot) => {
+                    if(order_snapshot.exists())
+                    {
+                        var changed_order = order_snapshot.val()
+                        changed_order["status"] = order["status"]
+
+                        db_orders.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(()=> reject(404))
+                    }
+                    else
+                        reject(400)
+                    
+                }).catch(() => reject(404))
             }
-            else if(type_of_operation == "delete")
-                if("id" in item_data)
-                    db_menu.child(item_data["id"]).remove().then(() => resolve(200)).catch((err)=> reject(404))
+            else
+                reject(403)
         })
     })
+}
+
+function order_mgmt_post_handler(req, res){
+    order_mgmt_parse_post(req).then((statusCode) => res.status(statusCode).send("Status changed successfully."))
+    .catch((statusCode) => res.status(statusCode).send("Could not change status. Please view status code for further details."))
 }
 
 
 module.exports.post_handler = post_handler
 module.exports.get_handler = get_handler
 module.exports.route = route
+
+
+module.exports.order_mgmt_post_handler = order_mgmt_post_handler
+module.exports.order_mgmt_route = '/api/orders/management'
