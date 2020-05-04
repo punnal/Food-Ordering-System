@@ -181,72 +181,78 @@ class AddItemForm extends React.Component {
     render() {
         return (
             <div>
-                <button onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
-                <button onClick={() => this.onPopupClose('done', !_.isEqual(this.state.data, this.props.prefill), this.state.data)}> Done </button>
-                <label htmlFor='name'>Name:</label>
-                <input 
-                    onChange={(e) => this.onChange(e, 'name')} value={this.state.data.name} 
-                    id='name' 
-                    type='text' 
-                    name='item-name' /><br/>
-
-                <label htmlFor='option_lists'>Option Lists</label><br/>
+                <button id="AddItemFormDone" type="button" class="btn btn-success" onClick={() => this.onPopupClose('done', !_.isEqual(this.state.data, this.props.prefill), this.state.data)}> Done </button>
+                <button id="AddItemFormCancel" type="button" class="btn btn-danger" onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
+                <br/>
+                <div className = "form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Name:</span>
+                        <input type = "text" className = "form-control" id = "name" name='item-name' onChange={(e) => this.onChange(e, 'name')} value={this.state.data.name}/>
+                    </div>
+                </div>
+                <br/>
+                <label id="AddItemFormOptionList" htmlFor='option_lists'>Option Lists</label><br/>
                 {
                     this.state.data.options_lists.map((optionList, i) => {
                         let key = Object.keys(optionList)[0]
                         let sorted = Object.keys(optionList[key])
                         return (
+                            
                             <div key={i}>
-                                <input 
-                                    value={key}
-                                    id='options_name' 
-                                    type='text' 
-                                    onChange={(e) => this.onChange(e, 'options_name')} 
-                                    name={key} />
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">{key}</span>
+                                    <input className = "form-control"
+                                        value={key}
+                                        id='options_name' 
+                                        type='text' 
+                                        onChange={(e) => this.onChange(e, 'options_name')} 
+                                        name={key} />
+                                </div>
                                 {
                                     sorted.map((option, b) => {
                                         return (
                                             <div key={b}>
-                                                <label
-                                                    id='option_value' 
-                                                    type='text' 
-                                                    name={option} 
-                                                >
-                                                    {option}
-                                                </label>
-                                                <input 
-                                                    onChange={(e) => this.onChange(e, 'option_list_value', option)} 
-                                                    value={optionList[key][option]}//{this.parseOptions(Object.values(optionList)[0])} 
-                                                    id={i}
-                                                    min="0"
-                                                    type='number' 
-                                                    name={`options_lists/${key}/${option}`}/>
-                                                <button onClick={() => this.onDeleteOption(key, i, option)}> - </button>
+                                                <div id="AddItemFormOptions" class="input-group-prepend">
+                                                    <span class="input-group-text">{option}</span>
+                                                    <input className = "form-control"
+                                                        onChange={(e) => this.onChange(e, 'option_list_value', option)} 
+                                                        value={optionList[key][option]}//{this.parseOptions(Object.values(optionList)[0])} 
+                                                        id={i}
+                                                        min="0"
+                                                        type='number' 
+                                                        name={`options_lists/${key}/${option}`}/>
+                                                    <button id="AddItemFormMinus" type="button" class="btn btn-danger" onClick={() => this.onDeleteOption(key, i, option)}> - </button>
+                                                </div>
                                             </div>
                                         )
                                     })
                                 }
-                                <button onClick={() => this.onAddOption(i, key)}> Add Option </button>
+                                <button id="AddItemFormAddOption" type="button" class="btn btn-success" onClick={() => this.onAddOption(i, key)}> Add Option </button>
                                 {
                                     this.state.stagedOption[key]?
-                                        <div>
-                                            <input
-                                                id='name' 
-                                                type='text' 
-                                                name={this.state.stagedOption[key].name} 
-                                                value={this.state.stagedOption[key].name}
-                                                onChange={(event) => this.onStagedOptionChange(event, key)}
-                                            />
-                                            <input 
-                                                id='value'
-                                                value={this.state.stagedOption[key].value}//{this.parseOptions(Object.values(optionList)[0])} 
-                                                min="0"
-                                                type='number' 
-                                                onChange={(event) => this.onStagedOptionChange(event, key)}
-                                                name={`stagedOption/value/`}/>
-                                            <button onClick={() => this.onDeleteStaged(key)}> - </button>
-                                            <button onClick={() => this.onNewOptionCommit(i, key)}> commit </button>
-
+                                        <div id="AddItemFormAddOptionClicked">
+                                            <div id="AddItemFormOptions" class="input-group-prepend">
+                                                <span class="input-group-text">Name</span>
+                                                <input className = "form-control"
+                                                    id='name' 
+                                                    type='text' 
+                                                    name={this.state.stagedOption[key].name} 
+                                                    value={this.state.stagedOption[key].name}
+                                                    onChange={(event) => this.onStagedOptionChange(event, key)}
+                                                />
+                                            </div>
+                                            <div id="AddItemFormOptions" class="input-group-prepend">
+                                                <span class="input-group-text">Value</span>
+                                                <input className = "form-control"
+                                                    id='value'
+                                                    value={this.state.stagedOption[key].value}//{this.parseOptions(Object.values(optionList)[0])} 
+                                                    min="0"
+                                                    type='number' 
+                                                    onChange={(event) => this.onStagedOptionChange(event, key)}
+                                                    name={`stagedOption/value/`}/>
+                                                <button type="button" class="btn btn-danger" onClick={() => this.onDeleteStaged(key)}> - </button>
+                                                <button type="button" class="btn btn-success" onClick={() => this.onNewOptionCommit(i, key)}> commit </button>
+                                            </div>
                                         </div>
                                         :
                                         null
@@ -255,19 +261,19 @@ class AddItemForm extends React.Component {
                         )
                     })
                 }
-                <button onClick={this.onAddOptionsList}>+</button>
-                <label htmlFor='description'>Description</label>
-                <textarea 
+                <button id="AddItemFormPlus" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
+                <label id="AddItemFormDescriptionLabel" htmlFor='description'>Description</label>
+                <textarea
                     onChange={this.onDescriptionChange} 
                     value={this.state.data.description} 
                     id='description' 
                     type='text' 
                     name='description' /><br/>
 
-                <img src={this.state.data.photo_url} height="100"/>
+                <img id="AddItemFormImage" src={this.state.data.photo_url} height="100"/>
                 <input type="file" onChange={(event) => this.onImageAdd(event)}/>
 
-                <label htmlFor='price'>Price</label>
+                <label htmlFor='price'>Price:</label>
                 <input 
                     onChange={(e) => this.onChange(e, 'price')} 
                     value={this.state.data.price} 

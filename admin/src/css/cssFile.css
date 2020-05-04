@@ -336,13 +336,46 @@ body {
 
 .Orders {
 	width: 100%;
-    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: nowrap;
     top: 128px;
+    position: absolute;
     color: white;
+}
+
+#OrdersPopUpClose {
+	margin-top: 10px;
+    float: right;
+    margin-right: 10px;
+}
+
+#OrdersAddToBill {
+	margin-top: 10px;
+    float: right;
+    margin-right: 10px;
+}
+
+#OrdersPopUpHeading {
+	margin-left: 10px;
+}
+
+#OrdersPopUpItems {
+	margin-left: 40px;
+}
+
+#OrdersRadio {
+	margin-right: 5px;
+	cursor: pointer;
 }
 
 /*=================================================================================================================================*/
 /*MENU CSS*/
+
+#TableAddButton {
+	margin-bottom: 15px;
+}
 
 .Menu {
 	width: 100%;
@@ -374,9 +407,15 @@ body {
 	border-spacing: 40px;
 }
 
+.TableRow {
+	cursor: pointer;
+}
+
 .OrdersLeftTable {
-	margin-left: 128px;
 	width: 50%;
+	height: 550px;
+	overflow: scroll;
+	overflow-x: hidden;
 	background-color: rgba(0, 0, 0, 0.9);
 	border-radius: 10px;
 	padding: 10px;
@@ -401,9 +440,10 @@ body {
 }
 
 .OrdersRightTable {
-	margin-left: 964px;
-	width: 30%;
-	margin-top: -820px;
+	width: 45%;
+	height: 550px;
+	overflow: scroll;
+	overflow-x: hidden;
 	background-color: rgba(0, 0, 0, 0.9);
 	border-radius: 10px;
 	padding: 10px;
@@ -455,6 +495,88 @@ body {
   text-shadow: 1px 1px 2px #427388; 
 }*/
 
+/*===============================================================================================================================*/
+/*POPUP*/
+
+.popup {  
+  position: fixed;  
+  width: 100%;  
+  height: 100%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: rgba(0,0,0, 0.5);
+  z-index: 1;  
+}  
+.popupInner {  
+  position: absolute;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  margin: auto;  
+  border-radius: 20px;  
+  background: white;
+  z-index: 1;
+  overflow: scroll;
+  overflow-x: hidden; 
+  background-color: black;
+  color: white;  
+}
+
+.fa-times {
+	color: red;
+	transition: all 1s;
+}
+
+.fa-times:hover {
+	transform: rotate(360deg);
+}
+
+#OrdersPopUpHeading {
+	color: white;
+}
+
+#OrdersPopUpItems {
+	color: white;
+}
+
+#AddItemFormDone {
+	float: right;
+	margin-right: 10px;
+}
+
+#AddItemFormCancel {
+	float: right;
+	margin-right: 10px;
+}
+
+#name {
+	width: 50%;
+}
+
+#options_name {
+	width: 30%;
+}
+
+#AddItemFormOptions {
+	width: 50%;
+	margin-left: 40px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+
+#AddItemFormAddOption {
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+#AddItemFormAddOptionClicked {
+}
+
 /*============================================================================================================================*/
 /*SCROLL BAR CSS*/
 
@@ -463,11 +585,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.5); 
+  background: unset; 
 }
  
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 1);
   border-radius: 10px;
 }
 
@@ -916,30 +1038,4 @@ body {
             transform-origin: 50% 50%;
     text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
   }
-}
-
-
-
-.popup {  
-  position: fixed;  
-  width: 100%;  
-  height: 100%;  
-  top: 0;  
-  left: 0;  
-  right: 0;  
-  bottom: 0;  
-  margin: auto;  
-  background-color: rgba(0,0,0, 0.5);
-  z-index: 1;  
-}  
-.popupInner {  
-  position: absolute;  
-  left: 25%;  
-  right: 25%;  
-  top: 25%;  
-  bottom: 25%;  
-  margin: auto;  
-  border-radius: 20px;  
-  background: white;
-  z-index: 1;  
 }

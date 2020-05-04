@@ -171,7 +171,7 @@ class Menu extends React.Component {
                                 headingButton={this.headingButton}
                                 onAdd={this.onAdd}
                                 rowButton="Delete"
-                                cssClassName = "TableLeftButton"
+                                cssClassName = "MenuButton"
                                 onRowClick={this.onRowClick}
                                 onHeadingButtonClick={this.onAdd}
                                 cols = {table.cols}

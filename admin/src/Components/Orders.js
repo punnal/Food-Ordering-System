@@ -214,7 +214,7 @@ class Orders extends React.Component {
                     Object.keys(list.options).map((option, i) => {
                         return (
                             <div key={i}>
-                                <input 
+                                <input id = "OrdersRadio" 
                                     type="radio" 
                                     checked={this.state.checked[item][list.name][option].checked}
                                     onChange={() => this.onChecked(item, list.name, option)}
@@ -254,7 +254,7 @@ class Orders extends React.Component {
                 <div 
                     className={this.css.OrdersRightTable}
                 >
-                    <Table 
+                    <Table
                         heading = "Bill"
                         footerText = {`Total: ${this.totalBill()}`}
                         footerButton= "Generate Bill"
@@ -271,19 +271,19 @@ class Orders extends React.Component {
                             show={this.state.showpopup}
                         >
                             <PopupButtons>
-                                <button onClick={this.hideOptionsPopup}> Close </button> 
-                                <button onClick={this.onAdd}> Add To Bill </button> 
+                                <button id = "OrdersPopUpClose" type="button" class="btn btn-danger" onClick={this.hideOptionsPopup}> Close </button> 
+                                <button id ="OrdersAddToBill" type="button" class="btn btn-success" onClick={this.onAdd}> Add To Bill </button> 
                             </PopupButtons>
                             <PopupBody>
                                 {
                                     Object.keys(this.state.options_lists).map((item, i) => {
                                         return (
                                             <div key={i}>
-                                                <h1>{item}</h1>
+                                                <h1 id = "OrdersPopUpHeading">{item}</h1>
                                                 {
                                                     this.state.options_lists[item].map((list, j) => {
                                                         return (
-                                                            <div key={`${i}${j}`}> {this.createCheckBox(list, item)} </div>
+                                                            <div id = "OrdersPopUpItems" key={`${i}${j}`}> {this.createCheckBox(list, item)} </div>
                                                         )
                                                     })
                                                 }
