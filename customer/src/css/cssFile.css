@@ -430,23 +430,24 @@ body {
   right: 0;  
   bottom: 0;  
   margin: auto;  
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgba(0,0,0, 0.5);
   -webkit-animation-name: slide-in-bck-center;
   animation-name: slide-in-bck-center;
   animation-duration: 1s;
   z-index: 2;  
 }  
 .popupInner {
-  display: flex;
-  flex-direction: column;
+  /*display: flex;
+  flex-direction: column;*/
   overflow: scroll;
+  overflow-x: hidden;
   width: 50%;    
   margin: auto;
   top: 25%;
   margin-top: 200px;
   height: 65%;  
   border-radius: 20px;  
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 1);
   -webkit-animation-name: fade-in-fwd;
   animation-name: fade-in-fwd;
   animation-duration: 1.5s;  
@@ -460,9 +461,7 @@ body {
   cursor: pointer;
   float: right;
   transition: all 0.5s;
-  position: fixed;
-  top: 26%;
-  left: 73%;
+  z-index: 2;
 }
 
 .ClosePopup:hover {
@@ -475,22 +474,39 @@ body {
 }
 
 .OptionsHeading {
-  text-transform: uppercase;
   margin-bottom: 10px;
+  margin-left: 10px;
   margin-top: 32px;
-  text-decoration: underline;
+  font-size: 25px;
+  font-weight: 500;
+  text-align: left;
   z-index: 1;
 }
 
 .RadioButtons {
   cursor: pointer;
+}
+
+.MenuItemRadio {
+  float: left;
+  margin-left: 10px;
   z-index: 1;
+}
+
+.MenuItemRadioPrice {
+  float: right;
+  margin-right: 10px;
+}
+
+#MenuItemPopupAddToCart {
+  float: right;
+  margin-right: 10px;
+  margin-top: 20px;
 }
 
 .PopupQuantity {
   display: flex;
   justify-content: center;
-  margin: auto;
   z-index: 1;
 }
 .PopupQuantity > div {
@@ -503,18 +519,11 @@ body {
   cursor: pointer;
 }
 
-.PopupAddToCart {
-  font-size: 15px;
-  width: 15%;
-  text-transform: uppercase;
-  font-weight: 500;
-  margin-top: 20px;
-  margin-bottom: 25px;
-  margin-left: auto;
-  margin-right: auto;
-  cursor: pointer;
-  padding: 5px;
+#PopupAddToCart {
   z-index: 1;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  float: right;
 }
 
 /*.PopupAddToCart:hover {
@@ -631,6 +640,27 @@ body {
 
 .DealItem > img:hover {
   -webkit-transform: scale(1.01);
+}
+
+.DealItemRadio {
+  float: left;
+  margin-left: 10px;
+}
+
+.DealItemPrice {
+  float: right;
+  margin-right: 10px;
+}
+
+.DealItemPopupPrice {
+  text-align: right;
+}
+
+.DealItemHeading {
+  margin-top: 15px;
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 /*================================================================================================================================*/
@@ -851,7 +881,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
@@ -859,13 +889,17 @@ body {
 #AboutUsFirst {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.AboutUsInfo {
+  width: 100%;
 }
 
 .AboutUsInfo > p {
-  width: 60%;
   position: relative;
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
+  width: 100%;
   top: 3%;
   font-size: 20px;
   font-family: HamburgerHeaven; 
@@ -887,7 +921,8 @@ body {
 }
 
 .AboutUsImageRight {
-  right: 0;
+  width: 100%;
+  height: auto;
   position: relative;
   height: 100vh;
 }
@@ -1038,7 +1073,11 @@ body {
 .GalleryPopupClose:hover {
   cursor: pointer;
   transform: rotate(360deg);
+}
 
+.GalleryImageOpen {
+  width: auto;
+  height: auto;
 }
 
 .fa-times {
@@ -1391,6 +1430,26 @@ footer{
     display: block;
     z-index: 1;
   }
+
+.DealItemHeading {
+  margin-top: 50px;
+}
+
+.ClosePopup {
+  /*margin-left: 720px;
+  width: 15px;
+  margin-top: 10px;*/
+  margin-right: 15px;
+}
+
+#AboutUsFirst {
+  flex-direction: column;
+}
+
+.AboutUsImageRight {
+  
+}
+
 }
 
 /*================================================================================================================================*/
@@ -1402,7 +1461,7 @@ footer{
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: black; 
+  background: unset; 
 }
  
 /* Handle */
