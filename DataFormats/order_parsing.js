@@ -149,6 +149,7 @@ function parse_orders(orders){
                })
              }
            delete item.options_lists
+           item["type"] = "menu"
            order_obj["orders"].push(item)
          })
        }
@@ -170,6 +171,7 @@ function parse_orders(orders){
              delete item.options_lists
              deal["items"].push(item)
            })
+           deal["type"] = "deal"
            order_obj["orders"].push(deal)  
          })
        }
@@ -197,95 +199,101 @@ console.log(util.inspect(parse_orders(example_data), false, null, true /* enable
 
 OUTPUT = 
 [
-    {
-        address: 'Model town',
-        contact_no: '03004950280',
-        email: 'papa_ki_princess@gmail.com',
-        id: '129590596',
-        status: '0',
-        time: '129590596',
-        type: '0',
-        orders: [
-          {
-            id: '40',
-            name: 'cheese burger',
-            quantity: '1',
-            options: { sauce: 'chipotole', 'add-ons': 'jalepenos' },
-            optionsPrices: { sauce: '50', 'add-ons': '60' }
-          },
-          {
-            id: '40',
-            name: 'cheese burger',
-            quantity: '3',
-            options: { sauce: 'garlic mayo', 'add-ons': 'olives' },
-            optionsPrices: { sauce: '80', 'add-ons': '90' }
-          },
-          {
-            id: '58',
-            items: [
-              {
-                id: '40',
-                name: 'cheese burger',
-                options: { sauce: 'jalepenos' },
-                optionsPrices: { sauce: 60 }
-              },
-              {
-                id: '42',
-                name: 'fries',
-                options: { Type: 'curly' },
-                optionsPrices: { Type: '40' }
-              }
-            ],
-            name: 'big mega deal',
-            price: '450',
-            quantiy: '3'
-          }
-        ]
+  {
+    address: 'Model town',
+    contact_no: '03004950280',
+    email: 'papa_ki_princess@gmail.com',
+    id: '129590596',
+    status: '0',
+    time: '129590596',
+    type: '0',
+    orders: [
+      {
+        id: '40',
+        name: 'cheese burger',
+        quantity: '1',
+        options: { sauce: 'chipotole', 'add-ons': 'jalepenos' },
+        optionsPrices: { sauce: '50', 'add-ons': '60' },
+        type: 'menu'
       },
       {
-        address: 'Model town',
-        contact_no: '03004950280',
-        email: 'papa_ki_princess@gmail.com',
-        id: '129590596',
-        status: '0',
-        time: '129590596',
-        type: '1',
-        orders: [
+        id: '40',
+        name: 'cheese burger',
+        quantity: '3',
+        options: { sauce: 'garlic mayo', 'add-ons': 'olives' },
+        optionsPrices: { sauce: '80', 'add-ons': '90' },
+        type: 'menu'
+      },
+      {
+        id: '58',
+        items: [
           {
             id: '40',
             name: 'cheese burger',
-            quantity: '2',
-            options: { sauce: 'chipotole', 'add-ons': 'jalepenos' },
-            optionsPrices: { sauce: '50', 'add-ons': '60' }
+            options: { sauce: 'jalepenos' },
+            optionsPrices: { sauce: 60 }
           },
           {
-            id: '40',
-            name: 'cheese burger',
-            quantity: '2',
-            options: { sauce: 'garlic mayo', 'add-ons': 'olives' },
-            optionsPrices: { sauce: '80', 'add-ons': '90' }
-          },
-          {
-            id: '58',
-            items: [
-              {
-                id: '40',
-                name: 'cheese burger',
-                options: { sauce: 'jalepenos' },
-                optionsPrices: { sauce: 60 }
-              },
-              {
-                id: '42',
-                name: 'fries',
-                options: { Type: 'curly' },
-                optionsPrices: { Type: '40' }
-              }
-            ],
-            name: 'big mega deal',
-            price: '450',
-            quantity: '2'
+            id: '42',
+            name: 'fries',
+            options: { Type: 'curly' },
+            optionsPrices: { Type: '40' }
           }
-        ]
+        ],
+        name: 'big mega deal',
+        price: '450',
+        quantiy: '3',
+        type: 'deal'
       }
+    ]
+  },
+  {
+    address: 'Model town',
+    contact_no: '03004950280',
+    email: 'papa_ki_princess@gmail.com',
+    id: '129590596',
+    status: '0',
+    time: '129590596',
+    type: '1',
+    orders: [
+      {
+        id: '40',
+        name: 'cheese burger',
+        quantity: '2',
+        options: { sauce: 'chipotole', 'add-ons': 'jalepenos' },
+        optionsPrices: { sauce: '50', 'add-ons': '60' },
+        type: 'menu'
+      },
+      {
+        id: '40',
+        name: 'cheese burger',
+        quantity: '2',
+        options: { sauce: 'garlic mayo', 'add-ons': 'olives' },
+        optionsPrices: { sauce: '80', 'add-ons': '90' },
+        type: 'menu'
+      },
+      {
+        id: '58',
+        items: [
+          {
+            id: '40',
+            name: 'cheese burger',
+            options: { sauce: 'jalepenos' },
+            optionsPrices: { sauce: 60 }
+          },
+          {
+            id: '42',
+            name: 'fries',
+            options: { Type: 'curly' },
+            optionsPrices: { Type: '40' }
+          }
+        ],
+        name: 'big mega deal',
+        price: '450',
+        quantity: '2',
+        type: 'deal'
+      }
+    ]
+  }
 ]
     
