@@ -18,7 +18,11 @@ class Cart extends React.Component {
 
     componentDidMount() {
         //Initilize values here
-        this.setState({totalPrice: this.calTotalPrice(this.state.delivery)})
+        this.setState({
+            totalPrice: this.calTotalPrice(this.state.delivery),
+            phone: this.props.info.phone,
+            address: this.props.info.address
+        })
     }
     
     // order.type === "Menu"?
@@ -27,8 +31,8 @@ class Cart extends React.Component {
 
     calTotalPrice = (init) => this.props.orders.reduce( (total, order) => total + (
         order.type === "Menu"?
-        (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity:
-         (order.price + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+b, 0)), 0)))*order.quantity
+        (parseInt(order.price) + (Object.values(order.optionsPrices)).reduce((a, b) => a+parseInt(b), 0))*parseInt(order.quantity):
+         (parseInt(order.price) + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+parseInt(b), 0)), 0)))*parseInt(order.quantity)
     ), init)
 
     handleClick = (type, order) => {
@@ -55,12 +59,12 @@ class Cart extends React.Component {
                 address: this.state.address,
                 phone: this.state.phone,
             })
-            Axios.post(Api.orders, {
+            Axios.post(Api.orders,{ "data":{
                     user: "guest",
                     orders: this.props.orders,
                     address: this.state.address,
                     phone: this.state.phone,
-                })
+                }})
             this.props.resetOrders(() => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
         } 
     }
