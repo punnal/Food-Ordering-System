@@ -152,6 +152,8 @@ function post_handler(req, res){
     parsed_order["id"] = getTimeStamp()
     parsed_order["time"] = new Date().getTime()
 
+    parsed_order["status"] = parsed_order["status"].toString()
+    parsed_order["type"] = parsed_order["type"].toString()
 
 
     db_orders.child(parsed_order["id"]).set(parsed_order)
@@ -188,7 +190,7 @@ function get_local_handler(req, res){
 }
 
 function get_handler(req, res){
-    db_ref = db_orders
+    var db_ref = db_orders
 
     if(typeof req.query.type != 'undefined' && parseInt(req.query.type) == 1)
         db_ref = db_local
@@ -202,7 +204,7 @@ function get_handler(req, res){
     
     
     if(typeof req.query.status != 'undefined'){
-        status = req.query.status
+        var status = req.query.status
         db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
             res.send( {"data" : db_snapshot.val()})
         })
@@ -233,7 +235,7 @@ function order_mgmt_parse_post(req){
                     if(order_snapshot.exists())
                     {
                         var changed_order = order_snapshot.val()
-                        changed_order["status"] = order["status"]
+                        changed_order["status"] = order["status"].toString()
 
                         db_orders.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(()=> reject(404))
                     }
