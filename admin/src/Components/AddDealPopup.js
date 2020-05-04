@@ -173,7 +173,7 @@ class AddDealPopup extends React.Component {
         return (
             <Popup 
                 show={this.props.show}>
-                <PopupH> Add/Edit An Item </PopupH>
+                <PopupH><div id="AddDealPopupHeading"> Add/Edit An Item </div> </PopupH>
                 <PopupBody> 
                     <div>
                         <button id="DealsPopupClose" type="button" class="btn btn-danger" onClick={() => this.props.onClose('cancel')}> Close </button>
@@ -186,7 +186,7 @@ class AddDealPopup extends React.Component {
                             <span class="input-group-text">Price</span>
                             <input className = "form-control" type="number" onChange={this.onPriceChange} value={this.state.deal.price} />
                         </div>
-                        <h4> Items </h4>
+                        <h4 id="AddDealPopupItems"> Items </h4>
                         {
                             this.state.deal.items.map((item, i) => {
                                 return (

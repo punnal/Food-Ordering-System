@@ -375,6 +375,7 @@ body {
 
 #TableAddButton {
 	margin-bottom: 15px;
+	margin-left: 10px;
 }
 
 .Menu {
@@ -457,6 +458,12 @@ body {
 	margin-left: 10px;
 }
 
+#AddDealPopupItems {
+	margin-left: 10px;
+	font-size: 30px;
+	font-weight: 500;
+}
+
 /*======================================================================================================================================*/
 /*DELETEPOPUP*/
 
@@ -534,6 +541,36 @@ body {
 	margin-right: 10px;
 	margin-bottom: 10px;
 	margin-top: 10px;
+}
+
+/*=======================================================================================================================================*/
+/*ABOUTUS*/
+
+#AboutUsMain {
+	margin-top: 128px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.9);
+	height: 325px;
+	border-radius: 10px;
+	width: 60%;
+}
+
+#heading, #body {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#AboutUsHeading, #AboutUsBody {
+	font-size: 30px;
+	font-weight: 500;
+	margin-left: 200px;
+}
+
+#AboutUsButton {
+	float: right;
+	margin-top: 15px;
+	margin-right: 200px;
 }
 
 /*====================================================================================================================================*/
@@ -726,6 +763,16 @@ body {
 	margin-bottom: 30px;
 }
 
+#AddItemFormOptionList {
+	margin-left: 10px;
+	font-size: 30px;
+	font-weight: 500;
+}
+
+#AddItemFormPrepend {
+	margin-left: 10px;
+}
+
 #AddItemFormPlus {
 	margin-left: 10px;
 }
@@ -744,6 +791,18 @@ body {
 	margin-left: 40px;
 	margin-bottom: 10px;
 	border-radius: 5px;
+}
+
+#AddItemPopupHeading {
+	text-align: center;
+	font-size: 35px;
+	font-weight: 500;
+}
+
+#AddDealPopupHeading {
+	text-align: center;
+	font-size: 35px;
+	font-weight: 500;
 }
 
 /*============================================================================================================================*/

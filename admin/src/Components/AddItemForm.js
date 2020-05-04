@@ -185,7 +185,7 @@ class AddItemForm extends React.Component {
                 <button id="AddItemFormCancel" type="button" class="btn btn-danger" onClick={()=>this.onPopupClose('cancel')}> Cancel </button>
                 <br/>
                 <div className = "form-group">
-                    <div class="input-group-prepend">
+                    <div id="AddItemFormPrepend" class="input-group-prepend">
                         <span class="input-group-text">Name:</span>
                         <input type = "text" className = "form-control" id = "name" name='item-name' onChange={(e) => this.onChange(e, 'name')} value={this.state.data.name}/>
                     </div>
@@ -199,7 +199,7 @@ class AddItemForm extends React.Component {
                         return (
                             
                             <div key={i}>
-                                <div class="input-group-prepend">
+                                <div id="AddItemFormPrepend" class="input-group-prepend">
                                     <span class="input-group-text">{key}</span>
                                     <input className = "form-control"
                                         value={key}
