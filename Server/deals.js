@@ -26,6 +26,9 @@ function get_handler(req, res){
     db_deals.once("value", (deals_snapshot) => {
         var all_deals = deals_snapshot.val()
         Object.values(deals_snapshot.val()).forEach((deal) => {
+            if(!("items" in deal))
+                return
+
             deal["items"].forEach((item) => {
                 if(!("options_lists" in item)){
                     item["options_lists"] = [] 
@@ -59,7 +62,7 @@ function deal_parse_post(req){
                     if(type_of_operation == "add")
                         deal_data["id"] = getTimeStamp()
 
-                    if(!"items" in deal_data)
+                    if(!("items" in deal_data))
                         reject(403)
                     
                     var item_quantities = {}
