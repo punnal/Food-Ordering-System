@@ -23,7 +23,7 @@ class SubTabNavBar extends React.Component {
                                     to={`${e.path}`} >
                                     <button type = "button" className = "btn btn-info" id={res.admin.css_classes.DSubTabElement}>
                                         {e.name}
-                                        {e.name != 'Delivered' ?
+                                        {e.name !== 'Delivered' ?
                                         <OverlayTrigger 
                                             key = "top"
                                             placement = "top"
@@ -33,7 +33,7 @@ class SubTabNavBar extends React.Component {
                                             </Tooltip>
                                             }
                                         > 
-                                            <span id = "badge" class="badge badge-light">5</span>
+                                            <span id = "badge" class="badge badge-light"></span>
                                         </OverlayTrigger>
                                         : null
                                     }

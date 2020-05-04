@@ -62,10 +62,10 @@ class DeliveriesSubTabs extends React.Component {
         this.clickHandler = this.clickHandler.bind(this)
         this.onPopupClose = this.onPopupClose.bind(this)
         this.onOrderRejected = this.onOrderRejected.bind(this)
+        this.reloadData = this.reloadData.bind(this)
     }
 
-
-    componentDidMount() {
+    reloadData(){
         api_pull(this.api, data => this.setState( old => { 
             if(!data) return
             let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
@@ -79,18 +79,23 @@ class DeliveriesSubTabs extends React.Component {
         }))
     }
 
+    componentDidMount() {
+        this.reloadData()
+    }
+
     clickHandler(button, id) {
         if(button.id === 1){
-            console.log('rejected') 
             this.setState(old => {
                 let newstate = {...old, showpopup:true, 'reject_id':id}
                 return newstate
             })
+            return
         }
 
-        let updatedorder = {...this.state.data[id]}
-        updatedorder.status += 1
-        api_push('/api/orders', {edit:{updatedorder}})
+        let updatedOrder = {...this.state.data[id]}
+        updatedOrder.status += 1
+        api_push('/api/orders/management', {edit:{updatedOrder}})
+        this.reloadData()
     }
 
     onPopupClose(){
@@ -98,12 +103,9 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     onOrderRejected(){
-        this.setState(old => {
-            let newstate = {...old, showpopup:false}
-            delete newstate.data[old.reject_id]
-            delete newstate.reject_id
-            return newstate
-        })
+        let updatedOrder = {...this.state.data[this.state.reject_id]}
+        updatedOrder.status = -1
+        api_push('/api/orders/management', {delete:{updatedOrder}})
     }
 
     render() {
