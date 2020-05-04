@@ -457,6 +457,84 @@ body {
 	margin-left: 10px;
 }
 
+/*======================================================================================================================================*/
+/*DELETEPOPUP*/
+
+#DeletePopupHeading{
+	text-align: center;
+	font-weight: 500;
+	font-size: 35px;
+}
+
+#DeletePopupBody {
+	text-align: center;
+	font-size: 20px;
+}
+
+#DeletePopupCancel {
+	margin-top: 100px;
+}
+
+#DeletePopupConfirm {
+	margin-left: 50px;
+	margin-top: 100px;
+}
+
+#PopupButtons {
+	text-align: center;
+}
+
+/*======================================================================================================================================*/
+/*GALLERY*/
+
+.Gallery{
+	color: white;
+	margin-left: auto;
+	margin-right: auto;
+	overflow: scroll;
+	height: 650px;
+}
+
+#GalleryContainer {
+	background-color: rgba(0,0,0, 0.9);
+	padding: 20px;
+	margin-top: 128px;
+	width: 70%;
+	border-radius: 10px;
+	margin-bottom: 120px;
+}
+
+#GalleryHeadingPopup {
+	text-align: center;
+	font-size: 35px;
+	margin-top: 10px;
+}
+
+#GalleryImageUpload {
+	width: 50%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+#GalleryImagePopup {
+	border-radius: 5px;
+	margin-left: 10px;
+}
+
+#GalleryPopupAdd {
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#GalleryPopupClose {
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
 
 /*====================================================================================================================================*/
 /*HISTORY*/
@@ -576,7 +654,10 @@ body {
   bottom: 0;  
   margin: auto;  
   background-color: rgba(0,0,0, 0.5);
-  z-index: 1;  
+  z-index: 1;
+  -webkit-animation-name: fade-in-top;
+  animation-name: fade-in-top;
+  animation-duration: 1s;  
 }  
 .popupInner {  
   position: absolute;  
@@ -591,7 +672,10 @@ body {
   overflow: scroll;
   overflow-x: hidden; 
   background-color: black;
-  color: white;  
+  color: white; 
+  -webkit-animation-name: fade-in-top;
+  animation-name: fade-in-top;
+  animation-duration: 1.5s; 
 }
 
 .fa-times {
