@@ -22,6 +22,10 @@ class Menu extends React.Component {
         
     listToObject = (item) => {
         console.log(item)
+        if(!item.options_lists){
+            item["options_lists"] = {}
+            return item
+        }
         item.options_lists = item.options_lists.reduce((accum, options) => {
             accum[Object.keys(options)[0]] = Object.values(options)[0]
             return accum
@@ -72,7 +76,7 @@ class Menu extends React.Component {
                     console.log(response.data)
                     console.log(response.data.data)
                     const itemsCopy = response.data
-                    let main = Object.values(itemsCopy.data.Main)
+                    let main = Object.values(itemsCopy.data.Mains)
                     let extras = Object.values(itemsCopy.data.Extras)
                     let drinks = Object.values(itemsCopy.data.Drinks)
                     main = main.map(this.listToObject)
@@ -85,8 +89,9 @@ class Menu extends React.Component {
                     }, () => this.setState({
                         loading: false
                     }))
-                }).catch(() => {
+                }).catch((error) => {
                     console.log("catch")
+                    console.log(error)
                     const itemsCopy = {...Items,}
                     let main = Object.values(itemsCopy.data.Main)
                     let extras = Object.values(itemsCopy.data.Extras)
