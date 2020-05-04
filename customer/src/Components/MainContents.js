@@ -43,7 +43,7 @@ const MainContents = (props) => {
                     <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
                 </Route>
                 <Route path="/orders">
-                    <Orders />
+                    <Orders addOrders={props.addOrders}/>
                 </Route>
                 <Route path="/editpassword">
                     <EditPassword />
