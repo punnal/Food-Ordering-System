@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import {api_push, api_pull_dummy} from '../api/api'
+import {api_push, api_pull} from '../api/api'
 
 const parseData = (data) => {
     return data
@@ -19,7 +19,7 @@ class AboutUs extends React.Component {
     }
 
     loadData() {
-        api_pull_dummy(this.api, data => {
+        api_pull(this.api, data => {
             this.originalData = parseData(data)
             console.log(data)
             this.setState(old => {
@@ -49,6 +49,7 @@ class AboutUs extends React.Component {
             return {
                 ...old,
                 data: {
+                    ...old.data,
                     [id]:value
                 }
             }

@@ -40,7 +40,6 @@ class Gallery extends React.Component {
         this.togglePopup('add')
     }
 
-
     onDeleteClicked(table, row) {
         this.togglePopup('delete')
         this.setState(old => {
