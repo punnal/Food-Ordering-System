@@ -27,8 +27,8 @@ const TableHeading = (props) => {
             </h2> 
             {
                 (props.headingButton)?
-                    <button 
-                        className={props.buttonStyle} 
+                    <button type = "button" class = "btn btn-dark" 
+                        id={props.buttonStyle} 
                         onClick={() => props.onAdd(props.heading)}
                     > 
                         {props.headingButton} 
@@ -58,7 +58,7 @@ class Table extends React.Component {
                     buttonStyle = {this.css.TableAddButton}
                     onAdd = {this.props.onAdd}
                 />
-                <table className='Table'>
+                <table className='table table-dark table-stripped table-hover'>
                     <thead>
                         <tr 
                             className={this.css.TableColumnHeadings}
@@ -133,7 +133,7 @@ class Table extends React.Component {
                     (this.props.footerButton)?
                         <div>
                             <p> {this.props.footerText} </p>
-                            <button className = {this.props.cssClassName} onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
+                            <button type="button" class= "btn btn-success" id = {this.props.cssClassName} onClick={this.props.onFooterButtonClick}> {this.props.footerButton} </button>
                         </div>
                         :
                         null
