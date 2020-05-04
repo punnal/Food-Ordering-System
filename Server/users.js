@@ -4,21 +4,21 @@ const jwt = require('jsonwebtoken')
 var utils = require('./utils.js')
 
 const secret = "lmao_we_suck"
-require('firebase/auth');
+// require('firebase/auth');
 
-var admin = require("firebase-admin");
+// var admin = require("firebase-admin");
 
-var serviceAccount = require("./test-smoke-n-grill-firebase-adminsdk-v1ikj-07e81ae93f.json");
+// var serviceAccount = require("./test-smoke-n-grill-firebase-adminsdk-v1ikj-07e81ae93f.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://test-smoke-n-grill.firebaseio.com"
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://test-smoke-n-grill.firebaseio.com"
+// });
 
 
 
 var db_users = firebase.database().ref().child("User");
-const auth = firebase.auth()
+// const auth = firebase.auth()
 
 
 // auth.signInWithEmailAndPassword("mahad@gmail.com", "some_shit94a").then((val) => {
