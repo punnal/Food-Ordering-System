@@ -156,7 +156,7 @@ function post_handler(req, res){
 
     db_orders.child(parsed_order["id"]).set(parsed_order)
 
-    if(parsed["type"] == "1")
+    if(parsed_order["type"] == "1")
         db_deliveries_users.child(parsed_order["email"]).child(parsed_order["id"]).set(parsed_order)
     else
         db_local.child(parsed_order["id"]).set(parsed_order)
@@ -212,6 +212,36 @@ function get_handler(req, res){
             res.send({"data" : db_snapshot.val()} )
         })
     }
+}
+
+
+function post_handler_status(req, res){
+    return new Promise(function(resolve, reject){
+        
+        var status_change_req = req.body["data"]
+        if(typeof status_change_req == 'undefined')
+            reject(403)
+
+        Object.keys(status_change_req).forEach((type_of_operation) => {
+            var order = status_change_req[type_of_operation]
+            if(type_of_operation == "edit" || type_of_operation == "add"){
+                if(type_of_operation == "add")
+                    item_data["id"] = getTimeStamp()
+
+                if(!("category" in item_data))
+                    reject(403)
+                
+                item_data["category"] = item_data["category"].toString()
+                                
+                if("id" in item_data)
+                    db_menu.child(item_data["id"]).set(item_data).then(() => resolve(200)).catch((err) => reject(404))
+                
+            }
+            else if(type_of_operation == "delete")
+                if("id" in item_data)
+                    db_menu.child(item_data["id"]).remove().then(() => resolve(200)).catch((err)=> reject(404))
+        })
+    })
 }
 
 
