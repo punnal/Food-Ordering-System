@@ -193,6 +193,7 @@ class AddItemForm extends React.Component {
                 <br/>
                 <label id="AddItemFormOptionList" htmlFor='option_lists'>Option Lists</label><br/>
                 {
+                    (this.state.data.options_lists)?
                     this.state.data.options_lists.map((optionList, i) => {
                         let key = Object.keys(optionList)[0]
                         let sorted = Object.keys(optionList[key])
@@ -260,6 +261,8 @@ class AddItemForm extends React.Component {
                             </div>
                         )
                     })
+                        :
+                        null
                 }
                 <button id="AddItemFormPlus" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
                 <div id="AddItemFormOptions" class="input-group-prepend">

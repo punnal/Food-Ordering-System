@@ -133,7 +133,7 @@ export const res = {
                 'title':'History',
                 'component':History,
                 'path':'/history',
-                'api':'/api/pending'
+                'api':'/api/orders?status=3'
             
             },
             {

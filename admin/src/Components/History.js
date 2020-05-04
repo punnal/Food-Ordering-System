@@ -30,6 +30,7 @@ class History extends React.Component {
         return (
             <div className = "History">
                 {
+                    (this.state.data)?
                     this.state.data.map((e, i) =>{
                         return (
                             <Card 
@@ -39,6 +40,8 @@ class History extends React.Component {
                                 data={e} 
                                 onClick={this.clickHandler}/>
                         )})
+                        :
+                        null
                 }
             </div>
         )
