@@ -21,6 +21,75 @@ body {
   height: 100%;
 }
 
+.StartOverlay {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background-color: black;
+  z-index: 5;
+}
+
+#LeftLine{
+  border: 1px solid white;
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  left: 0%;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 2s;
+}
+
+#RightLine{
+  border: 1px solid white;
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  right: 0%;
+  -webkit-animation-name: slide-in-right;
+  animation-name: slide-in-right;
+  animation-duration: 2s;
+}
+
+.VerticalLine {
+  border-left: 2px solid white;
+  height: 260px;
+  position: absolute;
+  left: 50%;
+  -webkit-animation-name: slide-in-top;
+  animation-name: slide-in-top;
+  animation-duration: 2s;
+}
+
+#StartOverlayButton {
+  position: inherit;
+  top: 70%;
+}
+
+#StartOverlayTitle {
+  position: relative;
+  top: 50%;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 5s;
+  color: white;
+}
+
+#StartOverlaySubTitle {
+  position: inherit;
+  top: 60%;
+  -webkit-animation-name: fade-in-fwd;
+  animation-name: fade-in-fwd;
+  animation-duration: 6s;
+  color: white;
+}
+
+#StartOverlayButton {
+  -webkit-animation-name: slide-in-bottom;
+  animation-name: slide-in-bottom;
+  animation-duration: 2s;
+}
+
 /*==============================================================================================================================*/
 /*NAVBAR CSS*/
 
@@ -41,7 +110,7 @@ body {
   align-items: center;
   position: fixed;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
   text-shadow: 1px 1px black;
   overflow: hidden;
   -webkit-animation-name: bounceInLeft;
@@ -53,6 +122,7 @@ body {
   text-decoration: none;
   color: white;
   letter-spacing: 0;
+  z-index: 1;
 }
 
 .NavBarElement {
@@ -97,9 +167,56 @@ body {
   display: inherit;
 }
 
+.NavBarLoggedIn {
+  margin-left: 15px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 1px;
+}
+
+.fa-caret-down {
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.fa-caret-down:hover {
+  transform: rotate(180deg);
+}
+
+/*.NavBarLoggedInDropDown {
+  top: 10%;
+  display: flex;
+  flex-direction: column;
+}*/
+
+.DropDown {
+  position: fixed;
+  margin-left: 83px;
+}
+
+.DropDownMenu {
+  background-color: black;
+  color: white;
+}
+
+.DropDownMenu > a {
+  color: white;
+}
+
+.DropDownItem {
+  color: white;
+  transition: all 0.5s;
+}
+
+.DropDownItem > a:hover {
+  color: black;
+  text-decoration: none;
+}
+
 .Cart {
   margin-right: 15px;
-  margin-left: 15px;
+  margin-left: 30px;
   margin-top: 10px;
   transition: all 350ms ease-in-out;
 }
@@ -130,6 +247,11 @@ body {
   position: fixed;
   left: 9px;
   z-index: -1;
+  transition: all 500ms ease-in-out;
+}
+
+.Logo:hover {
+  transform: rotateY(360deg);
 }
 
 /*==============================================================================================================================*/
@@ -164,15 +286,11 @@ body {
 
 .ScrollImage {
   border-radius: 10%;
-  filter: gray; /* IE5+ */
-  -webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */
   -webkit-transition: all .8s ease-in-out;
   margin-right: 20px;
 }
 
 .ScrollImage:hover {
-  filter: none;
-  -webkit-filter: grayscale(0);
   -webkit-transform: scale(1.01);
 }
 
@@ -237,28 +355,13 @@ body {
 }
 
 .MenuItemAddToCart {
-  background-color: rgba(0, 0, 0, 0.9);
-  font-size: 20px;
-  text-transform: uppercase;
-  font-weight: 500;
   margin-top: 20px;
-  border: 0 solid;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
-  outline: 1px solid;
-  outline-color: rgba(255, 255, 255, .5);
-  outline-offset: 0px;
-  text-shadow: none;
-  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   cursor: pointer;
-  padding: 5px;
+  transition: all 350ms ease-in-out;
 }
 
 .MenuItemAddToCart:hover {
-  border: 1px solid;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
-  outline-color: rgba(255, 255, 255, 0);
-  outline-offset: 15px;
-  text-shadow: 1px 1px 2px #427388;
+  transform: translateX(10px);
 }
 
 .MenuItem > img {
@@ -266,14 +369,14 @@ body {
   width: 200px;
   border-radius: 10%;
   padding: 0;
-  filter: gray; /* IE5+ */
-  -webkit-filter: grayscale(1); /* Webkit Nightlies & Chrome Canary */
+  /*filter: gray;*/ /* IE5+ */
+  /*-webkit-filter: grayscale(1);*/ /* Webkit Nightlies & Chrome Canary */
   -webkit-transition: all .8s ease-in-out;
 }
 
 .MenuItem > img:hover {
-  filter: none;
-  -webkit-filter: grayscale(0);
+  /*filter: none;*/
+  /*-webkit-filter: grayscale(0);*/
   -webkit-transform: scale(1.01);
 }
 
@@ -327,7 +430,7 @@ body {
   right: 0;  
   bottom: 0;  
   margin: auto;  
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(0,0,0, 0.7);
   -webkit-animation-name: slide-in-bck-center;
   animation-name: slide-in-bck-center;
   animation-duration: 1s;
@@ -343,7 +446,7 @@ body {
   margin-top: 200px;
   height: 65%;  
   border-radius: 20px;  
-  background: black;
+  background: rgba(0, 0, 0, 0.2);
   -webkit-animation-name: fade-in-fwd;
   animation-name: fade-in-fwd;
   animation-duration: 1.5s;  
@@ -351,10 +454,19 @@ body {
 }
 
 .ClosePopup {
-  margin-left: 720px;
+  /*margin-left: 720px;
   width: 15px;
-  margin-top: 10px;
+  margin-top: 10px;*/
   cursor: pointer;
+  float: right;
+  transition: all 0.5s;
+  position: fixed;
+  top: 26%;
+  left: 73%;
+}
+
+.ClosePopup:hover {
+  transform: rotate(360deg);
 }
 
 .PopupOptions {
@@ -387,6 +499,10 @@ body {
   z-index: 1;
 }
 
+.MenuItemPointers {
+  cursor: pointer;
+}
+
 .PopupAddToCart {
   font-size: 15px;
   width: 15%;
@@ -396,6 +512,96 @@ body {
   margin-bottom: 25px;
   margin-left: auto;
   margin-right: auto;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1;
+}
+
+/*.PopupAddToCart:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
+}*/
+
+/*================================================================================================================================*/
+/*DEALS*/
+
+.DealsContainerOutter { 
+  color: white;
+}
+
+.DealsCarousel {}
+
+.carousel-caption {
+  z-index: 1;
+}
+
+.carousel-indicators {
+  z-index: 1;
+}
+
+.DealsContainerInner { 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: space-between;
+  -webkit-animation-name: slide-in-right;
+  animation-name: slide-in-right;
+  animation-duration: 1s;
+}
+
+.DealsTitle {
+  font-size: 30px;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1s;
+  text-transform: uppercase;
+}
+
+.DealItem {
+  width: 470px;
+  margin-bottom: 100px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+.DealItemName {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.DealItemDescription {
+  background-color: rgba(0, 0, 0, 0);
+  height: 25px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.DealItemPrice {
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.DealItemAddToCart {
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-top: 20px;
   border: 0 solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
   outline: 1px solid;
@@ -405,15 +611,26 @@ body {
   transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   cursor: pointer;
   padding: 5px;
-  z-index: 1;
 }
 
-.PopupAddToCart:hover {
+.DealItemAddToCart:hover {
   border: 1px solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
   outline-color: rgba(255, 255, 255, 0);
   outline-offset: 15px;
   text-shadow: 1px 1px 2px #427388;
+}
+
+.DealItem > img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10%;
+  padding: 0;
+  -webkit-transition: all .8s ease-in-out;
+}
+
+.DealItem > img:hover {
+  -webkit-transform: scale(1.01);
 }
 
 /*================================================================================================================================*/
@@ -427,12 +644,16 @@ body {
   right: 25%;
   color: white;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.9);
   border-radius: 10px;
   padding: 1px;
   -webkit-animation-name: fade-in-fwd;
   animation-name: fade-in-fwd;
   animation-duration: 1.5s;  
+}
+
+.CartClick {
+  cursor: pointer;
 }
 
 .CartMinOrder {
@@ -581,11 +802,255 @@ body {
   width: 25%;
 }
 
+
+/*===============================================================================================================================*/
+/*LOGIN*/
+
+#Login {
+  color: white;
+  text-align: left;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+}
+
+#Login h3 {
+  text-align: center;
+}
+
+#Login p{
+  text-align: center;
+  cursor: pointer;
+  margin-top: 50px;
+}
+
+#Login img {
+  cursor: pointer;
+  margin-top: 50px;
+}
+
 /*==============================================================================================================================*/
+
+/*===============================================================================================================================*/
+/*SIGNUP*/
+
+#SignUp {
+  color: white;
+  text-align: left;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 10px;
+}
+
+
+/*=================================================================================================================================*/
+/*ABOUTUS*/
+
+.AboutUsContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+}
+
+#AboutUsFirst {
+  display: flex;
+  flex-direction: row;
+}
+
+.AboutUsInfo > p {
+  width: 60%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  top: 3%;
+  font-size: 20px;
+  font-family: HamburgerHeaven; 
+}
+
+#AboutUsSecond {
+  display: flex;
+  flex-direction: row;
+}
+
+#AboutUsThird {
+  display: flex;
+  flex-direction: row;
+}
+
+#AboutUsFourth {
+  display: flex;
+  flex-direction: row;
+}
+
+.AboutUsImageRight {
+  right: 0;
+  position: relative;
+  height: 100vh;
+}
+
+.AboutUsImageLeft {
+  left: 0;
+  position: relative;
+  height: 100vh;
+}
+
+.AboutUsSubHeadingLeft {
+  padding-top: 15%;
+  font-family: HamburgerHeaven;
+  color: white;
+  width: 100%;
+}
+
+.AboutUsSubHeadingRight {
+  font-family: HamburgerHeaven;
+  padding-top: 15%;
+  color: white;
+  width: 100%;
+}
+
+/*======================================================================================================================================*/
+/*CONTACTUS*/
+
+#contactForm {
+  width: 50%;
+  margin-bottom: 20px;
+}
+
+.ContactUsTitle {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ContactUsSubTitle {
+  margin-bottom: 15px;
+}
+
+#ContactUsSubmit {
+  margin-left: -650px;
+}
+
+#ContactUsMessageBox {
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.ContactUsTitle2 {
+}
+
+.ContactUsSubTitle2 {
+}
+
+#ContactUsContacts {
+  background-color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+
+.ContactUsIcons > a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  background-color:  #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  transition: 0.5s;
+}
+
+.ContactUsIcons a:hover{
+  color: #fff;
+  transform: rotateY(360deg);
+}
+
+#ContactUsPhone {
+  width: 35px;
+  height: 35px;
+  background-color:  #33383b;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 35px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  transition: 0.5s;
+  margin-top: 20px;
+}
+
+#ContactUsPhone:hover {
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.ContactUsMail {
+  color: white;
+  text-decoration: none;
+}
+
+/*==================================================================================================================================*/
+/*GALLERY*/
+
+.GalleryBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.GalleryBoxItem {
+  cursor: pointer;
+  transition: all 1s;
+  margin-bottom: 50px;
+}
+
+.GalleryBoxItem:hover {
+  transform: scale(1.05);
+}
+
+.GalleryPopup {
+  width: 100%;
+  position: fixed;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: rgba(0,0,0, 0.7);
+  -webkit-animation-name: slide-in-bck-center;
+  animation-name: slide-in-bck-center;
+  animation-duration: 1s;
+  z-index: 2;  
+}
+
+.GalleryPopupClose {
+  float: right;
+  transition: all 1s;
+}
+
+.GalleryPopupClose:hover {
+  cursor: pointer;
+  transform: rotate(360deg);
+
+}
+
+.fa-times {
+  color: red;
+}
+
+/*==============================================================================================================================*/
+
 /*FOOTER*/
 
 footer{
-  position:absolute;
+  position: relative;
 }
  
 @media (max-height:800px){
@@ -740,7 +1205,7 @@ footer{
   transition: 0.5s;
 }
 
-.Footer .footer-icons a{
+.Footer .footer-icons a:hover{
   color: #fff;
   transform: rotateY(360deg);
 }
@@ -1190,6 +1655,81 @@ footer{
   100% {
     -webkit-transform: translateZ(0);
             transform: translateZ(0);
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-29 17:54:43
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-bottom
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-bottom {
+  0% {
+    -webkit-transform: translateY(1000px);
+            transform: translateY(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-bottom {
+  0% {
+    -webkit-transform: translateY(1000px);
+            transform: translateY(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-29 17:55:52
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-1000px);
+            transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-top {
+  0% {
+    -webkit-transform: translateY(-1000px);
+            transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
     opacity: 1;
   }
 }

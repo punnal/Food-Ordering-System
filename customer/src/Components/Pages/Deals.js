@@ -1,6 +1,9 @@
 import React from 'react'
 import DealItem from './DealItem'
+import DealsCarousel from './DealsCarousel'
+import Axios from 'axios'
 
+import Api from '../../api/api'
 import Items from '../../dummyFiles/dealsjson'
 
 class Deals extends React.Component {
@@ -9,6 +12,7 @@ class Deals extends React.Component {
         super()
         this.state = {
             dealsItems: [],
+            loading:true
         }
     }
 
@@ -22,17 +26,50 @@ class Deals extends React.Component {
         return item
     }
 
-    componentDidMount() {
-        let deals = Object.values(Items.data).map((deal) => {
-            deal.items = deal.items.map(this.listToObject)
-            return deal
-            
-        })
-        this.setState({
-            dealsItems: deals,
+    componentWillMount(){
+        this.setState({loading: true}, () =>
+                Axios.get(Api.deals)
+                    .then((response) => {
+                        console.log("then")
+                        console.log(response.data)
+                        console.log(response.data.data.pictures)
+                        let deals = Object.values(response.data.data).map((deal) => {
+                        deal.items = deal.items.map(this.listToObject)
+                        return deal
+                        })
+                        this.setState({
+                            //Hardcoded here
+                            dealsItems: deals
+                        }, () => this.setState({
+                            loading: false
+                        }))
+                    }).catch(() => {
+                        let deals = Object.values(Items.data).map((deal) => {
+                        deal.items = deal.items.map(this.listToObject)
+                        return deal
+                        })
+                        this.setState({
+                            //Hardcoded here
+                            dealsItems: deals
+                        }, () => this.setState({
+                            loading: false
+                        }))
+                    })
+        )
 
-        })
     }
+
+    // componentDidMount() {
+    //     let deals = Object.values(Items.data).map((deal) => {
+    //         deal.items = deal.items.map(this.listToObject)
+    //         return deal
+            
+    //     })
+    //     this.setState({
+    //         dealsItems: deals,
+
+    //     })
+    // }
 
     createDeals = (item) => {
         return (
@@ -44,12 +81,13 @@ class Deals extends React.Component {
         const DealsItems = this.state.dealsItems.map(this.createDeals)
         
         return(
-            <div className = "DealContainer"> 
-                <div id = "Deals" className = "DealsTitle">Deals</div>
-                <div className = "DealsContainer">
-                    {DealsItems}
+                <div className = "DealsContainerOutter"> 
+                    <DealsCarousel/>
+                    <div className = "DealsTitle">Deals</div>
+                    <div className = "DealsContainerInner">
+                        {DealsItems}
+                    </div>
                 </div>
-            </div>
         )
     }
 
