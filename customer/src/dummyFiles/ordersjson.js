@@ -25,12 +25,12 @@ const example_data =
             "options_lists" : [ {
               "list_name" : "Type",
               "option_choice" : "curly",
-              "price" : "40"
+              "price" : 40
             } ]
           } ],
           "name" : "big mega deal",
-          "price" : "450",
-          "quantiy" : "3"
+          "price" : 450,
+          "quantiy" : 3
         } ],
         "email" : "papa_ki_princess@gmail.com",
         "id" : "129590596",
@@ -40,26 +40,26 @@ const example_data =
           "options_lists" : [ {
             "list_name" : "sauce",
             "option_choice" : "chipotole",
-            "price" : "50"
+            "price" : 50
           }, {
             "list_name" : "add-ons",
             "option_choice" : "jalepenos",
-            "price" : "60"
+            "price" : 60
           } ],
-          "quantity" : "1"
+          "quantity" : 1
         }, {
           "id" : "40",
           "name" : "cheese burger",
           "options_lists" : [ {
             "list_name" : "sauce",
             "option_choice" : "garlic mayo",
-            "price" : "80"
+            "price" : 80
           }, {
             "list_name" : "add-ons",
             "option_choice" : "olives",
-            "price" : "90"
+            "price" : 90
           } ],
-          "quantity" : "3"
+          "quantity" : 3
         } ],
         "status" : "0",
         "time" : "129590596",
@@ -88,41 +88,41 @@ const example_data =
             "options_lists" : [ {
               "list_name" : "Type",
               "option_choice" : "curly",
-              "price" : "40"
+              "price" : 40
             } ]
           } ],
           "name" : "big mega deal",
-          "price" : "450",
-          "quantity" : "2"
+          "price" : 450,
+          "quantity" : 2
         } ],
         "email" : "papa_ki_princess@gmail.com",
         "id" : "129590596",
         "items" : [ {
-          "id" : "40",
+          "id" : 40,
           "name" : "cheese burger",
           "options_lists" : [ {
             "list_name" : "sauce",
             "option_choice" : "chipotole",
-            "price" : "50"
+            "price" : 50
           }, {
             "list_name" : "add-ons",
             "option_choice" : "jalepenos",
-            "price" : "60"
+            "price" : 60
           } ],
-          "quantity" : "2"
+          "quantity" : 2
         }, {
           "id" : "40",
           "name" : "cheese burger",
           "options_lists" : [ {
             "list_name" : "sauce",
             "option_choice" : "garlic mayo",
-            "price" : "80"
+            "price" : 80
           }, {
             "list_name" : "add-ons",
             "option_choice" : "olives",
-            "price" : "90"
+            "price" : 90
           } ],
-          "quantity" : "2"
+          "quantity" : 2
         } ],
         "status" : "0",
         "time" : "129590596",

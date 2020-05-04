@@ -3,6 +3,13 @@ import Axios from 'axios'
 import Api from '../../api/api'
 import Item from '../../dummyFiles/ordersjson'
 
+const statusCodes = {
+    "0":"Pending",
+    "1":"In Progress",
+    "2":"Completed",
+    "3":"Delivered",
+    "-1":"Failed",
+}
 
 class Orders extends React.Component {
 
@@ -28,7 +35,7 @@ class Orders extends React.Component {
                     })
                 }
                 delete item.options_lists
-                item["type"] = "menu"
+                item["type"] = "Menu"
                 order_obj["orders"].push(item)
             })
         }
@@ -50,7 +57,7 @@ class Orders extends React.Component {
                     delete item.options_lists
                     deal["items"].push(item)
                 })
-                deal["type"] = "deal"
+                deal["type"] = "Deal"
                 order_obj["orders"].push(deal)  
             })
         }
@@ -92,27 +99,29 @@ class Orders extends React.Component {
     }
     
     handleClick = (orders) => {
+        console.log("added", orders)
         orders.forEach((order) => {
-            this.props.addOrder(order, () => void(0))
+            this.props.addOrders(order, () => void(0))
         }) 
     }   
 
     calTotalPrice = (orders) => orders.reduce( (total, order) => total + (
         order.type === "Menu"?
-        (order.price + (Object.values(order.optionsPrices)).reduce((a, b) => a+b, 0))*order.quantity:
-         (order.price + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+b, 0)), 0)))*order.quantity
+        (parseInt(order.price) + (Object.values(order.optionsPrices)).reduce((a, b) => a+parseInt(b), 0))*parseInt(order.quantity):
+         (parseInt(order.price) + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+parseInt(b), 0)), 0)))*parseInt(order.quantity)
     ), 0)
 
 
     createOrders = () => this.state.orders.map((order) => {
         const names = order.orders.reduce((accum, item) => accum + ", " + item.name, "")
+        console.log("lololol", order.orders)
         const price = this.calTotalPrice(order.orders)
         return (
             <div>
                 <div>
                     {names}
                 </div>
-                    {order.status}
+                    {statusCodes[order.status]}
                 <div>
                     {price}
                 </div>
