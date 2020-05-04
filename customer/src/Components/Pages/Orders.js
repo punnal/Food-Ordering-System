@@ -117,18 +117,18 @@ class Orders extends React.Component {
         console.log("lololol", order.orders)
         const price = this.calTotalPrice(order.orders)
         return (
-            <div>
-                <div>
+            <tr>
+                <td>
                     {names}
-                </div>
+                </td>
                     {statusCodes[order.status]}
-                <div>
+                <td>
                     {price}
-                </div>
-                <div onClick={() => this.handleClick(order.orders)}>
+                </td>
+                <td class="btn btn-success" onClick={() => this.handleClick(order.orders)}>
                     Add to Cart
-                </div>
-            </div> 
+                </td>
+            </tr>
         )
     })
      
@@ -145,9 +145,23 @@ class Orders extends React.Component {
         const orders = this.createOrders()
         const loading = this.createLoading()
         return(
-            <div className = "">
-                <div>Customer Orders</div>
-                {this.state.loading?loading:orders}
+            <div className="OrdersContainer">
+                <div className="OrdersHeading">Customer Orders</div>
+                <div className="OrdersTableDiv">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Status</th>
+                                <th>Cost</th>
+                                <th>Order Again?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.loading?loading:orders}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

@@ -213,16 +213,6 @@ export default class Contact extends React.Component {
           </div>
         </div>
         <div id = "ContactUsMessageBox" class="container bg-dark text-white pt-3">
-          <h1 className = "ContactUsTitle2">
-            Don't Be a Stranger
-          </h1>
-          <h1 className = "ContactUsSubTitle2">
-            Say Hello
-          </h1>
-          <h1>
-            ----Leave a message for us----
-          </h1>
-          <hr></hr> <br></br>
           <div id = "ContactUsContacts" className="footer-section contact-form">
               <h3>Contact</h3>
               <div className = "ContactUsIcons">
