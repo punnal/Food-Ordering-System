@@ -1,6 +1,6 @@
 {
   "name": "customer",
-  "proxy": "http://localhost:9000",
+  "proxy": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,6 +15,7 @@
     "prop-types": "^15.7.2",
     "emailjs": "^2.2.0",
     "emailjs-com": "^2.4.1",
+    "google-maps-react": "^2.0.6",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",

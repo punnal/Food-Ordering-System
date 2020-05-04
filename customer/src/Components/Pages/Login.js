@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import {Link} from 'react-router-dom'
 
 import Api from '../../api/api'
 import History from '../../hist/customHistory'
@@ -97,7 +98,9 @@ class Login extends React.Component {
                 </form>
                 <h3>Or</h3>
                 <img className = "mx-auto d-block" src = {require("../../img/google.png")} height = '50' weight = '50' />
-                <p>Forgot password?</p>
+                <Link to={"/forgot"} >
+                    <p>Forgot password?</p>
+                </Link>
             </div>
         )
     }

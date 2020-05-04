@@ -74,7 +74,7 @@ class EditAccount extends React.Component {
         console.log(this.state.contents)
         return(
             <div id = "SignUp" className  = "container pt-2 pb-3">
-                <h2 className = "mt-5">User Account</h2>
+                <h2 className = "mt-5">Edit Account Information</h2>
                 <form class="needs-validation" action="javascript:void(0);" onSubmit={this.handleSubmit} novalidate>
                     <div className = "form-group">
                         <div className = "row">

@@ -31,7 +31,7 @@ export const res = {
                         'name': 'Pending',
                         'path':'/deliveries/pending',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/pending',
+                        'api': '/api/orders/?status=0',
                         'buttons': ['Accept', 'Reject'],
                         'buttonscss': ['Accept', 'Reject']
                     },
@@ -39,7 +39,7 @@ export const res = {
                         'name':'In Progress',
                         'path':'/deliveries/inprogress',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/inprogress',
+                        'api': '/api/orders/?status=1',
                         'buttons': ['Completed', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
                     }, 
@@ -47,7 +47,7 @@ export const res = {
                         'name':'Delivered',
                         'path':'/deliveries/delivered',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/delivered',
+                        'api': '/api/orders/?status=2',
                         'buttons':['Delivered', 'Failed'],
                         'buttonscss': ['Accept', 'Reject']
 
@@ -58,19 +58,57 @@ export const res = {
                 'id': 2,
                 'title':'Orders',
                 'component':Orders,
-                'path':'/orders'
+                'path':'/orders',
+                'api':'/api/orders',
+                'tables': 
+                {
+                    'Mains':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Deals':
+                    {
+                        'cols':['ID', 'Name', 'Image', 'Price']
+                    },
+                    'Drinks':
+                    {
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    },
+                    'Extras':
+                    {
+                        'heading':'Extras',
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                    }
+                }
             },
             {
                 'id': 3,
                 'title':'Menu',
                 'component':Menu,
-                'path':'/menu'
+                'path':'/menu',
+                'api':'/api/menu',
+                'tables': 
+                [
+                        {
+                            'heading':'Mains',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Drinks',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        },
+                        {
+                            'heading':'Extras',
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        }
+                    ]
             },
             {
                 'id': 4,
                 'title':'Deals',
                 'component':Deals,
-                'path':'/deals'
+                'path':'/deals',
+                'api':'/api/deals'
             },
             {
                 'id': 5,
@@ -94,7 +132,9 @@ export const res = {
                 'id':8,
                 'title':'History',
                 'component':History,
-                'path':'/history'
+                'path':'/history',
+                'api':'/api/pending'
+            
             },
             {
                 'id': 9,
@@ -109,7 +149,11 @@ export const res = {
             'left': [1,2,3,4,5,6,7],
             'dropdown': {
                 'title': 'Hi, Admin',
-                'options': [8,]
+                'options': [
+                    {'name':'History', 'path':'/history'},
+                    {'name':'Settings', 'path':'/settings'},
+                    {'name':'Signout', 'path':'/gallery'},
+                ]
             }
         },
 
@@ -124,11 +168,21 @@ export const res = {
             'DSubTabs' : 'DSubTabs',
             'DSubTabElement' : 'DSubTabElement',
             'DeliveriesSubTabs': '',
+            'Popup':'',
             'DeliveriesSubTabClicked': 'DeliveriesSubTabClicked',
             'DeliveriesButtons':'DeliveriesButtons',
             'DeliveriesContainer': 'DeliveriesContainer',
             'DeliveriesInfo': 'DeliveriesInfo',
-            'NavBarDivider': 'NavBarDivider' //div
+            'NavBarDivider': 'NavBarDivider', //div
+            'OrdersRightTable': 'OrdersRightTable',
+            'Orders': 'Orders',
+            'OrdersLeftTable': 'OrdersLeftTable',
+            'TableHeadingAndButtonDiv': 'TableHeadingAndButtonDiv',
+            'TableHeading': 'TableHeading',
+            'TableAddButton': 'TableAddButton',
+            'TableColumnHeadings': 'TableColumnHeadings',
+            'TableBody': 'TableBody',
+            'TableRow': 'TableRow'
         }
 
     }

@@ -15,7 +15,6 @@ class App extends React.Component {
         return (
             <Router>
             <div>
-                <Header />
                 <NavBar />
                 {
                     res.admin.pages.map(e => {

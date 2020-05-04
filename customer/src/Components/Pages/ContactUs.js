@@ -2,6 +2,8 @@ import React from "react";
 // import Hero from "../containers/Hero";
 import axios from "axios";
 import * as emailjs from "emailjs-com";
+import Maps from "./GoogleMaps";
+import Loc from "../../img/location.png";
 
 export default class Contact extends React.Component {
   state = {
@@ -238,6 +240,7 @@ export default class Contact extends React.Component {
                 <i id = "ContactUsPhone" class="fa fa-envelope"></i>
                 <span><a className ="ContactUsMail" href = "mailto:smokeandgrill123@gmail.com">smokeandgrill123@gmail.com</a></span>
               </div>
+            <Maps />
           </div>
         </div>
       </div>

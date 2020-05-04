@@ -11,6 +11,7 @@ import Cart from "./Pages/Cart";
 import Orders from "./Pages/Orders";
 import EditPassword from "./Pages/EditPassword";
 import EditAccount from "./Pages/EditAccount";
+import Forgot from "./Pages/Forgot";
 
 import Classes from "../Resource/className";
 
@@ -40,16 +41,19 @@ const MainContents = (props) => {
                     <SignUp login={props.login}/>
                 </Route>
                 <Route path="/cart">
-                    <Cart orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
+                    <Cart info={props.info} orders={props.orders} addOrders={props.addOrders} deleteOrder={props.deleteOrder} changeQuantity={props.changeQuantity} resetOrders={props.resetOrders}/>
                 </Route>
                 <Route path="/orders">
-                    <Orders />
+                    <Orders addOrders={props.addOrders}/>
                 </Route>
                 <Route path="/editpassword">
                     <EditPassword />
                 </Route>
                 <Route path="/editaccount">
                     <EditAccount info={props.info} setInfo={props.setInfo}/>
+                </Route>
+                <Route path="/forgot">
+                    <Forgot/>
                 </Route>
             </Switch>
         </div>

@@ -5,8 +5,7 @@ body {
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-color: black;
-	display: flex;
-	position: fixed;
+	background-attachment: fixed;
 }
 
 #root {
@@ -31,13 +30,15 @@ body {
 	-webkit-animation-name: zoomIn;
   	animation-name: zoomIn;
   	animation-duration: 2s;
-  	position: relative;
+  	position: fixed;
 }
 
-/*=============================================================================================================================*/
+/*================================================================================================================================*/
 /*NAVBAR CSS*/
+/*Css for Navbar starts here*/
+
 .NavBar {
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(0, 0, 0, 0.5);
 	height: 50px;
 	color: white;
 	font-size: 20px;
@@ -46,11 +47,9 @@ body {
 	flex-wrap: wrap;
 	justify-content: flex-end;
 	align-items: center;
-	position: relative;
+	position: fixed;
 	width: 100%;
 	z-index: 1;
-	text-shadow: 1px 1px black;
-	overflow: auto;
 	-webkit-animation-name: bounceInLeft;
   	animation-name: bounceInLeft;
   	animation-duration: 5s;
@@ -58,16 +57,25 @@ body {
 
 .NavBar > a {
 	text-decoration: none;
+	text-transform: uppercase;
+	font-family: sans-serif;
+	font-weight: 600;
 	color: white;
+	z-index: 1;
 }
 
 .NavBarElement {
-	margin-left: 15px;
+	margin-left: 20px;
 	z-index: 1;
 }
 
 .NavBarElement:hover {
-	text-decoration: underline;
+	border-top: 1px solid #ffffff;
+  	border-bottom: 1px solid #ffffff;
+  	-webkit-animation-name: fill;
+  	animation-name: fill;
+  	animation-duration: 0.5s;
+  	padding: 6px 0; 
 }
 
 .NavBarDivider {
@@ -87,12 +95,40 @@ body {
 	text-decoration: none;
 }
 
-.NavBarDropdown > img {
+.DropDownArrow{
 	margin-left: 10px;
+	z-index: 1;
+	cursor: pointer;
 }
 
-.NavBarDropdown > img:hover {
-	transform: translateX(10px);
+.DropDownMenu {
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 139px;
+	height: 83px;
+	text-align: center;
+	margin-top: 12px;
+	-webkit-animation-name: fade-in-top;
+  	animation-name: fade-in-top;
+  	animation-duration: 0.5s;
+}
+
+.DropDownElement {
+	display: flex;
+	flex-direction: column;
+}
+
+.DropDownElement > a:hover {
+	background-color: white;
+	color: black;
+	height: 100%;
+	transition-duration: 1s;
+}
+
+.DropDownElement > a {
+	text-decoration: none;
+	border-bottom: 1px solid white;
+	color: white;
 }
 
 .Logo {
@@ -102,13 +138,19 @@ body {
 	z-index: -1;
 }
 
+/*===========================================================================================================================*/
+/*DELIVERIES CSS*/
+/*CSS for deliveries page starts here*/
+
 .Deliveries {
 	background-image: url(../img/delivery.jpg);
 	width: 100%;
 	height: 100%;
 	background-size: 100%;
 	background-repeat: no-repeat;
-	position: fixed;
+	position: absolute;
+	background-attachment: fixed;
+	background-color: whitesmoke;
 	top: 0; 
 }
 
@@ -124,21 +166,32 @@ body {
 	color: white;
 }
 
-.DSubTabs > a:hover {
-	text-decoration: underline;
-}
-
 .DSubTabElement {
 	margin-left: 150px;
 	height: 100%;
 	width: 100px;
 	padding: 5px;
 	text-align: center;
-	background-color: rgba(255, 255, 255, 0.2);
-	border-radius: 10px;
+	background-color: rgba(0, 0, 0, 0.9);
 	-webkit-animation-name: bounceInDown;
   	animation-name: bounceInDown;
   	animation-duration: 1.5s;
+	box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+	outline: 1px solid;
+	outline-color: rgba(255, 255, 255, .5);
+	outline-offset: 0px;
+	border: none;
+	cursor: pointer;
+	text-shadow: none;
+  	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.DSubTabElement:hover {
+	border: 1px solid;
+  	box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+ 	outline-color: rgba(255, 255, 255, 0);
+  	outline-offset: 15px;
+  	text-shadow: 1px 1px 2px #427388;
 }
 
 .DeliveriesSubTabClicked {
@@ -155,7 +208,7 @@ body {
 }
 
 .DeliveriesInfo {
-	background-color: rgba(255, 255, 255, 0.2);
+	background-color: rgba(0, 0, 0, 0.9);
 	text-align: center;
 	border-radius: 10px;
 	margin-left: 50px;
@@ -163,29 +216,211 @@ body {
 	width: 40%;
 }
 
+.DeliveriesInfo:hover {
+	border-top-left-radius: 10px;
+  	border-bottom-left-radius: 10px;
+  	animation-name: example;
+  	animation-duration: 0.25s;
+  	border-left: 8px solid white;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/*.box:hover {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  animation-name: example;
+  animation-duration: 0.25s;
+  border-left: 8px solid red;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}*/
+
 .DeliveriesButtons {
-	margin-left: 230px;
+	position: absolute;
+	margin-left: 953px;
 	margin-top: 90px;
 }
 
 .Accept {
 	margin-right: 20px;
 	background-color: #00FF00;
+	box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+	outline: 1px solid;
+	outline-color: rgba(255, 255, 255, .5);
+	outline-offset: 0px;
 	border: none;
 	cursor: pointer;
 	padding: 12px 30px;
 	color: white;
-	border-radius: 10px;	
+	text-shadow: none;
+  	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);	
+}
+
+.Accept:hover {
+	border: 1px solid;
+  	box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+ 	outline-color: rgba(255, 255, 255, 0);
+  	outline-offset: 15px;
+  	text-shadow: 1px 1px 2px #427388;
 }
 
 .Reject {
 	background-color: #FF0000;
+	box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+	outline: 1px solid;
+	outline-color: rgba(255, 255, 255, .5);
+	outline-offset: 0px;
 	border: none;
 	cursor: pointer;
 	padding: 12px 30px;
 	color: white;
-	border-radius: 10px;
+	text-shadow: none;
+  	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
 }
+
+.Reject:hover {
+	border: 1px solid;
+  	box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+ 	outline-color: rgba(255, 255, 255, 0);
+  	outline-offset: 15px;
+  	text-shadow: 1px 1px 2px #427388;
+}
+
+/*================================================================================================================================*/
+/*ORDERS CSS*/
+/*CSS for Orders page starts here*/
+
+.Orders {
+	width: 100%;
+    position: absolute;
+    top: 128px;
+    color: white;
+}
+
+/*=================================================================================================================================*/
+/*MENU CSS*/
+
+.Menu {
+	width: 100%;
+    position: absolute;
+    top: 128px;
+    color: white;
+}
+
+.Menu .OrdersLeftTable {
+	width: 60%;
+	margin: auto;
+	margin-bottom: 50px;
+}
+
+/*==================================================================================================================================*/
+/*TABLE CSS*/
+
+
+.Table {
+	border-spacing: 40px;
+}
+
+.OrdersLeftTable {
+	margin-left: 128px;
+	width: 50%;
+	background-color: rgba(0, 0, 0, 0.9);
+	border-radius: 10px;
+	padding: 10px;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 1.5s;
+}
+
+.TableHeading {
+	margin-left: 10px;
+}
+
+.TableColumnHeadings {
+	margin-left: 10px;
+}
+
+.TableLeftButton {
+	cursor: pointer;
+	-webkit-animation-name: heartbeat;
+  	animation-name: heartbeat;
+  	animation-duration: 1.5s;
+}
+
+.OrdersRightTable {
+	margin-left: 964px;
+	width: 30%;
+	margin-top: -820px;
+	background-color: rgba(0, 0, 0, 0.9);
+	border-radius: 10px;
+	padding: 10px;
+	-webkit-animation-name: slide-in-right;
+  	animation-name: slide-in-right;
+  	animation-duration: 1.5s;
+}
+
+.TableRightButton {
+	margin-right: 20px;
+	background-color: #00FF00;
+	box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+	outline: 1px solid;
+	outline-color: rgba(255, 255, 255, .5);
+	outline-offset: 0px;
+	border: none;
+	cursor: pointer;
+	padding: 12px 30px;
+	color: white;
+	text-shadow: none;
+  	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);	
+}
+
+.TableRightButton:hover {
+	border: 1px solid;
+  	box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+ 	outline-color: rgba(255, 255, 255, 0);
+  	outline-offset: 15px;
+  	text-shadow: 1px 1px 2px #427388;
+}
+
+
+
+/*.btn-5 {
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+} 
+
+.btn-5:hover {
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388; 
+}*/
+
+/*============================================================================================================================*/
+/*SCROLL BAR CSS*/
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5); 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5); 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+/*===================================================================================================================================*/
 
 @media only screen and (max-width: 750px) {
 	
@@ -275,6 +510,9 @@ body {
 	}
 
 }
+
+/*==================================================================================================================================*/
+/*KEYFRAME ANIMATIONS*/
 
 @keyframes bounceInLeft {
   from,
@@ -404,4 +642,249 @@ body {
             transform: translateX(0);
     opacity: 1;
   }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-25 18:14:11
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-right
+ * ----------------------------------------
+ */
+@-webkit-keyframes slide-in-right {
+  0% {
+    -webkit-transform: translateX(1000px);
+            transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-in-right {
+  0% {
+    -webkit-transform: translateX(1000px);
+            transform: translateX(1000px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fill {
+	0% {
+		border-top: 1px solid #ffffff;
+  		border-bottom: 1px solid #ffffff;
+	}
+	50% {
+		border-top: 2px solid #ffffff;
+  		border-bottom: 2px solid #ffffff;
+	}
+	75% {
+		border-top: 3px solid #ffffff;
+  		border-bottom: 3px solid #ffffff;
+	}
+	100% {
+		border-top: 4px solid #ffffff;
+  		border-bottom: 4px solid #ffffff;
+	}
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-25 21:4:34
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation heartbeat
+ * ----------------------------------------
+ */
+@-webkit-keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+@keyframes heartbeat {
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 0:17:55
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation fade-in-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes fade-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-top {
+  0% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2020-4-26 0:37:7
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation text-pop-up-top
+ * ----------------------------------------
+ */
+@-webkit-keyframes text-pop-up-top {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    text-shadow: none;
+  }
+  100% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+@keyframes text-pop-up-top {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    text-shadow: none;
+  }
+  100% {
+    -webkit-transform: translateY(-50px);
+            transform: translateY(-50px);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+
+
+
+.popup {  
+  position: fixed;  
+  width: 100%;  
+  height: 100%;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  margin: auto;  
+  background-color: rgba(0,0,0, 0.5);
+  z-index: 1;  
+}  
+.popupInner {  
+  position: absolute;  
+  left: 25%;  
+  right: 25%;  
+  top: 25%;  
+  bottom: 25%;  
+  margin: auto;  
+  border-radius: 20px;  
+  background: white;
+  z-index: 1;  
 }
