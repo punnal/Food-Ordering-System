@@ -390,6 +390,74 @@ body {
 	margin-bottom: 50px;
 }
 
+/*======================================================================================================================================*/
+/*DEALS*/
+
+#DealsPopupAdd {
+	float: right;
+	margin-left: 10px;
+}
+
+#DealsPopupClose {
+	float: right;
+	margin-left: 10px;
+	margin-right: 20px;
+}
+
+#DealsPopupName {
+	width: 50%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+#DealsPopupPrice {
+	width: 50%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+#DealsImageButton {
+	width: 50%;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+
+#DealsPopupList {
+	width: 50%;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#AddDealPopupDisabled {
+	width: auto;
+}
+
+#AddDealPopupMinus {
+	float: right;
+	margin-right: 20px;
+}
+
+#AddDealPopupPlus {
+	margin-left: 10px;
+	margin-bottom: 15px;
+}
+
+#AddDealPopupImage {
+	margin-left: 10px;
+	border-radius: 5px;
+	margin-bottom: 10px;
+}
+
+#AddDealPopupImageButton {
+	margin-bottom: 15px;
+	width: 50%;
+	margin-left: 10px;
+}
+
+
 /*====================================================================================================================================*/
 /*HISTORY*/
 
