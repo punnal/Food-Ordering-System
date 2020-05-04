@@ -19,6 +19,10 @@ class Deals extends React.Component {
 
     listToObject = (item) => {
         console.log(item)
+        if(!item.options_lists){
+            item["options_lists"] = {}
+            return item
+        }
         item.options_lists = item.options_lists.reduce((accum, options) => {
             accum[Object.keys(options)[0]] = Object.values(options)[0]
             return accum

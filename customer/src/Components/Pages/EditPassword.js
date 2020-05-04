@@ -71,7 +71,7 @@ class EditPassword extends React.Component {
     render() {
         return(
             <div id = "SignUp" className  = "container pt-2 pb-3">
-                <h2 className = "mt-5">User Account</h2>
+                <h2 className = "mt-5">Edit Password</h2>
                 <form class="needs-validation" action="javascript:void(0);" onSubmit={this.handleSubmit} novalidate>
                     <div className = "form-group">
                         <input onChange={this.handleChange} value={this.state.contents.password} type = "password" className = "form-control" id = "pass" placeholder = "Enter Old password" name = "oldPassword" min = "8" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />

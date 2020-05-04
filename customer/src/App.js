@@ -63,7 +63,7 @@ class App extends React.Component {
             this.setState(prevState => {
                 return ({
                     orders: [...prevState.orders, order],
-                    cartItems: prevState.cartItems + order.quantity
+                    cartItems: prevState.cartItems + 1
 
                 })
             
@@ -77,7 +77,7 @@ class App extends React.Component {
         this.setState(prevState => {
             return ({
                 orders: newOrders,
-                cartItems: prevState.cartItems - order.quantity
+                cartItems: prevState.cartItems - 1
             })
         }, callback)
     }
@@ -94,13 +94,6 @@ class App extends React.Component {
         if(exist){
             this.setState({orders: newOrders}, callback)
         }
-        let quantities = 0
-        quantities = quantities + this.state.orders.map(order => order.quantity)
-        this.setState(prevState => {
-            return ({
-                cartItems: quantities
-            })
-        })
         console.log("end")
         console.log(this.state.orders)
         return exist
