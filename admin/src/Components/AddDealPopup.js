@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from "lodash"
-import {Popup, PopupH, PopupBody, PopupButtons } from './Popup'
+import {Popup, PopupH, PopupBody} from './Popup'
 
 const menuToItemsArray = (menu) => {
     let items = []

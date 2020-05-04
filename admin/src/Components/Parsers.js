@@ -30,7 +30,8 @@ class Parsers {
 
     static parseDealsBeforePush = (deal, type) => {
         let arr = []
-        deal.items.forEach(item => arr = [...arr, ...Array(parseInt(item.quantity)).fill(item.id)])
+        if(deal.items)
+            deal.items.forEach(item => arr = [...arr, ...Array(parseInt(item.quantity)).fill(item.id)])
         deal.items = arr
         console.log(deal.items)
         const parsed = {[type]:deal}

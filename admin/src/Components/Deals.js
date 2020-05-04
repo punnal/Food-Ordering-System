@@ -36,6 +36,7 @@ class Deals extends React.Component {
         api_pull('/api/menu', menu => {
             this.menu = menu
             api_pull(this.api, d => {
+                console.log(d)
                 this.setState(old => {
                     return {
                         ...old, 

@@ -3,6 +3,7 @@ import { res } from '../res/res'
 
 
 const parseItems = (items) => {
+    if(!items) return null
     return (
         <div>
             {
@@ -92,7 +93,12 @@ class Table extends React.Component {
                                                                     (colname.toLowerCase() !== 'image')?
                                                                     row[colname.toLowerCase()]
                                                                     :
-                                                                        <img width="30" height="30" alt="" src={row['photo_url']}/>
+                                                                        <img 
+                                                                            width = {this.props.img_w? this.props.img_w:this.props.img_h? null : 30} 
+                                                                            height = {this.props.img_h}
+                                                                            alt="" 
+                                                                            src={row['photo_url']}
+                                                                        />
                                                                 }
                                                             </td>
                                                         )

@@ -22,7 +22,39 @@ const api_push = (url, data) => {
         body:JSON.stringify(body)
     })
 }
+
+const api_pull_dummy = (url, callback) => {
+    console.log('pulling', url)
+    if(url === '/api/gallery'){
+    callback(
+        [
+            {
+                'id':"32423254",
+                'photo_url':'https://i.pinimg.com/originals/f6/75/b3/f675b37884d8a1a286ca391e60fb8f87.jpg'
+            },
+            {
+                'id':"57655845",
+                'photo_url':'https://i.pinimg.com/originals/f6/75/b3/f675b37884d8a1a286ca391e60fb8f87.jpg'
+            },
+            {
+                'id':"45645634",
+                'photo_url':'https://i.pinimg.com/originals/f6/75/b3/f675b37884d8a1a286ca391e60fb8f87.jpg'
+            }
+        ]
+    )
+    }
+    else if (url === '/api/aboutus') {
+        callback(
+            {
+                heading:'This is some heading',
+                body:'this is the text body'
+            }
+        )
+    }
+}
+
 export {
     api_pull,
-    api_push
+    api_push,
+    api_pull_dummy
 }
