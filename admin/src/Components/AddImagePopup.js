@@ -30,21 +30,22 @@ class AddImagePopup extends React.Component {
         return (
             <Popup 
                 show={this.props.show}>
-                <PopupH> Add An Image </PopupH>
+                <PopupH><div id="GalleryHeadingPopup"> Add An Image </div></PopupH>
+                    <button id="GalleryPopupClose" type="button" class="btn btn-danger" onClick={() => this.props.onClose('cancel')}> Close </button>
+                    <button id="GalleryPopupAdd" type="button" class="btn btn-success" onClick={() => this.props.onAdd(this.state.photo_url !== null, this.state.photo_url)}> Add </button>
                 <PopupBody> 
-                    <img
+                    <img id="GalleryImagePopup"
                         alt=""
                         src={this.state.photo_url}
                         height={this.props.imgHeight}
                         width={this.props.imgWidth}
                     />
-                    <input
+                    <input className = "form-control"
+                        id="GalleryImageUpload"
                         type="file"
                         onChange={this.onImageUpload}
                     />
                 </PopupBody>
-                <button onClick={() => this.props.onClose('cancel')}> Close </button>
-                <button onClick={() => this.props.onAdd(this.state.photo_url !== null, this.state.photo_url)}> Add </button>
             </Popup>
         )
     }

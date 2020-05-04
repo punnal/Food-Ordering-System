@@ -85,31 +85,33 @@ class Gallery extends React.Component {
 
     render() {
         return (
-            <div className='Menu'>
-                <DeleteItemPopup
-                    show = {this.state.pshow.delete}
-                    onClose = {this.onDeletePopupClose}
-                />
-                <AddImagePopup 
-                    show = {this.state.pshow.add}
-                    onClose = {() => this.togglePopup('add')}
-                    onAdd = {this.onImageAdded}
-                    menu = {this.menu}
-                    type = {this.state.type}
-                    imgHeight={250}
-                />
-                <Table 
-                    heading='Photos'
-                    headingButton='Add'
-                    onAdd={this.onAddClicked}
-                    rowButton="Delete"
-                    cssClassName = "TableLeftButton"
-                    onRowClick={()=>null}
-                    cols = {['ID', 'Image']}
-                    data = {this.state.data}
-                    onRowButtonClick= {this.onDeleteClicked}
-                    img_h="250"
-                />
+            <div id="GalleryContainer" class="container">
+                <div className="Gallery">
+                    <DeleteItemPopup
+                        show = {this.state.pshow.delete}
+                        onClose = {this.onDeletePopupClose}
+                    />
+                    <AddImagePopup 
+                        show = {this.state.pshow.add}
+                        onClose = {() => this.togglePopup('add')}
+                        onAdd = {this.onImageAdded}
+                        menu = {this.menu}
+                        type = {this.state.type}
+                        imgHeight={250}
+                    />
+                    <Table 
+                        heading='Photos'
+                        headingButton='Add'
+                        onAdd={this.onAddClicked}
+                        rowButton="Delete"
+                        cssClassName = "TableLeftButton"
+                        onRowClick={()=>null}
+                        cols = {['ID', 'Image']}
+                        data = {this.state.data}
+                        onRowButtonClick= {this.onDeleteClicked}
+                        img_h="250"
+                    />
+                </div>
             </div>
         )
     }
