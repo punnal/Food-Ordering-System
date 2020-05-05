@@ -217,6 +217,7 @@ export default class Contact extends React.Component {
                     id="ContactUsSubmit"
                     class="btn btn-dark"
                     type="button"
+                    style={{ position: "relative", right: "-320px" }}
                     onClick={(e) => this.onSubmit(e)}
                   >
                     Send
