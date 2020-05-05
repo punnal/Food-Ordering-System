@@ -26,11 +26,11 @@ class App extends React.Component {
             Overlay: true,
             cartItems: 0,
             contents:{
-                firstName: "punnal",
-                lastName: "baloch",
-                email: "punnal@gmail.com",
-                address: "Lums",
-                phone: "0303-1234567",
+                firstName: "",
+                lastName: "",
+                email: "",
+                address: "",
+                phone: "",
             },
 
         }
