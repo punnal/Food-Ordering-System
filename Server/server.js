@@ -44,6 +44,9 @@ post_routes.forEach((element, i) =>{
     app.post(element, post_handlers[i])
 })
 
+
+app.get('/admin/api/deals', deals_defs.get_handler_admin)
+
 app.get('/users/login/test', function(req, res) {
     res.status(200)
     console.log("get login called")
