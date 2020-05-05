@@ -2,8 +2,9 @@ const Api = {
     gallery:'/api/gallery',
     menu:'/api/menu',
     deals:'/api/deals',
-    login:'/api/login',
+    login:'/api/users/login',
     orders:'/api/orders',
+    about:'/api/aboutus'
 
 }
 

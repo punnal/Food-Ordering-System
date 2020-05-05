@@ -21,12 +21,12 @@ class GalleryItem extends React.Component {
         return (      
             <div>
                 <div className = "GalleryBoxItem" onClick={() => this.handleClick("openPopup")}>
-                    <img class = "img-thumbnail" src={this.props.picture.link} alt="" height = '300' width = '350'></img>
+                    <img class = "img-thumbnail" src={this.props.picture.photo_url} alt="" height = '300' width = '350'></img>
                 </div>
                 {this.state.showPopup?
                     <div className = "GalleryPopup">
                         <div className = "GalleryPopupClose" onClick={() => this.handleClick("closePopup")}><i class="fas fa-times fa-2x"></i></div>
-                        <img src={this.props.picture.link} alt=""></img>
+                        <img src={this.props.picture.photo_url} alt=""></img>
                     </div>
                     :null
                 }

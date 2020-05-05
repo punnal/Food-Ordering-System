@@ -22,7 +22,7 @@ class AboutUs extends React.Component {
                         console.log(response.data)
                         console.log(response.data.data)
                         this.setState({
-                            contents:response.data
+                            contents:response.data.data
                         }, () => this.setState({
                             loading: false
                         }))
@@ -31,7 +31,7 @@ class AboutUs extends React.Component {
                             //Hardcoded here
                             contents:{
                                 heading:"About Us",
-                                description:"This is the Best place to eat"
+                                body:"This is the Best place to eat"
                             }, 
                         }, () => this.setState({
                             loading: false
@@ -46,7 +46,7 @@ class AboutUs extends React.Component {
                 <div id = "AboutUsFirst">
                     <div className = "AboutUsInfo">
                         <h1 className = "AboutUsSubHeadingLeft">{this.state.contents.heading}</h1>
-                        <p>{this.state.contents.description}</p>
+                        <p>{this.state.contents.body}</p>
                     </div>
                     <img className = "AboutUsImageRight" src = "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" width = "765" alt = "About Us"/>
                 </div>

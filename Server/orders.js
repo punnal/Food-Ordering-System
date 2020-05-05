@@ -21,6 +21,9 @@ function getTimeStamp(){
         return val
     })
 
+    if(date_in_array[6].length < 3)
+        date_in_array[6] = '0' + date_in_array[6]
+
     return date_in_array.join('')
 }
 
@@ -32,34 +35,36 @@ function parse_options_list(item){
         return item
     }
 
-    option_list_names = Object.keys(item["options"])
-    option_list_choices = Object.values(item["options"])
+    var option_list_names = Object.keys(item["options"])
+    var option_list_choices = Object.values(item["options"])
 
     item["option_list_choices"] = []
-    added_price = 0
+    var added_price = 0
 
     option_list_names.forEach((list_name, i) => {
         item["option_list_choices"].push({"list_name" : list_name, "option_choice" : option_list_choices[i], "price" : item["optionsPrices"][list_name]} )
-        added_price += item["optionsPrices"][list_name]
+        added_price =  added_price + parseInt(item["optionsPrices"][list_name])
     });
-
     return [item, added_price]
 
 }
 
 
 function parse_item(item){
-    [parsed_item, added_price] = parse_options_list(item)
-    
+    var parsed_item = {}
+    var added_price = 0
+
+    var val = parse_options_list(item)
+    added_price = val[1]
+    parsed_item = val[0]
     delete parsed_item.options
     delete parsed_item.optionsPrices
 
-    
-    return [parsed_item, parsed_item["quantity"] * added_price]
+    return [parsed_item, parseInt(parsed_item["quantity"]) * added_price]
 }
 
 function parse_deal(deal){
-    parsed_deal = {}
+    var parsed_deal = {}
     
     parsed_deal["name"] = deal["name"]
     parsed_deal["price"] = deal["price"]
@@ -67,16 +72,23 @@ function parse_deal(deal){
     parsed_deal["items"] = []
     parsed_deal["quantity"] = deal["quantity"]
 
-    total_added_price = 0
+    var total_added_price = 0
 
     deal["items"].forEach(item => {
-        [parsed_item, added_price] = parse_item(item)
+        if(!("quantity" in item))
+            item["quantity"] = 1
+        var parsed_item = {}
+        var added_price = 0
+        var val = parse_item(item)
+        parsed_item = val[0]
+        added_price = val[1]
         parsed_deal["items"].push(parsed_item)
 
         total_added_price += added_price
     })
+    total_added_price = total_added_price * parseInt(parsed_deal["quantity"])
 
-    return [parsed_deal, deal["quantity"] * total_added_price]
+    return [parsed_deal, total_added_price]
 }
 
 function is_item(obj){
@@ -90,7 +102,7 @@ function is_item(obj){
 
 function parse_order(order){
 
-    parsed_order = {}
+    var parsed_order = {}
     parsed_order["email"] = order["user"]
     parsed_order["contact_no"] = order["phone"]
     parsed_order["address"] = order["address"]
@@ -105,25 +117,40 @@ function parse_order(order){
 
     order["orders"].forEach(obj =>{
         
+        if(typeof obj == "NaN" || typeof obj == "undefined")
+            return
+
         if(!("quantity" in obj))
             obj["quantity"] = 1
             
         else
             obj["quantity"] = parseInt(obj["quantity"])
+
+        obj["price"] = parseInt(obj["price"])
         
 
 
         if(!is_item(obj)){
-            [deal, added_price] = parse_deal(obj)
+            var added_price = 0
+            var deal = {}
+            var val = parse_deal(obj)
+
+            deal = val[0]
+            added_price = val[1]
+
             parsed_order["deals"].push(deal)
+
             
         }
         else{
+            var added_price = 0
+            var item = {}
             [item, added_price] = parse_item(obj)
             parsed_order["items"].push(item)
+
         }
 
-        parsed_order["price"] += ( (obj["price"] * obj["quantity"]) + added_price)
+        parsed_order["price"] += ( ( parseInt(obj["price"]) * obj["quantity"]) + added_price)
     })
 
     return parsed_order
@@ -140,6 +167,7 @@ function post_handler(req, res){
         res.send("Error: Possibly incorrect format for post request.")
     }
 
+    
 
     try{
         parsed_order = parse_order(req.body["data"])
@@ -148,7 +176,7 @@ function post_handler(req, res){
         res.status(403)
         res.send("Err: Possibly incorrect format for post request")
     }
-
+    
     parsed_order["id"] = getTimeStamp()
     parsed_order["time"] = new Date().getTime()
 
@@ -156,6 +184,8 @@ function post_handler(req, res){
     parsed_order["type"] = parsed_order["type"].toString()
 
 
+
+    // console.log(util.inspect(parsed_order, false, null, true /* enable colors */))
     db_orders.child(parsed_order["id"]).set(parsed_order)
 
     if(parsed_order["type"] == "1")
