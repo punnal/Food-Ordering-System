@@ -1,14 +1,38 @@
 import React from "react"
+import {api_pull, api_push} from '../api/api'
 
 class ContactUs extends React.Component {
 
     constructor(){
         super()
-        this.state = {data:{}}
+        this.state = {
+            data:{
+                email:'',
+                phone:'',
+                address:''
+
+        }}
         this.onChange = this.onChange.bind(this)
+        this.loadFromDB = this.loadFromDB.bind(this)
+        this.onSave = this.onSave.bind(this)
+        this.api = '/admin/api/contactus'
+    }
+
+    loadFromDB(){
+        api_pull(this.api, data => {
+            this.setState(old => {
+                return {
+                    ...old,
+                    data:{
+                        ...data
+                    }
+                }
+            })
+        })
     }
 
     componentDidMount(){
+        this.loadFromDB()
     }
 
     onChange(event){
@@ -22,6 +46,11 @@ class ContactUs extends React.Component {
                 }
             }
         })
+    }
+
+    onSave() {
+        api_push(this.api, this.state.data)
+        this.loadFromDB()
     }
 
     render() {
@@ -48,6 +77,7 @@ class ContactUs extends React.Component {
                     id="address"
                     value={this.state.data.address}
                 />
+                <button onClick={this.onSave}> Save Changes </button>
             </div>
         )
     }

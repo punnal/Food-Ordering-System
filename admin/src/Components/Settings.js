@@ -2,14 +2,48 @@ import React from "react"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import Alert from 'react-bootstrap/Alert'
+import {api_pull, api_push} from '../api/api'
 
 class Settings extends React.Component {
 
     constructor(){
         super()
-        this.state = {'photo_url':"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg", visible:false}
+        this.state = {
+            data: {
+                username:'adsfasfsadfadsfadsf',
+                password:'asdfadsfasfsdfafdsa',
+                newPassword1:'adsfasfdasfasfdaf',
+                newPassword2:'dafadfadfdafsafdsf',
+                minOrder:'500',
+                otime:'08:00',
+                ctime:'17:00',
+                photo_url:"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg", 
+            },
+            visible:false
+        }
         this.onImageUpload = this.onImageUpload.bind(this)
         this.handleClick = this.handleClick.bind(this)
+        this.onSave = this.onSave.bind(this)
+        this.onChange = this.onChange.bind(this)
+        this.pullFromDB = this.pullFromDB.bind(this)
+        this.api = '/admin/api/settings'
+    }
+
+    pullFromDB(){
+        api_pull(this.api, data => {
+            this.setState(old => {
+                return {
+                    ...old,
+                    data:{
+                        ...data
+                    }
+                }
+            })
+        })
+    }
+
+    componentDidMount(){
+        this.pullFromDB()
     }
 
     onImageUpload(event){
@@ -22,7 +56,10 @@ class Settings extends React.Component {
             this.setState(old => {
                 return {
                     ...old,
-                    'photo_url':dataurl
+                    data:{
+                        ...old.data,
+                        'photo_url':dataurl
+                    }
                 }
             })
         }
@@ -37,16 +74,32 @@ class Settings extends React.Component {
         })
     }
 
+    onChange(event) {
+        const {id, value} = event.target
+        this.setState(old => {
+            return {
+                ...old,
+                data:{
+                    [id]: value
+                }
+            }
+        })
+    }
+
+    onSave(){
+        api_push(this.api, this.state.data)
+    }
+
     render() {
+        console.log(this.state.data)
         return (
             <div>
                 <div className = "Marginer"></div>
                 <div id = "AccountSettings" className = "container mt-5 pt-3 mb-5 pb-3">
                     <h1 id = "AccountSettingsHeading">Account Settings</h1>
-                    <form id = "form" className="needs-validation"  action = "/action_page.php" novalidate>
                         <h2>Change Username</h2>
                         <div className = "form-group">
-                            <input className = "form-control" onChange={this.validateUsername} type="text" placeholder="Username" required />
+                            <input value={this.state.data.username} className = "form-control" id="username" onChange={this.onChange} type="text" placeholder="Username" required />
                         </div>
                         <OverlayTrigger 
                             key = "left"
@@ -60,40 +113,39 @@ class Settings extends React.Component {
                         <h2>Change Password</h2>
                         </OverlayTrigger>
                         <div className = "form-group">
-                            <input type = "password" className = "form-control" id = "pass" placeholder = "Current Password" name = "passwords" required />
+                            <input value ={this.state.data.password} type = "password" onChange={this.onChange} className = "form-control" id = "password" placeholder = "Current Password" name = "passwords" required />
                         </div>
                         <div className = "form-group">
-                            <input className = "form-control" onChange={this.validateNewPwd} type="password" placeholder="New Password" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
+                            <input value={this.state.data.newPassword1} className = "form-control" onChange={this.onChange} type="password" id="newPassword1" placeholder="New Password"  required />
                         </div>
                         <div className = "form-group">
-                            <input className = "form-control" onChange={this.validateNewPwd} type="password" placeholder="Re-enter New Password" required/>
+                            <input value={this.state.data.newPassword2} className = "form-control" onChange={this.onChange} type="password" id="newPassword2" placeholder="Re-enter New Password" required/>
                         </div>
                         <h1>Resaurant Settings</h1>
                         <h2>Change Timings</h2>
                         <div className = "form-group">
-                            <input className = "form-control" onChange={this.validateTime} type="date" required/>
+                            <input value={this.state.data.otime} className = "form-control" onChange={this.onChange} type="time" required/>
                         </div>
                         <div className = "form-group">
-                            <input className = "form-control" onChange={this.validateTime} type="date" required/>
+                            <input value={this.state.data.ctime} className = "form-control" onChange={this.onChange} type="time" required/>
                         </div>
                         <h2>Minimum Order</h2>
                         <div className = "input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rs</span>
                             </div>
-                            <input className = "form-control" onChange={this.validatePrice} type="numbers" placeholder="00"/>
+                            <input id="minOrder" value={this.state.data.minOrder} className = "form-control" onChange={this.onChange} type="numbers" placeholder="00"/>
                         </div>
                         <h2>Site Banner</h2>
-                        <img id = "AccountSettingsImage" className = "rounded" alt = "Uploaded Image" height="200" src={this.state.photo_url}/>
+                        <img id = "AccountSettingsImage" className = "rounded" alt = "Uploaded Image" height="200" src={this.state.data.photo_url}/>
                         <div className = "custom-file">
-                            <input type="file" id = "customFile" className = "custom-file-input" onChange={this.onImageUpload} name = "filename" required/>
-                            <label className="custom-file-label" for="customFile">Choose image file to upload</label>
+                            <input type="file" id = "customFile" className = "custom-file-input" onChange={this.onImageUpload} name = "filename"/>
+                            <label className="custom-file-label" for="customFile" value={this.state.data.photo_url}>Choose image file to upload</label>
                         </div>
-                        <button onClick = {this.handleClick} type = "submit" className = "btn mt-3 btn-dark">Save</button>
+                        <button onClick = {this.onSave}  className = "btn mt-3 btn-dark">Save</button>
                         <Alert variant = "success" show = {this.state.visible}>
                             <strong>Changes Saved Succesfully!</strong>
                         </Alert>
-                    </form>
                 </div>
             </div>
         )
