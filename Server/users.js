@@ -105,18 +105,22 @@ function push_user(key, to_push){
 function extract_user_data(req, first_time)
 {
     data = req.body["data"]
-    
+
+    if(typeof data == "undefined")
+        return
+
     user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
-        "contact_num":data["contact_num"], "isGoogleAcc":data["isGoogleAcc"]}
+        "contact_num":data["phone"], "address":data["address"]}
 
-    if(!data["isGoogleAcc"])
-    {
-        user_data["password"] = data["password"]
-        user_data["password_set"] = true
-    }
+    // if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
+    // {
+    //     user_data["password"] = data["password"]
+    //     user_data["password_set"] = true
+    // }
 
-    else if(first_time)
-        user_data["password_set"] = false
+    // else if(first_time)
+    //     user_data["password_set"] = false
+
     
 
     return user_data
@@ -126,13 +130,20 @@ function signup_post_handler(req, res)
 {
     user_data = extract_user_data(req);
     console.log(user_data)
-    push_user(user_data["email"], user_data)
-    .then((statusCode) => res.status(statusCode).send("User already exists in database."))
-    .catch((err_statusCode) =>{
-        if(err_statusCode == 400)
-            res.status(err_statusCode).send("Unexpected error...could not push user to the database.")
-        else if(err_statusCode == 404)
-            res.status(err_statusCode).send("User already exists in database.")
+    push_user(user_data["email"], user_data).then(() => {
+
+        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+          
+
+        return res.cookie('token', token, {httpOnly : true, secure : true})
+        .status(200)
+        .send(JSON.stringify(to_send))
+    
+    }).catch((statusCode) =>{
+        to_send = {"data" : {"success" : false , "error" : "User prolly already exists."}}
+        return res
+        .status(statusCode)
+        .send(JSON.stringify(to_send))            
     })
     
 }
@@ -174,9 +185,10 @@ function login_post_handler_customer(req, res){
 
         if(user_snapshot.val()["password"] == undefined || user_snapshot.val()["password"] != password)
         {
+            to_send = {"data" : {"success" : false , "error" : "Incorrect password entered."}}
             return res
             .status(404)
-            .send("Incorrect password!")            
+            .send(JSON.stringify(to_send))            
         }
         email = escapeEmail(email)
         const payload = {email}
@@ -184,11 +196,17 @@ function login_post_handler_customer(req, res){
             expiresIn : '1h'
         });
 
+        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+          
+
         return res.cookie('token', token, {httpOnly : true, secure : true})
         .status(200)
-        .send(JSON.stringify({status : 'success'}))
+        .send(JSON.stringify(to_send))
 
-    }).catch((err)=> res.status(404).send("User doesn't exist"))
+    }).catch((err)=> {
+            to_send = {"data" : {"success" : false , "error" : "Email not found in database."}}
+            res.status(404).send(to_send)
+        })
 
 }
 
@@ -222,7 +240,6 @@ function isCookieValid(req, res){
     res.locals.cookieValid = false
     res.locals.cookieMissing = false
     res.locals.cookieUnauthorized = false
-    next()
   
     if (!token) 
     {
@@ -251,7 +268,12 @@ function admin_req_handler(req, res, next){
       if(res.locals.cookieValid){
           if(res.locals.uid == "admin")
             next()
+          else
+            res.status(401).sendFile()
       }
+      else
+          res.sendFile()
+      
       /*
         do something like sending login file back etc
 
@@ -279,6 +301,7 @@ function customer_req_handler(req, res, next){
     } 
     if(res.locals.cookieUnauthorized) //handle unauthorized cookie (either expired or did not belong to a user)
     {
+        res.locals.cookieValid = false
         /*
             do something like sending back log file
         */

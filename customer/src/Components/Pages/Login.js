@@ -37,13 +37,13 @@ class Login extends React.Component {
                         },
                         loading: false
                     }, () => {
-                        if(response.data.success){//Success
+                        if(response.data.data.success){//Success
                             console.log("Sucess", response.data)
-                            this.login(response.data.contents)
+                            this.login(response.data.data.contents)
                             console.log("Sucess", response.data)
                             
                         }else{
-                            console.log("Login Failed: ", response.data.error)
+                            console.log("Login Failed: ", response.data.data.error)
                         }
                     })
 

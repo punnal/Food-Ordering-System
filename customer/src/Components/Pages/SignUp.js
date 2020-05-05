@@ -50,12 +50,13 @@ class SignUp extends React.Component {
                         },
                         loading: false
                     }, () => {
-                        if(response.success){//Success
-                            this.login()
+                        if(response.data.data.success){//Success
+                            console.log("Sucess", response.data)
+                            this.login(response.data.data.contents)
                             console.log("Sucess", response.data)
                             
                         }else{
-                            console.log("SignUp Failed: ", response.data.error)
+                            console.log("Login Failed: ", response.data.data.error)
                         }
                     })
 
