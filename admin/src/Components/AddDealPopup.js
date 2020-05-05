@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from "lodash"
-import {Popup, PopupH, PopupBody, PopupButtons } from './Popup'
+import {Popup, PopupH, PopupBody} from './Popup'
 
 const menuToItemsArray = (menu) => {
     let items = []
@@ -16,7 +16,7 @@ const menuToItemsArray = (menu) => {
 const ItemDropDown = (props) => {
     return (
         props.name === ""?
-            <select id={props.id} value="Select" onChange={props.onItemChange}>
+            <select class="custom-select" id={props.id} value="Select" onChange={props.onItemChange}>
                 <option key={-1} id={-1}>Select</option>
                 {
                     props.menu.map((item, i) => {
@@ -25,13 +25,13 @@ const ItemDropDown = (props) => {
                 }
             </select>
         :
-            <input type="text" disabled={true} value={props.name}/>
+            <input id="AddDealPopupDisabled" class="form-control" type="text" disabled={true} value={props.name}/>
     )
 }
 
 const ListItem = (props) => {
     return (
-        <div>
+        <div id="DealsPopupList">
             <ItemDropDown 
                 itemID={props.itemID}
                 id={props.id}
@@ -40,14 +40,17 @@ const ListItem = (props) => {
                 onItemChange={props.onItemChange}
                 name={props.name}
             />
-            <input 
-                type="number" 
-                id={props.id} 
-                name="quantity" 
-                min="1" 
-                value={props.qty} 
-                onChange={props.onChange}
-            />
+            <div class="input-group-prepend">
+                <span class="input-group-text">Quantity</span>
+                <input className = "form-control"
+                    type="number" 
+                    id={props.id} 
+                    name="quantity" 
+                    min="1" 
+                    value={props.qty} 
+                    onChange={props.onChange}
+                />
+            </div>
         </div>
     )
 }
@@ -170,16 +173,27 @@ class AddDealPopup extends React.Component {
         return (
             <Popup 
                 show={this.props.show}>
-                <PopupH> Add/Edit An Item </PopupH>
+                <PopupH><div id="AddDealPopupHeading"> Add/Edit An Item </div> </PopupH>
                 <PopupBody> 
                     <div>
-                        <input type="text" onChange={this.onNameChange} value={this.state.deal.name} />
-                        <input type="number" onChange={this.onPriceChange} value={this.state.deal.price} />
-                        <h4> Items </h4>
+                        <button id="DealsPopupClose" type="button" class="btn btn-danger" onClick={() => this.props.onClose('cancel')}> Close </button>
+                        <button id="DealsPopupAdd" type="button" class="btn btn-success" onClick={() => this.props.onAdd(!_.isEqual(this.props.prefill, this.state.deal), this.state.deal, this.props.type)}> Add </button>
+                        <div id="DealsPopupName" class="input-group-prepend">
+                            <span class="input-group-text">Deal Name</span>
+                            <input className = "form-control" type="text" onChange={this.onNameChange} value={this.state.deal.name} />
+                        </div>
+                        <div id="DealsPopupPrice" class="input-group-prepend">
+                            <span class="input-group-text">Price</span>
+                            <input className = "form-control" type="number" onChange={this.onPriceChange} value={this.state.deal.price} />
+                        </div>
+                        <h4 id="AddDealPopupItems"> Items </h4>
                         {
                             this.state.deal.items.map((item, i) => {
                                 return (
                                     <div key={i}>
+                                        <div id="AddDealPopupMinus"> 
+                                            <button type="button" class="btn btn-danger" id={i} onClick={this.onRemove}> - </button>
+                                        </div>
                                         <ListItem 
                                             new={false}
                                             id={i}
@@ -189,20 +203,20 @@ class AddDealPopup extends React.Component {
                                             qty={item.quantity}
                                             onChange={this.onChange}
                                             menu={this.itemArray}
-                                        /> 
-                                        <button id={i} onClick={this.onRemove}> - </button>
+                                        />
                                     </div>
                                 )
                             })
                         }
-                        <button id={this.state.deal.items.length} onClick={this.onAdd}> + </button>
-                        <img height="100" src={this.state.deal.photo_url}/>
+                        <div id="AddDealPopupPlus">
+                            <button type="button" class="btn btn-success" id={this.state.deal.items.length} onClick={this.onAdd}> + </button>
+                        </div>
                         <br/>
-                        <input onChange={this.onImageUpload} type="file"/>
+                        <img id="AddDealPopupImage" height="100" src={this.state.deal.photo_url}/>
+                        <br/>
+                        <input id="AddDealPopupImageButton" className = "form-control" onChange={this.onImageUpload} type="file"/>
                     </div>
                 </PopupBody>
-                <button onClick={() => this.props.onClose('cancel')}> Close </button>
-                <button onClick={() => this.props.onAdd(!_.isEqual(this.props.prefill, this.state.deal), this.state.deal, this.props.type)}> Add </button>
             </Popup>
         )
     }

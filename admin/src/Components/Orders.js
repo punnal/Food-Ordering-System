@@ -42,7 +42,7 @@ class Orders extends React.Component {
     }
 
     componentDidMount() {
-        api_pull('/api/deals', deals => {
+        api_pull('/admin/api/deals', deals => {
             api_pull('/api/menu', menu => {
                 this.setState(old => {
                     return {
@@ -95,12 +95,14 @@ class Orders extends React.Component {
             let newbill = [...old.bill]
             let found = false
             newbill.forEach((e, i) => {
+                /*
                 if(e.id === item.id) {
                     e.qty += 1
                     e.charges += charges
                     e.options = [...e.options, options]
                     found = true
                 }
+                */
             })
             if(!found){
                 item.qty = 1
@@ -150,7 +152,7 @@ class Orders extends React.Component {
                 ...old,
                 showpopup:true,
                 options_lists:this.parseOptionsLists(table, row),
-                checked:this.initCheckBoxState(table, row),
+                checked:{...old.checked, ...this.initCheckBoxState(table, row)},
                 staged_add:{table:table, row:row}
             }
         })
@@ -193,6 +195,13 @@ class Orders extends React.Component {
 
     onGenerateBill(){
         this.showPopup()
+        let order = {}
+        order.user = 'admin'
+        order.address = 'nothing'
+        order.phone = 'nothing'
+        order.status = 1
+        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
+        api_push('/api/orders', order)
     }
 
     onChecked(item, listName, option) {
@@ -215,6 +224,7 @@ class Orders extends React.Component {
                         return (
                             <div key={i}>
                                 <input 
+                                    id = "OrdersRadio" 
                                     type="radio" 
                                     checked={this.state.checked[item][list.name][option].checked}
                                     onChange={() => this.onChecked(item, list.name, option)}
@@ -254,7 +264,7 @@ class Orders extends React.Component {
                 <div 
                     className={this.css.OrdersRightTable}
                 >
-                    <Table 
+                    <Table
                         heading = "Bill"
                         footerText = {`Total: ${this.totalBill()}`}
                         footerButton= "Generate Bill"
@@ -271,19 +281,19 @@ class Orders extends React.Component {
                             show={this.state.showpopup}
                         >
                             <PopupButtons>
-                                <button onClick={this.hideOptionsPopup}> Close </button> 
-                                <button onClick={this.onAdd}> Add To Bill </button> 
+                                <button id = "OrdersPopUpClose" type="button" class="btn btn-danger" onClick={this.hideOptionsPopup}> Close </button> 
+                                <button id ="OrdersAddToBill" type="button" class="btn btn-success" onClick={this.onAdd}> Add To Bill </button> 
                             </PopupButtons>
                             <PopupBody>
                                 {
                                     Object.keys(this.state.options_lists).map((item, i) => {
                                         return (
                                             <div key={i}>
-                                                <h1>{item}</h1>
+                                                <h1 id = "OrdersPopUpHeading">{item}</h1>
                                                 {
                                                     this.state.options_lists[item].map((list, j) => {
                                                         return (
-                                                            <div key={`${i}${j}`}> {this.createCheckBox(list, item)} </div>
+                                                            <div id = "OrdersPopUpItems" key={`${i}${j}`}> {this.createCheckBox(list, item)} </div>
                                                         )
                                                     })
                                                 }
@@ -293,6 +303,19 @@ class Orders extends React.Component {
                             </PopupBody>
                         </Popup>
                         :
+                        null
+                }
+
+                {
+                    false?
+                        <Popup
+                            show={this.state.showbill}
+                        >
+                            <PopupButtons>
+
+                            </PopupButtons>
+                        </Popup>
+                    :
                         null
                 }
             </div>

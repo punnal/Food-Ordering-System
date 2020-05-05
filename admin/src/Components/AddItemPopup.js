@@ -7,7 +7,7 @@ const AddItemPopup = (props) =>{
         <Popup 
             show={props.show}
         >
-            <PopupH>Add an item</PopupH>
+            <PopupH><div id="AddItemPopupHeading">Add an item</div></PopupH>
             <PopupBody>
                 <AddItemForm 
                     onPopupClose={props.onClose}

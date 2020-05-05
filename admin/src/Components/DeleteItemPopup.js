@@ -7,11 +7,13 @@ const DeleteItemPopup = (props) => {
             show={props.show}
             onDataChanged={props.onDataChanged}
         >
-            <PopupH>Delete Item</PopupH>
-            <PopupBody>Are you sure you want to Delete? </PopupBody>
+            <PopupH><div id="DeletePopupHeading">Delete Item</div></PopupH>
+            <PopupBody><div id="DeletePopupBody">Are you sure you want to Delete?</div></PopupBody>
             <PopupButtons>
-                <button onClick={()=> props.onClose('cancel')}> Close </button>
-                <button onClick={()=> props.onClose('confirm')}> Confirm </button>
+                <div id="PopupButtons">
+                    <button id="DeletePopupCancel" type="button" class="btn btn-danger" onClick={()=> props.onClose('cancel')}> Close </button>
+                    <button id="DeletePopupConfirm" type="button" class="btn btn-success" onClick={()=> props.onClose('confirm')}> Confirm </button>
+                </div>
             </PopupButtons>
         </Popup>
     )

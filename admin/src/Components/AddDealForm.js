@@ -131,7 +131,7 @@ class AddDealForm extends React.Component {
         return (
             <div>
                 <label htmlFor='name'>Name:</label>
-                <input 
+                <input class="form-control"
                     onChange={(e) => this.onChange(e, 'name')} value={this.state.name} 
                     id='name' 
                     type='text' 
@@ -166,7 +166,7 @@ class AddDealForm extends React.Component {
                                                 id='option_price' 
                                                 type='text' 
                                                 name={optionList[key][option]}/>
-                                            <button onClick={() => this.onDeleteOption(key, i, option)}> - </button>
+                                            <button type="button" class="btn btn-danger" onClick={() => this.onDeleteOption(key, i, option)}> - </button>
                                             </div>
                                         )
                                     })
@@ -175,7 +175,7 @@ class AddDealForm extends React.Component {
                         )
                     })
                 }
-                <button onClick={this.onAddOptionsList}>+</button>
+                <button type="button" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
                 <label htmlFor='description'>Description</label>
                 <input 
                     onChange={(e) => this.onChange(e, 'price')} 
@@ -194,8 +194,8 @@ class AddDealForm extends React.Component {
                     id='price' 
                     type='text' 
                     name='price' /><br/>
-                <button onClick={()=>this.onPopupClose('add', 'cancel')}> Cancel </button>
-                <button onClick={this.validate}> Done </button>
+                <button type="button" class="btn btn-danger" onClick={()=>this.onPopupClose('add', 'cancel')}> Cancel </button>
+                <button type="button" class="btn btn-success" onClick={this.validate}> Done </button>
             </div>
         )
     }

@@ -31,25 +31,25 @@ export const res = {
                         'name': 'Pending',
                         'path':'/deliveries/pending',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders/?status=0',
+                        'api': '/api/orders?status=0',
                         'buttons': ['Accept', 'Reject'],
-                        'buttonscss': ['Accept', 'Reject']
+                        'buttonscss': ["btn btn-success", "btn btn-danger"]
                     },
                     {
                         'name':'In Progress',
                         'path':'/deliveries/inprogress',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders/?status=1',
+                        'api': '/api/orders?status=1',
                         'buttons': ['Completed', 'Failed'],
-                        'buttonscss': ['Accept', 'Reject']
+                        'buttonscss': ["btn btn-success", "btn btn-danger"]
                     }, 
                     {
-                        'name':'Delivered',
+                        'name':'Completed',
                         'path':'/deliveries/delivered',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders/?status=2',
+                        'api': '/api/orders?status=2',
                         'buttons':['Delivered', 'Failed'],
-                        'buttonscss': ['Accept', 'Reject']
+                        'buttonscss': ["btn btn-success", "btn btn-danger"]
 
                     }
                 ]
@@ -68,7 +68,7 @@ export const res = {
                     },
                     'Deals':
                     {
-                        'cols':['ID', 'Name', 'Image', 'Price']
+                        'cols':['ID', 'Name', 'Items', 'Image', 'Price']
                     },
                     'Drinks':
                     {
@@ -108,7 +108,7 @@ export const res = {
                 'title':'Deals',
                 'component':Deals,
                 'path':'/deals',
-                'api':'/api/deals'
+                'api':'/admin/api/deals'
             },
             {
                 'id': 5,
@@ -133,7 +133,7 @@ export const res = {
                 'title':'History',
                 'component':History,
                 'path':'/history',
-                'api':'/api/pending'
+                'api':'/api/orders?status=3'
             
             },
             {
