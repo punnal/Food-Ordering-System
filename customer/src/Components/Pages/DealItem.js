@@ -1,4 +1,5 @@
 import React from "react"
+import Alert from 'react-bootstrap/Alert'
 
 class DealItem extends React.Component {
     constructor() {
@@ -12,6 +13,8 @@ class DealItem extends React.Component {
             id: 0,
             showPopup: false,
             init: 0,
+            visible: false,
+            cartNotFull: false
         }
     }
     componentDidMount() {
@@ -94,6 +97,18 @@ class DealItem extends React.Component {
                     quantity: 1,
                     id: this.props.dealData.id,
                 })
+                this.setState({visible:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({visible:false})
+            }, 2000)
+        })
+            }
+            else {
+                this.setState({cartNotFull:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({cartNotFull:false})
+            }, 2000)
+        })
             }
         }
 
@@ -107,6 +122,7 @@ class DealItem extends React.Component {
             const val = option[0]
             return (
                 <div>
+                <div className="DealItemRadio">
                 <input className = "RadioButtons"
                         type="radio" 
                         name={name}
@@ -114,8 +130,9 @@ class DealItem extends React.Component {
                         checked={this.state.init && (this.state.items[iter].options[name] === option[0])}
                         onChange={(event) => this.handleChange(event, iter)}
                     /> {option[0]}
-
-                <div>{option[1]}</div>
+                </div>
+                <div className="DealItemPrice">{option[1]}</div>
+                <br/>
                 </div>
             )
 
@@ -126,7 +143,7 @@ class DealItem extends React.Component {
     render() {
         const option_lists = this.props.dealData.items.map((item, iter) => 
             <div>
-                <div>{item.name}</div>{ 
+                <div className="DealItemHeading">{item.name}</div>{ 
                     Object.entries(item.options_lists).map((options) => 
                         <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]), iter)}</div>
                     )
@@ -140,24 +157,31 @@ class DealItem extends React.Component {
                 <div className = "DealItemName">{this.props.dealData.name}</div>
                 <div className = "DealItemDescription">{this.props.dealData.description}</div>
                 <div className = "DealItemPrice">{this.props.dealData.price} PKR</div>
-                <div className = "DealItemAddToCart" onClick={() => {this.handleClick("showPopup")}}>Add to Cart</div>
+                <div className = "DealItemAddToCart" onClick={() => {this.handleClick("showPopup")}}><img src = {require('../../img/cart.png')} height = '35' width = '35'/></div>
                 {this.state.showPopup?   
                     <div className = "popup">
                         <div className = "popupInner">
-                            <img src = {require('../../img/close2.png')} className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}} />
+                            <div className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}}><i class="fas fa-times fa-2x"></i></div>
                             <div className = "PopupOptions">
                                 <div> {option_lists} </div>
                             </div>
                             <div className = "PopupQuantity">
+                                <div>Quantity</div>
                                 <div onClick={() => {this.handleClick("decrease")}}> ◀ </div>
-                                <div  > {this.state.quantity} </div>
+                                <div> {this.state.quantity} </div>
                                 <div onClick={() => {this.handleClick("increase")}}> ▶ </div>
                             </div>
-                                <div className = "PopupAddToCart" onClick={() => {this.handleClick("addToCart")}}>Add to cart</div>
+                                <Alert variant = "danger" show = {this.state.cartNotFull}>
+                                    <strong>Select all options to add</strong>
+                                </Alert>
+                                <div id = "PopupAddToCart" class="btn btn-success" onClick={() => {this.handleClick("addToCart")}}>Add to cart</div>
                         </div>
                     </div>
                     : null 
                 }
+                    <Alert variant = "success" show = {this.state.visible}>
+                        <strong>Order Added to Cart Succesfully!</strong>
+                    </Alert>
             </div>
         )
     }
