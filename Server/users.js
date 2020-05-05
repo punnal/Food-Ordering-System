@@ -174,9 +174,10 @@ function login_post_handler_customer(req, res){
 
         if(user_snapshot.val()["password"] == undefined || user_snapshot.val()["password"] != password)
         {
+            to_send = {"data" : {"success" : false , "error" : "Incorrect password entered."}}
             return res
             .status(404)
-            .send("Incorrect password!")            
+            .send(JSON.stringify(to_send))            
         }
         email = escapeEmail(email)
         const payload = {email}
@@ -184,11 +185,17 @@ function login_post_handler_customer(req, res){
             expiresIn : '1h'
         });
 
+        to_send = {"data" :{"contents" : {"email" :  email, "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+          
+
         return res.cookie('token', token, {httpOnly : true, secure : true})
         .status(200)
-        .send(JSON.stringify({status : 'success'}))
+        .send(JSON.stringify(to_send))
 
-    }).catch((err)=> res.status(404).send("User doesn't exist"))
+    }).catch((err)=> {
+            to_send = {"data" : {"success" : false , "error" : "Email not found in database."}}
+            res.status(404).send(to_send)
+        })
 
 }
 
@@ -251,7 +258,12 @@ function admin_req_handler(req, res, next){
       if(res.locals.cookieValid){
           if(res.locals.uid == "admin")
             next()
+          else
+            res.status(401).sendFile()
       }
+      else
+          res.sendFile()
+      
       /*
         do something like sending login file back etc
 
@@ -279,6 +291,7 @@ function customer_req_handler(req, res, next){
     } 
     if(res.locals.cookieUnauthorized) //handle unauthorized cookie (either expired or did not belong to a user)
     {
+        res.locals.cookieValid = false
         /*
             do something like sending back log file
         */
