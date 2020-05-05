@@ -121,6 +121,15 @@ function extract_user_data(req, first_time)
     // else if(first_time)
     //     user_data["password_set"] = false
 
+    
+
+    return user_data
+}
+
+function signup_post_handler(req, res)
+{
+    user_data = extract_user_data(req);
+    console.log(user_data)
     push_user(user_data["email"], user_data).then(() => {
 
         to_send = {"data" :{"contents" : {"email" :  unescapeEmail(data["email"]), "firstName" : (data["firstName"] || ""), "lastName" : (data["lastName"] || ""), "phone" : (data["contact_no"] || ""), "address" : (data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
@@ -135,22 +144,6 @@ function extract_user_data(req, first_time)
         return res
         .status(statusCode)
         .send(JSON.stringify(to_send))            
-    })
-
-    return user_data
-}
-
-function signup_post_handler(req, res)
-{
-    user_data = extract_user_data(req);
-    console.log(user_data)
-    push_user(user_data["email"], user_data)
-    .then((statusCode) => res.status(statusCode).send("User already exists in database."))
-    .catch((err_statusCode) =>{
-        if(err_statusCode == 400)
-            res.status(err_statusCode).send("Unexpected error...could not push user to the database.")
-        else if(err_statusCode == 404)
-            res.status(err_statusCode).send("User already exists in database.")
     })
     
 }
