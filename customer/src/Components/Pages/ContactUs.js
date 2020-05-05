@@ -230,7 +230,7 @@ export default class Contact extends React.Component {
                 <i id = "ContactUsPhone" class="fa fa-envelope"></i>
                 <span><a className ="ContactUsMail" href = "mailto:smokeandgrill123@gmail.com">smokeandgrill123@gmail.com</a></span>
               </div>
-            <Maps />
+                <Maps />
           </div>
         </div>
       </div>

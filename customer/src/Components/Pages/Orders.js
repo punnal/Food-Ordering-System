@@ -122,7 +122,9 @@ class Orders extends React.Component {
                 <td>
                     {names}
                 </td>
+                <td>
                     {statusCodes[order.status]}
+                </td>
                 <td>
                     {price}
                 </td>
