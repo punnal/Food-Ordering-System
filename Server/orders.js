@@ -109,7 +109,11 @@ function parse_order(order){
     parsed_order["items"] = []
     parsed_order["deals"] = []
     parsed_order["price"] = 0
-    parsed_order["status"] = "0"
+
+    if("status" in order)
+        parsed_order["status"] = order["status"]
+    else
+        parsed_order["status"] = "0"
     
     if(!("type" in parsed_order))
         parsed_order["type"] = "1"
@@ -193,7 +197,7 @@ function post_handler(req, res){
     else
         db_local.child(parsed_order["id"]).set(parsed_order)
     
-    res.status(403)
+    res.status(200)
     res.send("Order placed successfully!")
     
 }
