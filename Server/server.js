@@ -64,16 +64,16 @@ app.get('/api/test', (req, res) => {
   
     if (!token) {
         console.log("No token")
-      res.status(404).send('Unauthorized: No token provided');
+      res.status(404).send(JSON.stringify({"data" : {}, "cookieValid" : "missing" }) );
     } else {
       jwt.verify(token, secret, function(err, decoded) {
         if (err) {
             console.log("Invalid token")
-          res.status(401).send('Unauthorized: Invalid token');
+          res.status(401).send(JSON.stringify({"data" : {}, "cookieValid" : "invalid" }));
         } else {
             console.log("LOGGED IN: " + decoded.email)
           res.status(200)
-          res.send("LOGGED IN!")
+          res.send(JSON.stringify({"data" : {}, "cookieValid" : "valid" }))
         }
       });
     }

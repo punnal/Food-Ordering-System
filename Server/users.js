@@ -105,19 +105,37 @@ function push_user(key, to_push){
 function extract_user_data(req, first_time)
 {
     data = req.body["data"]
-    
+
+    if(typeof data == "undefined")
+        return
+
     user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
-        "contact_num":data["contact_num"], "isGoogleAcc":data["isGoogleAcc"]}
+        "contact_num":data["phone"], "address":data["address"]}
 
-    if(!data["isGoogleAcc"])
-    {
-        user_data["password"] = data["password"]
-        user_data["password_set"] = true
-    }
+    // if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
+    // {
+    //     user_data["password"] = data["password"]
+    //     user_data["password_set"] = true
+    // }
 
-    else if(first_time)
-        user_data["password_set"] = false
+    // else if(first_time)
+    //     user_data["password_set"] = false
+
+    push_user(user_data["email"], user_data).then(() => {
+
+        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(data["email"]), "firstName" : (data["firstName"] || ""), "lastName" : (data["lastName"] || ""), "phone" : (data["contact_no"] || ""), "address" : (data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+          
+
+        return res.cookie('token', token, {httpOnly : true, secure : true})
+        .status(200)
+        .send(JSON.stringify(to_send))
     
+    }).catch((statusCode) =>{
+        to_send = {"data" : {"success" : false , "error" : "User prolly already exists."}}
+        return res
+        .status(statusCode)
+        .send(JSON.stringify(to_send))            
+    })
 
     return user_data
 }
@@ -185,7 +203,7 @@ function login_post_handler_customer(req, res){
             expiresIn : '1h'
         });
 
-        to_send = {"data" :{"contents" : {"email" :  email, "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
           
 
         return res.cookie('token', token, {httpOnly : true, secure : true})
@@ -229,7 +247,6 @@ function isCookieValid(req, res){
     res.locals.cookieValid = false
     res.locals.cookieMissing = false
     res.locals.cookieUnauthorized = false
-    next()
   
     if (!token) 
     {
