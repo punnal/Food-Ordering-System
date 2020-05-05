@@ -108,7 +108,7 @@ export const res = {
                 'title':'Deals',
                 'component':Deals,
                 'path':'/deals',
-                'api':'/api/deals'
+                'api':'/admin/api/deals'
             },
             {
                 'id': 5,
