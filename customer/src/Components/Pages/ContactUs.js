@@ -2,7 +2,6 @@ import React from "react";
 // import Hero from "../containers/Hero";
 import axios from "axios";
 import * as emailjs from "emailjs-com";
-import Maps from "./GoogleMaps";
 import Loc from "../../img/location.png";
 import Iframe from "react-iframe";
 
