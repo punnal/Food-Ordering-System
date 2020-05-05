@@ -132,7 +132,7 @@ function signup_post_handler(req, res)
     console.log(user_data)
     push_user(user_data["email"], user_data).then(() => {
 
-        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(data["email"]), "firstName" : (data["firstName"] || ""), "lastName" : (data["lastName"] || ""), "phone" : (data["contact_no"] || ""), "address" : (data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
           
 
         return res.cookie('token', token, {httpOnly : true, secure : true})
