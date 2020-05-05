@@ -3,6 +3,10 @@ import { api_pull, api_push } from '../api/api'
 import { res } from '../res/res'
 import Card from './Card'
 
+const parseData = data => {
+    return Object.values(data)
+}
+
 class History extends React.Component {
 
     constructor(props) {
@@ -18,12 +22,14 @@ class History extends React.Component {
     }
 
     componentDidMount() {
-        api_pull(this.api, data => this.setState( old => { 
-            return {
-                ...old, 
-                'data': data
-            }
-        }))
+        api_pull(this.api, data => 
+            this.setState( old => { 
+                console.log(data)
+                return {
+                    ...old, 
+                    'data': parseData(data)
+                }
+            }))
     }
 
     render() {

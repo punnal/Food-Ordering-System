@@ -33,7 +33,7 @@ class SubTabNavBar extends React.Component {
                                             </Tooltip>
                                             }
                                         > 
-                                            <span id = "badge" class="badge badge-light"></span>
+                                            <span id = "badge" className="badge badge-light"></span>
                                         </OverlayTrigger>
                                         : null
                                     }

@@ -4,7 +4,10 @@ const parser = (json, url) => {
 
 const api_pull = (url, callback) => {
         fetch(url)
-        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            return response.json()
+        })
         .then(json => callback(parser(json, url)))
         .catch(e => console.log(e))
 }
@@ -20,7 +23,7 @@ const api_push = (url, data) => {
             'Content-Type':'application/json'
         },
         body:JSON.stringify(body)
-    })
+    }).then(resp => console.log(resp))
 }
 
 const api_pull_dummy = (url, callback) => {

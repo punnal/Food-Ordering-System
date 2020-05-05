@@ -1,9 +1,10 @@
 import React from "react"
+import _ from "lodash"
 import Card from './Card'
 import { Popup, PopupH, PopupBody, PopupButtons } from './Popup'
 import { api_pull, api_push} from '../api/api.js'
 
-function parse_option_list(item){
+const parse_option_list = item => {
     if (!("option_list_choices" in item)){ // insert an empty list in place if options list does not exist
         item["option_list_choices"] = []
         return item 
@@ -13,7 +14,7 @@ function parse_option_list(item){
     return item
 }
 
-function parse_items(obj){ //either deal or order
+const parse_items = obj => { //either deal or order
     if (!("items" in obj)){ // insert an empty list in place if no items exist 
         let order = {}
         order["items"] = []
@@ -26,14 +27,13 @@ function parse_items(obj){ //either deal or order
     return obj
 }
 
-
-function parse_deals(order){
+const parse_deals = order => {
 
     if (!("deals" in order)){ // insert an empty list in place if no deals exist
         order["deals"] = []
         return order 
     }
-    
+
     order["deals"] = Object.values(order["deals"])
 
     order["deals"].forEach(deal =>{
@@ -43,12 +43,10 @@ function parse_deals(order){
     return order
 }
 
-function parse_order(order){
+const parse_order = order => {
     order = parse_items(order)
     order = parse_deals(order)
-
     return order
-
 }
 
 class DeliveriesSubTabs extends React.Component {
@@ -66,16 +64,17 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     reloadData(){
-        api_pull(this.api, data => this.setState( old => { 
-            if(!data) return
-            let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
-            parsed.forEach(order =>{
-                parse_order(order)
-            })
-            return {
-                ...old, 
-                'data': parsed
-            }
+        api_pull(this.api, data => 
+            this.setState( old => { 
+                if(!data) return
+                let parsed =  Object.values(data) //will give all orders as dictionaries {"name" : name, "id" : id and so on}
+                parsed.forEach(order =>{
+                    parse_order(order)
+                })
+                return {
+                    ..._.cloneDeep(old), 
+                    'data': parsed
+                }
         }))
     }
 
@@ -92,9 +91,10 @@ class DeliveriesSubTabs extends React.Component {
             return
         }
 
-        let updatedOrder = {...this.state.data[id]}
-        updatedOrder.status += 1
-        api_push('/api/orders/management', {edit:{updatedOrder}})
+        console.log(`Accepted order ${this.state.data[id].id}`)
+        let updatedOrder = _.cloneDeep(this.state.data[id])
+        updatedOrder.status = parseInt(updatedOrder.status) + 1
+        api_push('/api/orders/management', {edit:{...updatedOrder}})
         this.reloadData()
     }
 
@@ -103,9 +103,9 @@ class DeliveriesSubTabs extends React.Component {
     }
 
     onOrderRejected(){
-        let updatedOrder = {...this.state.data[this.state.reject_id]}
+        let updatedOrder = _.cloneDeep(this.state.data[this.state.reject_id])
         updatedOrder.status = -1
-        api_push('/api/orders/management', {delete:{updatedOrder}})
+        api_push('/api/orders/management', {delete:{...updatedOrder}})
     }
 
     render() {
@@ -114,30 +114,29 @@ class DeliveriesSubTabs extends React.Component {
                 <Popup
                     show = {this.state.showpopup}
                 > 
-                <PopupH> Reject </PopupH>
-                <PopupBody>
-                    Are you sure you want to reject this delivery?
-                </PopupBody>
-                <PopupButtons>
-                    <button onClick={this.onPopupClose}> Close </button>
-                    <button onClick={this.onOrderRejected}> Reject </button>
-                </PopupButtons>
+                    <PopupH> Reject </PopupH>
+                    <PopupBody>
+                        Are you sure you want to reject this delivery?
+                    </PopupBody>
+                    <PopupButtons>
+                        <button onClick={this.onPopupClose}> Close </button>
+                        <button onClick={this.onOrderRejected}> Reject </button>
+                    </PopupButtons>
                 </Popup> 
+                {
+                    this.state.data.map((e, i) =>{
+                        return (
+                            <Card 
+                                key={i} 
+                                id = {i}
+                                inputType='button'
+                                inputClassNames= {this.tab.buttonscss}
+                                inputs={this.tab.buttons}
+                                data={e}
+                                onClick={this.clickHandler}/>
+                        )})
                 }
-                    {
-                        this.state.data.map((e, i) =>{
-                            return (
-                                <Card 
-                                    key={i} 
-                                    id = {i}
-                                    inputType='button'
-                                    inputClassNames= {this.tab.buttonscss}
-                                    inputs={this.tab.buttons}
-                                    data={e}
-                                    onClick={this.clickHandler}/>
-                            )})
-                    }
-                </div>
+            </div>
         )
     }
 }

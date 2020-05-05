@@ -95,12 +95,14 @@ class Orders extends React.Component {
             let newbill = [...old.bill]
             let found = false
             newbill.forEach((e, i) => {
+                /*
                 if(e.id === item.id) {
                     e.qty += 1
                     e.charges += charges
                     e.options = [...e.options, options]
                     found = true
                 }
+                */
             })
             if(!found){
                 item.qty = 1
@@ -150,7 +152,7 @@ class Orders extends React.Component {
                 ...old,
                 showpopup:true,
                 options_lists:this.parseOptionsLists(table, row),
-                checked:this.initCheckBoxState(table, row),
+                checked:{...old.checked, ...this.initCheckBoxState(table, row)},
                 staged_add:{table:table, row:row}
             }
         })
@@ -193,6 +195,12 @@ class Orders extends React.Component {
 
     onGenerateBill(){
         this.showPopup()
+        let order = {}
+        order['user'] = 'admin'
+        order['address'] = 'nothing'
+        order['phone'] = 'nothing'
+        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
+        api_push('/api/orders')
     }
 
     onChecked(item, listName, option) {
@@ -214,7 +222,8 @@ class Orders extends React.Component {
                     Object.keys(list.options).map((option, i) => {
                         return (
                             <div key={i}>
-                                <input id = "OrdersRadio" 
+                                <input 
+                                    id = "OrdersRadio" 
                                     type="radio" 
                                     checked={this.state.checked[item][list.name][option].checked}
                                     onChange={() => this.onChecked(item, list.name, option)}
@@ -293,6 +302,19 @@ class Orders extends React.Component {
                             </PopupBody>
                         </Popup>
                         :
+                        null
+                }
+
+                {
+                    false?
+                        <Popup
+                            show={this.state.showbill}
+                        >
+                            <PopupButtons>
+
+                            </PopupButtons>
+                        </Popup>
+                    :
                         null
                 }
             </div>

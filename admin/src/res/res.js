@@ -44,7 +44,7 @@ export const res = {
                         'buttonscss': ["btn btn-success", "btn btn-danger"]
                     }, 
                     {
-                        'name':'Delivered',
+                        'name':'Completed',
                         'path':'/deliveries/delivered',
                         'component': DeliveriesSubTabs,
                         'api': '/api/orders?status=2',
@@ -68,7 +68,7 @@ export const res = {
                     },
                     'Deals':
                     {
-                        'cols':['ID', 'Name', 'Image', 'Price']
+                        'cols':['ID', 'Name', 'Items', 'Image', 'Price']
                     },
                     'Drinks':
                     {

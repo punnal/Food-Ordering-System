@@ -21,7 +21,6 @@ class AboutUs extends React.Component {
     loadData() {
         api_pull(this.api, data => {
             this.originalData = parseData(data)
-            console.log(data)
             this.setState(old => {
                 return {
                     ...old,

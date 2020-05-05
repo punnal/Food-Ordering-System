@@ -1,19 +1,7 @@
 import React from "react"
 import InputArray from "./InputArray"
-import Alert from 'react-bootstrap/Alert'
 import { res } from "../res/res"
-
-
-const typemap = {
-    0:'Delivery',
-    1:'Local'
-}
-
-const statmap = {
-    0:'Pending',
-    1:'In Progress',
-    2:'Delivered'
-}
+import {MAP_C2T, MAP_C2S} from '../res/CodeMappings'
 
 const parseOptions =(options) => {
     return (
@@ -37,14 +25,17 @@ const parseDeals = (deal, id) => {
         <div key={id}> 
             <h6> {deal.name} </h6>
             {
-                deal.items.map((e,i) => {
-                    return (
+                (deal.items)?
+                    deal.items.map((e,i) => {
+                        return (
 
-                        <div className = "CardInfoInner" key={i}>
-                            <h6> {e.name} </h6>
-                            {parseOptions(e.option_list_choices)}
-                        </div>
-                    )})
+                            <div className = "CardInfoInner" key={i}>
+                                <h6> {e.name} </h6>
+                                {parseOptions(e.option_list_choices)}
+                            </div>
+                        )})
+                    :
+                    null
             }
 
         </div>
@@ -67,10 +58,10 @@ const Card = (props) => {
                                 <div className = "CardInfo" key={i}>
                                     <h6> {e.toUpperCase()}</h6> 
                                     <p> {(e === 'status')? 
-                                            statmap[props.data[e]]
+                                            MAP_C2S[props.data[e]]
                                             :
                                             (e === 'type')?
-                                            typemap[props.data[e]]
+                                            MAP_C2T[props.data[e]]
                                             :
                                             props.data[e]
                                     } 
