@@ -28,7 +28,7 @@ class Login extends React.Component {
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
-            Axios.post(Api.login, this.state.contents)
+            Axios.post(Api.login, {"data":this.state.contents})
                 .then((response) => {
                     this.setState({
                         contents:{
@@ -38,6 +38,7 @@ class Login extends React.Component {
                         loading: false
                     }, () => {
                         if(response.data.success){//Success
+                            console.log("Sucess", response.data)
                             this.login(response.data.contents)
                             console.log("Sucess", response.data)
                             

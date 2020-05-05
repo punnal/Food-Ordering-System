@@ -102,20 +102,19 @@ class MenuItem extends React.Component {
         return options.map((option) => {
             const val = option[0]
             return (
-                <tr>
-                <td>
-                <div class="custom-control custom-radio">
-                <input class="custom-control-input" id = "customRadio" className = "RadioButtons"
-                        type="radio" 
-                        name={name}
-                        value={val}
-                        checked={this.state.options[name] === option[0]}
-                        onChange={this.handleChange}
-                    /> {option[0]}
+                <div>
+                    <div className="MenuItemRadio">
+                    <input className = "RadioButtons"
+                            type="radio" 
+                            name={name}
+                            value={val}
+                            checked={this.state.options[name] === option[0]}
+                            onChange={this.handleChange}
+                        /> {option[0]}
+                    </div>
+                    <div className="MenuItemRadioPrice"> {option[1]}</div>
+                    <br/>
                 </div>
-                </td>
-                <td>{option[1]}</td>
-                </tr>
             )
 
         })
@@ -126,16 +125,11 @@ class MenuItem extends React.Component {
         console.log(this.state)
         const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => {
             return (
-                <table class = "table table-dark">
-                    <thead>
-                        <tr>
-                            <th className = "OptionsHeading">{options[0]}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.createRadioButtons(options[0], Object.entries(options[1]))}
-                    </tbody>
-                </table>)})
+                <div>
+                    <div className = "OptionsHeading">{options[0]}</div>
+                    <div>{this.createRadioButtons(options[0], Object.entries(options[1]))}</div>
+                </div>
+                )})
 
         return (
             <div className = "MenuItem">
@@ -148,27 +142,19 @@ class MenuItem extends React.Component {
                     <div className = "popup">
                         <div className = "popupInner">
                             <div className = "ClosePopup" onClick = {() => {this.handleClick("hidePopup")}}><i class="fas fa-times fa-2x"></i></div>
-                            {option_lists}
-                            <table class = "table table-dark" className = "PopupQuantity">
-                                <thead>
-                                 <tr>
-                                    <th>
+                            <div className = "PopupOptions">{option_lists}</div>
+                            <div className = "PopupQuantity">
+                                    <div>
                                         Quantity
-                                    </th>
-                                 </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td className = "MenuItemPointers" onClick={() => {this.handleClick("decrease")}}> ◀ </td>
-                                        <td> {this.state.quantity} </td>
-                                        <td className = "MenuItemPointers" onClick={() => {this.handleClick("increase")}}> ▶ </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </div>
+                                        <div className = "MenuItemPointers" onClick={() => {this.handleClick("decrease")}}> ◀ </div>
+                                        <div> {this.state.quantity} </div>
+                                        <div className = "MenuItemPointers" onClick={() => {this.handleClick("increase")}}> ▶ </div>
+                            </div>
                                 <Alert variant = "danger" show = {this.state.cartNotFull}>
                                     <strong>Select all options to add</strong>
                                 </Alert>
-                                <button type="button" class="btn btn-dark" className = "PopupAddToCart" onClick={() => {this.handleClick("addToCart")}}>Add to cart</button>
+                                <button id="MenuItemPopupAddToCart" type="button" class="btn btn-success"  onClick={() => {this.handleClick("addToCart")}}>Add to cart</button>
                         </div>
                     </div>
                     : null 
