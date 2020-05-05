@@ -42,7 +42,7 @@ class Orders extends React.Component {
     }
 
     componentDidMount() {
-        api_pull('/api/deals', deals => {
+        api_pull('/admin/api/deals', deals => {
             api_pull('/api/menu', menu => {
                 this.setState(old => {
                     return {
@@ -196,11 +196,12 @@ class Orders extends React.Component {
     onGenerateBill(){
         this.showPopup()
         let order = {}
-        order['user'] = 'admin'
-        order['address'] = 'nothing'
-        order['phone'] = 'nothing'
+        order.user = 'admin'
+        order.address = 'nothing'
+        order.phone = 'nothing'
+        order.status = 1
         order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
-        api_push('/api/orders')
+        api_push('/api/orders', order)
     }
 
     onChecked(item, listName, option) {

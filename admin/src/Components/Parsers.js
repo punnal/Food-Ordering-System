@@ -66,7 +66,7 @@ class Parsers {
                 id: item.id,
                 price: item.price,
                 options: this.filterSelected(item.name, i+1, item.options_lists, selected, 'name'),
-                optionChoices: this.filterSelected(item.name, i+1, item.options_lists, selected, 'price')
+                optionsPrices: this.filterSelected(item.name, i+1, item.options_lists, selected, 'price')
             }
         })
     }
