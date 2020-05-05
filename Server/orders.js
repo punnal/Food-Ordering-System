@@ -1,5 +1,5 @@
 const util = require('util')
-const utils = require('./util.js')
+const utils = require('./utils.js')
 var firebase = require('./db_initialize.js')
 
 var escapeEmail = utils.escapeEmail
