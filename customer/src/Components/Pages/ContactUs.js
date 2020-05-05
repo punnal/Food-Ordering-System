@@ -268,7 +268,7 @@ export default class Contact extends React.Component {
                 height="100%"
                 id="myId"
                 className="myClassname"
-                display="initial"
+                display="final"
                 position="relative"
               />
             </div>
