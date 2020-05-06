@@ -147,7 +147,7 @@ function reset_password_customer(req, res)
 
             if(req.body["data"]["password"] == user_snapshot.val()["password"])
             {
-                var user = {...user_snapshot.val(), "password" : req.body["data"]["newPassword"]}
+                var user = {...user_snapshot.val(), "oldPssword" : req.body["data"]["password"]}
                 
                 push_user_helper(user["email"], user).then(() => {
 
@@ -395,7 +395,6 @@ function admin_middleware(req, res, next){
         db_admin.once("value").then((admin_snapshot) =>{
             if(res.locals.uid == admin_snapshot.val()["username"]){
                 next()
-                return
             }
             else
             {
@@ -413,6 +412,8 @@ function admin_middleware(req, res, next){
             return res.status(401).send(JSON.stringify({"cookieValid" : "missing", "error" : "Cookie missing. Please login to proceed."}))
         
     }
+
+    next()
   
 }
 
@@ -420,17 +421,13 @@ function customer_middleware(req, res, next){
     console.log("2")
     if(res.locals.cookieValid){
         user_exists(res.locals.uid).then((val) => {
-            next()
-            return
         }) //if user exists then move to the next middleware function i.e the main request handler
         .catch((val) => { //if user does not exist, set unauthorized cookie boolean to true to hanlde it later in the function
             res.locals.cookieUnauthorized = true; 
             res.locals.cookieValid = false
-            next()
         })      
     }
     next()
-    return
 }
 
 

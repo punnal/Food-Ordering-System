@@ -62,9 +62,10 @@ function get_handler_customer(req, res){
                 })
                 if(!deal_faulty)
                     all_deals[Object.keys(deals_snapshot.val())[i]] = parsed_deal  
+
                 
             })
-            res.send(JSON.stringify({"data" : all_deals})).status(200)
+            return res.status(200).send(JSON.stringify({"data" : all_deals}))
         })    
     })
     
@@ -190,14 +191,6 @@ function post_handler(req, res){
 }
 
 
-var a = [1,2,3,1,2,3,4];
-
-var map = a.reduce(function(obj, b) {
-  obj[b] = ++obj[b] || 1;
-  return obj;
-}, {});
-
-console.log(map)
 
 module.exports.get_handler = get_handler_customer
 module.exports.post_handler = post_handler

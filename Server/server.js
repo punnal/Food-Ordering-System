@@ -103,14 +103,14 @@ app.get('/api/test', (req, res) => {
 app.get("/admin", function(req, res) {
   // console.log()
   // res.send("Hello!")
-  res.sendFile(__dirname + "../customer/build/index.html");
+  res.sendFile(path.resolve(__dirname + "/../customer/build/index.html"));
 });
 
 
 app.get("/*", function(req, res) {
     // console.log()
     // res.send("Hello!")
-    res.sendFile(__dirname + "../customer/build/index.html");
+    res.sendFile(path.resolve(__dirname + "/../customer/build/index.html"));
 });
 
 
