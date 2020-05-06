@@ -162,7 +162,18 @@ export default class Contact extends React.Component {
   render() {
     return (
       <div className="ContactUsMain">
-        <div>
+        <div
+          style={{
+            backgroundColor: "grey",
+            position: "relative",
+            bordeRadius: "100px",
+            padding: "0px",
+            width: "1150px",
+            textAlign: "center",
+            display: "inline-block",
+            borderRadius: "100px",
+          }}
+        >
           <div class="container text-white pt-3" id="contactForm">
             <h2 className="ContactUsTitle">Have some suggestions?</h2>
             <h4 className="ContactUsSubTitle">Send us your feedback</h4>
@@ -214,7 +225,7 @@ export default class Contact extends React.Component {
                   <p className="form-error">{this.state.messageError}</p>
                   <button
                     id="ContactUsSubmit"
-                    class="btn btn-dark"
+                    class="btn btn-light"
                     type="button"
                     style={{ position: "relative", right: "-320px" }}
                     onClick={(e) => this.onSubmit(e)}
@@ -226,6 +237,7 @@ export default class Contact extends React.Component {
             </div>
           </div>
         </div>
+        <hr />
         <div id="ContactUsMessageBox" class="container bg-dark text-white pt-3">
           <div id="ContactUsContacts" className="footer-section contact-form">
             <h3>Contact</h3>
