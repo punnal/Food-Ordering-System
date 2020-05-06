@@ -10,6 +10,9 @@ const db_orders = firebase.database().ref().child("Orders");
 const db_local = firebase.database().ref().child("Local")
 const db_deliveries_users = firebase.database().ref().child("Deliveries_users")
 
+var db_admin = firebase.database().ref().child("admin");
+
+
 function getTimeStamp(){
     d = new Date()
 
