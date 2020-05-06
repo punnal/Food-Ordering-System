@@ -226,46 +226,65 @@ function get_handler(req, res){
     
     var db_ref = db_orders
 
-    if(res.locals.uid != "admin")
-    {
-        console.log("not admin")
-        try
+    db_admin.once("value").then((admin_snapshot) =>{
+
+        if(res.locals.uid != admin_snapshot.val()["username"])
         {
-            db_deliveries_users.child(escapeEmail(res.locals.uid)).once("value", (db_snapshot) =>{
-                console.log("sending back orders")
-                return res.status(200).send({"data" : db_snapshot.val() || {}, "cookieValid" : "valid"})
+            
+            console.log("not admin")
+            db_ref = db_deliveries_users.child(escapeEmail(res.locals.uid))
+
+            if(typeof req.query.status != 'undefined'){
+                var status = req.query.status
+                try{
+                    db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
+                        return res.send( {"data" : db_snapshot.val()}) })
+                }
+                catch(err){
+                    console.log("some err")
+                    return res.status(200).send({"data" : {} , "cookieValid" : "valid"})
+                }
+            }
+            else{
+                try{
+                    db_ref.once("value", (db_snapshot) =>{
+                        return res.send({"data" : db_snapshot.val()} )
+                    })
+                }
+                catch(err)
+                {
+                    console.log("some err")
+                    return res.status(200).send({"data" : {} , "cookieValid" : "valid"}) 
+                }
+                
+            }
+            return;
+        }
+
+
+        if(typeof req.query.type != 'undefined')
+        {
+            if (parseInt(req.query.type) == 0)
+                db_ref = db_local
+            
+            else
+            {
+                db_ref = db_orders
+            }
+        }
+        
+        if(typeof req.query.status != 'undefined'){
+            var status = req.query.status
+            db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
+                return res.send( {"data" : db_snapshot.val()})
             })
         }
-        catch(err)
-        {
-            console.log("some err")
-            return res.status(200).send({"data" : {} , "cookieValid" : "valid"})            
+        else{
+            db_ref.once("value", (db_snapshot) =>{
+                return res.send({"data" : db_snapshot.val()} )
+            })
         }
-        return;
-    }
-
-    if(typeof req.query.type != 'undefined')
-    {
-        if (parseInt(req.query.type) == 0)
-            db_ref = db_local
-        
-        else
-        {
-            db_ref = db_orders
-        }
-    }
-    
-    if(typeof req.query.status != 'undefined'){
-        var status = req.query.status
-        db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
-            return res.send( {"data" : db_snapshot.val()})
-        })
-    }
-    else{
-        db_ref.once("value", (db_snapshot) =>{
-            return res.send({"data" : db_snapshot.val()} )
-        })
-    }
+    })    
 }
 
 
