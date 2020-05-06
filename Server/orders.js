@@ -10,6 +10,9 @@ const db_orders = firebase.database().ref().child("Orders");
 const db_local = firebase.database().ref().child("Local")
 const db_deliveries_users = firebase.database().ref().child("Deliveries_users")
 
+var db_admin = firebase.database().ref().child("admin");
+
+
 function getTimeStamp(){
     d = new Date()
 
@@ -119,7 +122,7 @@ function parse_order(order){
     else
         parsed_order["status"] = "0"
     
-    if(!("type" in parsed_order))
+    if((!("type" in parsed_order)) || typeof parsed_order["type"] == "undefined")
         parsed_order["type"] = "1"
 
 
@@ -194,6 +197,7 @@ function post_handler(req, res){
     // console.log(util.inspect(parsed_order, false, null, true /* enable colors */))
     db_orders.child(parsed_order["id"]).set(parsed_order)
 
+
     if(parsed_order["type"] == "1")
         db_deliveries_users.child(escapeEmail(parsed_order["email"])).child(parsed_order["id"]).set(parsed_order)
     else
@@ -215,34 +219,76 @@ function get_handler(req, res){
     
     if(!res.locals.cookieValid)
     {
-
+        console.log("invalid cookie")
+        if(res.locals.cookieMissing)
+            return res.status(404).send({"data" : {}, "cookieValid" : "missing"})
+        else 
+            return res.status(401).send({"data" : {}, "cookieValid" : "invalid"})
     }
         
     
     var db_ref = db_orders
 
-    if(typeof req.query.type != 'undefined' && parseInt(req.query.type) == 1)
-        db_ref = db_local
+    db_admin.once("value").then((admin_snapshot) =>{
+        console.log("uid: " + res.locals.uid)
+        console.log("username " + admin_snapshot.val()["username"] )
+        if(res.locals.uid != admin_snapshot.val()["username"])
+        {
+            
+            console.log("not admin")
+            db_ref = db_deliveries_users.child(escapeEmail(res.locals.uid))
 
-    try{
-        if(typeof req.query.email != 'undefined' && firebase.database().ref().hasChild("Deliveries_users") && db_deliveries_users.hasChild(req.params.email))
-            db_ref = db_deliveries_users.child(req.params.email)
-    }catch(err){
+            if(typeof req.query.status != 'undefined'){
+                var status = req.query.status
+                try{
+                    db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
+                        return res.send( {"data" : db_snapshot.val()}) })
+                }
+                catch(err){
+                    console.log("some err")
+                    return res.status(200).send({"data" : {} , "cookieValid" : "valid"})
+                }
+            }
+            else{
+                try{
+                    db_ref.once("value", (db_snapshot) =>{
+                        return res.send({"data" : db_snapshot.val()} )
+                    })
+                }
+                catch(err)
+                {
+                    console.log("some err")
+                    return res.status(200).send({"data" : {} , "cookieValid" : "valid"}) 
+                }
+                
+            }
+            return;
+        }
+
+
+        if(typeof req.query.type != 'undefined')
+        {
+            if (parseInt(req.query.type) == 0)
+                db_ref = db_local
+            
+            else
+            {
+                db_ref = db_orders
+            }
+        }
         
-    }
-    
-    
-    if(typeof req.query.status != 'undefined'){
-        var status = req.query.status
-        db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
-            res.send( {"data" : db_snapshot.val()})
-        })
-    }
-    else{
-        db_ref.once("value", (db_snapshot) =>{
-            res.send({"data" : db_snapshot.val()} )
-        })
-    }
+        if(typeof req.query.status != 'undefined'){
+            var status = req.query.status
+            db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
+                return res.send( {"data" : db_snapshot.val()})
+            })
+        }
+        else{
+            db_ref.once("value", (db_snapshot) =>{
+                return res.send({"data" : db_snapshot.val()} )
+            })
+        }
+    })    
 }
 
 

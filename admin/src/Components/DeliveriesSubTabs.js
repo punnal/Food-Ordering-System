@@ -110,7 +110,7 @@ class DeliveriesSubTabs extends React.Component {
 
     render() {
         return (
-            <div>
+        <div className = 'Menu'>
                 <Popup
                     show = {this.state.showpopup}
                 > 

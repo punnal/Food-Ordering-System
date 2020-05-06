@@ -3,31 +3,51 @@ import { res } from './res/res.js'
 import Header from './Components/Header'
 import NavBar from './Components/NavBar'
 import Footer from './Components/Footer.js'
+import Login from './Components/Login'
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+    Route,
+    Redirect
 } from "react-router-dom";
 
 class App extends React.Component {
+    constructor(){
+        super()
+        this.state = {auth:false}
+    }
 
     render() {
-        return (
-            <Router>
-            <div>
-                <NavBar />
-                {
-                    res.admin.pages.map(e => {
-                        return (
-                            <Switch key={e.id}>
-                                <Route path={`/${e.path.split('/')[1]}`} component={ () => React.createElement(e.component, {'id':e.id})} />
-                            </Switch>
-                        )
-                })}
-                <Footer />
-            </div>
-            </Router>
-        );
+        return this.state.auth?
+            (
+                <Router>
+                    <Redirect to="/deliveries/pending"/>
+                    <div>
+                        <NavBar />
+                        {
+                            res.admin.pages.map((e,i) => {
+                                return (
+                                    <Switch key={e.id}>
+                                        <Route path={`/${e.path.split('/')[1]}`} component={ () => React.createElement(e.component, {'id':i, 'deAuth':()=>this.setState({auth:false})})} />
+                                    </Switch>
+                                )
+                            })}
+                            <Footer />
+                        </div>
+                    </Router>
+            )
+            :
+            (
+                <Router>
+                    <div>
+                        <Redirect to="/login"/>
+                        <Login 
+                            setAuth={() => this.setState({auth:true})} 
+                            deAuth = {() => this.setState({auth:false})}
+                        />
+                    </div>
+                </Router>
+            )
     }
 }
 

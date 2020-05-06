@@ -67,7 +67,7 @@ class NavBarDropdown extends React.Component {
                     <div className = "DropDownElement">
                         {
                             this.props.options.map((option, i) => {
-                                return <Link key={i} to={option.path}> {option.name} </Link>
+                                return <Link key={i} to={option.path} deAuth={this.props.deAuth}> {option.name} </Link>
                             })
                         }
                     </div>
@@ -86,13 +86,14 @@ class NavBar extends React.Component {
             <div className = {res.admin.css_classes.NavBar} >
                 <LogoImg className = {res.admin.css_classes.Logo} />
                 {
-                    res.admin.navbar.left.map( e => {
-                        return <NavBarElement key={e} id={e} name={res.admin.pages[e].title} />
+                    res.admin.navbar.left.map( (e,i) => {
+                        return <NavBarElement key={i} id={i} name={res.admin.pages[i].title} />
                 })}
                 <NavBarDivider />
                 <NavBarDropdown 
                     title = {res.admin.navbar.dropdown.title}
                     options= {res.admin.navbar.dropdown.options}
+                    deAuth={this.props.deAuth}
                 />
             </div>
         );

@@ -4,6 +4,9 @@ var util = require('util')
 var db_menu = firebase.database().ref().child("Menu");
 
 route = '/api/menu'
+const jwt = require('jsonwebtoken')
+const secret = "lmao_we_suck"
+
 
 category_int_to_str = {0:"Mains", 1:"Extras", 2:"Drinks"}
 category_str_to_int = {"Mains":0, "Extras":1, "Drinks":2}

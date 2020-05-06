@@ -10,17 +10,18 @@ import AboutUs from '../Components/AboutUs'
 import ContactUs from '../Components/ContactUs'
 import History from '../Components/History'
 import Settings from '../Components/Settings'
+import Signout from '../Components/Signout'
 import '../css/cssFile.css'
 
 export const res = {
     'admin': {
         'pages': [
-            {
-                'id': 0,
-                'title':'Login',
-                'component':Login,
-                'path':'/login'
-            },
+            //            {
+            //                'id': 0,
+            //                'title':'Login',
+            //                'component':Login,
+            //                'path':'/login'
+            //            },
             {
                 'id': 1,
                 'title':'Deliveries',
@@ -141,6 +142,11 @@ export const res = {
                 'title':'Settings',
                 'component':Settings,
                 'path':'/settings'
+            },
+            {
+                'id':10,
+                'component':Signout,
+                'path':'/signout'
             }
         ],
 
@@ -152,7 +158,7 @@ export const res = {
                 'options': [
                     {'name':'History', 'path':'/history'},
                     {'name':'Settings', 'path':'/settings'},
-                    {'name':'Signout', 'path':'/gallery'},
+                    {'name':'Signout', 'path':'/signout'},
                 ]
             }
         },
