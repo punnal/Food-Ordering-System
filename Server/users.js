@@ -133,6 +133,104 @@ function extract_user_data(req, first_time)
     return user_data
 }
 
+
+function reset_password_customer(req, res)
+{
+    if(req.locals.cookieValid)
+    {
+        user_exists(req.locals.uid).then((user_snapshot) =>{
+            if(typeof req.body["data"]["password"] == "undefined"){
+                res.status(403).send({"data":  {"success" : false, "error" : "Invalid post request format"}})
+                return
+            }
+
+            if(req.body["data"]["password"] == user_snapshot.val()["password"])
+            {
+                var user = {...user_snapshot.val(), "password" : req.body["data"]["password"]}
+                
+                push_user_helper(user["email"], user).then(() => {
+
+                    to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+
+                    return res
+                    .status(statusCode)
+                    .send(JSON.stringify(to_send))
+                }).catch(() =>{
+                    
+                    to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
+
+                    return res.status(400).send(JSON.stringify(to_send))
+                })
+
+                    
+            }
+            else
+            {
+                to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Incorrect password."    }}
+                return res
+                .status(401)
+                .send(JSON.stringify(to_send))
+
+            }
+        }).catch((err) => {
+            to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
+            return res.status(404).send(JSON.stringify(to_send))  
+        })
+    }
+    else{
+        to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to reset your password."    }}
+        return res
+        .status(401)
+        .send(JSON.stringify(to_send))    
+    }
+}
+
+
+function reset_settings_customer(req, res){
+    if(req.locals.cookieValid)
+    {
+        user_exists(req.locals.uid).then((user_snapshot) =>{
+            if(typeof req.body["data"] == "undefined"){
+                res.status(403).send({"data":  {"success" : false, "error" : "Invalid post request format"}})
+                return
+            }
+
+            
+            var user = {...req.body["data"]}
+
+            user["email"] = res.locals.uid
+            user["password"] = user_snapshot.val()["password"]
+            
+                        
+            push_user_helper(user["email"], user).then(() => {
+
+                to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+
+                return res
+                .status(statusCode)
+                .send(JSON.stringify(to_send))
+            }).catch(() =>{
+                
+                to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
+
+                return res.status(400).send(JSON.stringify(to_send))
+            })
+
+                    
+            
+        }).catch((err) => {
+            to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
+            return res.status(404).send(JSON.stringify(to_send))  
+        })
+    }
+    else{
+        to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to change your settings."    }}
+        return res
+        .status(401)
+        .send(JSON.stringify(to_send))    
+    }
+}
+
 function signup_post_handler(req, res)
 {
     user_data = extract_user_data(req.body);
@@ -222,18 +320,24 @@ function login_post_handler_customer(req, res){
 }
 
 function login_post_handler_admin(req, res){
+    if(!("data" in req.body) || !("username" in req.body["data"]) || !("password" in req.body["data"]) )
+        return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
+    username = req.body["data"]["username"]
+    password = req.body["data"]["password"]
     if(username == "admin"){
-        db_admin.child("admin").once("child", (admin_snap) => {
+        db_admin.once("child", (admin_snap) => {
             if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password)
-                res.status(404).send("Login failed...incorrect password")
+                return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
+            
+            
             const payload = {username}
             const token = jwt.sign(payload, secret, {
                 expiresIn : '1h'
-            })
+                })
 
             return res.cookie('token', token, {httpOnly : true, secure : true})
             .status(200)
-            .send(JSON.stringify({status : 'success'}))
+            .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
         })
     }
 
@@ -295,7 +399,7 @@ function admin_middleware(req, res, next){
 function customer_middleware(req, res, next){
     console.log("2")
     if(res.locals.cookieValid){
-        user_exists(unescapeEmail(res.locals.uid)).then((val) => next()) //if user exists then move to the next middleware function i.e the main request handler
+        user_exists(res.locals.uid).then((val) => next()) //if user exists then move to the next middleware function i.e the main request handler
         .catch((val) => { //if user does not exist, set unauthorized cookie boolean to true to hanlde it later in the function
             res.locals.cookieUnauthorized = true; 
             next()
@@ -333,6 +437,16 @@ module.exports.login_post_route = login_post_route
 module.exports.signup_post_route = signup_post_route
 
 
+module.exports.reset_settings_customer = reset_settings_customer
+module.exports.reset_password_customer = reset_password_customer
+
+module.exports.customer_password_reset_route = '/api/users/reset/password'
+module.exports.customer_settings_reset_route = '/api/users/reset/settings' 
+
+
 module.exports.isCookieValid = isCookieValid
 
 module.exports.customer_middleware = customer_middleware
+
+module.exports.admin_login_post_handler = login_post_handler_admin
+module.exports.admin_login_route = '/admin/api/login'
