@@ -5,7 +5,9 @@ const Api = {
     login:'/api/users/login',
     orders:'/api/orders',
     about:'/api/aboutus',
-    signup:'api/users/signup'
+    signup:'api/users/signup',
+    editpassword:'/api/users/reset/password',
+    editaccount:'/api/users/reset/settings'
 
 }
 

@@ -35,17 +35,17 @@ class EditAccount extends React.Component {
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
-            Axios.post(Api.editaccount, this.state.contents)
+            Axios.post(Api.editaccount, {"data":this.state.contents})
                 .then((response) => {
                     this.setState({
                         loading: false
                     }, () => {
                         if(response.success){//Success
-                            this.props.setInfo(response.data.contents)
-                            console.log("Sucess", response.data)
+                            this.props.setInfo(response.data.data.contents)
+                            console.log("Sucess", response.data.data)
                             
                         }else{
-                            console.log("SignUp Failed: ", response.data.error)
+                            console.log("SignUp Failed: ", response.data.data.error)
                         }
                     })
 
