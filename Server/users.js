@@ -324,23 +324,23 @@ function login_post_handler_admin(req, res){
         return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
     username = req.body["data"]["username"]
     password = req.body["data"]["password"]
-    if(username == "admin"){
-        db_admin.once("child", (admin_snap) => {
-            if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password)
-                return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
-            
-            
-            const payload = {username}
-            const token = jwt.sign(payload, secret, {
-                expiresIn : '1h'
-                })
+    db_admin.once("child", (admin_snap) => {
+        if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password || admin_snap.val()["username"] != userna)
+            return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
+        
+        
+        const payload = {username}
+        const token = jwt.sign(payload, secret, {
+            expiresIn : '1h'
+            })
 
-            return res.cookie('token', token, {httpOnly : true, secure : true})
-            .status(200)
-            .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
-        })
-    }
-
+        return res.cookie('token', token, {httpOnly : true, secure : true})
+        .status(200)
+        .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
+    
+    }).catch((err) =>{
+        return res.status(404).send(JSON.stringify({"success" : false, "error" : "User not found."}))
+    })
 }
 
 function isCookieValid(req, res, next){
