@@ -4,6 +4,11 @@ const path = require("path");
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken')
 
+var fs = require('fs')
+var https = require('https')
+
+
+
 var bodyParser     =        require("body-parser");
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({limit : '50mb', extended: false }));
@@ -115,7 +120,13 @@ app.get("/*", function(req, res) {
 
 
 
+
+
+
 const port = process.env.PORT || 5000;
 
 
-app.listen(port, () => console.log(`listening on port ${port}...`))
+https.createServer({
+  key: fs.readFileSync(path.join(__dirname, 'server.key')),
+  cert: fs.readFileSync(path.join(__dirname, './server.cert'))
+}, app).listen(port, () => console.log(`listening on port ${port}...`))
