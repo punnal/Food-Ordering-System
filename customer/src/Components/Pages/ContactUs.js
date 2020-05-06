@@ -4,6 +4,8 @@ import axios from "axios";
 import * as emailjs from "emailjs-com";
 import Maps from "./GoogleMaps";
 import Loc from "../../img/location.png";
+import Axios from 'axios'
+import Api from '../../api/api'
 
 export default class Contact extends React.Component {
   state = {
@@ -17,7 +19,38 @@ export default class Contact extends React.Component {
     messageError: "",
 
     resData: "",
+    contacts: {
+        address: "",
+        phone: "",
+        email: "",
+        cordinates: [],
+    }
   };
+
+    componentWillMount(){
+        this.setState({loading: true}, () =>
+                Axios.get(Api.contacts)
+                    .then((response) => {
+                        this.setState({
+                            contents:response.data.data
+                        }, () => this.setState({
+                            loading: false
+                        }))
+                    }).catch(() => {
+                        this.setState({
+                            //Hardcoded here
+                            contacts:{
+                                address:"International Market, M Block, Near Malta Pan Shop\nModel Town, Lahore - 54000",
+                                phone:"+92 311 7210000",
+                                email: "smokeandgrill123@gmail.com",
+                            }, 
+                        }, () => this.setState({
+                            loading: false
+                        }))
+                    })
+        )
+
+    }
 
   change = (e) => {
     this.setState({
@@ -215,20 +248,17 @@ export default class Contact extends React.Component {
         <div id = "ContactUsMessageBox" class="container bg-dark text-white pt-3">
           <div id = "ContactUsContacts" className="footer-section contact-form">
               <h3>Contact</h3>
-              <div className = "ContactUsIcons">
-                <a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore"><i className = "fab fa-facebook"></i></a>
-                <a href="#"><i className = "fab fa-twitter"></i></a>
-                <a href="#"><i className = "fab fa-instagram"></i></a>
-                <a href="#"><i className = "fab fa-linkedin"></i></a>
-                <a href="#"><i className = "fab fa-youtube"></i></a>
+              <div>
+                <i id = "ContactUsPhone" className = "fa fa-map-marker"></i>
+                <span>{this.state.contacts.address}</span>
               </div>
               <div>
                 <i id = "ContactUsPhone" className = "fa fa-phone"></i>
-                <span>+92 311 7210000</span>
+                <span>{this.state.contacts.phone}</span>
               </div>
               <div>
                 <i id = "ContactUsPhone" class="fa fa-envelope"></i>
-                <span><a className ="ContactUsMail" href = "mailto:smokeandgrill123@gmail.com">smokeandgrill123@gmail.com</a></span>
+                <span><a className ="ContactUsMail">{this.state.contacts.email}</a></span>
               </div>
                 <Maps />
           </div>

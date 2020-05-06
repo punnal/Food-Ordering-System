@@ -43,10 +43,11 @@ class App extends React.Component {
     }
 
     logIn = (contents) => {
+        console.log("llll", contents)
         this.setState({
             contents: contents,
             loggedIn: true,
-        })
+        } ,()=> console.log("state", this.state, "=====", contents))
 
     }
 

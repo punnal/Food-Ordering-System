@@ -28,15 +28,15 @@ class SignUp extends React.Component {
     }
 
 
-    login = () => {
-        this.props.login()
+    login = (contents) => {
+        this.props.login(contents)
         History.push('/')
     }
 
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
-            Axios.post(Api.signup, this.state.contents)
+            Axios.post(Api.signup, {"data":this.state.contents})
                 .then((response) => {
                     this.setState({
                         contents:{
@@ -52,8 +52,8 @@ class SignUp extends React.Component {
                     }, () => {
                         if(response.data.data.success){//Success
                             console.log("Sucess", response.data)
+                            console.log("cont", response.data.data.contents)
                             this.login(response.data.data.contents)
-                            console.log("Sucess", response.data)
                             
                         }else{
                             console.log("Login Failed: ", response.data.data.error)

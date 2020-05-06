@@ -45,14 +45,12 @@ class MenuItem extends React.Component {
     
     handleClick = (type) => {
         if(type === "showPopup"){
-            console.log("openPopup")
             //ADD YOUR CODE TO DISPLAY POPUP HERE
             this.setState({
                 showPopup: true
             })
         }
         else if(type === "hidePopup"){
-            console.log("hidePopup")
             //ADD YOUR CODE TO DISPLAY POPUP HERE
             this.setState({
                 showPopup: false
@@ -71,7 +69,6 @@ class MenuItem extends React.Component {
         }
         else if(type === "addToCart"){
             if(Object.keys(this.state.options).length === Object.keys(this.props.menuData.options_lists).length){
-                console.log("Order added")
                 this.props.addOrders({...this.state,})
                 this.handleClick("hidePopup")
                 this.setState({
@@ -122,7 +119,6 @@ class MenuItem extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         const option_lists = Object.entries(this.props.menuData.options_lists).map((options) => {
             return (
                 <div>

@@ -21,7 +21,6 @@ class Menu extends React.Component {
     }
         
     listToObject = (item) => {
-        console.log(item)
         if(!item.options_lists){
             item["options_lists"] = {}
             return item
@@ -72,9 +71,6 @@ class Menu extends React.Component {
         this.setState({loading: true}, () =>
             Axios.get(Api.menu)
                 .then((response) => {
-                    console.log("then")
-                    console.log(response.data)
-                    console.log(response.data.data)
                     const itemsCopy = response.data
                     let main = Object.values(itemsCopy.data.Mains)
                     let extras = Object.values(itemsCopy.data.Extras)
@@ -90,8 +86,6 @@ class Menu extends React.Component {
                         loading: false
                     }))
                 }).catch((error) => {
-                    console.log("catch")
-                    console.log(error)
                     const itemsCopy = {...Items,}
                     let main = Object.values(itemsCopy.data.Main)
                     let extras = Object.values(itemsCopy.data.Extras)
