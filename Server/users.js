@@ -246,7 +246,7 @@ function signup_post_handler(req, res)
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -284,7 +284,7 @@ function login_post_handler_customer(req, res){
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true, domain : "https://smoke-and-grill.herokuapp.com/"})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true})
         .header('Access-Control-Expose-Headers', 'token')
         .header('token', token)
         .status(200)
@@ -316,7 +316,7 @@ function login_post_handler_customer(req, res){
         var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -342,7 +342,7 @@ function login_post_handler_admin(req, res){
             expiresIn : '1h',
             })
 
-        return res.cookie('token', token, {httpOnly : true, secure : true})
+        return res.cookie('token', token, {httpOnly : true, sameSite : true})
         .status(200)
         .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
     
