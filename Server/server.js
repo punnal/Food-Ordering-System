@@ -11,11 +11,15 @@ app.use(bodyParser.json({limit : '50mb'}));
 app.use(cookieParser());
 
 
-app.use(express.static("../customer/build"));
-app.use(express.static("../admin/build"));
+app.use(express.static(__dirname + "/../customer/build"));
+app.use(express.static(__dirname + "/../admin/build"));
+
+
+
 
 
 const secret = "lmao_we_suck"
+
 
 
 var menu_defs = require('./menu.js')
@@ -34,8 +38,16 @@ get_routes = [menu_defs.route, order_defs.route, deals_defs.route, gallery_defs.
 get_handlers = [menu_defs.get_handler, order_defs.get_handler,  deals_defs.get_handler, gallery_defs.get_handler, aboutus_defs.get_handler]
 
 get_routes.forEach((element, i) =>{
-    app.get(element, user_defs.customer_middleware, get_handlers[i])
+    app.get(element,  user_defs.customer_middleware, get_handlers[i])
 })
+
+get_routes.forEach((element, i) =>{
+  if(i != 2)
+    app.get(('/admin' + element), user_defs.admin_middleware, get_handlers[i] )
+})
+
+// app.get('/admin/api/deals',  deals_defs.get_handler_admin)
+
 
 
 post_routes = [deals_defs.route, menu_defs.route, order_defs.route, user_defs.signup_post_route, user_defs.login_post_route, gallery_defs.route, aboutus_defs.route, order_defs.order_mgmt_route, user_defs.customer_password_reset_route, user_defs.customer_settings_reset_route]
@@ -56,6 +68,8 @@ app.get('/users/login/test', function(req, res) {
     console.log("get login called")
     res.send("works!")
 });
+
+
 
 app.get('/api/test', (req, res) => {
     const token = 
@@ -89,14 +103,14 @@ app.get('/api/test', (req, res) => {
 app.get("/admin", function(req, res) {
   // console.log()
   // res.send("Hello!")
-  res.sendFile("index.html", {root : "../admin/build"});
+  res.sendFile(__dirname + "../customer/build/index.html");
 });
 
 
 app.get("/*", function(req, res) {
     // console.log()
     // res.send("Hello!")
-    res.sendFile("index.html", {root : "../customer/build"});
+    res.sendFile(__dirname + "../customer/build/index.html");
 });
 
 

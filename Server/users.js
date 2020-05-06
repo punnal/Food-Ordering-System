@@ -108,15 +108,15 @@ function push_user(key, to_push){
 
 function extract_user_data(req, first_time)
 {
-    data = req.body["data"]
+    var data = req.body["data"]
 
     console.log("data " + util.inspect(Object.keys(req.body)[0], false, null, true /* enable colors */))
 
     if(typeof data == "undefined")
         return
 
-    user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
-        "contact_num":data["phone"], "address":data["address"]}
+    var user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
+        "contact_no":data["phone"], "address":data["address"]}
 
     if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
         user_data["password"] = data["password"]
@@ -137,9 +137,9 @@ function extract_user_data(req, first_time)
 
 function reset_password_customer(req, res)
 {
-    if(req.locals.cookieValid)
+    if(res.locals.cookieValid)
     {
-        user_exists(req.locals.uid).then((user_snapshot) =>{
+        user_exists(res.locals.uid).then((user_snapshot) =>{
             if(typeof req.body["data"]["password"] == "undefined"){
                 res.status(403).send({"data":  {"success" : false, "error" : "Invalid post request format"}})
                 return
@@ -151,14 +151,14 @@ function reset_password_customer(req, res)
                 
                 push_user_helper(user["email"], user).then(() => {
 
-                    to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+                    var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
 
                     return res
                     .status(statusCode)
                     .send(JSON.stringify(to_send))
                 }).catch(() =>{
                     
-                    to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
+                    var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
 
                     return res.status(400).send(JSON.stringify(to_send))
                 })
@@ -167,19 +167,19 @@ function reset_password_customer(req, res)
             }
             else
             {
-                to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Incorrect password."    }}
+                var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Incorrect password."    }}
                 return res
                 .status(401)
                 .send(JSON.stringify(to_send))
 
             }
         }).catch((err) => {
-            to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
+            var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
             return res.status(404).send(JSON.stringify(to_send))  
         })
     }
     else{
-        to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to reset your password."    }}
+        var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to reset your password."    }}
         return res
         .status(401)
         .send(JSON.stringify(to_send))    
@@ -188,9 +188,9 @@ function reset_password_customer(req, res)
 
 
 function reset_settings_customer(req, res){
-    if(req.locals.cookieValid)
+    if(res.locals.cookieValid)
     {
-        user_exists(req.locals.uid).then((user_snapshot) =>{
+        user_exists(res.locals.uid).then((user_snapshot) =>{
             if(typeof req.body["data"] == "undefined"){
                 res.status(403).send({"data":  {"success" : false, "error" : "Invalid post request format"}})
                 return
@@ -205,14 +205,14 @@ function reset_settings_customer(req, res){
                         
             push_user_helper(user["email"], user).then(() => {
 
-                to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+                var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
 
                 return res
                 .status(statusCode)
                 .send(JSON.stringify(to_send))
             }).catch(() =>{
                 
-                to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
+                var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
 
                 return res.status(400).send(JSON.stringify(to_send))
             })
@@ -220,12 +220,12 @@ function reset_settings_customer(req, res){
                     
             
         }).catch((err) => {
-            to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
+            var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "User accout not found."    }}
             return res.status(404).send(JSON.stringify(to_send))  
         })
     }
     else{
-        to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to change your settings."    }}
+        var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "You must be logged in to be able to change your settings."    }}
         return res
         .status(401)
         .send(JSON.stringify(to_send))    
@@ -234,24 +234,24 @@ function reset_settings_customer(req, res){
 
 function signup_post_handler(req, res)
 {
-    user_data = extract_user_data(req);
+    var user_data = extract_user_data(req);
     push_user(user_data["email"], user_data).then(() => {
 
-        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
           
 
-        email = escapeEmail(user_data["email"])
-        const payload = {email}
+        var email = escapeEmail(user_data["email"])
+        const payload = {"email" : email}
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true})
+        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
         .status(200)
         .send(JSON.stringify(to_send))
     
     }).catch((statusCode) =>{
-        to_send = {"data" : {"success" : false , "error" : "User prolly already exists."}}
+        var to_send = {"data" : {"success" : false , "error" : "User prolly already exists."}}
         return res
         .status(statusCode)
         .send(JSON.stringify(to_send))            
@@ -261,9 +261,10 @@ function signup_post_handler(req, res)
 
 
 function login_post_handler_customer(req, res){
-    email = ""
+    console.log("here")
+    var email = ""
     try{
-        data = req.body["data"]
+        var data = req.body["data"]
         email = data["email"]
     }
     catch(err){
@@ -278,43 +279,50 @@ function login_post_handler_customer(req, res){
         });
 
         email = escapeEmail(email)
-        const payload = {email}
+        const payload = {"email" : email}
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true})
+        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        .header('Access-Control-Expose-Headers', 'token')
+        .header('token', token)
         .status(200)
         .send(JSON.stringify({status : 'success'}))
     }
 
     else
-        password = data["password"]
+        var password = data["password"]
     
     user_exists(email).then(user_snapshot => {
 
+
+        console.log("Exists")
         if(user_snapshot.val()["password"] == undefined || user_snapshot.val()["password"] != password)
         {
-            to_send = {"data" : {"success" : false , "error" : "Incorrect password entered."}}
+            console.log("wrong password")
+            var to_send = {"data" : {"success" : false , "error" : "Incorrect password entered."}}
             return res
             .status(404)
             .send(JSON.stringify(to_send))            
         }
         email = escapeEmail(email)
-        const payload = {email}
+        const payload = {"email" : email}
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
         });
+        console.log("here sending cookie")
 
-        to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true, secure : true})
+        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
         .status(200)
         .send(JSON.stringify(to_send))
-
+    
     }).catch((err)=> {
-            to_send = {"data" : {"success" : false , "error" : "Email not found in database."}}
+        console.log(err)
+            var to_send = {"data" : {"success" : false , "error" : "Email not found in database."}}
             res.status(404).send(to_send)
         })
 
@@ -323,15 +331,15 @@ function login_post_handler_customer(req, res){
 function login_post_handler_admin(req, res){
     if(!("data" in req.body) || !("username" in req.body["data"]) || !("password" in req.body["data"]) )
         return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
-    username = req.body["data"]["username"]
-    password = req.body["data"]["password"]
+    var username = req.body["data"]["username"]
+    var password = req.body["data"]["password"]
     db_admin.once("value", (admin_snap) => {
         if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password || admin_snap.val()["username"] != username)
             return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
         
         const payload = {"email" : username}
         const token = jwt.sign(payload, secret, {
-            expiresIn : '1h'
+            expiresIn : '1h',
             })
 
         return res.cookie('token', token, {httpOnly : true, secure : true})
@@ -385,52 +393,45 @@ function admin_middleware(req, res, next){
     if(res.locals.cookieValid)
     {
         db_admin.once("value").then((admin_snapshot) =>{
-
+            if(res.locals.uid == admin_snapshot.val()["username"]){
+                next()
+                return
+            }
+            else
+            {
+                res.locals.cookieValid = false
+                res.locals.cookieUnauthorized = true
+            }
         })
     }  
     
-    else
-        res.sendFile()
-      
-      /*
-        do something like sending login file back etc
-
-        will consult with admin side developer before writing code
-      */
-  }
+    if(!res.locals.cookieValid)
+    {
+        if(res.locals.cookieUnauthorized)
+            return res.status(401).send(JSON.stringify({"cookieValid" : "invalid", "error" : "Cookie invalid. Unauthorized. Please login again"}))
+        else
+            return res.status(401).send(JSON.stringify({"cookieValid" : "missing", "error" : "Cookie missing. Please login to proceed."}))
+        
+    }
+  
+}
 
 function customer_middleware(req, res, next){
     console.log("2")
     if(res.locals.cookieValid){
-        user_exists(res.locals.uid).then((val) => next()) //if user exists then move to the next middleware function i.e the main request handler
+        user_exists(res.locals.uid).then((val) => {
+            next()
+            return
+        }) //if user exists then move to the next middleware function i.e the main request handler
         .catch((val) => { //if user does not exist, set unauthorized cookie boolean to true to hanlde it later in the function
             res.locals.cookieUnauthorized = true; 
+            res.locals.cookieValid = false
             next()
-        }) 
-          
+        })      
     }
-
-    
-
-    if(res.locals.cookieMissing) //means is guest user to begin with
-    { 
-        /*
-            just send the data thats being requested except for some routes, which are handled in their respective handlers
-
-            only changes required maybe to set a cookie invisible field. will do after consulting customer side developer
-        */
-        next()
-    } 
-    if(res.locals.cookieUnauthorized) //handle unauthorized cookie (either expired or did not belong to a user)
-    {
-        res.locals.cookieValid = false
-        /*
-            do something like sending back log file
-        */
-    }
-    
-
-  }
+    next()
+    return
+}
 
 
 module.exports.login_post_handler = login_post_handler_customer

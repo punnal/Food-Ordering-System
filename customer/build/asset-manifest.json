@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7ea90d6a.chunk.css",
+    "main.js": "/static/js/main.388ff468.chunk.js",
+    "main.js.map": "/static/js/main.388ff468.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.513b517f.js",
+    "runtime-main.js.map": "/static/js/runtime-main.513b517f.js.map",
+    "static/js/2.50db973b.chunk.js": "/static/js/2.50db973b.chunk.js",
+    "static/js/2.50db973b.chunk.js.map": "/static/js/2.50db973b.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.d6117c80087528fc9cae13a3b4685997.js": "/precache-manifest.d6117c80087528fc9cae13a3b4685997.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.7ea90d6a.chunk.css.map": "/static/css/main.7ea90d6a.chunk.css.map",
+    "static/js/2.50db973b.chunk.js.LICENSE.txt": "/static/js/2.50db973b.chunk.js.LICENSE.txt",
+    "static/media/HamburgerHeavenNF.ttf": "/static/media/HamburgerHeavenNF.bb3804c1.ttf",
+    "static/media/cssFile.css": "/static/media/back3.f09586e8.jpg",
+    "static/media/cart.png": "/static/media/cart.a9d1092d.png",
+    "static/media/logo.png": "/static/media/logo.520d67da.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.513b517f.js",
+    "static/js/2.50db973b.chunk.js",
+    "static/css/main.7ea90d6a.chunk.css",
+    "static/js/main.388ff468.chunk.js"
+  ]
+}
