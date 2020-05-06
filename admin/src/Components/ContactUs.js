@@ -77,7 +77,7 @@ class ContactUs extends React.Component {
                     id="address"
                     value={this.state.data.address}
                 />
-                <button onClick={this.onSave}> Save Changes </button>
+                <button class="btn btn-success" onClick={this.onSave}> Save Changes </button>
             </div>
         )
     }
