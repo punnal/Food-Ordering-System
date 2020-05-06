@@ -36,13 +36,14 @@ get_routes.forEach((element, i) =>{
 })
 
 
-post_routes = [deals_defs.route, menu_defs.route, order_defs.route, user_defs.signup_post_route, user_defs.login_post_route, gallery_defs.route, aboutus_defs.route, order_defs.order_mgmt_route]
-post_handlers = [deals_defs.post_handler, menu_defs.post_handler, order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler, gallery_defs.post_handler, aboutus_defs.post_handler, order_defs.order_mgmt_post_handler]
+post_routes = [deals_defs.route, menu_defs.route, order_defs.route, user_defs.signup_post_route, user_defs.login_post_route, gallery_defs.route, aboutus_defs.route, order_defs.order_mgmt_route, user_defs.customer_password_reset_route, user_defs.customer_settings_reset_route]
+post_handlers = [deals_defs.post_handler, menu_defs.post_handler, order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler, gallery_defs.post_handler, aboutus_defs.post_handler, order_defs.order_mgmt_post_handler, user_defs.reset_password_customer, user_defs.reset_settings_customer]
 
 post_routes.forEach((element, i) =>{
     app.post(element, post_handlers[i])
 })
 
+app.post(user_defs.admin_login_route, user_defs.admin_login_post_handler)
 
 app.get('/admin/api/deals', deals_defs.get_handler_admin)
 
