@@ -108,7 +108,7 @@ function push_user(key, to_push){
 
 function extract_user_data(req, first_time)
 {
-    data = req.body
+    data = req.body["data"]
 
     console.log("data " + util.inspect(Object.keys(req.body)[0], false, null, true /* enable colors */))
 
@@ -147,7 +147,7 @@ function reset_password_customer(req, res)
 
             if(req.body["data"]["password"] == user_snapshot.val()["password"])
             {
-                var user = {...user_snapshot.val(), "password" : req.body["data"]["password"]}
+                var user = {...user_snapshot.val(), "password" : req.body["data"]["newPassword"]}
                 
                 push_user_helper(user["email"], user).then(() => {
 
@@ -381,14 +381,16 @@ function isCookieValid(req, res, next){
 
 
 function admin_middleware(req, res, next){
-      if(res.locals.cookieValid){
-          if(res.locals.uid == "admin")
-            next()
-          else
-            res.status(401).sendFile()
-      }
-      else
-          res.sendFile()
+    
+    if(res.locals.cookieValid)
+    {
+        db_admin.once("value").then((admin_snapshot) =>{
+
+        })
+    }  
+    
+    else
+        res.sendFile()
       
       /*
         do something like sending login file back etc
@@ -448,6 +450,7 @@ module.exports.customer_settings_reset_route = '/api/users/reset/settings'
 module.exports.isCookieValid = isCookieValid
 
 module.exports.customer_middleware = customer_middleware
+module.exports.admin_middleware = admin_middleware
 
 module.exports.admin_login_post_handler = login_post_handler_admin
 module.exports.admin_login_route = '/admin/api/login'
