@@ -1,5 +1,6 @@
 import React from "react"
 import {api_push, api_pull} from '../api/api'
+import Cookie from 'js-cookie'
 
 class Login extends React.Component {
 
@@ -25,8 +26,13 @@ class Login extends React.Component {
     }
 
     onLogin(){
-        api_push(this.api, {...this.state})
-        this.props.setAuth()
+        api_push(this.api, {...this.state}, data => {
+            if(data.success){
+                this.props.setAuth()
+                Cookie.set('session', true)
+            }
+        })
+        //this.props.setAuth()
     }
 
     render() {
