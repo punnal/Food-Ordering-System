@@ -21,6 +21,7 @@ const secret = "lmao_we_suck"
 
 
 var db_users = firebase.database().ref().child("User");
+var db_admin = firebase.database().ref().child("admin");
 // const auth = firebase.auth()
 
 
