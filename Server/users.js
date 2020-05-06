@@ -3,7 +3,10 @@ var firebase = require('./db_initialize.js')
 const jwt = require('jsonwebtoken')
 var utils = require('./utils.js')
 
+const util = require('util')
+
 const secret = "lmao_we_suck"
+
 // require('firebase/auth');
 
 // var admin = require("firebase-admin");
@@ -104,7 +107,9 @@ function push_user(key, to_push){
 
 function extract_user_data(req, first_time)
 {
-    data = req.body["data"]
+    data = req.body
+
+    console.log("data " + util.inspect(Object.keys(req.body)[0], false, null, true /* enable colors */))
 
     if(typeof data == "undefined")
         return
@@ -112,6 +117,8 @@ function extract_user_data(req, first_time)
     user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
         "contact_num":data["phone"], "address":data["address"]}
 
+    if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
+        user_data["password"] = data["password"]
     // if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
     // {
     //     user_data["password"] = data["password"]
@@ -129,11 +136,16 @@ function extract_user_data(req, first_time)
 function signup_post_handler(req, res)
 {
     user_data = extract_user_data(req);
-    console.log(user_data)
     push_user(user_data["email"], user_data).then(() => {
 
         to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
           
+
+        email = escapeEmail(user_data["email"])
+        const payload = {email}
+        const token = jwt.sign(payload, secret, {
+            expiresIn : '1h'
+        });
 
         return res.cookie('token', token, {httpOnly : true, secure : true})
         .status(200)
@@ -181,7 +193,6 @@ function login_post_handler_customer(req, res){
         password = data["password"]
     
     user_exists(email).then(user_snapshot => {
-        console.log(user_snapshot.val())
 
         if(user_snapshot.val()["password"] == undefined || user_snapshot.val()["password"] != password)
         {
@@ -197,7 +208,7 @@ function login_post_handler_customer(req, res){
         });
 
         to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
-          
+        
 
         return res.cookie('token', token, {httpOnly : true, secure : true})
         .status(200)
