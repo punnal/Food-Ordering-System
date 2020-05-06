@@ -325,7 +325,7 @@ function login_post_handler_admin(req, res){
         return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
     username = req.body["data"]["username"]
     password = req.body["data"]["password"]
-    db_admin.once("child", (admin_snap) => {
+    db_admin.once("value", (admin_snap) => {
         if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password || admin_snap.val()["username"] != userna)
             return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
         
