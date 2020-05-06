@@ -12,6 +12,8 @@ app.use(cookieParser());
 
 
 app.use(express.static("../customer/build"));
+app.use(express.static("../admin/build"));
+
 
 const secret = "lmao_we_suck"
 
@@ -47,6 +49,8 @@ app.post(user_defs.admin_login_route, user_defs.admin_login_post_handler)
 
 app.get('/admin/api/deals', deals_defs.get_handler_admin)
 
+
+
 app.get('/users/login/test', function(req, res) {
     res.status(200)
     console.log("get login called")
@@ -81,6 +85,13 @@ app.get('/api/test', (req, res) => {
 
 
 /// Make edits Here 
+
+app.get("/admin", function(req, res) {
+  // console.log()
+  // res.send("Hello!")
+  res.sendFile("index.html", {root : "../admin/build"});
+});
+
 
 app.get("/*", function(req, res) {
     // console.log()

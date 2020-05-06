@@ -329,8 +329,7 @@ function login_post_handler_admin(req, res){
         if( !(admin_snap.exists()) || !("password" in admin_snap.val()) || admin_snap.val()["password"] != password || admin_snap.val()["username"] != username)
             return res.status(401).send(JSON.stringify({"success" : false, "error" : "incorrect password"}))
         
-        
-        const payload = {username}
+        const payload = {"email" : username}
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
             })
@@ -371,6 +370,7 @@ function isCookieValid(req, res, next){
             res.locals.cookieUnauthorized = true
         } 
         else {
+            console.log("Decoded email: " + decoded.email)
             res.locals.cookieValid = true
             res.locals.uid = unescapeEmail(decoded.email)
         }

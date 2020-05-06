@@ -230,7 +230,8 @@ function get_handler(req, res){
     var db_ref = db_orders
 
     db_admin.once("value").then((admin_snapshot) =>{
-
+        console.log("uid: " + res.locals.uid)
+        console.log("username " + admin_snapshot.val()["username"] )
         if(res.locals.uid != admin_snapshot.val()["username"])
         {
             
