@@ -2,10 +2,10 @@ import React from "react";
 // import Hero from "../containers/Hero";
 import axios from "axios";
 import * as emailjs from "emailjs-com";
-import Maps from "./GoogleMaps";
 import Loc from "../../img/location.png";
 import Axios from 'axios'
 import Api from '../../api/api'
+import Iframe from "react-iframe";
 
 export default class Contact extends React.Component {
   state = {
@@ -194,33 +194,49 @@ export default class Contact extends React.Component {
 
   render() {
     return (
-      <div className = "ContactUsMain">
-        <div>
+      <div className="ContactUsMain">
+        <div
+          style={{
+            backgroundColor: "grey",
+            position: "relative",
+            bordeRadius: "100px",
+            padding: "0px",
+            width: "1150px",
+            textAlign: "center",
+            display: "inline-block",
+            borderRadius: "100px",
+          }}
+        >
           <div class="container text-white pt-3" id="contactForm">
-            <h2 className = "ContactUsTitle">Have some suggestions?</h2>
-            <h4 className = "ContactUsSubTitle">Send us your feedback</h4>
+            <h2 className="ContactUsTitle">Have some suggestions?</h2>
+            <h4 className="ContactUsSubTitle">Send us your feedback</h4>
             <div className="full-width-row cta-form--bg">
               <div className="row-container">
                 <div class="needs-validation">
-                  <input className = "form-control"
+                  <input
+                    className="form-control"
                     placeholder="Enter Name"
                     name="name"
                     value={this.state.name}
                     onChange={(e) => this.change(e)}
                     type="text"
                     id="name"
-                    required/>
+                    required
+                  />
                   <p className="form-error">{this.state.nameError}</p>
-                  <input className = "form-control"
+                  <input
+                    className="form-control"
                     placeholder="Enter Email"
                     name="email"
                     value={this.state.email}
                     onChange={(e) => this.change(e)}
                     type="text"
                     id="email"
-                    required/>
+                    required
+                  />
                   <p className="form-error">{this.state.emailError}</p>
-                  <input className = "form-control"
+                  <input
+                    className="form-control"
                     placeholder="Subject"
                     name="subject"
                     value={this.state.subject}
@@ -230,7 +246,8 @@ export default class Contact extends React.Component {
                     required
                   />
                   <p className="form-error">{this.state.subjectError}</p>
-                  <textarea className = "form-control"
+                  <textarea
+                    className="form-control"
                     placeholder="Your feedback message"
                     name="message"
                     onChange={(e) => this.change(e)}
@@ -239,7 +256,15 @@ export default class Contact extends React.Component {
                     required
                   />
                   <p className="form-error">{this.state.messageError}</p>
-                  <button id = "ContactUsSubmit" class = "btn btn-dark" type="button"onClick={(e) => this.onSubmit(e)}>Send</button>
+                  <button
+                    id="ContactUsSubmit"
+                    class="btn btn-light"
+                    type="button"
+                    style={{ position: "relative", right: "-320px" }}
+                    onClick={(e) => this.onSubmit(e)}
+                  >
+                    Send
+                  </button>
                 </div>
               </div>
             </div>
@@ -260,15 +285,23 @@ export default class Contact extends React.Component {
                 <i id = "ContactUsPhone" class="fa fa-envelope"></i>
                 <span><a className ="ContactUsMail">{this.state.contacts.email}</a></span>
               </div>
-                <Maps />
+            <div style={{ width: "100%", height: "500px" }}>
+              <Iframe
+                url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3402.5806055763965!2d74.30882415113054!3d31.480721156156484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391903ef7eaa6e75%3A0x12c224a40a628cf1!2sSmoke%20%26%20Grill!5e0!3m2!1sen!2s!4v1588707825977!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                id="myId"
+                className="myClassname"
+                display="final"
+                position="relative"
+              />
+            </div>
           </div>
         </div>
       </div>
     );
   }
 }
-
-
 
 /*style={{
                       width: "400px",
