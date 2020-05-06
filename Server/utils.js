@@ -13,14 +13,15 @@ function snapshotToArray(snapshot) {
 
 
 function escapeEmail(email) {
-    return (email || '').replace('.', ',');
+    return (email || '').split('').map((char) => { if (char == ".") return ","; else return char}).join('')
 }
 
 function unescapeEmail(email) {
-    return (email || '').replace(',', '.');
+    return (email || '').split('').map((char) => { if (char == ",") return "."; else return char}).join('')
 }
 
 
 module.exports.snapshotToArray = snapshotToArray
 module.exports.escapeEmail = escapeEmail
 module.exports.unescapeEmail = unescapeEmail
+

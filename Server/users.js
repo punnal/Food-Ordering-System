@@ -239,7 +239,7 @@ function login_post_handler_admin(req, res){
 
 }
 
-function isCookieValid(req, res){
+function isCookieValid(req, res, next){
     const token = 
         req.body.token ||
         req.query.token ||
@@ -267,7 +267,7 @@ function isCookieValid(req, res){
         } 
         else {
             res.locals.cookieValid = true
-            res.locals.uid = decoded.email
+            res.locals.uid = unescapeEmail(decoded.email)
         }
       });
     }
@@ -275,7 +275,7 @@ function isCookieValid(req, res){
   }
 
 
-function admin_req_handler(req, res, next){
+function admin_middleware(req, res, next){
       if(res.locals.cookieValid){
           if(res.locals.uid == "admin")
             next()
@@ -292,10 +292,14 @@ function admin_req_handler(req, res, next){
       */
   }
 
-function customer_req_handler(req, res, next){
+function customer_middleware(req, res, next){
+    console.log("2")
     if(res.locals.cookieValid){
         user_exists(unescapeEmail(res.locals.uid)).then((val) => next()) //if user exists then move to the next middleware function i.e the main request handler
-        .catch((val) => res.locals.cookieUnauthorized = true) //if user does not exist, set unauthorized cookie boolean to true to hanlde it later in the function
+        .catch((val) => { //if user does not exist, set unauthorized cookie boolean to true to hanlde it later in the function
+            res.locals.cookieUnauthorized = true; 
+            next()
+        }) 
           
     }
 
@@ -327,3 +331,8 @@ module.exports.signup_post_handler = signup_post_handler
 
 module.exports.login_post_route = login_post_route
 module.exports.signup_post_route = signup_post_route
+
+
+module.exports.isCookieValid = isCookieValid
+
+module.exports.customer_middleware = customer_middleware
