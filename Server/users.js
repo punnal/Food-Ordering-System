@@ -135,7 +135,7 @@ function extract_user_data(req, first_time)
 
 function signup_post_handler(req, res)
 {
-    user_data = extract_user_data(req);
+    user_data = extract_user_data(req.body);
     push_user(user_data["email"], user_data).then(() => {
 
         to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
