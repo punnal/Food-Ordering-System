@@ -145,9 +145,9 @@ function reset_password_customer(req, res)
                 return
             }
 
-            if(req.body["data"]["password"] == user_snapshot.val()["password"])
+            if(req.body["data"]["oldPassword"] == user_snapshot.val()["password"])
             {
-                var user = {...user_snapshot.val(), "oldPssword" : req.body["data"]["password"]}
+                var user = {...user_snapshot.val(), "password" : req.body["data"]["password"]}
                 
                 push_user_helper(user["email"], user).then(() => {
 
@@ -195,13 +195,11 @@ function reset_settings_customer(req, res){
                 res.status(403).send({"data":  {"success" : false, "error" : "Invalid post request format"}})
                 return
             }
-
-            
             var user = {...req.body["data"]}
 
             user["email"] = res.locals.uid
             user["password"] = user_snapshot.val()["password"]
-            
+            user["contact_no"] = req.body["data"]["phone"] || ""
                         
             push_user_helper(user["email"], user).then(() => {
 
@@ -246,7 +244,7 @@ function signup_post_handler(req, res)
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -284,7 +282,7 @@ function login_post_handler_customer(req, res){
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
         .header('Access-Control-Expose-Headers', 'token')
         .header('token', token)
         .status(200)
@@ -316,7 +314,7 @@ function login_post_handler_customer(req, res){
         var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true, secure : true, sameSite : true})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -342,7 +340,7 @@ function login_post_handler_admin(req, res){
             expiresIn : '1h',
             })
 
-        return res.cookie('token', token, {httpOnly : true, secure : true})
+        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : false})
         .status(200)
         .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
     
@@ -410,11 +408,7 @@ function admin_middleware(req, res, next){
             return res.status(401).send(JSON.stringify({"cookieValid" : "invalid", "error" : "Cookie invalid. Unauthorized. Please login again"}))
         else
             return res.status(401).send(JSON.stringify({"cookieValid" : "missing", "error" : "Cookie missing. Please login to proceed."}))
-        
-    }
-
-    next()
-  
+    } 
 }
 
 function customer_middleware(req, res, next){

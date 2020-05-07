@@ -4,11 +4,23 @@ const path = require("path");
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken')
 
+
+
+
 var bodyParser     =        require("body-parser");
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({limit : '50mb', extended: false }));
 app.use(bodyParser.json({limit : '50mb'}));
 app.use(cookieParser());
+
+
+// app.use((req, res, next) => {
+//   if (req.header('x-forwarded-proto') !== 'https') {
+//     res.redirect(`https://${req.header('host')}${req.url}`)
+//   } else {
+//     next();
+//   }
+// });
 
 
 app.use(express.static(__dirname + "/../customer/build"));
@@ -29,6 +41,8 @@ var user_defs = require("./users.js")
 var gallery_defs = require('./gallery.js')
 var aboutus_defs = require('./aboutus.js')
 var utils = require('./utils.js')
+
+
 
 app.use(user_defs.isCookieValid)
 
@@ -103,7 +117,7 @@ app.get('/api/test', (req, res) => {
 app.get("/admin", function(req, res) {
   // console.log()
   // res.send("Hello!")
-  res.sendFile(path.resolve(__dirname + "/../customer/build/index.html"));
+  res.sendFile(path.resolve(__dirname + "/../admin/build/index.html"));
 });
 
 
@@ -115,7 +129,8 @@ app.get("/*", function(req, res) {
 
 
 
+
+
+
 const port = process.env.PORT || 5000;
-
-
 app.listen(port, () => console.log(`listening on port ${port}...`))

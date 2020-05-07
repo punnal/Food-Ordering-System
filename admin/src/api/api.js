@@ -12,7 +12,7 @@ const api_pull = (url, callback) => {
         .catch(e => console.log(e))
 }
 
-const api_push = (url, data) => {
+const api_push = (url, data, callback) => {
     let body = {
         'data':data
     }
@@ -23,7 +23,10 @@ const api_push = (url, data) => {
             'Content-Type':'application/json'
         },
         body:JSON.stringify(body)
-    }).then(resp => console.log(resp))
+    }).then(resp => {
+        console.log(resp)
+        return resp.json()
+    }).then(json => callback(json))
 }
 
 const api_pull_dummy = (url, callback) => {
