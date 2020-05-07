@@ -134,7 +134,7 @@ class History extends React.Component {
                         <Dropdown.Toggle as={CustomToggle} id ="dropdown-custom-components">
                             <div><i class="fas fa-filter fa-2x"></i></div>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu className = "HistoryDropDownMenu">
+                        <Dropdown.Menu id = "HistoryDropDownMenu">
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
                                 <label>New to old</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>

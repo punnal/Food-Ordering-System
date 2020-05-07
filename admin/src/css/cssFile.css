@@ -698,11 +698,15 @@ body {
 .fa-filter {
 	color: white;
 	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.9);
+	padding: 10px;
 }
 
-.HistoryDropDownMenu {
+#HistoryDropDownMenu {
 	background-color: black;
 }
+
+#HistoryDropDownMenu 
 
 .HistoryDropDownItem {
 	color: white;
