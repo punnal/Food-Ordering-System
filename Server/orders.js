@@ -9,6 +9,7 @@ var unescapeEmail = utils.unescapeEmail
 const db_orders = firebase.database().ref().child("Orders");
 const db_local = firebase.database().ref().child("Local")
 const db_deliveries_users = firebase.database().ref().child("Deliveries_users")
+const db_deliveries = firebase.database().ref().child("Deliveries")
 
 var db_admin = firebase.database().ref().child("admin");
 
@@ -16,7 +17,7 @@ var db_admin = firebase.database().ref().child("admin");
 function getTimeStamp(){
     d = new Date()
 
-    date_in_array = [d.getFullYear(), d.getMonth(), d.getDay(),  d.getHours(),  d.getMinutes(), d.getSeconds(), d.getMilliseconds()]
+    var date_in_array = [d.getFullYear(), d.getMonth(), d.getDay(),  d.getHours(),  d.getMinutes(), d.getSeconds(), d.getMilliseconds()]
     
     date_in_array = date_in_array.map( (val) =>{
         val = val.toString()
@@ -88,6 +89,8 @@ function parse_deal(deal){
         var val = parse_item(item)
         parsed_item = val[0]
         added_price = val[1]
+
+        
         parsed_deal["items"].push(parsed_item)
 
         total_added_price += added_price
@@ -149,14 +152,13 @@ function parse_order(order){
             deal = val[0]
             added_price = val[1]
 
-            parsed_order["deals"].push(deal)
-
-            
+            parsed_order["deals"].push(deal)            
         }
         else{
             var added_price = 0
-            var item = {}
-            [item, added_price] = parse_item(obj)
+            var val =  parse_item(obj)
+            var item = val[0]
+            var added_price = val[1] 
             parsed_order["items"].push(item)
 
         }
@@ -177,10 +179,8 @@ function post_handler(req, res){
         return res.status(403).send("Error: Possibly incorrect format for post request.")
     
 
-    
-
     try{
-        parsed_order = parse_order(req.body["data"])
+        var parsed_order = parse_order(req.body["data"])
     }
     catch(err){
         return res.status(403).send("Err: Possibly incorrect format for post request")
@@ -195,17 +195,41 @@ function post_handler(req, res){
 
 
     // console.log(util.inspect(parsed_order, false, null, true /* enable colors */))
-    db_orders.child(parsed_order["id"]).set(parsed_order)
+    
 
+    if(res.locals.cookieValid)
+    {
+        db_admin.once("value").then((admin_snapshot) => {
+            
+            if(admin_snapshot.val()["username"] == res.locals.uid)
+            {
+                parsed_order["type"] = "0"
+                db_orders.child(parsed_order["id"]).set(parsed_order)
+                db_local.child(parsed_order["id"]).set(parsed_order)
+            }
 
-    if(parsed_order["type"] == "1")
-        db_deliveries_users.child(escapeEmail(parsed_order["email"])).child(parsed_order["id"]).set(parsed_order)
+            else
+            {
+                parsed_order["type"] = "1"
+                parsed_order["email"] = res.locals.uid
+                db_orders.child(parsed_order["id"]).set(parsed_order)
+                db_deliveries.child(parsed_order["id"]).set(parsed_order)
+                db_deliveries_users.child(escapeEmail(res.locals.uid)).child(parsed_order["id"]).set(parsed_order)
+            }
+
+        })
+
+    }
     else
-        db_local.child(parsed_order["id"]).set(parsed_order)
-    
+        db_orders.child(parsed_order["id"]).set(parsed_order)
     res.status(200)
-    res.send("Order placed successfully!")
-    
+
+    if(res.locals.cookieValid)
+        return res.send({"cookieValid" : "valid"})
+    else if(res.locals.cookieMissing)
+        return res.send(JSON.stringify({"cookieValid" : "missing"}))
+    else
+        return res.send(JSON.stringify({"cookieValid" : "invalid"}))
 }
 
 
@@ -242,18 +266,20 @@ function get_handler(req, res){
                 var status = req.query.status
                 try{
                     db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
-                        return res.send( {"data" : db_snapshot.val()}) })
+                        return res.send( {"data" : db_snapshot.val() || {}, "cookueValid" : "valid"}) })
                 }
                 catch(err){
                     console.log("some err")
-                    return res.status(200).send({"data" : {} , "cookieValid" : "valid"})
+                    return res.status(200).send(JSON.stringify({"data" : {} , "cookieValid" : "valid"}))
                 }
             }
             else{
                 try{
                     db_ref.once("value", (db_snapshot) =>{
-                        return res.send({"data" : db_snapshot.val()} )
+                        return res.send({"data" : db_snapshot.val() || {}, "cookieValid" : "valid" } )
                     })
+
+                
                 }
                 catch(err)
                 {
@@ -270,17 +296,14 @@ function get_handler(req, res){
         {
             if (parseInt(req.query.type) == 0)
                 db_ref = db_local
-            
             else
-            {
-                db_ref = db_orders
-            }
+                db_ref = db_deliveries
         }
         
         if(typeof req.query.status != 'undefined'){
             var status = req.query.status
             db_ref.orderByChild("status").equalTo(status).once("value", (db_snapshot) =>{
-                return res.send( {"data" : db_snapshot.val()})
+                return res.send( {"data" : db_snapshot.val() || {}})
             })
         }
         else{
@@ -293,10 +316,11 @@ function get_handler(req, res){
 
 
 function order_mgmt_parse_post(req){
+    console.log("here starting")
     return new Promise(function(resolve, reject){
         
         var status_change_req = req.body["data"]
-        if(typeof status_change_req == 'undefined')
+        if(typeof status_change_req == 'undefined' || typeof status_change_req == "null")
             reject(403)
 
         Object.keys(status_change_req).forEach((type_of_operation) => {
@@ -315,16 +339,36 @@ function order_mgmt_parse_post(req){
                         
                         if(changed_order["status"] !=  "-1")
                         {
-                              
+                            console.log("norm op")  
                             db_orders.child(order["id"]).set(changed_order).then(() => {
-                                if(parseInt(order["type"]) == 1)
+                                if(parseInt(changed_order["type"]) == 1)
                                 {
+                                    console.log("in here")
                                     db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).once("value").then((user_order_snapshot) =>{
+                                        console.log("it exists")
                                         if(user_order_snapshot.exists())
-                                            db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404))
+                                        {
+                                            db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).set(changed_order).then(() => {
+                                                
+                                                db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
+                                                    if(user_order_snapshot.exists())
+                                                    {
+                                                        db_deliveries.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404))
+                                                        console.log("changed db_deliveries")
+                                                    }
+                                                    else
+                                                        reject(404)
+                                                }).catch((err) => reject(404))
+
+                                            })
+                                            .catch(() => reject(404))
+                                            console.log("changed delvieries_users")
+                                        }
                                         else
                                             reject(404)
                                     }).catch((err) => reject(404))
+
+                                    
                                 }
                                 else
                                     db_local.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404))
@@ -334,12 +378,23 @@ function order_mgmt_parse_post(req){
                         else
                         {
                             db_orders.child(order["id"]).remove().then(() => {
-                                if(parseInt(order["type"]) == 1)
+                                if(parseInt(changed_order["type"]) == 1)
                                 {
                                     db_deliveries_users.child(changed_order["email"]).child(order["id"]).once("value").then((user_order_snapshot) =>{
                                         if(user_order_snapshot.exists())
-                                            db_deliveries_users.child(changed_order["email"]).child(order["id"]).remove().then(() => resolve(200)).catch(() => reject(404))
+                                        {
+                                            db_deliveries_users.child(changed_order["email"]).child(order["id"]).remove().then(() => {
+                                                db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
+                                                    if(user_order_snapshot.exists())
+                                                        db_deliveries.child(order["id"]).remove().then(() => resolve(200)).catch(() => reject(404))
+                                                }).catch((err) => reject(404))
+                                            })
+                                            .catch(() => reject(404))
+                                        }
                                     }).catch((err) => reject(404))
+
+                                    
+                                    
                                 }
                                 else
                                     db_local.child(order["id"]).remove().then(() => resolve(200)).catch(() => reject(404))

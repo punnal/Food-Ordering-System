@@ -14,13 +14,13 @@ app.use(bodyParser.json({limit : '50mb'}));
 app.use(cookieParser());
 
 
-app.use((req, res, next) => {
-  if (req.header('x-forwarded-proto') !== 'https') {
-    res.redirect(`https://${req.header('host')}${req.url}`)
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.header('x-forwarded-proto') !== 'https') {
+//     res.redirect(`https://${req.header('host')}${req.url}`)
+//   } else {
+//     next();
+//   }
+// });
 
 
 app.use(express.static(__dirname + "/../customer/build"));
@@ -117,7 +117,7 @@ app.get('/api/test', (req, res) => {
 app.get("/admin", function(req, res) {
   // console.log()
   // res.send("Hello!")
-  res.sendFile(path.resolve(__dirname + "/../customer/build/index.html"));
+  res.sendFile(path.resolve(__dirname + "/../admin/build/index.html"));
 });
 
 
