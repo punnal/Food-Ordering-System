@@ -201,7 +201,7 @@ function reset_settings_customer(req, res){
             user["password"] = user_snapshot.val()["password"]
             user["contact_no"] = req.body["data"]["phone"] || ""
                         
-            push_user_helper(user["email"], user).then(() => {
+            push_user_helper(user["email"], user).then((statusCode) => {
 
                 var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
 
