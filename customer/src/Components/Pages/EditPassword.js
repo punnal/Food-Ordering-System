@@ -74,7 +74,7 @@ class EditPassword extends React.Component {
                 <h2 className = "mt-5">Edit Password</h2>
                 <form class="needs-validation" action="javascript:void(0);" onSubmit={this.handleSubmit} novalidate>
                     <div className = "form-group">
-                        <input onChange={this.handleChange} value={this.state.contents.password} type = "password" className = "form-control" id = "pass" placeholder = "Enter Old password" name = "oldPassword" min = "8" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
+                        <input onChange={this.handleChange} value={this.state.contents.oldPassword} type = "password" className = "form-control" id = "pass" placeholder = "Enter Old password" name = "oldPassword" min = "8" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" required />
                         <div class="valid-feedback">All done!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
@@ -84,9 +84,9 @@ class EditPassword extends React.Component {
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <div className = "form-group">
-                        <input onChange={this.handleChange} value={this.state.contents.repassword} type = "password" className = "form-control" id = "pass" placeholder = "Re-enter Password" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" name = "repassword" required />
+                        <input onChange={this.handleChange} value={this.state.contents.repassword} type = "password" className = "form-control" id = "pass" placeholder = "Re-enter Password" pattern = {this.state.contents.password} name = "repassword" required />
                         <div class="valid-feedback">All done!</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
+                        <div class="invalid-feedback">Password does not match</div>
                     </div>
                     <p>The password provided must be at least 8 characters long, containing at least one digit, one capital letter, one small letter.</p>
                     <button type="submit" className = "btn btn-dark">Change Password</button>

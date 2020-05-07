@@ -84,8 +84,8 @@ class Cart extends React.Component {
                     <td className = "CartClick" onClick={ () => this.handleClick("increase", order)}>▶</td>
                     <td>{(
                         order.type === "Menu"?
-                            parseInt(order.price) + ((Object.values(order.optionsPrices)).reduce((a, b) => a+parseInt(b), 0))*parseInt(order.quantity):
-                            parseInt(order.price) + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+parseInt(b), 0)), 0))*parseInt(order.quantity)
+                            (parseInt(order.price) + (Object.values(order.optionsPrices)).reduce((a, b) => a+parseInt(b), 0))*parseInt(order.quantity):
+                            (parseInt(order.price) + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+parseInt(b), 0)), 0)))*parseInt(order.quantity)
                     )}
                     </td>
                     <td className = "CartClick" onClick={ () => this.handleClick("delete", order)}><i class="fas fa-trash-alt"></i></td>

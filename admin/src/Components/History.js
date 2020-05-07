@@ -18,16 +18,17 @@ class History extends React.Component {
         this.state = {
             'data': [],
             'fdata':[],
+            'show':false,
             'filters':{
                 'time':{
-                    '3600':true,
+                    '3600':false,
                     '86400':false,
-                    '2592000':false
+                    '2592000':true
 
                 },
                 'type':{
-                    'local':true,
-                    'all':false,
+                    'local':false,
+                    'all':true,
                     'delivery':false
                 },
                 'order':{
@@ -39,6 +40,8 @@ class History extends React.Component {
         }
 
         this.onFilterChange = this.onFilterChange.bind(this)
+        this.handleMouseEnter = this.handleMouseEnter.bind(this)
+        this.handleMouseLeave = this.handleMouseLeave.bind(this)
     }
 
     componentDidMount() {
@@ -87,14 +90,69 @@ class History extends React.Component {
 
     applyFilters(data, filters){
         let filtered = this.sortByTime(data, filters.order.o2n)
-        filtered = this.filterType(data, this.select(filters.type))
-        filtered = this.filterTime(data, parseInt(this.select(filters.time)))
+        filtered = this.filterType(filtered, this.select(filters.type))
+        filtered = this.filterTime(filtered, parseInt(this.select(filters.time)))
         return filtered
+    }
+
+    handleMouseEnter() {
+        this.setState(old => {
+            return {
+                ...old,
+                show: true
+            }
+        })
+    }
+
+    handleMouseLeave() {
+        this.setState(old => {
+            return {
+                ...old,
+                show: false
+            }
+        })
     }
 
     render() {
         return (
             <div className = "History">
+                <img className = 'DropDownArrow' onMouseEnter = {this.handleMouseEnter} src={require('../img/filter.png')} height='32' width='32'/>
+                {
+                    true?
+                        <div 
+                            className = "DropDownMenu" 
+                            onMouseLeave = {this.handleMouseLeave}>
+
+                            <label>New to old</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
+                            <br/>
+                            <label>Old to new</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
+                            <br/>
+
+                            <label>Local only</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
+                            <br/>
+                            <label>Delivery only</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
+                            <br/>
+                            <label>All</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
+                            <br/>
+
+                            <label>Last 1 hour</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
+                            <br/>
+                            <label>Last 1 day</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
+                            <br/>
+                            <label>Last 1 month</label>
+                            <input type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
+                            <br/>
+                        </div>
+                        :
+                        null
+                }
                 {
                     (this.state.fdata)?
                     this.state.fdata.map((e, i) =>{
@@ -109,26 +167,6 @@ class History extends React.Component {
                         :
                         null
                 }
-                <div>
-                    <label>New to old</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
-                    <label>Old to new</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
-
-                    <label>Local only</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
-                    <label>Delivery only</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
-                    <label>All</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
-
-                    <label>Last 1 hour</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
-                    <label>Last 1 day</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
-                    <label>Last 1 month</label>
-                    <input type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
-                </div>
             </div>
         )
     }

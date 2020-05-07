@@ -7,7 +7,8 @@ const Api = {
     about:'/api/aboutus',
     signup:'api/users/signup',
     editpassword:'/api/users/reset/password',
-    editaccount:'/api/users/reset/settings'
+    editaccount:'/api/users/reset/settings',
+    //contacts:'/api/admin/contactus',
 
 }
 
