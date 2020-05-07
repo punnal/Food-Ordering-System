@@ -211,7 +211,7 @@ class Orders extends React.Component {
         order.address = 'nothing'
         order.phone = 'nothing'
         order.status = 1
-        order.type = 0
+        order.type = 1
         order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
         api_push('/admin/api/orders', order)
         this.setState(old => {

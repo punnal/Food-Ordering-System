@@ -26,29 +26,29 @@ export const res = {
                 'id': 1,
                 'title':'Deliveries',
                 'component':Deliveries,
-                'path':'/deliveries/pending',
+                'path':'/admin/deliveries/pending',
                 'tabs': [
                     {
                         'name': 'Pending',
-                        'path':'/deliveries/pending',
+                        'path':'/admin/deliveries/pending',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders?status=0',
+                        'api': '/admin/api/orders?status=0',
                         'buttons': ['Accept', 'Reject'],
                         'buttonscss': ["btn btn-success", "btn btn-danger"]
                     },
                     {
                         'name':'In Progress',
-                        'path':'/deliveries/inprogress',
+                        'path':'/admin/deliveries/inprogress',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders?status=1',
+                        'api': '/admin/api/orders?status=1',
                         'buttons': ['Completed', 'Failed'],
                         'buttonscss': ["btn btn-success", "btn btn-danger"]
                     }, 
                     {
                         'name':'Completed',
-                        'path':'/deliveries/delivered',
+                        'path':'/admin/deliveries/delivered',
                         'component': DeliveriesSubTabs,
-                        'api': '/api/orders?status=2',
+                        'api': '/admin/api/orders?status=2',
                         'buttons':['Delivered', 'Failed'],
                         'buttonscss': ["btn btn-success", "btn btn-danger"]
 
@@ -59,8 +59,8 @@ export const res = {
                 'id': 2,
                 'title':'Orders',
                 'component':Orders,
-                'path':'/orders',
-                'api':'/api/orders',
+                'path':'/admin/orders',
+                'api':'/admin/api/orders',
                 'tables': 
                 {
                     'Mains':
@@ -86,7 +86,7 @@ export const res = {
                 'id': 3,
                 'title':'Menu',
                 'component':Menu,
-                'path':'/menu',
+                'path':'/admin/menu',
                 'api':'/api/menu',
                 'tables': 
                 [
@@ -108,32 +108,32 @@ export const res = {
                 'id': 4,
                 'title':'Deals',
                 'component':Deals,
-                'path':'/deals',
+                'path':'/admin/deals',
                 'api':'/admin/api/deals'
             },
             {
                 'id': 5,
                 'title':'Gallery',
                 'component':Gallery,
-                'path':'/gallery'
+                'path':'/admin/gallery'
             },
             {
                 'id': 6,
                 'title':'About Us',
                 'component':AboutUs,
-                'path':'/aboutus'
+                'path':'/admin/aboutus'
             },
             {
                 'id': 7,
                 'title':'Contact Us',
                 'component':ContactUs,
-                'path':'/contactus'
+                'path':'/admin/contactus'
             },
             {
                 'id':8,
                 'title':'History',
                 'component':History,
-                'path':'/history',
+                'path':'/admin/history',
                 'api':'/api/orders?status=3'
             
             },
@@ -141,12 +141,12 @@ export const res = {
                 'id': 9,
                 'title':'Settings',
                 'component':Settings,
-                'path':'/settings'
+                'path':'/admin/settings'
             },
             {
                 'id':10,
                 'component':Signout,
-                'path':'/signout'
+                'path':'/admin/signout'
             }
         ],
 
