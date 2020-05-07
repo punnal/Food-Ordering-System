@@ -6,11 +6,11 @@ import Table from './Table'
 
 const parseOptions =(options) => {
     return (
-        <ul style={{'text-align':'left'}}>
+        <ul>
             {
             options.map((e, i) => {
                 return (
-                    <><li style={{'list-style-type': 'circle'}} key={i}>{e.list_name} : {e.option_choice} </li><br/></>
+                    <div key={i}><li style={{'listStyleType': 'circle'}} key={i}>{e.list_name} : {e.option_choice} </li><br/></div>
                 )
             })
             }
@@ -34,7 +34,7 @@ const parseItem = (item, id) => {
 const parseDeals = (deal, id) => {
     return (
         <div key={id}> 
-            <h5 style={{'font-weight':'bold', 'text-decoration': 'underline overline'}}> {deal.name} </h5>
+            <h5 style={{'fontWeight':'bold', 'textDecoration': 'underline overline'}}> {deal.name} </h5>
             {
                 (deal.items)?
                     deal.items.map((e,i) => {
@@ -120,7 +120,6 @@ const parseToTableFormat = (data) => {
 }
 
 const Card = (props) => {
-    console.log(parseToTableFormat(props.data))
     return ( 
         <div className="DeliveriesTable">
             <div className={res.admin.css_classes.DeliveriesButtons}>

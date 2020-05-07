@@ -44,12 +44,22 @@ function parse_gallery_post(req){
 }
 
 function post_handler(req, res){
-    parse_gallery_post(req).then((statusCode) => res.status(statusCode).send("Update Successsful"))
-    .catch((statusCode) => res.status(statusCode).send("Update unsuccessful :(. Please check response status."))
+    parse_gallery_post(req).then((statusCode) => res.status(statusCode).send(JSON.stringify({"data" :  {}, "cookieValid" : "valid"})))
+    .catch((statusCode) => res.status(statusCode).send(JSON.stringify({"data" :  {}, "cookieValid" : "valid"})))
 }
 
 function get_handler(req, res){
-    db_gallery.once("value", (gallrey_snapshot) =>{ res.status(200).send(JSON.stringify( {"data" : Object.values(gallrey_snapshot.val())}  )) })
+    var cookieValid = "valid"
+
+    if(res.locals.cookieValid)
+        cookieValid = "valid"
+    else if(!res.locals.cookieValid && res.locals.cookieMissing)
+        cookieValid = "missing"
+    else
+        cookieValid = "invalid"
+
+    
+    db_gallery.once("value", (gallrey_snapshot) =>{ res.status(200).send(JSON.stringify( {"data" : Object.values(gallrey_snapshot.val()), "cookieValid" : cookieValid }  )) })
 }
 
 route = '/api/gallery'

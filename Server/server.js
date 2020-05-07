@@ -40,6 +40,8 @@ var deals_defs = require("./deals.js")
 var user_defs = require("./users.js")
 var gallery_defs = require('./gallery.js')
 var aboutus_defs = require('./aboutus.js')
+var resinfo_defs = require('./res_admin_info.js')
+
 var utils = require('./utils.js')
 
 
@@ -48,8 +50,9 @@ app.use(user_defs.isCookieValid)
 
 
 
-get_routes = [menu_defs.route, order_defs.route, deals_defs.route, gallery_defs.route, aboutus_defs.route]
-get_handlers = [menu_defs.get_handler, order_defs.get_handler,  deals_defs.get_handler, gallery_defs.get_handler, aboutus_defs.get_handler]
+get_routes = [menu_defs.route, order_defs.route, deals_defs.route, gallery_defs.route, aboutus_defs.route, resinfo_defs.route_contact_us, resinfo_defs.route_res_info]
+get_handlers = [menu_defs.get_handler, order_defs.get_handler,  deals_defs.get_handler, gallery_defs.get_handler, aboutus_defs.get_handler, resinfo_defs.get_handler_contact_us, resinfo_defs.get_handler_res_info]
+
 
 get_routes.forEach((element, i) =>{
     app.get(element,  user_defs.customer_middleware, get_handlers[i])
@@ -60,20 +63,26 @@ get_routes.forEach((element, i) =>{
     app.get(('/admin' + element), user_defs.admin_middleware, get_handlers[i] )
 })
 
-// app.get('/admin/api/deals',  deals_defs.get_handler_admin)
+app.get('/admin/api/deals', user_defs.admin_middleware,  deals_defs.get_handler_admin)
 
 
 
-post_routes = [deals_defs.route, menu_defs.route, order_defs.route, user_defs.signup_post_route, user_defs.login_post_route, gallery_defs.route, aboutus_defs.route, order_defs.order_mgmt_route, user_defs.customer_password_reset_route, user_defs.customer_settings_reset_route]
-post_handlers = [deals_defs.post_handler, menu_defs.post_handler, order_defs.post_handler, user_defs.signup_post_handler, user_defs.login_post_handler, gallery_defs.post_handler, aboutus_defs.post_handler, order_defs.order_mgmt_post_handler, user_defs.reset_password_customer, user_defs.reset_settings_customer]
+post_routes = [deals_defs.route, menu_defs.route, order_defs.route,  gallery_defs.route, aboutus_defs.route, order_defs.order_mgmt_route, resinfo_defs.route_contact_us, resinfo_defs.route_res_info]
+post_handlers = [deals_defs.post_handler, menu_defs.post_handler, order_defs.post_handler,  gallery_defs.post_handler, aboutus_defs.post_handler, order_defs.order_mgmt_post_handler, resinfo_defs.post_handler_contact_us, resinfo_defs.post_handler_settings]
 
 post_routes.forEach((element, i) =>{
-    app.post(element, post_handlers[i])
+    app.post(('/admin' + element), user_defs.admin_middleware, post_handlers[i])
 })
 
 app.post(user_defs.admin_login_route, user_defs.admin_login_post_handler)
 
-app.get('/admin/api/deals', deals_defs.get_handler_admin)
+
+app.post(user_defs.signup_post_route, user_defs.signup_post_handler)
+app.post(user_defs.login_post_route, user_defs.login_post_handler)
+app.post(order_defs.route, user_defs.customer_middleware, order_defs.post_handler)
+app.post(user_defs.customer_password_reset_route, user_defs.customer_middleware, user_defs.reset_password_customer)
+app.post(user_defs.customer_settings_reset_route, user_defs.customer_middleware, user_defs.reset_settings_customer)
+
 
 
 
