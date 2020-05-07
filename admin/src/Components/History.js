@@ -81,11 +81,7 @@ class History extends React.Component {
     }
 
     filterType(data, type){
-        console.log(type)
-        return data.filter(e => {
-            console.log(MAP_C2T[e.type].toLowerCase() === type.toLowerCase())
-            return (type === 'all')? true: MAP_C2T[e.type].toLowerCase() === type.toLowerCase()
-        })
+        return data.filter(e => (type === 'all')? true: MAP_C2T[e.type].toLowerCase() === type.toLowerCase())
     }
 
     filterTime(data, time){
@@ -94,8 +90,8 @@ class History extends React.Component {
 
     applyFilters(data, filters){
         let filtered = this.sortByTime(data, filters.order.o2n)
-        filtered = this.filterType(data, this.select(filters.type))
-        filtered = this.filterTime(data, parseInt(this.select(filters.time)))
+        filtered = this.filterType(filtered, this.select(filters.type))
+        filtered = this.filterTime(filtered, parseInt(this.select(filters.time)))
         return filtered
     }
 
