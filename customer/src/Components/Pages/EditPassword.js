@@ -25,7 +25,7 @@ class EditPassword extends React.Component {
     handleSubmit = () => {
         console.log(this.state)
         this.setState({loading:true}, () => { 
-            Axios.post(Api.editpassword, {"data":this.state.contents, "google":this.props.info.google})
+            Axios.post(Api.editpassword, {"data":this.state.contents, })
                 .then((response) => {
                     this.setState({
                         contents:{

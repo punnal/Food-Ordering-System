@@ -41,7 +41,7 @@ class EditAccount extends React.Component {
                     this.setState({
                         loading: false
                     }, () => {
-                        if(response.success){//Success
+                        if(response.data.data.success){//Success
                             this.props.setInfo(response.data.data.contents)
                             console.log("Sucess", response.data.data)
                             
@@ -53,9 +53,9 @@ class EditAccount extends React.Component {
                 }).catch(() => {
                     this.setState({
                         loading: false
-                    }, () => {
+                    }, (error) => {
                         this.props.setInfo(this.state.contents)//Hardcoded Login. Remove plis
-                        console.log("error")
+                        console.log(error)
                     })
                 })
         })

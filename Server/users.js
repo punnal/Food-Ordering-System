@@ -10,19 +10,19 @@ const secret = "lmao_we_suck"
 
 
 var db_users = firebase.database().ref().child("User");  //firebase realtime db storing paths for all users
-var db_admin = firebase.database().ref().child("admin");
+var db_admin = firebase.database().ref().child("admin"); //firebase realtime db path storing admin data
 
 escapeEmail = utils.escapeEmail
 unescapeEmail = utils.unescapeEmail
 
 
-const login_post_route ='/api/users/login' 
-const signup_post_route = '/api/users/signup'
+const login_post_route ='/api/users/login'  //customer login route
+const signup_post_route = '/api/users/signup' //customer sign in route
 
 
 
 
-function user_exists(email){
+function user_exists(email){ /*tells whether or not the user exists. then handler contains user_snapshot fetched from the database */
     return new Promise(function (resolve, reject) {
         db_users.child(escapeEmail(email)).once("value", function(snapshot) {
             if(!snapshot.exists())
@@ -34,21 +34,21 @@ function user_exists(email){
 }
 
 
-function push_user_helper(key, to_push){
+function push_user_helper(key, to_push){ //pushes user to the database. then handler has the status code.
     return new Promise(function(resolve, reject){
         db_users.child(escapeEmail(key)).set(to_push).then(()=> resolve(200))
         .catch((error)=>reject(400))
     })
 }
 
-function push_user(key, to_push){
+function push_user(key, to_push){ //calls push user helper and then handler returns a status code
     return new Promise(function(resolve, reject){
         user_exists(key).then(() => reject(404)) 
         .catch(() => push_user_helper(key, to_push).then((status) => resolve(status)).catch((status) => reject(status)))
     })
 }
 
-function extract_user_data(req, first_time)
+function extract_user_data(req) //extract user data from request body and returns an object that will be stored on the database
 {
     var data = req.body["data"]
 
@@ -71,7 +71,7 @@ function extract_user_data(req, first_time)
     return user_data
 }
 
-function googleSignIn(req, res){
+function googleSignIn(req, res){ //sign in using google account. takes data from client side, checks if the user already exists and sends data to be stored on the database
     console.log("here")
     var email = ""
     try{
@@ -94,7 +94,7 @@ function googleSignIn(req, res){
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
         });
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .header('Access-Control-Expose-Headers', 'token')
         .header('token', token)
         .status(200)
@@ -112,7 +112,7 @@ function googleSignIn(req, res){
             });
             var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "") , "google" : true }, "success" : true, "error" : "All is well."    }}
 
-            return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
+            return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
             .header('Access-Control-Expose-Headers', 'token')
             .header('token', token)
             .status(200)
@@ -123,7 +123,7 @@ function googleSignIn(req, res){
     
 }
 
-function reset_password_customer(req, res)
+function reset_password_customer(req, res) //resets a user's password
 {
     if(res.locals.cookieValid)
     {
@@ -183,7 +183,7 @@ function reset_password_customer(req, res)
 }
 
 
-function reset_settings_customer(req, res){
+function reset_settings_customer(req, res){ //resets a user's settings: name, phone contact_no
     if(res.locals.cookieValid)
     {
         user_exists(res.locals.uid).then((user_snapshot) =>{
@@ -232,7 +232,7 @@ function reset_settings_customer(req, res){
     }
 }
 
-function signup_post_handler(req, res)
+function signup_post_handler(req, res) //handles sign up
 {
     var user_data = extract_user_data(req);
     push_user(user_data["email"], user_data).then(() => {
@@ -246,7 +246,7 @@ function signup_post_handler(req, res)
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -260,7 +260,7 @@ function signup_post_handler(req, res)
 }
 
 
-function login_post_handler_customer(req, res){
+function login_post_handler_customer(req, res){ //handles customer side login
     console.log("here")
     var email = ""
     try{
@@ -298,7 +298,7 @@ function login_post_handler_customer(req, res){
         var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || ""), "google" : false  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -310,7 +310,7 @@ function login_post_handler_customer(req, res){
 
 }
 
-function login_post_handler_admin(req, res){
+function login_post_handler_admin(req, res){ //handles admin side login
     if(!("data" in req.body) || !("username" in req.body["data"]) || !("password" in req.body["data"]) )
         return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
     var username = req.body["data"]["username"]
@@ -324,7 +324,7 @@ function login_post_handler_admin(req, res){
             expiresIn : '1h',
             })
 
-        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
     
@@ -333,7 +333,7 @@ function login_post_handler_admin(req, res){
     })
 }
 
-function isCookieValid(req, res, next){
+function isCookieValid(req, res, next){ //middleware function that checks if a cookie is valid
     const token = 
         req.body.token ||
         req.query.token ||
@@ -370,7 +370,7 @@ function isCookieValid(req, res, next){
   }
 
 
-function admin_middleware(req, res, next){
+function admin_middleware(req, res, next){ //middleware that comes after the cookie middleware and controls all admin api requests
     
     if(res.locals.cookieValid)
     {
@@ -395,8 +395,7 @@ function admin_middleware(req, res, next){
     } 
 }
 
-function customer_middleware(req, res, next){
-    console.log("2")
+function customer_middleware(req, res, next){ //middleware that comes afer the cookie middleware and controls all customer api requests
     if(res.locals.cookieValid){
         user_exists(res.locals.uid).then((val) => {
         }) //if user exists then move to the next middleware function i.e the main request handler
