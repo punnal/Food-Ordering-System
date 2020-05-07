@@ -1,5 +1,6 @@
 import React from "react"
 import {api_push, api_pull} from '../api/api'
+import Alert from 'react-bootstrap/Alert'
 import Cookie from 'js-cookie'
 
 class Login extends React.Component {
@@ -9,7 +10,9 @@ class Login extends React.Component {
         this.api = '/admin/api/login'
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            visible: false,
+            incorrect: false
         }
         this.onChange = this.onChange.bind(this)
         this.onLogin = this.onLogin.bind(this)
@@ -25,11 +28,28 @@ class Login extends React.Component {
         })
     }
 
+      sleep =  (milliseconds) => {
+        return new Promise (resolve => setTimeout(resolve, milliseconds))
+    }
+
     onLogin(){
-        api_push(this.api, {...this.state}, data => {
+         api_push(this.api, {...this.state}, async data => {
             if(data.success){
+                this.setState({visible:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({visible:false})
+            }, 2000)
+        }) 
+                await this.sleep(1000) 
                 this.props.setAuth()
                 Cookie.set('session', true)
+            }
+            else {
+                this.setState({incorrect:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({incorrect:false})
+            }, 2000)
+        })
             }
         })
         //this.props.setAuth()
@@ -61,6 +81,12 @@ class Login extends React.Component {
                 >
                     Login
                 </button>
+                <Alert className="AlertIncorrect" variant = "success" show = {this.state.visible}>
+                    <strong>Welcome {this.state.username}!</strong>
+                </Alert>
+                <Alert className="AlertIncorrect" variant = "danger" show = {this.state.incorrect}>
+                    <strong>Incorrect Username or Password!</strong>
+                </Alert>
             </div>
         )
     }
