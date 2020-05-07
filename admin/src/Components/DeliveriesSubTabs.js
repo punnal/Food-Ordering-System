@@ -56,6 +56,7 @@ class DeliveriesSubTabs extends React.Component {
         this.tab_id = this.props.tab_id
         this.tab = this.page.tabs[this.tab_id]
         this.api = this.tab.api
+        this.apiOrderManagement = '/admin/api/orders/management'
         this.state = {'data': [], 'showpopup':false}
         this.clickHandler = this.clickHandler.bind(this)
         this.onPopupClose = this.onPopupClose.bind(this)
@@ -94,7 +95,7 @@ class DeliveriesSubTabs extends React.Component {
         console.log(`Accepted order ${this.state.data[id].id}`)
         let updatedOrder = _.cloneDeep(this.state.data[id])
         updatedOrder.status = parseInt(updatedOrder.status) + 1
-        api_push('/api/orders/management', {edit:{...updatedOrder}})
+        api_push(this.apiOrderManagement, {edit:{...updatedOrder}})
         this.reloadData()
     }
 
@@ -106,7 +107,7 @@ class DeliveriesSubTabs extends React.Component {
         let updatedOrder = _.cloneDeep(this.state.data[this.state.reject_id])
         updatedOrder.status = -1
         this.onPopupClose()
-        api_push('/api/orders/management', {edit:{...updatedOrder}})
+        api_push(this.apiOrderManagement, {edit:{...updatedOrder}})
         this.reloadData()
     }
 

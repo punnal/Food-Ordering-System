@@ -78,7 +78,7 @@ const tstampToTime = (tstamp) => {
     const minutes = "0" + date.getMinutes();
 
     // Display date time in DD-Month-YYYY HH:MM AM/PM format
-    return `${day}-${month}-${year} @ ${hours%12+1}:${minutes.substr(-2)} ${(hours>12)? 'PM': 'AM'}`
+    return `${day}-${month}-${year} @ ${(hours>12)? hours-12: hours}:${minutes.substr(-2)} ${(hours>=12)? 'PM': 'AM'}`
  
 }
 const parseToTableFormat = (data) => {
