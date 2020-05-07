@@ -37,21 +37,26 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div>
-                <input 
+            <div className="LoginContainer">
+                <h1 className="LoginHeading">Welcome to Smoke&Grill Admin System</h1>
+                <input class="form-control"
                     value={this.state.username} 
                     onChange={this.onChange}
                     type="text" 
                     id="username"
+                    placeholder="Username"
                 />
-                <input 
+                <input class="form-control"
                     value={this.state.password} 
                     onChange={this.onChange}
                     type="password" 
                     id="password"
+                    placeholder="Password"
                 />
                 <button 
                     class="btn btn-success"
+                    type="button"
+                    id="LoginButton"
                     onClick={this.onLogin}
                 >
                     Login
