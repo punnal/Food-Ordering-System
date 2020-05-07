@@ -156,9 +156,9 @@ export const res = {
             'dropdown': {
                 'title': 'Hi, Admin',
                 'options': [
-                    {'name':'History', 'path':'/history'},
-                    {'name':'Settings', 'path':'/settings'},
-                    {'name':'Signout', 'path':'/signout'},
+                    {'name':'History', 'path':'/admin/history'},
+                    {'name':'Settings', 'path':'/admin/settings'},
+                    {'name':'Signout', 'path':'/admin/signout'},
                 ]
             }
         },

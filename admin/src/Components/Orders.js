@@ -89,11 +89,7 @@ class Orders extends React.Component {
         this.options_charges = 0
         this.setState(old => {
             let newstate = _.cloneDeep(old)
-            console.log('before', {...newstate})
             delete newstate.options_lists
-            //delete newstate.checked
-            //delete newstate.staged_add
-            console.log('after', newstate)
             return newstate
         })
         //clear up state
@@ -162,7 +158,11 @@ class Orders extends React.Component {
                 ...old,
                 showpopup:true,
                 options_lists:this.parseOptionsLists(table, row),
-                checked:{...old.checked, ...this.initCheckBoxState(table, row)},
+                checkeda:{
+                    ..._.cloneDeep(old.checked), 
+                    ..._.cloneDeep(this.initCheckBoxState(table, row))
+                },
+                checked:{...this.initCheckBoxState(table, row)},
                 staged_add:{table:table, row:row}
             }
         })
@@ -177,6 +177,14 @@ class Orders extends React.Component {
         })
     }
 
+    removeOptions(checked, checkeda){
+        let ret = _.cloneDeep(checkeda)
+        Object.keys(checked).forEach(k => {
+            delete ret[k]
+        })
+        return ret
+    }
+
     onBillRowClick(table, row) {
         this.setState(old => {
             let newbill = [...old.bill]
@@ -186,7 +194,8 @@ class Orders extends React.Component {
             let newstate = {
                 ...old,
                 'bill': [...newbill],
-                checked:{}
+                checkeda:this.removeOptions(old.checked, old.checkeda),
+                checked:{},
             }
             return newstate
         })
@@ -212,7 +221,8 @@ class Orders extends React.Component {
         order.phone = 'nothing'
         order.status = 1
         order.type = 1
-        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
+        console.log(this.state.checkeda)
+        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checkeda)
         api_push('/admin/api/orders', order)
         this.setState(old => {
             return {
