@@ -22,10 +22,6 @@ app.use((req, res, next) => {
   }
 });
 
-app.use('/admin', express.static(__dirname + "/../admin/build")); //admin build file
-app.use(express.static(__dirname + "/../customer/build")); // customer build file
-
-
 
 var menu_defs = require('./menu.js') //menu request handlers
 var order_defs = require("./orders.js") //orders request handlers (also allows for status management)
@@ -35,11 +31,20 @@ var gallery_defs = require('./gallery.js') //gallery api request handlers
 var aboutus_defs = require('./aboutus.js') //about us api request handlers
 var resinfo_defs = require('./res_admin_info.js') //restaurant info and admin account settings
 
+
+
+app.use(user_defs.isCookieValid) //cookie middleware function defined in users.js
+
+
+app.use('/admin', express.static(__dirname + "/../admin/build")); //admin build file
+app.use(express.static(__dirname + "/../customer/build")); // customer build file
+
+
+
 var utils = require('./utils.js')
 
 
 
-app.use(user_defs.isCookieValid) //cookie middleware function defined in users.js
 
 
 
@@ -93,8 +98,6 @@ app.get("admin/*", function(req, res) {
 
 
 app.get("*", function(req, res) {
-    // console.log()
-    // res.send("Hello!")
     res.sendFile(path.resolve(__dirname + "/../customer/build/index.html")); //sends customer index.html
 });
 
