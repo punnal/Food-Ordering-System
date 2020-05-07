@@ -116,9 +116,9 @@ class SignUp extends React.Component {
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
                     <div className = "form-group">
-                        <input onChange={this.handleChange} value={this.state.contents.repassword} type = "password" className = "form-control" id = "pass" placeholder = "Re-enter Password" pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" name = "repassword" required />
+                        <input onChange={this.handleChange} value={this.state.contents.repassword} type = "password" className = "form-control" id = "pass" placeholder = "Re-enter Password" pattern ={this.state.contents.password} name = "repassword" required />
                         <div class="valid-feedback">All done!</div>
-                        <div class="invalid-feedback">Please fill out this field.</div>
+                        <div class="invalid-feedback">Passwords does not match</div>
                     </div>
                     <p>The password provided must be at least 8 characters long, containing at least one digit, one capital letter, one small letter.</p>
                     <OverlayTrigger 
