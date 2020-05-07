@@ -23,7 +23,7 @@ class NavBarItem extends React.Component{
 
     render(){
         return(
-            <div className={Classes.NavBarItem}>
+            <div onClick = {this.props.click} className={Classes.NavBarItem}>
                 <Link to={this.state.link} >
                 {this.state.name}
                 </Link>

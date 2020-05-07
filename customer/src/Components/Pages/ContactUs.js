@@ -197,14 +197,9 @@ export default class Contact extends React.Component {
       <div className="ContactUsMain">
         <div
           style={{
-            backgroundColor: "grey",
             position: "relative",
-            bordeRadius: "100px",
             padding: "0px",
-            width: "1150px",
             textAlign: "center",
-            display: "inline-block",
-            borderRadius: "100px",
           }}
         >
           <div class="container text-white pt-3" id="contactForm">
@@ -258,7 +253,7 @@ export default class Contact extends React.Component {
                   <p className="form-error">{this.state.messageError}</p>
                   <button
                     id="ContactUsSubmit"
-                    class="btn btn-light"
+                    class="btn btn-dark"
                     type="button"
                     style={{ position: "relative", right: "-320px" }}
                     onClick={(e) => this.onSubmit(e)}
@@ -283,7 +278,7 @@ export default class Contact extends React.Component {
               </div>
               <div>
                 <i id = "ContactUsPhone" class="fa fa-envelope"></i>
-                <span><a className ="ContactUsMail">{this.state.contacts.email}</a></span>
+                <span><a href="mailto:{this.state.contacts.email}" className ="ContactUsMail">{this.state.contacts.email}</a></span>
               </div>
             <div style={{ width: "100%", height: "500px" }}>
               <Iframe

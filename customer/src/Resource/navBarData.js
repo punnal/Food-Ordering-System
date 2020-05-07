@@ -39,7 +39,7 @@ const navBarData = [
                 options: [
                     {
                         id: 10,
-                        name: "Login",
+                        name: "Sign In",
                         link: "/login"
                     },
                     {

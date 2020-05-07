@@ -3,6 +3,8 @@ body {
   width: 100%;
   min-height: 100vh;
   background-image: url(../img/back3.jpg);
+  background-position: center center;
+  background-size: cover;
   background-size: 100%;
   background-repeat: no-repeat;
   background-color: black;
@@ -88,6 +90,15 @@ body {
   -webkit-animation-name: slide-in-bottom;
   animation-name: slide-in-bottom;
   animation-duration: 2s;
+}
+
+/* ================================================================================================================================ */
+/* LOADINGSCREEN */
+
+.LoadingScreen {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
 }
 
 /*==============================================================================================================================*/
@@ -355,13 +366,28 @@ body {
 }
 
 .MenuItemAddToCart {
+  background-color: rgba(0, 0, 0, 0.9);
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 500;
   margin-top: 20px;
+  border: 0 solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+  outline: 1px solid;
+  outline-color: rgba(255, 255, 255, .5);
+  outline-offset: 0px;
+  text-shadow: none;
+  transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
   cursor: pointer;
-  transition: all 350ms ease-in-out;
+  padding: 5px;
 }
 
 .MenuItemAddToCart:hover {
-  transform: translateX(10px);
+  border: 1px solid;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
+  outline-color: rgba(255, 255, 255, 0);
+  outline-offset: 15px;
+  text-shadow: 1px 1px 2px #427388;
 }
 
 .MenuItem > img {
@@ -507,6 +533,7 @@ body {
 .PopupQuantity {
   display: flex;
   justify-content: center;
+  font-size: 20px;
   z-index: 1;
 }
 .PopupQuantity > div {
@@ -526,13 +553,13 @@ body {
   float: right;
 }
 
-/*.PopupAddToCart:hover {
+/* .PopupAddToCart:hover {
   border: 1px solid;
   box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
   outline-color: rgba(255, 255, 255, 0);
   outline-offset: 15px;
   text-shadow: 1px 1px 2px #427388;
-}*/
+} */
 
 /*================================================================================================================================*/
 /*DEALS*/
@@ -666,15 +693,19 @@ body {
 /*================================================================================================================================*/
 /*CART*/
 
-.CartMain {
+#Table {
+  display: none;
+}
+
+#CartMain {
   position: relative;
   margin-bottom: 300px;
   width: 50%;
-  left: 25%;
-  right: 25%;
+  margin-top: 80px;
   color: white;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.9);
+  padding: 20px;
   border-radius: 10px;
   padding: 1px;
   -webkit-animation-name: fade-in-fwd;
@@ -730,6 +761,10 @@ body {
   margin-left: 92px;
   cursor: pointer;
   margin-right: 10px;
+}
+
+.fa-trash-alt {
+  color: red;
 }
 
 .CartIncrease {
@@ -832,7 +867,6 @@ body {
   width: 25%;
 }
 
-
 /*===============================================================================================================================*/
 /*LOGIN*/
 
@@ -842,6 +876,9 @@ body {
   width: 50%;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 10px;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1s;
 }
 
 #Login h3 {
@@ -870,6 +907,9 @@ body {
   width: 50%;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 10px;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1s;
 }
 
 
@@ -884,6 +924,9 @@ body {
   flex-wrap: nowrap;
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1.5s;
 }
 
 #AboutUsFirst {
@@ -953,6 +996,9 @@ body {
 #contactForm {
   width: 50%;
   margin-bottom: 20px;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1.5s;
 }
 
 .ContactUsTitle {
@@ -971,6 +1017,9 @@ body {
 #ContactUsMessageBox {
   border-radius: 10px;
   padding: 12px;
+  -webkit-animation-name: slide-in-left;
+  animation-name: slide-in-left;
+  animation-duration: 1.5s;
 }
 
 .ContactUsTitle2 {
@@ -1387,7 +1436,6 @@ footer{
 
 .mobileNav {
   z-index: 10;
-  position: absolute;
   background-color: rgba(0, 0, 0, 0.9);
   width: 100%;
   height: 100%;
@@ -1403,13 +1451,17 @@ footer{
 }
 
 .mobileNavClose {
-  position: relative;
+  /* position: relative;
   margin-right: 300px;
+  margin-top: 10px; */
+  float: left;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .mobileNav .NavBarDivider {
   display: none;
+  z-index: 10;
 }
 
 .NavBarElement > a {
@@ -1419,11 +1471,15 @@ footer{
   margin-top: 20px; 
   color: white;
   border-bottom: 1px solid white;
+  position: relative;
+  z-index: 10;
 }
 
 .NavBarElement {
   margin: auto;
-  z-index: 1;
+  position: relative;
+  margin-top: 50px;
+  z-index: 10;
 }
 
 .NavBarElement:hover {
@@ -1450,7 +1506,7 @@ footer{
   -webkit-animation-name: fade-in-fwd;
   animation-name: fade-in-fwd;
   animation-duration: 1.5s;  
-  z-index: 1;
+  z-index: 3;
 }
 
 .ScrollImageContainer {
@@ -1458,7 +1514,7 @@ footer{
 }
 
   .Logo {
-    display: block;
+    float: right;
     z-index: 1;
   }
 
@@ -1477,8 +1533,60 @@ footer{
   flex-direction: column;
 }
 
-.AboutUsImageRight {
-  
+#LeftLine{
+  width: 10%;
+}
+
+#RightLine{
+  width: 10%;
+}
+
+.VerticalLine {
+  height: 150px;
+}
+
+.NavBarLoggedIn {
+  z-index: 3;
+  margin-left: 36%; 
+  color: white;
+}
+
+.fa-caret-down {
+  margin-left: 15px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.carousel-caption {
+  z-index: 0;
+}
+
+.carousel-indicators {
+  z-index: 0;
+}
+
+.carousel-control-prev {
+  z-index: 0;
+}
+
+.carousel-control-next {
+  z-index: 0;
+}
+
+#SignUp {
+  width: 80%;
+}
+
+#CartMain {
+  width: 100%;
+}
+
+#OgTable {
+  display: none;
+}
+
+#Table {
+  display: block;
 }
 
 }

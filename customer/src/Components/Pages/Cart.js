@@ -88,7 +88,7 @@ class Cart extends React.Component {
                             parseInt(order.price) + (order.items.reduce((acc, ord) => acc + ((Object.values(ord.optionsPrices)).reduce((a, b) => a+parseInt(b), 0)), 0))*parseInt(order.quantity)
                     )}
                     </td>
-                    <td className = "CartClick" onClick={ () => this.handleClick("delete", order)}>&#128465;</td>
+                    <td className = "CartClick" onClick={ () => this.handleClick("delete", order)}><i class="fas fa-trash-alt"></i></td>
                 </tr>    
             )
     }
@@ -96,12 +96,12 @@ class Cart extends React.Component {
     render() {
         const orders = this.props.orders.map(this.listOrders)
         return(
-            <div class = "container" className = "CartMain">
+            <div class = "container" id = "CartMain">
                 <div>
                     <div>
                         <div className = "CartMinOrder">Minimum order of {this.state.minOrder} PKR</div>
-                        <table class = "table table-dark table-striped">
-                            <thead>
+                        <table id="OgTable" class = "table table-dark table-hover">
+                            <thead id="TableHead">
                                 <tr>
                                     <th>Item</th>
                                     <th>Increase</th>
@@ -110,7 +110,21 @@ class Cart extends React.Component {
                                     <th>Price</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="TableBody">
+                                {orders}
+                            </tbody>
+                        </table>
+                        <table id="Table" class = "table table-dark table-hover table-responsive">
+                            <thead id="TableHead">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Increase</th>
+                                    <th>Quantity</th>
+                                    <th>Decrease</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody id="TableBody">
                                 {orders}
                             </tbody>
                         </table>
