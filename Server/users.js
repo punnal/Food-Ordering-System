@@ -149,10 +149,11 @@ function reset_password_customer(req, res)
             {
                 var user = {...user_snapshot.val(), "password" : req.body["data"]["password"]}
                 
-                push_user_helper(user["email"], user).then(() => {
+                push_user_helper(user["email"], user).then((statusCode) => {
 
                     var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
 
+                    console.log(statusCode)
                     return res
                     .status(statusCode)
                     .send(JSON.stringify(to_send))
@@ -160,6 +161,7 @@ function reset_password_customer(req, res)
                     
                     var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
 
+                    console.log(statusCode)
                     return res.status(400).send(JSON.stringify(to_send))
                 })
 
@@ -201,10 +203,10 @@ function reset_settings_customer(req, res){
             user["password"] = user_snapshot.val()["password"]
             user["contact_no"] = req.body["data"]["phone"] || ""
                         
-            push_user_helper(user["email"], user).then(() => {
+            push_user_helper(user["email"], user).then((statusCode) => {
 
                 var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
-
+                console.log(statusCode)
                 return res
                 .status(statusCode)
                 .send(JSON.stringify(to_send))
