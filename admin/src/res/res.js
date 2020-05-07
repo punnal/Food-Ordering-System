@@ -65,7 +65,7 @@ export const res = {
                 {
                     'Mains':
                     {
-                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                     },
                     'Deals':
                     {
@@ -73,12 +73,12 @@ export const res = {
                     },
                     'Drinks':
                     {
-                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                     },
                     'Extras':
                     {
                         'heading':'Extras',
-                        'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                        'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                     }
                 }
             },
@@ -92,15 +92,15 @@ export const res = {
                 [
                         {
                             'heading':'Mains',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                         },
                         {
                             'heading':'Drinks',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                         },
                         {
                             'heading':'Extras',
-                            'cols':['ID', 'Name', 'Description', 'Image', 'Option Lists', 'Price']
+                            'cols':['ID', 'Name', 'Description', 'Image', 'Price']
                         }
                     ]
             },

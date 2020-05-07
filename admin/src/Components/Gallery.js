@@ -19,7 +19,7 @@ class Gallery extends React.Component {
         this.onAddClicked = this.onAddClicked.bind(this)
         this.loadGallery = this.loadGallery.bind(this)
         this.onImageAdded = this.onImageAdded.bind(this)
-        this.api = '/api/gallery'
+        this.api = '/admin/api/gallery'
     }
 
     loadGallery(){

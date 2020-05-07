@@ -4,6 +4,7 @@ import { res } from '../res/res'
 import Table from './Table'
 import { Popup, PopupH, PopupBody, PopupButtons} from './Popup'
 import Parsers from './Parsers'
+import _ from 'lodash'
 
 class Orders extends React.Component {
 
@@ -43,7 +44,7 @@ class Orders extends React.Component {
 
     componentDidMount() {
         api_pull('/admin/api/deals', deals => {
-            api_pull('/api/menu', menu => {
+            api_pull('/admin/api/menu', menu => {
                 this.setState(old => {
                     return {
                         ...old, 
@@ -86,6 +87,15 @@ class Orders extends React.Component {
         this.addToBill(table, row, options, this.options_charges)
         this.hideOptionsPopup()
         this.options_charges = 0
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            console.log('before', {...newstate})
+            delete newstate.options_lists
+            //delete newstate.checked
+            //delete newstate.staged_add
+            console.log('after', newstate)
+            return newstate
+        })
         //clear up state
     }
 
@@ -172,10 +182,11 @@ class Orders extends React.Component {
             let newbill = [...old.bill]
             newbill[row].qty -= 1
             if(newbill[row].qty === 0)
-                newbill = newbill.filter( e => e.id !== newbill[row].id)
+                newbill = newbill.filter( (e,i) => i !== row)
             let newstate = {
                 ...old,
-                'bill': [...newbill]
+                'bill': [...newbill],
+                checked:{}
             }
             return newstate
         })
@@ -202,7 +213,13 @@ class Orders extends React.Component {
         order.status = 1
         order.type = 0
         order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
-        api_push('/api/orders', order)
+        api_push('/admin/api/orders', order)
+        this.setState(old => {
+            return {
+                ...old,
+                bill:[]
+            }
+        })
     }
 
     onChecked(item, listName, option) {
