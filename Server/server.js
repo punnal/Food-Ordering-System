@@ -14,6 +14,16 @@ app.use(bodyParser.json({limit : '50mb'}));
 app.use(cookieParser());
 
 
+app.use(express.static('build'));
+app.use((req, res, next) => {
+  if (req.header('x-forwarded-proto') !== 'https') {
+    res.redirect(`https://${req.header('host')}${req.url}`)
+  } else {
+    next();
+  }
+});
+
+
 app.use(express.static(__dirname + "/../customer/build"));
 app.use(express.static(__dirname + "/../admin/build"));
 
@@ -34,10 +44,7 @@ var aboutus_defs = require('./aboutus.js')
 var utils = require('./utils.js')
 
 
-app.use(function(req, res, next) {
-  var reqType = req.headers["x-forwarded-proto"];
-  reqType == 'https' ? next() : res.redirect("https://" + req.headers.host + req.url);
-});
+
 app.use(user_defs.isCookieValid)
 
 
