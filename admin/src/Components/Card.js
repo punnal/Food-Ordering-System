@@ -74,13 +74,7 @@ const parseToTableFormat = (data) => {
 const Card = (props) => {
     console.log(parseToTableFormat(props.data))
     return ( 
-        <div className={res.admin.css_classes.OrdersLeftTable}>
-            <Table 
-                heading = {MAP_C2T[props.data.type]}
-                cssClassName = "TableLeftButton"
-                cols = {['Field', 'Data']}
-                data = {parseToTableFormat(props.data)}
-            />
+        <div className="DeliveriesTable">
             <div className={res.admin.css_classes.DeliveriesButtons}>
                 <InputArray 
                     id={props.id} 
@@ -88,8 +82,14 @@ const Card = (props) => {
                     classNames={props.inputClassNames}
                     type={props.inputType} 
                     onClick={props.onClick}/>
-                </div>
             </div>
+            <Table 
+                heading = {MAP_C2T[props.data.type]}
+                cssClassName = ""
+                cols = {['Field', 'Data']}
+                data = {parseToTableFormat(props.data)}
+            />
+        </div>
                 /*
         <div className = {res.admin.css_classes.DeliveriesContainer}> 
             <div className = "bg-dark text-white" id = {res.admin.css_classes.DeliveriesInfo}>

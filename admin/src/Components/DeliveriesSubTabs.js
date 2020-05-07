@@ -110,17 +110,19 @@ class DeliveriesSubTabs extends React.Component {
 
     render() {
         return (
-        <div className = 'Menu'>
+        <div>
                 <Popup
                     show = {this.state.showpopup}
                 > 
-                    <PopupH> Reject </PopupH>
+                    <PopupH><div className="DeliveriesPopupHeading">Reject</div> </PopupH>
                     <PopupBody>
-                        Are you sure you want to reject this delivery?
+                        <p className="DeliveriesPopupSubHeading">Are you sure you want to reject this delivery?</p>
                     </PopupBody>
                     <PopupButtons>
-                        <button onClick={this.onPopupClose}> Close </button>
-                        <button onClick={this.onOrderRejected}> Reject </button>
+                        <div className="DeliveriesPopupButtons">
+                            <button id="DeliveriesPopupClose" class="btn btn-success" onClick={this.onPopupClose}> Close </button>
+                            <button id="DeliveriesPopupReject" class="btn btn-danger" onClick={this.onOrderRejected}> Reject </button>
+                        </div>
                     </PopupButtons>
                 </Popup> 
                 {
