@@ -31,8 +31,9 @@ export default class Contact extends React.Component {
         this.setState({loading: true}, () =>
                 Axios.get(Api.contacts)
                     .then((response) => {
+                        console.log("hello", response.data.data)
                         this.setState({
-                            contents:response.data.data
+                            contacts:response.data.data
                         }, () => this.setState({
                             loading: false
                         }))

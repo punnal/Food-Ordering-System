@@ -31,6 +31,7 @@ class App extends React.Component {
                 email: "",
                 address: "",
                 phone: "",
+                google: false,
             },
 
         }
@@ -54,6 +55,15 @@ class App extends React.Component {
     logOut = () => {
         console.log("Logged Out")
         this.setState({
+            contents:{
+                firstName: "",
+                lastName: "",
+                email: "",
+                address: "",
+                phone: "",
+                google: false,
+            },
+
             loggedIn: false,
         })
 

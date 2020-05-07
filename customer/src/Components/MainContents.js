@@ -46,7 +46,7 @@ const MainContents = (props) => {
                 <Route path="/orders">
                     <Orders addOrders={props.addOrders}/>
                 </Route>
-                <Route path="/editpassword">
+                <Route path="/editpassword" info={props.info}>
                     <EditPassword />
                 </Route>
                 <Route path="/editaccount">
