@@ -26,7 +26,7 @@ class NavigationBar extends React.Component{
         if(item.name === "Customer"){
             if(this.props.loggedIn){
                 return (
-                    <NavBarItemLoggedIn logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
+                    <NavBarItemLoggedIn click={this.handleClick} logout={this.props.logout} item={item} dataTranslator={this.dataTranslator} />
                 )
             }
             else{
@@ -46,13 +46,13 @@ class NavigationBar extends React.Component{
             return (
             <div className={Classes.Cart}>
                 <Link to={item.link}>
-                <img src={require('../img/cart.png')} height = '35' width = '35' />
+                <img onClick = {this.handleClick} src={require('../img/cart.png')} height = '35' width = '35' />
                 <span id = "badge" class="badge badge-light">{this.props.cartItems}</span>
                 </Link>
             </div>)
         }
         else{
-            return (<NavBarItem link={item.link} name={item.name}/>)
+            return (<NavBarItem click = {this.handleClick} link={item.link} name={item.name}/>)
         }
         
     }
@@ -92,8 +92,8 @@ class NavigationBar extends React.Component{
                     <img onClick = {this.handleClick} src = {require('../img/mobileNav.png')} />
                     {this.state.mobileNav ? 
                         <div className = "mobileNav">
-                            <div className = "mobileNavClose"> <img onClick = {this.handleClick} src = {require('../img/close2.png')} /> </div>
-                            {navBarItems}
+                            <div className = "mobileNavClose"><i onClick = {this.handleClick} class="fas fa-times fa-2x"></i> </div>
+                            <div>{navBarItems}</div>
                         </div>
                         : null}
                 </div>

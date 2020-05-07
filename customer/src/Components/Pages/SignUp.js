@@ -98,10 +98,10 @@ class SignUp extends React.Component {
                     <div className = "form-group">
                         <div className = "row">
                             <div className = "col">
-                                <input onChange={this.handleChange} value={this.state.contents.firstName} type="text" className = "form-control" id="firstName" placeholder="Enter First Name" name="firstName" required />
+                                <input onChange={this.handleChange} value={this.state.contents.firstName} type="text" className = "form-control" id="firstName" placeholder="First Name" name="firstName" required />
                             </div>
                             <div className="col">
-                                <input onChange={this.handleChange} value={this.state.contents.lastName} type="text" className="form-control" placeholder="Enter Last Name" name="lastName" required />
+                                <input onChange={this.handleChange} value={this.state.contents.lastName} type="text" className="form-control" placeholder="Last Name" name="lastName" required />
                             </div>
                         </div>
                     </div>
