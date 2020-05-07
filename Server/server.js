@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({limit : '50mb', extended: false })); //body parse
 app.use(bodyParser.json({limit : '50mb'})); 
 app.use(cookieParser()); //cookie parser for cookie validation checks (in the users.js file)
 
-
+/*
 app.use((req, res, next) => {
   if (req.header('x-forwarded-proto') !== 'https') {
     res.redirect(`https://${req.header('host')}${req.url}`)
@@ -21,6 +21,7 @@ app.use((req, res, next) => {
     next();
   }
 });
+*/
 
 app.use('/admin', express.static(__dirname + "/../admin/build")); //admin build file
 app.use(express.static(__dirname + "/../customer/build")); // customer build file

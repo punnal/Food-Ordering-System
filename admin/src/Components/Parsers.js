@@ -51,6 +51,7 @@ class Parsers {
         let ret = {}
         listNames.forEach(listName => {
             let string = `${name} #${i}`
+            console.log(string)
             const ref= selected[string][listName]
             const selected_name = Object.keys(ref).filter(e => ref[e].checked)[0]
             const selected_charge = Object.values(ref).filter(e => e.checked)[0].charge
