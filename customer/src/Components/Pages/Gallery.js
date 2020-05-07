@@ -54,7 +54,9 @@ class Gallery extends React.Component {
 
     createLoading = () => {
         return (
-            <div>Loading...</div>
+            <div className="LoadingScreen">
+                <img src ="https://mld0meypxmny.i.optimole.com/fhQWhw-lm_DIc1p/w:auto/h:auto/q:55/https://www.folkswagon.com/wp-content/uploads/2020/02/SmokeGrill-logo.jpg" />
+            </div>
         )
     }
 

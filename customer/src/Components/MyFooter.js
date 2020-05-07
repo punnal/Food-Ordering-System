@@ -115,20 +115,20 @@ class Footer extends React.Component{
 					</div>
 					<div>
 						<i class="fa fa-envelope"></i>
-						<p><a>{this.state.contacts.email}</a></p>
+						<p><a href="mailto:{this.state.contacts.email}">{this.state.contacts.email}</a></p>
 					</div>
 				</div>
 				<div className = "FooterAboutArea">
 					<p className = "FooterAbout">
 						<span>{this.state.about.heading}</span>
                         {this.state.about.body}</p>
-                {/*<div class="footer-icons">
+                {<div class="footer-icons">
 						<a href="https://www.facebook.com/smoke.and.grill.modeltown.lahore"><i className = "fab fa-facebook"></i></a>
-						<a href="#"><i className = "fab fa-twitter"></i></a>
+						{/* <a href="#"><i className = "fab fa-twitter"></i></a>
 						<a href="#"><i className = "fab fa-instagram"></i></a>
 						<a href="#"><i className = "fab fa-linkedin"></i></a>
-						<a href="#"><i className = "fab fa-youtube"></i></a>
-                    </div>*/}
+						<a href="#"><i className = "fab fa-youtube"></i></a> */}
+                    </div>}
 				</div>
 			</footer>
 		)

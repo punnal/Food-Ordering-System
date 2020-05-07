@@ -95,7 +95,7 @@ class Login extends React.Component {
                         <div class="valid-feedback">All done!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                    <button type="submit" className = "btn btn-dark">Login</button>
+                    <button type="submit" className = "btn btn-dark">Sign In</button>
                 </form>
                 <h3>Or</h3>
                 <img className = "mx-auto d-block" src = {require("../../img/google.png")} height = '50' weight = '50' />

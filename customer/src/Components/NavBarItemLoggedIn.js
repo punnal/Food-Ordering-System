@@ -47,14 +47,14 @@ class NavBarItemLoggedIn extends React.Component {
                 console.log("SignOut: ")
                 return(
                     <div onClick={()=>this.logout()}>
-                        <Dropdown.Item as='button' className = "DropDownItem">
+                        <Dropdown.Item onClick={this.props.click} as='button' className = "DropDownItem">
                             {option.name}
                         </Dropdown.Item>
                     </div>
                 )
             }else{
                 return(
-                    <Link to={option.link} >
+                    <Link onClick={this.props.click} to={option.link} >
                         <Dropdown.Item as='button' className = "DropDownItem">
                             {option.name}
                         </Dropdown.Item>
