@@ -1,7 +1,9 @@
 import React from "react"
 import { api_pull} from '../api/api'
 import { res } from '../res/res'
+import _ from 'lodash'
 import Card from './Card'
+import {MAP_C2T} from '../res/CodeMappings'
 
 const parseData = data => {
     return Object.values(data)
@@ -15,40 +17,87 @@ class History extends React.Component {
         this.api = this.page.api
         this.state = {
             'data': [],
+            'fdata':[],
             'filters':{
                 'time':{
-                    'asc':false
+                    '3600':true,
+                    '86400':false,
+                    '2592000':false
+
+                },
+                'type':{
+                    'local':true,
+                    'all':false,
+                    'delivery':false
+                },
+                'order':{
+                    'o2n':false,
+                    'n2o':true
                 }
+
             }
         }
 
+        this.onFilterChange = this.onFilterChange.bind(this)
     }
 
     componentDidMount() {
-        api_pull(this.api, data => 
+        api_pull(this.api, d => {
+            let data = parseData(d)
             this.setState( old => { 
-                console.log(data)
                 return {
                     ...old, 
-                    'data': this.applyFilters(parseData(data), this.state.filters)
+                    'data':data,
+                    'fdata': this.applyFilters(data, this.state.filters)
                 }
-            }))
+            })})
     }
 
+    checkBoxChange(filters, name, id){
+        Object.keys(filters[name]).forEach(key=> {
+            filters[name][key] = key === id
+        })
+    }
+
+    onFilterChange(event){
+        const {id, name} = event.target
+        this.setState(old => {
+            let newState = {..._.cloneDeep(old)}
+            this.checkBoxChange(newState.filters, name, id)
+            newState.fdata = this.applyFilters(newState.data, newState.filters)
+            return newState
+        })
+    }
+
+    select(filter){
+        return Object.keys(filter).filter(e => filter[e])[0]
+    }
+    
     sortByTime(data, asc){
         return data.sort((a,b)=> asc? a.time>b.time: a.time<b.time)
     }
 
+    filterType(data, type){
+        return data.filter(e => (type === 'all')? true: MAP_C2T[e.type].toLowerCase() === type.toLowerCase())
+    }
+
+    filterTime(data, time){
+        return data.filter(e => e.time > (Date.now() - time*1000))
+    }
+
     applyFilters(data, filters){
-        return this.sortByTime(data, filters.time.asc)
+        let filtered = this.sortByTime(data, filters.order.o2n)
+        filtered = this.filterType(data, this.select(filters.type))
+        filtered = this.filterTime(data, parseInt(this.select(filters.time)))
+        return filtered
     }
 
     render() {
         return (
             <div className = "History">
                 {
-                    (this.state.data)?
-                    this.state.data.map((e, i) =>{
+                    (this.state.fdata)?
+                    this.state.fdata.map((e, i) =>{
                         return (
                             <Card 
                                 key={i} 
@@ -60,6 +109,26 @@ class History extends React.Component {
                         :
                         null
                 }
+                <div>
+                    <label>New to old</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
+                    <label>Old to new</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
+
+                    <label>Local only</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
+                    <label>Delivery only</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
+                    <label>All</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
+
+                    <label>Last 1 hour</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
+                    <label>Last 1 day</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
+                    <label>Last 1 month</label>
+                    <input type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
+                </div>
             </div>
         )
     }
