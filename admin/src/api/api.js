@@ -25,8 +25,8 @@ const api_push = (url, data, callback) => {
         body:JSON.stringify(body)
     }).then(resp => {
         console.log(resp)
-        return resp.json()
-    }).then(json => callback(json))
+        return (callback)? resp.json() : null
+    }).then(json => callback(json)).catch(() => console.log('caught'))
 }
 
 const api_pull_dummy = (url, callback) => {
