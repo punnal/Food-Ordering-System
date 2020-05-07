@@ -695,6 +695,26 @@ body {
 	top: 128px;
 }
 
+.fa-filter {
+	color: white;
+	cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.9);
+	padding: 10px;
+}
+
+#HistoryDropDownMenu {
+	background-color: black;
+}
+
+#HistoryDropDownMenu 
+
+.HistoryDropDownItem {
+	color: white;
+}
+
+.HistoryDropDownCheckBox {
+	margin-left: 5px;
+}
 
 /*==================================================================================================================================*/
 /*TABLE CSS*/
@@ -868,15 +888,14 @@ body {
 
 #AddItemFormOptions {
 	width: 50%;
-	margin-left: 40px;
+	margin-left: 10px;
 	margin-bottom: 15px;
-	margin-top: 15px;
+	margin-top: 25px;
 }
 
 #AddItemFormAddOption {
 	margin-left: 10px;
 	margin-top: 10px;
-	margin-bottom: 30px;
 }
 
 #AddItemFormOptionList {
@@ -891,6 +910,7 @@ body {
 
 #AddItemFormPlus {
 	margin-left: 10px;
+	margin-top: 10px;
 }
 
 #description {
@@ -899,12 +919,12 @@ body {
 
 #AddItemFormImageButton {
 	width: 50%;
-	margin-left: 40px;
+	margin-left: 10px;
 	margin-bottom: 10px;
 }
 
 #AddItemFormImage {
-	margin-left: 40px;
+	margin-left: 10px;
 	margin-bottom: 10px;
 	border-radius: 5px;
 }
