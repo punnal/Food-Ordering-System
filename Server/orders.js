@@ -221,7 +221,10 @@ function post_handler(req, res){
 
     }
     else
+    {
+        db_deliveries.child(parsed_order["id"]).set(parsed_order)
         db_orders.child(parsed_order["id"]).set(parsed_order)
+    }
     res.status(200)
 
     if(res.locals.cookieValid)
@@ -335,7 +338,12 @@ function order_mgmt_parse_post(req){
                     {
                         var changed_order = order_snapshot.val()
                         changed_order["status"] = order["status"].toString()
-
+                        
+                        if(parseInt(changed_order["type"]) == 0)
+                        {
+                            db_orders.child(changed_order["id"]).set(changed_order).then(()=> db_local.child(changed_order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404)) ).catch(() => reject(404))
+                            console.log("here")
+                        }
                         
                         if(changed_order["status"] !=  "-1")
                         {
@@ -344,25 +352,23 @@ function order_mgmt_parse_post(req){
                                 if(parseInt(changed_order["type"]) == 1)
                                 {
                                     console.log("in here")
-                                    db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).once("value").then((user_order_snapshot) =>{
+                                    db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
                                         console.log("it exists")
                                         if(user_order_snapshot.exists())
                                         {
-                                            db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).set(changed_order).then(() => {
+                                            db_deliveries.child(order["id"]).set(changed_order).then(() => {
                                                 
-                                                db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
-                                                    if(user_order_snapshot.exists())
+                                                db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).once("value").then((db_deliveries_user_snapshot) =>{
+                                                    if(db_deliveries_user_snapshot.exists())
                                                     {
-                                                        db_deliveries.child(order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404))
+                                                        db_deliveries_users.child(escapeEmail(changed_order["email"])).child(order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404))
                                                         console.log("changed db_deliveries")
                                                     }
-                                                    else
-                                                        reject(404)
+                                                   
                                                 }).catch((err) => reject(404))
 
                                             })
                                             .catch(() => reject(404))
-                                            console.log("changed delvieries_users")
                                         }
                                         else
                                             reject(404)
@@ -380,17 +386,19 @@ function order_mgmt_parse_post(req){
                             db_orders.child(order["id"]).remove().then(() => {
                                 if(parseInt(changed_order["type"]) == 1)
                                 {
-                                    db_deliveries_users.child(changed_order["email"]).child(order["id"]).once("value").then((user_order_snapshot) =>{
+                                    db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
                                         if(user_order_snapshot.exists())
                                         {
-                                            db_deliveries_users.child(changed_order["email"]).child(order["id"]).remove().then(() => {
-                                                db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
-                                                    if(user_order_snapshot.exists())
-                                                        db_deliveries.child(order["id"]).remove().then(() => resolve(200)).catch(() => reject(404))
+                                            db_deliveries.child(order["id"]).remove().then(() => {
+                                                db_deliveries_users.child(changed_order["email"]).child(order["id"]).once("value").then((db_deliveries_user_snapshot) =>{
+                                                    if(db_deliveries_snapshot.exists())
+                                                        db_deliveries_user_snapshot.child(changed_order["email"]).child(order["id"]).remove().then(() => resolve(200)).catch(() => reject(404))
                                                 }).catch((err) => reject(404))
                                             })
                                             .catch(() => reject(404))
                                         }
+                                        else
+                                            reject(404)
                                     }).catch((err) => reject(404))
 
                                     
