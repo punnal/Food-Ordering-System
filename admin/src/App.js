@@ -15,7 +15,7 @@ import {
 class App extends React.Component {
     constructor(){
         super()
-        this.state = {auth:false}
+        this.state = {auth:true}
         this.checkAuth = this.checkAuth.bind(this)
         this.cookie = Cookie.get('session')
     }
@@ -33,14 +33,15 @@ class App extends React.Component {
         return this.state.auth?
             (
                 <Router>
-                    <Redirect to="/deliveries/pending"/>
+                    <Redirect to="/admin/deliveries/pending"/>
                     <div>
                         <NavBar />
                         {
                             res.admin.pages.map((e,i) => {
+                                console.log(e.path)
                                 return (
                                     <Switch key={e.id}>
-                                        <Route path={`/${e.path.split('/')[1]}`} component={ () => React.createElement(e.component, {'id':i, 'deAuth':()=>this.setState({auth:false})})} />
+                                        <Route path={`${e.path}`} component={ () => React.createElement(e.component, {'id':i, 'deAuth':()=>this.setState({auth:false})})} />
                                     </Switch>
                                 )
                             })}
@@ -52,7 +53,7 @@ class App extends React.Component {
             (
                 <Router>
                     <div>
-                        <Redirect to="/login"/>
+                        <Redirect to="/admin/login"/>
                         <Login 
                             setAuth={() => this.setState({auth:true})} 
                             deAuth = {() => this.setState({auth:false})}
