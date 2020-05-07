@@ -6,9 +6,15 @@ import Table from './Table'
 
 const parseOptions =(options) => {
     return (
-        options.map((e, i) => {
-            return <p key={i}>{e.list_name} : {e.option_choice} </p>
-        })
+        <ul style={{'text-align':'left'}}>
+            {
+            options.map((e, i) => {
+                return (
+                    <><li style={{'list-style-type': 'circle'}} key={i}>{e.list_name} : {e.option_choice} </li><br/></>
+                )
+            })
+            }
+        </ul>
     )
 }
 
@@ -16,7 +22,11 @@ const parseItem = (item, id) => {
     return (
         <div key={id}> 
             <h6> {item.name} </h6>
-            <div className = "CardInfoInner"> {parseOptions(item.option_list_choices)} </div>
+            <div className = "CardInfoInner"> 
+                <div>
+                    {parseOptions(item.option_list_choices)} 
+                </div>
+            </div>
         </div>
     )
 }
@@ -24,15 +34,17 @@ const parseItem = (item, id) => {
 const parseDeals = (deal, id) => {
     return (
         <div key={id}> 
-            <h6> {deal.name} </h6>
+            <h5 style={{'font-weight':'bold', 'text-decoration': 'underline overline'}}> {deal.name} </h5>
             {
                 (deal.items)?
                     deal.items.map((e,i) => {
                         return (
 
-                            <div className = "CardInfoInner" key={i}>
+                            <div key={i}>
                                 <h6> {e.name} </h6>
-                                {parseOptions(e.option_list_choices)}
+                                <div>
+                                    {parseOptions(e.option_list_choices)}
+                                </div>
                             </div>
                         )})
                     :
@@ -42,22 +54,58 @@ const parseDeals = (deal, id) => {
         </div>
     )
 }
+const tstampToTime = (tstamp) => {
 
+    // Months array
+    const months_arr = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    // Convert timestamp to milliseconds
+    const date = new Date(parseInt(tstamp));
+
+    // Year
+    const year = date.getFullYear();
+
+    // Month
+    const month = months_arr[date.getMonth()];
+
+    // Day
+    const day = date.getDate();
+
+    // Hours
+    const hours = date.getHours();
+
+    // Minutes
+    const minutes = "0" + date.getMinutes();
+
+    // Display date time in DD-Month-YYYY HH:MM AM/PM format
+    return `${day}-${month}-${year} @ ${hours%12+1}:${minutes.substr(-2)} ${(hours>12)? 'PM': 'AM'}`
+ 
+}
 const parseToTableFormat = (data) => {
-    return Object.keys(data).map(key => {
-        let d = (key === 'deals')? 
+    let _data = {...data}
+    if(MAP_C2T[data.type] === 'Local'){
+        delete _data.address
+        delete _data.contact_no
+        delete _data.email
+    }
+    let keys = Object.keys(_data)
+    return keys.map(key => {
+        let d = 
+            (key === 'deals')? 
             data[key].map((item, dealid) => parseDeals(item, dealid))
             : 
             (key === 'items')?
             data[key].map((item, itemid) => parseItem(item, itemid))
             :
                 <div>
-                    <h6> {key.toUpperCase()}</h6> 
                     <p> {(key === 'status')? 
                             MAP_C2S[data[key]]
                             :
                             (key === 'type')?
                             MAP_C2T[data[key]]
+                            :
+                            (key === 'time')?
+                            tstampToTime(data[key])
                             :
                             data[key]
                     } 
@@ -65,7 +113,7 @@ const parseToTableFormat = (data) => {
             </div>
 
         return {
-            field:key,
+            field:key.toUpperCase(),
             data:d
         }
     })

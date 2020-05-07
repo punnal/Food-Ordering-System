@@ -105,7 +105,9 @@ class DeliveriesSubTabs extends React.Component {
     onOrderRejected(){
         let updatedOrder = _.cloneDeep(this.state.data[this.state.reject_id])
         updatedOrder.status = -1
-        api_push('/api/orders/management', {delete:{...updatedOrder}})
+        this.onPopupClose()
+        api_push('/api/orders/management', {edit:{...updatedOrder}})
+        this.reloadData()
     }
 
     render() {

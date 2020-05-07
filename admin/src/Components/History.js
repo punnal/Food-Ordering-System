@@ -1,5 +1,5 @@
 import React from "react"
-import { api_pull, api_push } from '../api/api'
+import { api_pull} from '../api/api'
 import { res } from '../res/res'
 import Card from './Card'
 
@@ -11,14 +11,17 @@ class History extends React.Component {
 
     constructor(props) {
         super(props)
-        this.clickHandler = this.clickHandler.bind(this)
         this.page = res.admin.pages[this.props.id]
         this.api = this.page.api
-        this.state = {'data': [], 'showpopup':false}
+        this.state = {
+            'data': [],
+            'filters':{
+                'time':{
+                    'asc':false
+                }
+            }
+        }
 
-    }
-
-    clickHandler() {
     }
 
     componentDidMount() {
@@ -27,9 +30,17 @@ class History extends React.Component {
                 console.log(data)
                 return {
                     ...old, 
-                    'data': parseData(data)
+                    'data': this.applyFilters(parseData(data), this.state.filters)
                 }
             }))
+    }
+
+    sortByTime(data, asc){
+        return data.sort((a,b)=> asc? a.time>b.time: a.time<b.time)
+    }
+
+    applyFilters(data, filters){
+        return this.sortByTime(data, filters.time.asc)
     }
 
     render() {
@@ -44,7 +55,7 @@ class History extends React.Component {
                                 id = {i}
                                 inputType='button'
                                 data={e} 
-                                onClick={this.clickHandler}/>
+                                />
                         )})
                         :
                         null
