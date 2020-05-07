@@ -60,7 +60,7 @@ function extract_user_data(req, first_time)
     var user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
         "contact_no":data["phone"], "address":data["address"]}
 
-    if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
+    if(!("google" in data) || !data["google"])
         user_data["password"] = data["password"]
 
     else
@@ -86,7 +86,7 @@ function googleSignIn(req, res){
         
     user_exists(email).then((user_snapshot) => {
 
-        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "") , "isGoogleAcc" : true  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "") , "google" : true  }, "success" : true, "error" : "All is well."    }}
 
 
         email = escapeEmail(email)
@@ -101,16 +101,16 @@ function googleSignIn(req, res){
         .send(JSON.stringify(to_send))
 
     }).catch((err) =>{  
-        req.body["data"]["isGoogleAcc"] = true
+        req.body["data"]["google"] = true
         var user_data = extract_user_data(req)
-        user_data["isGoogleAcc"] = true
+        user_data["google"] = true
         db_users.child(escapeEmail(email)).set(user_data).then(() =>{
             email = escapeEmail(email)
             const payload = {"email" : email}
             const token = jwt.sign(payload, secret, {
                 expiresIn : '1h'
             });
-            var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "") , "isGoogleAcc" : true }, "success" : true, "error" : "All is well."    }}
+            var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "") , "google" : true }, "success" : true, "error" : "All is well."    }}
 
             return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
             .header('Access-Control-Expose-Headers', 'token')
@@ -213,7 +213,7 @@ function reset_settings_customer(req, res){
 
                 var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
                 user_exists(email).then(() => {}).catch((err) =>{  
-                    db_users.child(escapeEmail(email)).set({"email" : email, "password_set" : false, "isGoogleAcc" : true})
+                    db_users.child(escapeEmail(email)).set({"email" : email, "password_set" : false, "google" : true})
                 });
                 console.log(statusCode)
                 return res
@@ -282,25 +282,8 @@ function login_post_handler_customer(req, res){
         return
     }
         
-    if(("isGoogleAcc" in data) && (email != "") && data["isGoogleAcc"]){
-        user_exists(email).then(() => {}).catch((err) =>{  
-            db_users.child(escapeEmail(email)).set({"email" : email, "password_set" : false, "isGoogleAcc" : true})
-        });
 
-        email = escapeEmail(email)
-        const payload = {"email" : email}
-        const token = jwt.sign(payload, secret, {
-            expiresIn : '1h'
-        });
-
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
-        .header('Access-Control-Expose-Headers', 'token')
-        .header('token', token)
-        .status(200)
-        .send(JSON.stringify({status : 'success'}))
-    }
-
-    else
+    if(!("google" in data) )
         var password = data["password"]
     
     user_exists(email).then(user_snapshot => {
@@ -322,7 +305,7 @@ function login_post_handler_customer(req, res){
         });
         console.log("here sending cookie")
 
-        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || ""), "google" : false  }, "success" : true, "error" : "All is well."    }}
         
 
         return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false, maxAge: 2 * 60 * 60 * 1000})
