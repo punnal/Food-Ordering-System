@@ -89,16 +89,28 @@ body {
 #StartOverlayButton {
   -webkit-animation-name: slide-in-bottom;
   animation-name: slide-in-bottom;
-  animation-duration: 2s;
+  animation-duration: 0.5s;
 }
 
 /* ================================================================================================================================ */
 /* LOADINGSCREEN */
 
 .LoadingScreen {
-  width: 100vw;
   height: 100vh;
-  background-color: black;
+  position: absolute;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.LoadingScreen > img {
+  top: 50%;
+  position: relative;
+  -webkit-animation-name: loading;
+  animation-name: loading;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 /*==============================================================================================================================*/
@@ -1930,4 +1942,18 @@ footer{
             transform: translateY(0);
     opacity: 1;
   }
+}
+
+@-webkit-keyframes loading {
+ 100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+}
+}
+
+@keyframes loading {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  } 
 }
