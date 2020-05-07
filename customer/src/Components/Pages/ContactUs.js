@@ -195,13 +195,7 @@ export default class Contact extends React.Component {
   render() {
     return (
       <div className="ContactUsMain">
-        <div
-          style={{
-            position: "relative",
-            padding: "0px",
-            textAlign: "center",
-          }}
-        >
+        <div>
           <div class="container text-white pt-3" id="contactForm">
             <h2 className="ContactUsTitle">Have some suggestions?</h2>
             <h4 className="ContactUsSubTitle">Send us your feedback</h4>
