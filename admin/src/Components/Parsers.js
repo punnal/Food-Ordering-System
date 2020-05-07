@@ -46,11 +46,12 @@ class Parsers {
         return parsed
     }
 
-    static filterSelected(name, i, list, selected, type) {
+    static filterSelected = (name, i, list, selected, type) => {
         const listNames = list.map(l => Object.keys(l)[0])
         let ret = {}
         listNames.forEach(listName => {
             let string = `${name} #${i}`
+            console.log(string)
             const ref= selected[string][listName]
             const selected_name = Object.keys(ref).filter(e => ref[e].checked)[0]
             const selected_charge = Object.values(ref).filter(e => e.checked)[0].charge
@@ -90,6 +91,8 @@ class Parsers {
         return (entry.items)? this.parseBillDeal(entry, selected) :this.parseBillItem(entry, selected, entry.qty)[0]
     }
     static parseBillForPost = (bill, selected) => {
+        if(bill.length === 0)
+            return
         let arrayOfItems = bill.map((entry,i) => this.parseBillEntry(entry, selected))
         return arrayOfItems
     }

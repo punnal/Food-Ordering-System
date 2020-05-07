@@ -7,80 +7,22 @@ const util = require('util')
 
 const secret = "lmao_we_suck"
 
-// require('firebase/auth');
-
-// var admin = require("firebase-admin");
-
-// var serviceAccount = require("./test-smoke-n-grill-firebase-adminsdk-v1ikj-07e81ae93f.json");
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://test-smoke-n-grill.firebaseio.com"
-// });
 
 
-
-var db_users = firebase.database().ref().child("User");
-var db_admin = firebase.database().ref().child("admin");
-// const auth = firebase.auth()
-
-
-// auth.signInWithEmailAndPassword("mahad@gmail.com", "some_shit94a").then((val) => {
-//     auth.currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-//         // Send token to your backend via HTTPS
-//         // ...
-//         console.log(idToken)
-//       }).catch(function(error) {
-//         // Handle error
-//         console.log(error)
-//       });
-      
-// }).
-// catch((err) => console.log(err))
-
-// firebase.auth().signInWithPopup(firebase.auth.GoogleAuthProvider()).then(function(result) {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//     var token = result.credential.accessToken;
-//     // The signed-in user info.
-//     var user = result.user;
-//     // ...
-//   }).catch(function(error) {
-//     // Handle Errors here.
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // The email of the user's account used.
-//     var email = error.email;
-//     // The firebase.auth.AuthCredential type that was used.
-//     var credential = error.credential;
-//     // ...
-//   });
-  
+var db_users = firebase.database().ref().child("User");  //firebase realtime db storing paths for all users
+var db_admin = firebase.database().ref().child("admin"); //firebase realtime db path storing admin data
 
 escapeEmail = utils.escapeEmail
 unescapeEmail = utils.unescapeEmail
 
 
-const login_post_route ='/api/users/login' 
-const signup_post_route = '/api/users/signup'
-
-// function create_custom_token(uid){
-//     console.log("here")
-//     return admin.auth().createCustomToken(uid)
-// }
-
-// function create_custom_cookie(idToken){
-//     const expiresIn = 60 * 60 * 24 * 5 * 1000;
-//     // Create the session cookie. This will also verify the ID token in the process.
-//     // The session cookie will have the same claims as the ID token.
-//     // To only allow session cookie setting on recent sign-in, auth_time in ID token
-//     // can be checked to ensure user was recently signed in before creating a session cookie.
-//     return admin.auth().createSessionCookie(idToken, {expiresIn})
-
-// }
+const login_post_route ='/api/users/login'  //customer login route
+const signup_post_route = '/api/users/signup' //customer sign in route
 
 
 
-function user_exists(email){
+
+function user_exists(email){ /*tells whether or not the user exists. then handler contains user_snapshot fetched from the database */
     return new Promise(function (resolve, reject) {
         db_users.child(escapeEmail(email)).once("value", function(snapshot) {
             if(!snapshot.exists())
@@ -92,21 +34,21 @@ function user_exists(email){
 }
 
 
-function push_user_helper(key, to_push){
+function push_user_helper(key, to_push){ //pushes user to the database. then handler has the status code.
     return new Promise(function(resolve, reject){
         db_users.child(escapeEmail(key)).set(to_push).then(()=> resolve(200))
         .catch((error)=>reject(400))
     })
 }
 
-function push_user(key, to_push){
+function push_user(key, to_push){ //calls push user helper and then handler returns a status code
     return new Promise(function(resolve, reject){
         user_exists(key).then(() => reject(404)) 
         .catch(() => push_user_helper(key, to_push).then((status) => resolve(status)).catch((status) => reject(status)))
     })
 }
 
-function extract_user_data(req, first_time)
+function extract_user_data(req) //extract user data from request body and returns an object that will be stored on the database
 {
     var data = req.body["data"]
 
@@ -118,24 +60,70 @@ function extract_user_data(req, first_time)
     var user_data = {"email": data["email"], "firstName":data["firstName"], "lastName":data["lastName"], 
         "contact_no":data["phone"], "address":data["address"]}
 
-    if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
+    if(!("google" in data) || !data["google"])
         user_data["password"] = data["password"]
-    // if(!("isGoogleAcc" in data) || !data["isGoogleAcc"])
-    // {
-    //     user_data["password"] = data["password"]
-    //     user_data["password_set"] = true
-    // }
 
-    // else if(first_time)
-    //     user_data["password_set"] = false
-
+    else
+        user_data["password"] = ""
+    
     
 
     return user_data
 }
 
+function googleSignIn(req, res){ //sign in using google account. takes data from client side, checks if the user already exists and sends data to be stored on the database
+    console.log("here")
+    var email = ""
+    try{
+        var data = req.body["data"]
+        email = data["email"]
+    }
+    catch(err){
+        res.status(403)
+        res.send("Wrong format used for post request.")
+        return
+    }
+        
+    user_exists(email).then((user_snapshot) => {
 
-function reset_password_customer(req, res)
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "") , "google" : true  }, "success" : true, "error" : "All is well."    }}
+
+
+        email = escapeEmail(email)
+        const payload = {"email" : email}
+        const token = jwt.sign(payload, secret, {
+            expiresIn : '1h'
+        });
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+        .header('Access-Control-Expose-Headers', 'token')
+        .header('token', token)
+        .status(200)
+        .send(JSON.stringify(to_send))
+
+    }).catch((err) =>{  
+        req.body["data"]["google"] = true
+        var user_data = extract_user_data(req)
+        user_data["google"] = true
+        db_users.child(escapeEmail(email)).set(user_data).then(() =>{
+            email = escapeEmail(email)
+            const payload = {"email" : email}
+            const token = jwt.sign(payload, secret, {
+                expiresIn : '1h'
+            });
+            var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "") , "google" : true }, "success" : true, "error" : "All is well."    }}
+
+            return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+            .header('Access-Control-Expose-Headers', 'token')
+            .header('token', token)
+            .status(200)
+            .send(JSON.stringify(to_send))
+
+        }).catch(() => res.status(404).send(JSON.stringify({"success" : false, "error" : "Server side error" })))
+    });
+    
+}
+
+function reset_password_customer(req, res) //resets a user's password
 {
     if(res.locals.cookieValid)
     {
@@ -145,14 +133,21 @@ function reset_password_customer(req, res)
                 return
             }
 
+            var isGoogle = false;
+
+            if(("google" in user_snapshot.val())  && (user_snapshot.val()["google"].toString() == "true"))
+                isGoogle = true
+            
+
             if(req.body["data"]["oldPassword"] == user_snapshot.val()["password"])
             {
                 var user = {...user_snapshot.val(), "password" : req.body["data"]["password"]}
                 
-                push_user_helper(user["email"], user).then(() => {
+                push_user_helper(user["email"], user).then((statusCode) => {
 
-                    var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+                    var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "") , "google" : isGoogle }, "success" : true, "error" : "All is well."    }}
 
+                    console.log(statusCode)
                     return res
                     .status(statusCode)
                     .send(JSON.stringify(to_send))
@@ -160,6 +155,7 @@ function reset_password_customer(req, res)
                     
                     var to_send = {"data" :{"contents" : { }, "success" : false, "error" : "Couldn't change password. Please try again."    }}
 
+                    console.log(statusCode)
                     return res.status(400).send(JSON.stringify(to_send))
                 })
 
@@ -187,7 +183,7 @@ function reset_password_customer(req, res)
 }
 
 
-function reset_settings_customer(req, res){
+function reset_settings_customer(req, res){ //resets a user's settings: name, phone contact_no
     if(res.locals.cookieValid)
     {
         user_exists(res.locals.uid).then((user_snapshot) =>{
@@ -200,11 +196,17 @@ function reset_settings_customer(req, res){
             user["email"] = res.locals.uid
             user["password"] = user_snapshot.val()["password"]
             user["contact_no"] = req.body["data"]["phone"] || ""
+
+            var isGoogle = false;
+
+            if(("google" in user_snapshot.val())  && (user_snapshot.val()["google"].toString() == "true"))
+                isGoogle = true
                         
-            push_user_helper(user["email"], user).then(() => {
+            push_user_helper(user["email"], user).then((statusCode) => {
 
-                var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
-
+                var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well." , "google" : isGoogle   }}
+                
+                console.log(statusCode)
                 return res
                 .status(statusCode)
                 .send(JSON.stringify(to_send))
@@ -230,12 +232,12 @@ function reset_settings_customer(req, res){
     }
 }
 
-function signup_post_handler(req, res)
+function signup_post_handler(req, res) //handles sign up
 {
     var user_data = extract_user_data(req);
     push_user(user_data["email"], user_data).then(() => {
 
-        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well.", "google" :false    }}
           
 
         var email = escapeEmail(user_data["email"])
@@ -244,7 +246,7 @@ function signup_post_handler(req, res)
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -258,7 +260,7 @@ function signup_post_handler(req, res)
 }
 
 
-function login_post_handler_customer(req, res){
+function login_post_handler_customer(req, res){ //handles customer side login
     console.log("here")
     var email = ""
     try{
@@ -270,26 +272,8 @@ function login_post_handler_customer(req, res){
         res.send("Wrong format used for post request.")
         return
     }
-        
-    if(("isGoogleAcc" in data) && (email != "") && data["isGoogleAcc"]){
-        user_exists(email).then(() => {}).catch((err) =>{  
-            db_users.child(escapeEmail(email)).set({"email" : email, "password_set" : false, "isGoogleAcc" : true})
-        });
 
-        email = escapeEmail(email)
-        const payload = {"email" : email}
-        const token = jwt.sign(payload, secret, {
-            expiresIn : '1h'
-        });
-
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
-        .header('Access-Control-Expose-Headers', 'token')
-        .header('token', token)
-        .status(200)
-        .send(JSON.stringify({status : 'success'}))
-    }
-
-    else
+    if(!("google" in data) )
         var password = data["password"]
     
     user_exists(email).then(user_snapshot => {
@@ -311,10 +295,10 @@ function login_post_handler_customer(req, res){
         });
         console.log("here sending cookie")
 
-        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || ""), "google" : false  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : false})
+        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -326,7 +310,7 @@ function login_post_handler_customer(req, res){
 
 }
 
-function login_post_handler_admin(req, res){
+function login_post_handler_admin(req, res){ //handles admin side login
     if(!("data" in req.body) || !("username" in req.body["data"]) || !("password" in req.body["data"]) )
         return res.status(403).send(JSON.stringify({"success" : false, "error" : "invalid post request format"}))
     var username = req.body["data"]["username"]
@@ -340,7 +324,7 @@ function login_post_handler_admin(req, res){
             expiresIn : '1h',
             })
 
-        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : false})
+        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
     
@@ -349,7 +333,7 @@ function login_post_handler_admin(req, res){
     })
 }
 
-function isCookieValid(req, res, next){
+function isCookieValid(req, res, next){ //middleware function that checks if a cookie is valid
     const token = 
         req.body.token ||
         req.query.token ||
@@ -386,7 +370,7 @@ function isCookieValid(req, res, next){
   }
 
 
-function admin_middleware(req, res, next){
+function admin_middleware(req, res, next){ //middleware that comes after the cookie middleware and controls all admin api requests
     
     if(res.locals.cookieValid)
     {
@@ -411,8 +395,7 @@ function admin_middleware(req, res, next){
     } 
 }
 
-function customer_middleware(req, res, next){
-    console.log("2")
+function customer_middleware(req, res, next){ //middleware that comes afer the cookie middleware and controls all customer api requests
     if(res.locals.cookieValid){
         user_exists(res.locals.uid).then((val) => {
         }) //if user exists then move to the next middleware function i.e the main request handler
@@ -446,3 +429,7 @@ module.exports.admin_middleware = admin_middleware
 
 module.exports.admin_login_post_handler = login_post_handler_admin
 module.exports.admin_login_route = '/admin/api/login'
+
+
+module.exports.googleSignIn = googleSignIn
+module.exports.googleSignIn_route = '/api/users/google/signin'

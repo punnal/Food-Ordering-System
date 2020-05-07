@@ -228,7 +228,6 @@ class AddItemForm extends React.Component {
                                         )
                                     })
                                 }
-                                <button id="AddItemFormAddOption" type="button" class="btn btn-success" onClick={() => this.onAddOption(i, key)}> Add Option </button>
                                 {
                                     this.state.stagedOption[key]?
                                         <div id="AddItemFormAddOptionClicked">
@@ -258,13 +257,14 @@ class AddItemForm extends React.Component {
                                         :
                                         null
                                 }
+                                <button id="AddItemFormAddOption" type="button" class="btn btn-success" onClick={() => this.onAddOption(i, key)}> Add Option </button>
+                                <button id="AddItemFormPlus" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
                             </div>
                         )
                     })
                         :
                         null
                 }
-                <button id="AddItemFormPlus" class="btn btn-success" onClick={this.onAddOptionsList}>+</button>
                 <div id="AddItemFormOptions" class="input-group-prepend">
                     <span class="input-group-text">Description</span>
                     <textarea className = "form-control"

@@ -33,7 +33,7 @@ class Deals extends React.Component {
     }
 
     updateTables() {
-        api_pull('/api/menu', menu => {
+        api_pull('/admin/api/menu', menu => {
             this.menu = menu
             api_pull(this.api, d => {
                 console.log(d)
@@ -73,7 +73,7 @@ class Deals extends React.Component {
         //api call to delete item from database
         const [table, row] = this.state.staged_delete
         console.log('deleting')
-        api_push('/api/deals', Parsers.parseDealsBeforePush(this.state.tables[table][row], 'delete'))
+        api_push('/admin/api/deals', Parsers.parseDealsBeforePush(this.state.tables[table][row], 'delete'))
         this.updateTables()
         //remove from state as well
         this.setState(old => {
@@ -140,7 +140,7 @@ class Deals extends React.Component {
         this.hidePopup('add')
         if(!changed)
             return
-        api_push('/api/deals', Parsers.parseDealsBeforePush(state, type))
+        api_push('/admin/api/deals', Parsers.parseDealsBeforePush(state, type))
         this.updateTables()
     }
 

@@ -8,8 +8,8 @@ const MAP_C2S = {
 }
 
 const MAP_C2T = {
-    0:'Local',
-    1:'Delivery'
+    1:'Local',
+    0:'Delivery'
 }
 
 export {

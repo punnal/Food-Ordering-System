@@ -4,6 +4,19 @@ import { res } from '../res/res'
 import _ from 'lodash'
 import Card from './Card'
 import {MAP_C2T} from '../res/CodeMappings'
+import Dropdown from 'react-bootstrap/Dropdown'
+
+const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
+    <div
+        ref={ref}
+        onClick={(e) => {
+            e.preventDefault();
+            onClick(e);
+        }}
+    >
+        {children}
+    </div>
+));
 
 const parseData = data => {
     return Object.values(data)
@@ -81,11 +94,7 @@ class History extends React.Component {
     }
 
     filterType(data, type){
-        console.log(type)
-        return data.filter(e => {
-            console.log(MAP_C2T[e.type].toLowerCase() === type.toLowerCase())
-            return (type === 'all')? true: MAP_C2T[e.type].toLowerCase() === type.toLowerCase()
-        })
+        return data.filter(e => (type === 'all')? true: MAP_C2T[e.type].toLowerCase() === type.toLowerCase())
     }
 
     filterTime(data, time){
@@ -94,8 +103,8 @@ class History extends React.Component {
 
     applyFilters(data, filters){
         let filtered = this.sortByTime(data, filters.order.o2n)
-        filtered = this.filterType(data, this.select(filters.type))
-        filtered = this.filterTime(data, parseInt(this.select(filters.time)))
+        filtered = this.filterType(filtered, this.select(filters.type))
+        filtered = this.filterTime(filtered, parseInt(this.select(filters.time)))
         return filtered
     }
 
@@ -120,43 +129,46 @@ class History extends React.Component {
     render() {
         return (
             <div className = "History">
-                <img className = 'DropDownArrow' onMouseEnter = {this.handleMouseEnter} src={require('../img/filter.png')} height='32' width='32'/>
-                {
-                    true?
-                        <div 
-                            className = "DropDownMenu" 
-                            onMouseLeave = {this.handleMouseLeave}>
-
-                            <label>New to old</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
-                            <br/>
-                            <label>Old to new</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
-                            <br/>
-
-                            <label>Local only</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
-                            <br/>
-                            <label>Delivery only</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
-                            <br/>
-                            <label>All</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
-                            <br/>
-
-                            <label>Last 1 hour</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
-                            <br/>
-                            <label>Last 1 day</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
-                            <br/>
-                            <label>Last 1 month</label>
-                            <input type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
-                            <br/>
-                        </div>
-                        :
-                        null
-                }
+                
+                    <Dropdown className = "DropDown">
+                        <Dropdown.Toggle as={CustomToggle} id ="dropdown-custom-components">
+                            <div><i class="fas fa-filter fa-2x"></i></div>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu id = "HistoryDropDownMenu">
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
+                                <label>New to old</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
+                                <label>Old to new</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
+                                <label>Local only</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
+                                <label>Delivery only</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
+                                <label>All</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
+                                <label>Last 1 hour</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
+                                <label>Last 1 day</label>
+                            </Dropdown.Item>
+                            <Dropdown.Item as='button' className = "HistoryDropDownItem">
+                                <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
+                                <label>Last 1 month</label>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 {
                     (this.state.fdata)?
                     this.state.fdata.map((e, i) =>{
@@ -177,3 +189,40 @@ class History extends React.Component {
 }
 
 export default History
+
+
+// true?
+// <div 
+//     className = "DropDownMenu" 
+//     onMouseLeave = {this.handleMouseLeave}>
+
+//     <label>New to old</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
+//     <br/>
+//     <label>Old to new</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
+//     <br/>
+
+//     <label>Local only</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
+//     <br/>
+//     <label>Delivery only</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
+//     <br/>
+//     <label>All</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
+//     <br/>
+
+//     <label>Last 1 hour</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
+//     <br/>
+//     <label>Last 1 day</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
+//     <br/>
+//     <label>Last 1 month</label>
+//     <input type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
+//     <br/>
+// </div>
+// :
+// null
+// }

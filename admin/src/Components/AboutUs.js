@@ -12,7 +12,7 @@ class AboutUs extends React.Component {
         super()
         this.state = {data:{heading:"", body:""}}
         this.originalData = {}
-        this.api = '/api/aboutus'
+        this.api = '/admin/api/aboutus'
         this.loadData = this.loadData.bind(this)
         this.onTextChange = this.onTextChange.bind(this)
         this.onSave = this.onSave.bind(this)

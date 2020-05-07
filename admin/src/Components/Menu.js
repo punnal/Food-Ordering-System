@@ -18,7 +18,7 @@ class Menu extends React.Component {
         super(props)
         this.css = res.admin.css_classes
         this.headingButton = 'Add'
-        this.api = res.admin.pages[this.props.id].api
+        this.api = '/admin/api/menu'
         this.tables = res.admin.pages[this.props.id].tables
         this.showPopup = this.showPopup.bind(this)
         this.onPopupClose = this.onPopupClose.bind(this)
@@ -76,7 +76,7 @@ class Menu extends React.Component {
         //api call to delete item from database
         const [table, row] = this.state.staged_delete
         const data = this.state.tables[table][row]
-        api_push('/api/menu', Parsers.parseMenuBeforePush('delete', data))
+        api_push(this.api, Parsers.parseMenuBeforePush('delete', data))
         this.updateTables()
         //remove staged_delete and row from state
         this.setState(old => {
@@ -108,7 +108,7 @@ class Menu extends React.Component {
         this.hidePopup('add')
         if(!changed)
             return
-        api_push('/api/menu', Parsers.parseMenuBeforePush(this.state.type, state))
+        api_push(this.api, Parsers.parseMenuBeforePush(this.state.type, state))
         this.updateTables()
     }
 

@@ -171,9 +171,8 @@ function parse_order(order){
 
 
 
-// console.log(util.inspect(parse_order(request["data"]), false, null, true /* enable colors */))
 
-function post_handler(req, res){
+function post_handler(req, res){ //post request handler for handling admin side post requests.
 
     if(!("data" in req.body))
         return res.status(403).send("Error: Possibly incorrect format for post request.")
@@ -192,9 +191,6 @@ function post_handler(req, res){
     parsed_order["status"] = parsed_order["status"].toString()
     parsed_order["type"] = parsed_order["type"].toString()
 
-
-
-    // console.log(util.inspect(parsed_order, false, null, true /* enable colors */))
     
 
     if(res.locals.cookieValid)
@@ -203,14 +199,14 @@ function post_handler(req, res){
             
             if(admin_snapshot.val()["username"] == res.locals.uid)
             {
-                parsed_order["type"] = "0"
+                parsed_order["type"] = "1"
                 db_orders.child(parsed_order["id"]).set(parsed_order)
                 db_local.child(parsed_order["id"]).set(parsed_order)
             }
 
             else
             {
-                parsed_order["type"] = "1"
+                parsed_order["type"] = "0"
                 parsed_order["email"] = res.locals.uid
                 db_orders.child(parsed_order["id"]).set(parsed_order)
                 db_deliveries.child(parsed_order["id"]).set(parsed_order)
@@ -222,6 +218,7 @@ function post_handler(req, res){
     }
     else
     {
+        parsed_order["type"] = "0"
         db_deliveries.child(parsed_order["id"]).set(parsed_order)
         db_orders.child(parsed_order["id"]).set(parsed_order)
     }
@@ -242,10 +239,12 @@ const route = '/api/orders'
 
 
 
-function get_handler(req, res){
+function get_handler(req, res){ //get request handler for serving order history
     
+    console.log("order placed")
     if(!res.locals.cookieValid)
     {
+
         console.log("invalid cookie")
         if(res.locals.cookieMissing)
             return res.status(404).send({"data" : {}, "cookieValid" : "missing"})
@@ -297,7 +296,7 @@ function get_handler(req, res){
 
         if(typeof req.query.type != 'undefined')
         {
-            if (parseInt(req.query.type) == 0)
+            if (parseInt(req.query.type) == 1)
                 db_ref = db_local
             else
                 db_ref = db_deliveries
@@ -318,7 +317,7 @@ function get_handler(req, res){
 }
 
 
-function order_mgmt_parse_post(req){
+function order_mgmt_parse_post(req){ //parses order status change request
     console.log("here starting")
     return new Promise(function(resolve, reject){
         
@@ -339,7 +338,7 @@ function order_mgmt_parse_post(req){
                         var changed_order = order_snapshot.val()
                         changed_order["status"] = order["status"].toString()
                         
-                        if(parseInt(changed_order["type"]) == 0)
+                        if(parseInt(changed_order["type"]) == 1)
                         {
                             db_orders.child(changed_order["id"]).set(changed_order).then(()=> db_local.child(changed_order["id"]).set(changed_order).then(() => resolve(200)).catch(() => reject(404)) ).catch(() => reject(404))
                             console.log("here")
@@ -349,7 +348,7 @@ function order_mgmt_parse_post(req){
                         {
                             console.log("norm op")  
                             db_orders.child(order["id"]).set(changed_order).then(() => {
-                                if(parseInt(changed_order["type"]) == 1)
+                                if(parseInt(changed_order["type"]) == 0)
                                 {
                                     console.log("in here")
                                     db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
@@ -384,7 +383,7 @@ function order_mgmt_parse_post(req){
                         else
                         {
                             db_orders.child(order["id"]).remove().then(() => {
-                                if(parseInt(changed_order["type"]) == 1)
+                                if(parseInt(changed_order["type"]) == 0)
                                 {
                                     db_deliveries.child(order["id"]).once("value").then((user_order_snapshot) =>{
                                         if(user_order_snapshot.exists())
@@ -423,7 +422,7 @@ function order_mgmt_parse_post(req){
     })
 }
 
-function order_mgmt_post_handler(req, res){
+function order_mgmt_post_handler(req, res){ //request handler for order change status
     order_mgmt_parse_post(req).then((statusCode) => res.status(statusCode).send("Status changed successfully."))
     .catch((statusCode) => res.status(statusCode).send("Could not change status. Please view status code for further details."))
 }

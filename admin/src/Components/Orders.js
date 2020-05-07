@@ -4,6 +4,7 @@ import { res } from '../res/res'
 import Table from './Table'
 import { Popup, PopupH, PopupBody, PopupButtons} from './Popup'
 import Parsers from './Parsers'
+import _ from 'lodash'
 
 class Orders extends React.Component {
 
@@ -43,7 +44,7 @@ class Orders extends React.Component {
 
     componentDidMount() {
         api_pull('/admin/api/deals', deals => {
-            api_pull('/api/menu', menu => {
+            api_pull('/admin/api/menu', menu => {
                 this.setState(old => {
                     return {
                         ...old, 
@@ -86,6 +87,11 @@ class Orders extends React.Component {
         this.addToBill(table, row, options, this.options_charges)
         this.hideOptionsPopup()
         this.options_charges = 0
+        this.setState(old => {
+            let newstate = _.cloneDeep(old)
+            delete newstate.options_lists
+            return newstate
+        })
         //clear up state
     }
 
@@ -152,7 +158,11 @@ class Orders extends React.Component {
                 ...old,
                 showpopup:true,
                 options_lists:this.parseOptionsLists(table, row),
-                checked:{...old.checked, ...this.initCheckBoxState(table, row)},
+                checkeda:{
+                    ..._.cloneDeep(old.checked), 
+                    ..._.cloneDeep(this.initCheckBoxState(table, row))
+                },
+                checked:{...this.initCheckBoxState(table, row)},
                 staged_add:{table:table, row:row}
             }
         })
@@ -167,15 +177,25 @@ class Orders extends React.Component {
         })
     }
 
+    removeOptions(checked, checkeda){
+        let ret = _.cloneDeep(checkeda)
+        Object.keys(checked).forEach(k => {
+            delete ret[k]
+        })
+        return ret
+    }
+
     onBillRowClick(table, row) {
         this.setState(old => {
             let newbill = [...old.bill]
             newbill[row].qty -= 1
             if(newbill[row].qty === 0)
-                newbill = newbill.filter( e => e.id !== newbill[row].id)
+                newbill = newbill.filter( (e,i) => i !== row)
             let newstate = {
                 ...old,
-                'bill': [...newbill]
+                'bill': [...newbill],
+                checkeda:this.removeOptions(old.checked, old.checkeda),
+                checked:{},
             }
             return newstate
         })
@@ -200,9 +220,16 @@ class Orders extends React.Component {
         order.address = 'nothing'
         order.phone = 'nothing'
         order.status = 1
-        order.type = 0
-        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checked)
-        api_push('/api/orders', order)
+        order.type = 1
+        console.log(this.state.checkeda)
+        order['orders'] = Parsers.parseBillForPost(this.state.bill, this.state.checkeda)
+        api_push('/admin/api/orders', order)
+        this.setState(old => {
+            return {
+                ...old,
+                bill:[]
+            }
+        })
     }
 
     onChecked(item, listName, option) {

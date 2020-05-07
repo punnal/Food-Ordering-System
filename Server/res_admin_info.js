@@ -23,7 +23,7 @@ function get_handler_contact_us(req, res){
         cookieValid = "invalid"
 
 
-    db_admin.once("value", (admin_snapshot) =>{ res.status(200).send({"data" : admin_snapshot.val() || {}, "cookieValid" : cookieValid } ) })
+    db_contact_us.once("value", (admin_snapshot) =>{ res.status(200).send({"data" : admin_snapshot.val() || {}, "cookieValid" : cookieValid } ) })
     .catch(() => res.status(404).send(JSON.stringify({"data" : {}, "cookieValid" : cookieValid })))
 }
 
