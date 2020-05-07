@@ -361,11 +361,12 @@ body {
   text-transform: uppercase;
   font-weight: 600;
   margin-top: 20px;
+  margin-bottom: 18px;
 }
 
 .MenuItemDescription {
   background-color: rgba(0, 0, 0, 0);
-  height: 25px;
+  height: 50px;
   font-size: 15px;
   font-weight: 400;
 }
