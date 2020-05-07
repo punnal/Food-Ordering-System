@@ -20,6 +20,7 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
+    "react-google-login": "^5.1.12",
     "react-iframe": "^1.8.0",
     "react-modal-login": "^1.4.5",
     "react-router-dom": "^5.1.2",

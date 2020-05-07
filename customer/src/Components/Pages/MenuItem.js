@@ -81,8 +81,8 @@ class MenuItem extends React.Component {
                 this.setState({visible:true}, () =>{
                     window.setTimeout(() => {
                     this.setState({visible:false})
-            }, 2000)
-        })
+                    }, 2000)
+                })
             }
             else {
                 this.setState({cartNotFull:true}, () =>{

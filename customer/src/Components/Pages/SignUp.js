@@ -47,6 +47,7 @@ class SignUp extends React.Component {
                             repassword: "",
                             address: "",
                             phone: "",
+                            google: false,
                         },
                         loading: false
                     }, () => {
@@ -62,7 +63,7 @@ class SignUp extends React.Component {
 
                 }).catch(() => {
                     this.setState({
-                        contents:{
+                        /*contents:{
                             firstName: "",
                             lastName: "",
                             email: "",
@@ -70,7 +71,8 @@ class SignUp extends React.Component {
                             repassword: "",
                             address: "",
                             phone: "",
-                        },
+                            google: false,
+                        },*/
                         loading: false
                     }, () => {
                         this.login(this.state.contents)//Hardcoded Login. Remove plis

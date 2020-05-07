@@ -8,7 +8,8 @@ const Api = {
     signup:'api/users/signup',
     editpassword:'/api/users/reset/password',
     editaccount:'/api/users/reset/settings',
-    //contacts:'/api/admin/contactus',
+    contacts:'/api/contactus',
+    googleLogin: '/api/users/google/signin'
 
 }
 

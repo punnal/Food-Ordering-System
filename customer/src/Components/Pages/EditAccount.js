@@ -19,6 +19,7 @@ class EditAccount extends React.Component {
                 email: "",
                 address: "",
                 phone: "",
+                google:false,
             },
             loading:false,
             error: ""
@@ -86,11 +87,13 @@ class EditAccount extends React.Component {
                             </div>
                         </div>
                     </div>
+                    {/*
                     <div className = "form-group">
                         <input onChange={this.handleChange} value={this.state.contents.email} type = "email" className = "form-control" id = "email" placeholder = "Enter email" name = "email" required />
                         <div class="valid-feedback">Good to go!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
+                    */}
                             <OverlayTrigger 
                             key = "left"
                             placement = "left"
