@@ -10,13 +10,13 @@ class Settings extends React.Component {
         super()
         this.state = {
             data: {
-                username:'adsfasfsadfadsfadsf',
-                password:'asdfadsfasfsdfafdsa',
-                newPassword1:'adsfasfdasfasfdaf',
-                newPassword2:'dafadfadfdafsafdsf',
-                minOrder:'500',
-                otime:'08:00',
-                ctime:'17:00',
+                username:'mushtaq',
+                password:'',
+                newPassword1:'',
+                newPassword2:'',
+                minOrder:'',
+                otime:'',
+                ctime:'',
                 photo_url:"https://i.ytimg.com/vi/L6yX6Oxy_J8/maxresdefault.jpg", 
             },
             visible:false
@@ -80,6 +80,7 @@ class Settings extends React.Component {
             return {
                 ...old,
                 data:{
+                    ...old.data,
                     [id]: value
                 }
             }
@@ -87,6 +88,9 @@ class Settings extends React.Component {
     }
 
     onSave(){
+        if(this.state.newPassword1 !== this.state.newPassword2){
+            console.log('not sending')
+        }
         api_push(this.api, this.state.data)
     }
 
