@@ -4,8 +4,6 @@ const path = require("path");
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken')
 
-var fs = require('fs')
-var https = require('https')
 
 
 
@@ -129,9 +127,4 @@ app.get("/*", function(req, res) {
 
 
 const port = process.env.PORT || 5000;
-
-
-https.createServer({
-  key: fs.readFileSync(path.join(__dirname, 'server.key')),
-  cert: fs.readFileSync(path.join(__dirname, './server.cert'))
-}, app).listen(port, () => console.log(`listening on port ${port}...`))
+app.listen(port, () => console.log(`listening on port ${port}...`))
