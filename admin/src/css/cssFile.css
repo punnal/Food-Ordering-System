@@ -695,6 +695,22 @@ body {
 	top: 128px;
 }
 
+.fa-filter {
+	color: white;
+	cursor: pointer;
+}
+
+.HistoryDropDownMenu {
+	background-color: black;
+}
+
+.HistoryDropDownItem {
+	color: white;
+}
+
+.HistoryDropDownCheckBox {
+	margin-left: 5px;
+}
 
 /*==================================================================================================================================*/
 /*TABLE CSS*/
