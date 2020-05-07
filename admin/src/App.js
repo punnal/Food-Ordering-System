@@ -15,7 +15,7 @@ import {
 class App extends React.Component {
     constructor(){
         super()
-        this.state = {auth:true}
+        this.state = {auth:false}
         this.checkAuth = this.checkAuth.bind(this)
         this.cookie = Cookie.get('session')
     }
