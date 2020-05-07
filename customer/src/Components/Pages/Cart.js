@@ -1,5 +1,6 @@
 import React from 'react'
 import Axios from 'axios'
+import Alert from 'react-bootstrap/Alert'
 
 import Api from '../../api/api'
 
@@ -13,6 +14,8 @@ class Cart extends React.Component {
             totalPrice: 0,
             phone: "",
             address: "",
+            placed: false,
+            empty: false,
         }
     }
 
@@ -51,6 +54,11 @@ class Cart extends React.Component {
         } 
         else if(type === "checkOut"){
             if(this.props.orders.length === 0 || this.state.phone === "" || this.state.address === "" || (this.state.totalPrice - this.state.delivery) < this.state.minOrder){
+                this.setState({empty:true}, () =>{
+                    window.setTimeout(() => {
+                    this.setState({empty:false})
+                    }, 2000)
+                }) 
                 return
             }
             console.log({
@@ -66,6 +74,11 @@ class Cart extends React.Component {
                     phone: this.state.phone,
                 }})
             this.props.resetOrders(() => this.setState({totalPrice: this.calTotalPrice(this.state.delivery)}))
+            this.setState({placed:true}, () =>{
+                window.setTimeout(() => {
+                this.setState({placed:false})
+                }, 2000)
+            }) 
         } 
     }
 
@@ -160,7 +173,13 @@ class Cart extends React.Component {
                         </div>
                     </div>
                         <button type="submit" className = "btn btn-dark" onClick={ () => this.handleClick("checkOut", null)}>Check Out</button>
-                    </div>    
+                    </div>
+                    <Alert className="AlertIncorrect" variant = "danger" show = {this.state.empty}>
+                        <strong>Cart is Empty!</strong>
+                    </Alert>
+                    <Alert className="AlertIncorrect" variant = "success" show = {this.state.placed}>
+                        <strong>Order Placed Succesfully!</strong>
+                    </Alert>    
                 </div>
             </div>
         )
