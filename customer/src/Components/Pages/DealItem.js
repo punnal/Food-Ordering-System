@@ -38,18 +38,18 @@ class DealItem extends React.Component {
         })
     }
    
-    handleChange = (event, iter) => {
+    handleChange = (event, iter, realName) => {
         const {name, value, type} = event.target
         console.log(this.props.dealData)
         this.setState(prevState => {
             let newState = {...prevState,}
             newState.items[iter].options = {
                 ...newState.items[iter].options,
-                [name]: value
+                [realName]: value
             }
             newState.items[iter].optionsPrices = {
                 ...newState.items[iter].optionsPrices,
-                [name]: this.props.dealData.items[iter].options_lists[name][value]
+                [realName]: this.props.dealData.items[iter].options_lists[realName][value]
             } 
             
             return(newState)
@@ -125,10 +125,10 @@ class DealItem extends React.Component {
                 <div className="DealItemRadio">
                 <input className = "RadioButtons"
                         type="radio" 
-                        name={name}
+                        name={name + iter}
                         value={val}
                         checked={this.state.init && (this.state.items[iter].options[name] === option[0])}
-                        onChange={(event) => this.handleChange(event, iter)}
+                        onChange={(event) => this.handleChange(event, iter, name)}
                     /> {option[0]}
                 </div>
                 <div className="DealItemPrice">{option[1]}</div>
@@ -143,9 +143,9 @@ class DealItem extends React.Component {
     render() {
         const option_lists = this.props.dealData.items.map((item, iter) => 
             <div>
-                <div className="DealItemHeading">{item.name}</div>{ 
+                <div className="DealItemHeading">{iter+1} {item.name}</div>{ 
                     Object.entries(item.options_lists).map((options) => 
-                        <div><div className = "OptionsHeading">{options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]), iter)}</div>
+                        <div><div className = "OptionsHeading"> {options[0]}</div>{this.createRadioButtons(options[0], Object.entries(options[1]), iter)}</div>
                     )
                 }
             </div>
