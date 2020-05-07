@@ -136,36 +136,36 @@ class History extends React.Component {
                         </Dropdown.Toggle>
                         <Dropdown.Menu className = "HistoryDropDownMenu">
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>New to old</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='order' id='n2o' checked={this.state.filters.order.n2o}/>
+                                <label>New to old</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Old to new</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='order' id='o2n' checked={this.state.filters.order.o2n}/>
+                                <label>Old to new</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Local only</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='local' checked={this.state.filters.type.local}/>
+                                <label>Local only</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Delivery only</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='delivery' checked={this.state.filters.type.delivery}/>
+                                <label>Delivery only</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>All</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='type' id='all' checked={this.state.filters.type.all}/>
+                                <label>All</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Last 1 hour</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id='3600' checked={this.state.filters.time['3600']}/>
+                                <label>Last 1 hour</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Last 1 day</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id='86400' checked={this.state.filters.time['86400']}/>
+                                <label>Last 1 day</label>
                             </Dropdown.Item>
                             <Dropdown.Item as='button' className = "HistoryDropDownItem">
-                                <label>Last 1 month</label>
                                 <input className="HistoryDropDownCheckBox" type='checkbox' onChange={this.onFilterChange} name='time' id="2592000" checked={this.state.filters.time['2592000']}/>
+                                <label>Last 1 month</label>
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
