@@ -124,10 +124,16 @@ class Settings extends React.Component {
                         <h1>Resaurant Settings</h1>
                         <h2>Change Timings</h2>
                         <div className = "form-group">
-                            <input value={this.state.data.otime} className = "form-control" onChange={this.onChange} type="time" required/>
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">Opening</span>
+                            </div>
+                            <input id="SettingOpening" value={this.state.data.otime} className = "form-control" onChange={this.onChange} type="time" required/>
                         </div>
                         <div className = "form-group">
-                            <input value={this.state.data.ctime} className = "form-control" onChange={this.onChange} type="time" required/>
+                        <div class="input-group-prepend">
+                                <span class="input-group-text">Closing</span>
+                            </div>
+                            <input id="SettingClosing" value={this.state.data.ctime} className = "form-control" onChange={this.onChange} type="time" required/>
                         </div>
                         <h2>Minimum Order</h2>
                         <div className = "input-group">

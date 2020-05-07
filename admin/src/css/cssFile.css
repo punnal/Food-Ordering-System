@@ -34,6 +34,36 @@ body {
 }
 
 
+/* ====================================================================================================================================== */
+/* LOGIN */
+
+.LoginContainer {
+	height: 100vh;	
+}
+
+.LoginHeading {
+	position: relative;
+	text-align: center;
+	color: white;
+	background-color: black;
+}
+
+#password, #username {
+	width: 30%;
+}
+
+#password, #username, #LoginButton {
+	margin-left: auto;
+	margin-right: auto;
+	top: 40%;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+#LoginButton {
+	left: 35%;
+}
+
 /*==================================================================================================================================*/
 /*SETTING*/
 
@@ -43,7 +73,7 @@ body {
 	-webkit-animation-name: slide-in-left;
   	animation-name: slide-in-left;
   	animation-duration: 1s;
-  	background-color: rgba(0, 0, 0, 0.5);
+  	background-color: rgba(0, 0, 0, 0.9);
   	border-radius: 10px;
 }
 
@@ -499,7 +529,9 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	overflow: scroll;
+	overflow-x: hidden;
 	height: 650px;
+	
 }
 
 #GalleryContainer {
@@ -509,6 +541,9 @@ body {
 	width: 70%;
 	border-radius: 10px;
 	margin-bottom: 120px;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 1.5s;
 }
 
 #GalleryHeadingPopup {
@@ -553,6 +588,9 @@ body {
 	height: 325px;
 	border-radius: 10px;
 	width: 60%;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 1.5s;
 }
 
 #heading, #body {
@@ -568,6 +606,33 @@ body {
 }
 
 #AboutUsButton {
+	float: right;
+	margin-top: 15px;
+	margin-right: 200px;
+}
+
+/* ======================================================================================================================================= */
+/* CONTACTUS */
+
+#ContactUsMain {
+	margin-top: 128px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.9);
+	height: 350px;
+	border-radius: 10px;
+	width: 60%;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 1.5s;
+}
+
+#phone, #email, #address {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#ContactUsButton {
 	float: right;
 	margin-top: 15px;
 	margin-right: 200px;

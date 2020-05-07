@@ -55,7 +55,7 @@ class ContactUs extends React.Component {
 
     render() {
         return (
-            <div id="AboutUsMain" class="container pt-3">
+            <div id="ContactUsMain" class="container pt-3">
                 <label id="AboutUsHeading"> Phone </label>
                 <input
                     class="form-control"
@@ -77,7 +77,7 @@ class ContactUs extends React.Component {
                     id="address"
                     value={this.state.data.address}
                 />
-                <button class="btn btn-success" onClick={this.onSave}> Save Changes </button>
+                <button id="ContactUsButton" class="btn btn-success" onClick={this.onSave}> Save Changes </button>
             </div>
         )
     }
