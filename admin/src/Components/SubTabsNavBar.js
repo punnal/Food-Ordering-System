@@ -21,7 +21,7 @@ class SubTabNavBar extends React.Component {
                                 <Link 
                                     key={i} 
                                     to={`${e.path}`} >
-                                    <button type = "button" className = "btn btn-info" id={res.admin.css_classes.DSubTabElement}>
+                                    <button type = "button" className = "btn btn-success" id={res.admin.css_classes.DSubTabElement}>
                                         {e.name}
                                         {e.name !== 'Delivered' ?
                                         <OverlayTrigger 

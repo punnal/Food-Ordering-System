@@ -219,6 +219,7 @@ body {
 	flex-direction: row;
 	flex-wrap: wrap;
 	margin-top: 128px;
+	justify-content: center;
 }
 
 #badge {
@@ -231,7 +232,8 @@ body {
 }
 
 #DSubTabElement {
-	margin-left: 150px;
+	margin-left: 15px;
+	margin-right: 15px;
 	height: 100%;
 	padding: 5px;
 	text-align: center;
@@ -243,22 +245,64 @@ body {
 	border: none;
 	cursor: pointer;
 	text-shadow: none;*/
-	transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+	/* transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1); */
   	-webkit-animation-name: bounceInDown;
   	animation-name: bounceInDown;
   	animation-duration: 1.5s;
 }
 
-#DSubTabElement:hover {
+/* #DSubTabElement:hover {
 	border: 1px solid;
   	box-shadow: inset 0 0 20px rgba(255, 255, 255, .5), 0 0 20px rgba(255, 255, 255, .2);
  	outline-color: rgba(255, 255, 255, 0);
   	outline-offset: 15px;
   	text-shadow: 1px 1px 2px #427388;
-}
+} */
 
 .DeliveriesSubTabClicked {
-	margin-top: 50px;
+	margin-top: 100px;
+}
+
+.DeliveriesTable {
+	width: 50%;
+	height: 550px;
+	overflow: scroll;
+	overflow-x: hidden;
+	background-color: rgba(0, 0, 0, 0.9);
+	border-radius: 10px;
+	padding: 10px;
+	margin-bottom: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	-webkit-animation-name: slide-in-left;
+  	animation-name: slide-in-left;
+  	animation-duration: 1.5s;
+}
+
+.DeliveriesPopupHeading {
+	text-align: center;
+	font-size: 35px;
+	font-weight: 500;
+}
+
+.DeliveriesPopupSubHeading {
+	text-align: center;
+	font-size: 20px;
+}
+
+.DeliveriesPopupButtons {
+	text-align: center;
+	width: 100%;
+}
+
+#DeliveriesPopupClose {
+	margin-top: 100px;
+}
+
+#DeliveriesPopupReject {
+	margin-left: 50px;
+	margin-top: 100px;
+	text-align: center;
 }
 
 .DeliveriesContainer {
@@ -310,9 +354,7 @@ body {
 }*/
 
 .DeliveriesButtons {
-	position: absolute;
-	margin-left: 953px;
-	margin-top: 90px;
+	float: right;
 }
 
 #Accept {
@@ -653,6 +695,7 @@ body {
 
 .Table {
 	border-spacing: 40px;
+	color: white;
 }
 
 .TableRow {
@@ -674,6 +717,7 @@ body {
 
 .TableHeading {
 	margin-left: 10px;
+	color: white;
 }
 
 .TableColumnHeadings {
