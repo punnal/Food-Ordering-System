@@ -58,23 +58,30 @@ function parse_menu_post(req){ //parses the req object and does the neccessary f
 }
 
 function post_handler(req, res){
+
+    to_send = {"data" : {}, "cookieValid" : "valid"}
+
+    if(!res.locals.cookieValid && res.locals.cookieMissing)
+        to_send["cookieValid"] = "missing"
+    else
+        to_send["cookieValid"] = "invalid"
     
     menu_item_op_promise = parse_menu_post(req).then((statusCode) => {
-        res.status(statusCode).send("Update successful!")
+        res.status(statusCode).send(JSON.stringify(to_send))
     })
     .catch((statusCode) =>{
-        res.status(statusCode).send("Could not make the changes. (Hint: Maybe you are deleting/editing an id that does not exist?)")
+        res.status(statusCode).send(JSON.stringify(to_send))
     })
 }
 
 
 function parse_menu_by_category(){
-    all_promises =Object.keys(category_int_to_str).map((category_int) => {
+    var all_promises =Object.keys(category_int_to_str).map((category_int) => {
         return new Promise(function(resolve, reject){
             db_menu.orderByChild("category").equalTo(category_int.toString()).once("value", (db_snapshot) => {
                 if(db_snapshot.exists())
                 {
-                    val = db_snapshot.val()
+                    var val = db_snapshot.val()
                     if(Array.isArray(val))
                         val = {...db_snapshot.val()}
                     Object.keys(val).forEach(key => val[key] === undefined && delete val[key])
@@ -90,7 +97,15 @@ function parse_menu_by_category(){
 }
 
 function get_handler(req, res){
-    to_send = {"data" : {}}
+    var to_send = {"data" : {}}
+
+    if(res.locals.cookieValid)
+        to_send["cookieValid"] = "valid"
+    else if(res.locals.cookieMissing)
+        to_send["cookieValid"] = "missing"
+    else
+        to_send["cookieValid"] = "invalid"
+
     parse_menu_by_category().then((results) => {
         results.forEach((result) =>  to_send["data"][Object.keys(result)[0]] = Object.values(result)[0])
         res.send(JSON.stringify(to_send)).status(200)
