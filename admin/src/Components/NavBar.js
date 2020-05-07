@@ -67,7 +67,7 @@ class NavBarDropdown extends React.Component {
                     <div className = "DropDownElement">
                         {
                             this.props.options.map((option, i) => {
-                                return <Link key={i} to={option.path} deAuth={this.props.deAuth}> {option.name} </Link>
+                                return <Link key={i} to={option.path} deauth={this.props.deAuth}> {option.name} </Link>
                             })
                         }
                     </div>
