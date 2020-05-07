@@ -3,6 +3,8 @@ body {
   width: 100%;
   min-height: 100vh;
   background-image: url(../img/back3.jpg);
+  background-position: center center;
+  background-size: cover;
   background-size: 100%;
   background-repeat: no-repeat;
   background-color: black;
@@ -88,6 +90,15 @@ body {
   -webkit-animation-name: slide-in-bottom;
   animation-name: slide-in-bottom;
   animation-duration: 2s;
+}
+
+/* ================================================================================================================================ */
+/* LOADINGSCREEN */
+
+.LoadingScreen {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
 }
 
 /*==============================================================================================================================*/
