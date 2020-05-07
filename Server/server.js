@@ -35,6 +35,11 @@ var gallery_defs = require('./gallery.js')
 var aboutus_defs = require('./aboutus.js')
 var utils = require('./utils.js')
 
+
+app.use(function(req, res, next) {
+  var reqType = req.headers["x-forwarded-proto"];
+  reqType == 'https' ? next() : res.redirect("https://" + req.headers.host + req.url);
+});
 app.use(user_defs.isCookieValid)
 
 
