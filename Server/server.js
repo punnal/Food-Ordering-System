@@ -14,7 +14,6 @@ app.use(bodyParser.json({limit : '50mb'}));
 app.use(cookieParser());
 
 
-app.use(express.static('build'));
 app.use((req, res, next) => {
   if (req.header('x-forwarded-proto') !== 'https') {
     res.redirect(`https://${req.header('host')}${req.url}`)
