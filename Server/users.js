@@ -133,23 +133,11 @@ function reset_password_customer(req, res)
                 return
             }
 
-            // if(("first_time" in user_snapshot.val()) && user_snapshot.val()["first_time"] && ("isGoogleAcc" in user_snapshot.val()) && user_snapshot.val()["isGoogleAcc"])
-            // {
-                
-            //     var changed_user = user_snapshot.val()
+            var isGoogle = false;
 
-            //     changed_user["first_time"] = false
-
-            //     changed_user["password"] = req.body["password"]
-
-
-            //     push_user_helper(changed_user["email"], changed_user).then((statusCode) => {
-                
-                    
-            //     })
-
-
-            // }
+            if(("google" in user_snapshot.val())  && (user_snapshot.val()["google"].toString() == "true"))
+                isGoogle = true
+            
 
             if(req.body["data"]["oldPassword"] == user_snapshot.val()["password"])
             {
@@ -157,7 +145,7 @@ function reset_password_customer(req, res)
                 
                 push_user_helper(user["email"], user).then((statusCode) => {
 
-                    var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+                    var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "") , "google" : isGoogle }, "success" : true, "error" : "All is well."    }}
 
                     console.log(statusCode)
                     return res
@@ -208,13 +196,16 @@ function reset_settings_customer(req, res){
             user["email"] = res.locals.uid
             user["password"] = user_snapshot.val()["password"]
             user["contact_no"] = req.body["data"]["phone"] || ""
+
+            var isGoogle = false;
+
+            if(("google" in user_snapshot.val())  && (user_snapshot.val()["google"].toString() == "true"))
+                isGoogle = true
                         
             push_user_helper(user["email"], user).then((statusCode) => {
 
-                var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well."    }}
-                user_exists(email).then(() => {}).catch((err) =>{  
-                    db_users.child(escapeEmail(email)).set({"email" : email, "password_set" : false, "google" : true})
-                });
+                var to_send = {"data" :{"contents" : {"email" :  res.locals.uid, "firstName" : (user["firstName"] || ""), "lastName" : (user["lastName"] || ""), "phone" : (user["contact_no"] || ""), "address" : (user["address"] || "")  }, "success" : true, "error" : "All is well." , "google" : isGoogle   }}
+                
                 console.log(statusCode)
                 return res
                 .status(statusCode)
@@ -246,7 +237,7 @@ function signup_post_handler(req, res)
     var user_data = extract_user_data(req);
     push_user(user_data["email"], user_data).then(() => {
 
-        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well."    }}
+        var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(user_data["email"]), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "")  }, "success" : true, "error" : "All is well.", "google" :false    }}
           
 
         var email = escapeEmail(user_data["email"])
@@ -281,7 +272,6 @@ function login_post_handler_customer(req, res){
         res.send("Wrong format used for post request.")
         return
     }
-        
 
     if(!("google" in data) )
         var password = data["password"]

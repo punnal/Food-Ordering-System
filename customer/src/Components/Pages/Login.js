@@ -1,9 +1,13 @@
 import React from 'react'
 import Axios from 'axios'
 import {Link} from 'react-router-dom'
+import { GoogleLogin } from 'react-google-login'
 
+import Alert from 'react-bootstrap/Alert'
 import Api from '../../api/api'
 import History from '../../hist/customHistory'
+
+const CLIENT_ID = "769999588913-fetgs6cqh4ugi5ilj84cl8rv4k9utrp2.apps.googleusercontent.com"
 
 class Login extends React.Component {
 
@@ -15,7 +19,8 @@ class Login extends React.Component {
                 password: "",
             },
             loading: false,
-            error: ""
+            error: "",
+            visible: false,
         }
     }
 
@@ -23,6 +28,36 @@ class Login extends React.Component {
         console.log(contents)
         this.props.login(contents)
         History.push('/')
+    }
+
+    responseGoogle = (response) => {
+        console.log("Google", response)
+        this.setState({loading:true}, () => { 
+            const contents = {
+                email:response.profileObj.email,
+                firstName:response.profileObj.givenName,
+                lastName:response.profileObj.familyName,
+                phone: "",
+                address: "",
+                password: "",
+                google: true,
+            }
+            Axios.post(Api.googleLogin, {"data":contents})
+                .then((resp) => {
+                    if(resp.data.data.success){//Success
+                        console.log("Sucess", response.data)
+                        this.login(resp.data.data.contents)
+                        console.log("Sucess", resp.data)
+                        
+                    }else{
+                        console.log("Login Failed: ", response.data.data.error)
+                    }
+
+                }).catch((error) => {
+                    console.log("error", error)
+                })
+        })
+
     }
 
     handleSubmit = () => {
@@ -44,6 +79,12 @@ class Login extends React.Component {
                             
                         }else{
                             console.log("Login Failed: ", response.data.data.error)
+                            this.setState({error: response.data.data.error,visible:true}, () =>{
+                                window.setTimeout(() => {
+                                    this.setState({visible:false})
+                                }, 2000)
+                            })
+
                         }
                     })
 
@@ -54,14 +95,20 @@ class Login extends React.Component {
                             password: "",
                         },
                         loading: false
-                    }, () => {
-                        this.login({
+                    }, (error) => {
+                        /*this.login({
                             firstName: "punnal",
                             lastName: "baloch",
                             email: "punnal@gmail.com",
                             address: "Lums",
                             phone: "0303-1234567",
-                        })//Hardcoded Login. Remove plis
+                            google: false
+                        })//Hardcoded Login. Remove plis*/
+                        this.setState({error: "Unable to login",visible:true}, () =>{
+                            window.setTimeout(() => {
+                            this.setState({visible:false})
+                            }, 2000)
+                        })
                         console.log("error")
                     })
                 })
@@ -98,10 +145,19 @@ class Login extends React.Component {
                     <button type="submit" className = "btn btn-dark">Sign In</button>
                 </form>
                 <h3>Or</h3>
-                <img className = "mx-auto d-block" src = {require("../../img/google.png")} height = '50' weight = '50' />
+                <GoogleLogin
+                    clientId={CLIENT_ID}
+                    buttonText="SignIn with Google"
+                    onSuccess={this.responseGoogle}
+                    onFailure={this.responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                  />
                 <Link to={"/forgot"} >
                     <p>Forgot password?</p>
                 </Link>
+                <Alert variant = "success" show = {this.state.visible}>
+                    <strong>{this.state.error}</strong>
+                </Alert>
             </div>
         )
     }
