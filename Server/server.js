@@ -22,9 +22,9 @@ app.use((req, res, next) => {
   }
 });
 
-
+app.use('/admin', express.static(__dirname + "/../admin/build")); //admin build file
 app.use(express.static(__dirname + "/../customer/build")); // customer build file
-app.use(express.static(__dirname + "/../admin/build")); //admin build file
+
 
 
 var menu_defs = require('./menu.js') //menu request handlers
@@ -86,15 +86,16 @@ app.post(user_defs.googleSignIn_route, user_defs.googleSignIn) //handles google 
 
 /// Make edits Here 
 
-app.get("/admin", function(req, res) {
-  res.sendFile(path.resolve(__dirname + "/../admin/build/index.html")); //sends index.html 
+app.get("admin/*", function(req, res) {
+  console.log("sending")
+  res.sendFile(path.resolve(__dirname + "/../admin/build/index.html")); //sends admin side index.html 
 });
 
 
-app.get("/*", function(req, res) {
+app.get("*", function(req, res) {
     // console.log()
     // res.send("Hello!")
-    res.sendFile(path.resolve(__dirname + "/../customer/build/index.html"));
+    res.sendFile(path.resolve(__dirname + "/../customer/build/index.html")); //sends customer index.html
 });
 
 
