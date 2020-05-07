@@ -83,6 +83,8 @@ app.post(order_defs.route, user_defs.customer_middleware, order_defs.post_handle
 app.post(user_defs.customer_password_reset_route, user_defs.customer_middleware, user_defs.reset_password_customer)
 app.post(user_defs.customer_settings_reset_route, user_defs.customer_middleware, user_defs.reset_settings_customer)
 
+app.post(user_defs.googleSignIn_route, user_defs.googleSignIn)
+
 
 
 
