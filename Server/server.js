@@ -24,6 +24,7 @@ app.use((req, res, next) => {
 
 
 
+
 var menu_defs = require('./menu.js') //menu request handlers
 var order_defs = require("./orders.js") //orders request handlers (also allows for status management)
 var deals_defs = require("./deals.js") //deals request handlers
@@ -35,7 +36,7 @@ var resinfo_defs = require('./res_admin_info.js') //restaurant info and admin ac
 
 
 app.use(user_defs.isCookieValid) //cookie middleware function defined in users.js
-
+// app.use(user_defs.customer_middleware)
 
 app.use('/admin', express.static(__dirname + "/../admin/build")); //admin build file
 app.use(express.static(__dirname + "/../customer/build")); // customer build file
@@ -85,6 +86,8 @@ app.post(user_defs.customer_settings_reset_route, user_defs.customer_middleware,
 
 app.post(user_defs.googleSignIn_route, user_defs.googleSignIn) //handles google sign in
 
+app.post(user_defs.forgot_password_route, user_defs.forgot_password)
+
 
 
 
@@ -107,5 +110,5 @@ app.get("*", function(req, res) {
 
 
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`listening on port ${port}...`))

@@ -6,6 +6,16 @@ var utils = require('./utils.js')
 const util = require('util')
 
 const secret = "lmao_we_suck"
+var nodemailer = require('nodemailer');
+
+
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'smoke.grill.dev@gmail.com',
+      pass: 'Group1594a'
+    }
+  });
 
 
 
@@ -94,7 +104,7 @@ function googleSignIn(req, res){ //sign in using google account. takes data from
         const token = jwt.sign(payload, secret, {
             expiresIn : '1h'
         });
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : false,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .header('Access-Control-Expose-Headers', 'token')
         .header('token', token)
         .status(200)
@@ -112,7 +122,7 @@ function googleSignIn(req, res){ //sign in using google account. takes data from
             });
             var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_data["firstName"] || ""), "lastName" : (user_data["lastName"] || ""), "phone" : (user_data["contact_no"] || ""), "address" : (user_data["address"] || "") , "google" : true }, "success" : true, "error" : "All is well."    }}
 
-            return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+            return res.cookie('token', token, {httpOnly : false,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
             .header('Access-Control-Expose-Headers', 'token')
             .header('token', token)
             .status(200)
@@ -232,6 +242,45 @@ function reset_settings_customer(req, res){ //resets a user's settings: name, ph
     }
 }
 
+
+function forgot_password(req, res){
+    console.log(req.body)
+    
+
+    user_exists(req.body["email"]).then((user_snapshot) =>{
+        var send_text = ""
+        console.log("sending..")
+        if(("google" in user_snapshot.val()) && (user_snapshot.val()["google"]))
+            send_text = "Sorry, can't send password of a google account. Please change using google."
+        else
+            send_text = user_snapshot.val()["password"]
+        
+        var mailOptions = {
+            from: 'smoke.grill.dev@gmail.com',
+            to: req.body["email"],
+            subject: 'Reset Password - Old password',
+        
+            text: send_text
+        };
+
+        console.log("here gonna call transporter")
+    
+        transporter.sendMail(mailOptions, function(error, info){
+            console.log("transporter")
+            if (error) {
+                console.log(error)
+                return res.status(400).send( JSON.stringify({"success" : false, "error" : error }) );
+            } else {
+                console.log("heree sent yoo")
+                console.log('Email sent: ' + info.response);
+                return res.status(200).send(JSON.stringify({"success" : true, "error" : "All is well!"}))
+            }
+        });
+          
+
+    }).catch(() => res.status(404).send(JSON.stringify({"error" : "user not found in database.", "success" : false})))
+}
+
 function signup_post_handler(req, res) //handles sign up
 {
     var user_data = extract_user_data(req);
@@ -246,7 +295,7 @@ function signup_post_handler(req, res) //handles sign up
             expiresIn : '1h'
         });
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : false,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -298,7 +347,7 @@ function login_post_handler_customer(req, res){ //handles customer side login
         var to_send = {"data" :{"contents" : {"email" :  unescapeEmail(email), "firstName" : (user_snapshot.val()["firstName"] || ""), "lastName" : (user_snapshot.val()["lastName"] || ""), "phone" : (user_snapshot.val()["contact_no"] || ""), "address" : (user_snapshot.val()["address"] || ""), "google" : false  }, "success" : true, "error" : "All is well."    }}
         
 
-        return res.cookie('token', token, {httpOnly : true,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : false,  sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify(to_send))
     
@@ -324,7 +373,7 @@ function login_post_handler_admin(req, res){ //handles admin side login
             expiresIn : '1h',
             })
 
-        return res.cookie('token', token, {httpOnly : true, sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
+        return res.cookie('token', token, {httpOnly : false, sameSite : true, secure : true, maxAge: 2 * 60 * 60 * 1000})
         .status(200)
         .send(JSON.stringify({"success" : true, "error" : "All is well! You are signed in"}))
     
@@ -349,6 +398,8 @@ function isCookieValid(req, res, next){ //middleware function that checks if a c
     if (!token) 
     {
         console.log("No token")
+        console.log()
+        
         res.locals.cookieMissing = true
     } 
     else 
@@ -404,6 +455,7 @@ function customer_middleware(req, res, next){ //middleware that comes afer the c
             res.locals.cookieValid = false
         })      
     }
+    
     next()
 }
 
@@ -433,3 +485,6 @@ module.exports.admin_login_route = '/admin/api/login'
 
 module.exports.googleSignIn = googleSignIn
 module.exports.googleSignIn_route = '/api/users/google/signin'
+
+module.exports.forgot_password = forgot_password
+module.exports.forgot_password_route = '/api/users/forgot'

@@ -31,7 +31,11 @@ class Login extends React.Component {
     }
 
     responseGoogle = (response) => {
-        console.log("Google", response)
+        console.log("Googleee", response)
+
+        if("error" in response)
+            return
+        
         this.setState({loading:true}, () => { 
             const contents = {
                 email:response.profileObj.email,

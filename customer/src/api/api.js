@@ -9,7 +9,8 @@ const Api = {
     editpassword:'/api/users/reset/password',
     editaccount:'/api/users/reset/settings',
     contacts:'/api/contactus',
-    googleLogin: '/api/users/google/signin'
+    googleLogin: '/api/users/google/signin',
+    forgot : '/api/users/forgot'
 
 }
 
