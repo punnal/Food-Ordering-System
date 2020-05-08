@@ -175,7 +175,7 @@ class Cart extends React.Component {
                         <button type="submit" className = "btn btn-dark" onClick={ () => this.handleClick("checkOut", null)}>Check Out</button>
                     </div>
                     <Alert className="AlertIncorrect" variant = "danger" show = {this.state.empty}>
-                        <strong>Cart is Empty!</strong>
+                        <strong>Cart is empty or information is missing!</strong>
                     </Alert>
                     <Alert className="AlertIncorrect" variant = "success" show = {this.state.placed}>
                         <strong>Order Placed Succesfully!</strong>

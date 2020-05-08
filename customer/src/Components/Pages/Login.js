@@ -146,20 +146,20 @@ class Login extends React.Component {
                         <div class="valid-feedback">All done!</div>
                         <div class="invalid-feedback">Please fill out this field.</div>
                     </div>
-                    <button type="submit" className = "btn btn-dark">Sign In</button>
+                    <button id = "LoginSignIn" type="submit" className = "btn btn-dark">Sign In</button>
                 </form>
                 <h3>Or</h3>
-                <GoogleLogin
+                <GoogleLogin 
                     clientId={CLIENT_ID}
                     buttonText="SignIn with Google"
                     onSuccess={this.responseGoogle}
                     onFailure={this.responseGoogle}
                     cookiePolicy={'single_host_origin'}
-                  />
+                    />
                 <Link to={"/forgot"} >
                     <p>Forgot password?</p>
                 </Link>
-                <Alert variant = "success" show = {this.state.visible}>
+                <Alert className="AlertIncorrect" variant = "danger" show = {this.state.visible}>
                     <strong>{this.state.error}</strong>
                 </Alert>
             </div>
